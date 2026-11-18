@@ -1,0 +1,14 @@
+--- a/src/plugins/output_gadget_hdf5.cc
++++ b/src/plugins/output_gadget_hdf5.cc
+@@ -78,7 +78,10 @@
+     MPI_Comm_size(MPI_COMM_WORLD, &num_files_);
+ #endif
+     real_t astart = 1.0 / (1.0 + cf_.get_value<double>("setup", "zstart"));
+-    const double rhoc = 27.7519737; // in h^2 1e10 M_sol / Mpc^3
++    // 3 H100^2/(8 pi G), with G=6.67430e-8 cgs,
++    // Msun=1.98847e33 g and Mpc=3.0856775814913673e24 cm.
++    // Match the workstation's native GADGET mass/gravity convention.
++    const double rhoc = 27.75282348216747; // h^2 1e10 Msun / Mpc^3
+ 
+     lunit_ = cf_.get_value<double>("setup", "BoxLength");
+     vunit_ = lunit_ / std::sqrt(astart);

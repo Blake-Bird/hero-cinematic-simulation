@@ -1,0 +1,24 @@
+{
+  "request": {
+    "schema": "native-counterfactual-ic-request-v3",
+    "original_ic": {
+      "path": "REPLACE_WITH_ORIGINAL_COMPLETE_SAVED_SNAPSHOT_010.hdf5",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "operation": "retain_collisionless_state",
+    "stream_particle_ids": [
+      1,
+      2,
+      3
+    ],
+    "stream_species": 4,
+    "particle_namespace": "REPLACE_WITH_ACTUAL_NATIVE_NAMESPACE",
+    "maximum_particles": 2000000,
+    "memory_gib": 4.0,
+    "disk_gib": 32.0,
+    "chunk_rows": 65536,
+    "source_snapshot": 10
+  },
+  "native_stage_receipt": "REPLACE_WITH_ACTUAL_COMPLETED_PARENT_NATIVE_STAGE_RECEIPT.json",
+  "native_run_directory": "REPLACE_WITH_ACTUAL_PARENT_NATIVE_RUN"
+}

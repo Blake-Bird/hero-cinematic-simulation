@@ -1,0 +1,23 @@
+{
+  "schema": "native-joint-response-calibration-request-v1",
+  "memory_gib": 8.0,
+  "training_response": {
+    "path": "REPLACE_WITH_NATIVE_TRAINING_RESPONSE.json",
+    "sha256": "REPLACE_WITH_EXACT_SHA256"
+  },
+  "maximum_pairs": 1024,
+  "minimum_realizations_per_point": 3,
+  "parameter_box_half_widths": [
+    0.25
+  ],
+  "maximum_absolute_mean_residual": [
+    1.0
+  ],
+  "maximum_relative_mean_residual": [
+    0.05
+  ],
+  "mean_error_multiplier": 2.0,
+  "maximum_whitened_mean_residual": 1.0,
+  "minimum_design_singular_ratio": 0.0001,
+  "pairs": []
+}

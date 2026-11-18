@@ -1,0 +1,74 @@
+--- a/src/io/io.cc
++++ b/src/io/io.cc
+@@ -1149,6 +1149,7 @@
+ 
+ void IO_Def::append_file(char *fname, int writeTask, int lastTask, void *CommBuffer, int numfilesperdump, int chunksize)
+ {
++  char native_final[MAXLEN_PATH_EXTRA] = {0}, native_stage[MAXLEN_PATH_EXTRA] = {0};
+   int typelist[N_DataGroups];
+   long long n_type[N_DataGroups], npart[N_DataGroups], n_previous[N_DataGroups], pcsum = 0;
+   hid_t hdf5_file = 0, hdf5_grp[N_DataGroups], hdf5_headergrp = 0, hdf5_dataspace_memory;
+@@ -1172,7 +1173,11 @@
+       char buf[MAXLEN_PATH_EXTRA];
+       snprintf(buf, MAXLEN_PATH_EXTRA, "%s.hdf5", fname);
+ 
+-      hdf5_file = my_H5Fopen(buf, H5F_ACC_RDWR, H5P_DEFAULT);
++      if(snprintf(native_final, sizeof(native_final), "%s", buf) >= (int)sizeof(native_final) ||
++         snprintf(native_stage, sizeof(native_stage), "%s.partial.XXXXXX", buf) >= (int)sizeof(native_stage))
++        Terminate("HDF5: append stage path too long");
++      native_copy_hdf5_for_append(native_final, native_stage);
++      hdf5_file = my_H5Fopen(native_stage, H5F_ACC_RDWR, H5P_DEFAULT);
+ 
+       hdf5_headergrp = my_H5Gopen(hdf5_file, "/Header");
+       write_header_fields(hdf5_headergrp);
+@@ -1342,7 +1347,8 @@
+       my_H5Gclose(hdf5_headergrp, "/Header");
+ 
+       snprintf(buf, MAXLEN_PATH, "%s.hdf5", fname);
+-      my_H5Fclose(hdf5_file, buf);
++      my_H5Fclose(hdf5_file, native_stage);
++      native_publish_hdf5_file(native_stage, native_final);
+     }
+ }
+ 
+--- a/src/io/hdf5_util.cc
++++ b/src/io/hdf5_util.cc
+@@ -786,3 +786,29 @@
+   native_publish_hdf5_file(stage, target.c_str());
+   free(stage);
+ }
++
++/* Copy-on-write append keeps public and archived generations immutable. */
++void native_copy_hdf5_for_append(const char *source, char *stage)
++{
++  int input = open(source, O_RDONLY);
++  int output = mkstemp(stage);
++  if(input < 0 || output < 0) Terminate("cannot open HDF5 append copy");
++  char buffer[65536];
++  while(true)
++    {
++      ssize_t n = read(input, buffer, sizeof(buffer));
++      if(n < 0 && errno == EINTR) continue;
++      if(n < 0) Terminate("cannot read HDF5 append source");
++      if(n == 0) break;
++      ssize_t offset = 0;
++      while(offset < n)
++        {
++          ssize_t wrote = write(output, buffer + offset, n - offset);
++          if(wrote < 0 && errno == EINTR) continue;
++          if(wrote <= 0) Terminate("cannot write HDF5 append stage");
++          offset += wrote;
++        }
++    }
++  if(fsync(output) != 0 || close(output) != 0 || close(input) != 0)
++    Terminate("cannot flush HDF5 append copy");
++}
+--- a/src/io/hdf5_util.h
++++ b/src/io/hdf5_util.h
+@@ -70,4 +70,6 @@
+ 
+ void native_hdf5_set_record(const char *base, const char *generation, int count, const char *state);
+ 
++void native_copy_hdf5_for_append(const char *source, char *stage);
++
+ #endif

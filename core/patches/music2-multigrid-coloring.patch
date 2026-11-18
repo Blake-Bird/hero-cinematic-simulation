@@ -1,0 +1,30 @@
+--- a/src/fd_schemes.hh
++++ b/src/fd_schemes.hh
+@@ -125,6 +125,8 @@
+ 	std::array<real_t,nl*nl*nl> m_stencil;
+ 
+ public:
++	// Axial Laplacians couple neighbors up to nextent cells away.
++	static constexpr int smoothing_colors = nextent + 1;
+ 	bool m_modsource;
+ 	
+ public:
+--- a/src/mg_solver.hh
++++ b/src/mg_solver.hh
+@@ -200,12 +200,14 @@
+ 			c0 = -1.0 / m_scheme.ccoeff(),
+ 			h2 = h * h;
+ 
+-	for (int color = 0; color < 2; ++color)
++	// Same-color cells must not share a nonzero stencil coupling.
++	// Red/black is safe only for the nearest-neighbor Laplacian.
++	for (int color = 0; color < S::smoothing_colors; ++color)
+ 		#pragma omp parallel for collapse(3)
+ 		for (int ix = 0; ix < nx; ++ix)
+ 			for (int iy = 0; iy < ny; ++iy)
+ 				for (int iz = 0; iz < nz; ++iz)
+-					if ((ix + iy + iz) % 2 == color)
++					if ((ix + iy + iz) % S::smoothing_colors == color)
+ 						(*u)(ix, iy, iz) = (m_scheme.rhs(*u, ix, iy, iz) + h2 * (*f)(ix, iy, iz)) * c0;
+ }
+ 

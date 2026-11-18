@@ -1,0 +1,211 @@
+--- a/src/data/allvars.cc
++++ b/src/data/allvars.cc
+@@ -198,6 +198,7 @@
+   add_param("ShapeGamma", &ShapeGamma, PARAM_DOUBLE, PARAM_FIXED);
+   add_param("Sigma8", &Sigma8, PARAM_DOUBLE, PARAM_FIXED);
+   add_param("PowerSpectrumFile", PowerSpectrumFile, PARAM_STRING, PARAM_FIXED);
++  add_param("NgenicVelocityTransferFile", NgenicVelocityTransferFile, PARAM_STRING, PARAM_FIXED);
+   add_param("InputSpectrum_UnitLength_in_cm", &InputSpectrum_UnitLength_in_cm, PARAM_DOUBLE, PARAM_FIXED);
+   add_param("Seed", &NgenicSeed, PARAM_INT, PARAM_FIXED);
+ #endif
+--- a/src/data/allvars.h
++++ b/src/data/allvars.h
+@@ -346,6 +346,7 @@
+   double ShapeGamma;
+   double Sigma8;
+   char PowerSpectrumFile[MAXLEN_PATH];
++  char NgenicVelocityTransferFile[MAXLEN_PATH];
+   double InputSpectrum_UnitLength_in_cm;
+   int NgenicSeed;
+ #endif
+--- a/src/ngenic/ngenic.cc
++++ b/src/ngenic/ngenic.cc
+@@ -18,6 +18,10 @@
+ #include <mpi.h>
+ #include <stdlib.h>
+ #include <algorithm>
++#include <cmath>
++#include <fstream>
++#include <sstream>
++#include <string>
+ 
+ #include "../data/allvars.h"
+ #include "../data/dtypes.h"
+@@ -86,6 +90,7 @@
+   gsl_rng_set(rnd_generator, All.NgenicSeed);
+ 
+   ngenic_initialize_powerspectrum();
++  ngenic_initialize_velocity_transfer();
+ 
+   ngenic_initialize_ffts();
+ 
+@@ -230,8 +235,20 @@
+           ngenic_setup_modes_in_kspace((fft_complex *)disp);
+ 
+           ngenic_get_derivate_from_fourier_field(axes, -1, (fft_complex *)disp);
+-
+-          ngenic_readout_disp(disp, axes, 1.0, vel_prefac1);
++          if(WdmVelocityTransferEnabled)
++            {
++              /* CLASS/AxiCLASS supplies a scale-dependent particle velocity
++                 response. Keep the density displacement unchanged, then
++                 rebuild the same seeded Fourier field with its response
++                 applied before depositing the velocity contribution. */
++              ngenic_readout_disp(disp, axes, 1.0, 0.0);
++
++              ngenic_setup_modes_in_kspace((fft_complex *)disp);
++              ngenic_get_derivate_from_fourier_field(axes, -1, (fft_complex *)disp, true);
++              ngenic_readout_disp(disp, axes, 0.0, vel_prefac1);
++            }
++          else
++            ngenic_readout_disp(disp, axes, 1.0, vel_prefac1);
+ 
+           Mem.myfree(disp);
+         }
+@@ -558,7 +575,8 @@
+  * We input the Fourier transform of grid to the function, and this field is overwritten with
+  * the gradient.
+  */
+-void ngenic::ngenic_get_derivate_from_fourier_field(int axes1, int axes2, fft_complex *fft_of_grid)
++void ngenic::ngenic_get_derivate_from_fourier_field(int axes1, int axes2, fft_complex *fft_of_grid,
++                                                     bool apply_wdm_velocity_correction)
+ {
+   double kfacx = 2.0 * M_PI / All.BoxSize;
+   double kfacy = 2.0 * M_PI / All.BoxSize;
+@@ -640,6 +658,13 @@
+           fft_real re = smth * fft_of_grid[elem][0];
+           fft_real im = smth * fft_of_grid[elem][1];
+ 
++          if(apply_wdm_velocity_correction && kmag2 > 0.0)
++            {
++              const double correction = ngenic_velocity_correction(sqrt(kmag2) * 1000.0);
++              re *= correction;
++              im *= correction;
++            }
++
+           if(axes2 < 0)
+             {
+               /* first derivative */
+@@ -674,6 +699,68 @@
+ #endif
+ 
+   Mem.myfree(workspace);
++}
++
++void ngenic::ngenic_initialize_velocity_transfer(void)
++{
++  WdmVelocityTransferEnabled = false;
++  WdmVelocityK.clear();
++  WdmVelocityCorrection.clear();
++
++  if(All.NgenicVelocityTransferFile[0] == '\0' || std::string(All.NgenicVelocityTransferFile) == "none")
++    return;
++
++  std::ifstream input(All.NgenicVelocityTransferFile);
++  if(!input)
++    Terminate("NGENIC: cannot open scale-dependent velocity table '%s'\n", All.NgenicVelocityTransferFile);
++
++  std::string line;
++  while(std::getline(input, line))
++    {
++      if(line.empty() || line[0] == '#')
++        continue;
++      std::istringstream row(line);
++      double k, correction;
++      if(!(row >> k >> correction))
++        Terminate("NGENIC: malformed scale-dependent velocity row in '%s'\n", All.NgenicVelocityTransferFile);
++      if(!std::isfinite(k) || !std::isfinite(correction) || k <= 0 || correction <= 0)
++        Terminate("NGENIC: non-positive or non-finite scale-dependent velocity entry\n");
++      if(!WdmVelocityK.empty() && k <= WdmVelocityK.back())
++        Terminate("NGENIC: scale-dependent velocity k values must be strictly increasing\n");
++      WdmVelocityK.push_back(k);
++      WdmVelocityCorrection.push_back(correction);
++    }
++
++  if(WdmVelocityK.size() < 3)
++    Terminate("NGENIC: scale-dependent velocity table needs at least three rows\n");
++
++  const double kfund = 2.0 * M_PI / All.BoxSize * 1000.0;
++  const double kmax = sqrt(3.0) * M_PI * NGENIC / All.BoxSize * 1000.0;
++  if(WdmVelocityK.front() > kfund || WdmVelocityK.back() < kmax)
++    Terminate("NGENIC: velocity table covers [%.8g, %.8g] h/Mpc but the particle mesh requires [%.8g, %.8g]\n",
++              WdmVelocityK.front(), WdmVelocityK.back(), kfund, kmax);
++
++  WdmVelocityTransferEnabled = true;
++  mpi_printf("NGENIC: using CLASS/AxiCLASS scale-dependent velocity response over %.8g..%.8g h/Mpc (%zu rows)\n",
++             WdmVelocityK.front(), WdmVelocityK.back(), WdmVelocityK.size());
++}
++
++double ngenic::ngenic_velocity_correction(double k_h_mpc) const
++{
++  if(k_h_mpc < WdmVelocityK.front() || k_h_mpc > WdmVelocityK.back())
++    Terminate("NGENIC: velocity table does not cover k=%.8g h/Mpc\n", k_h_mpc);
++
++  auto upper = std::lower_bound(WdmVelocityK.begin(), WdmVelocityK.end(), k_h_mpc);
++  if(upper == WdmVelocityK.begin())
++    return WdmVelocityCorrection.front();
++  if(upper == WdmVelocityK.end())
++    return WdmVelocityCorrection.back();
++
++  const size_t i1 = static_cast<size_t>(upper - WdmVelocityK.begin());
++  const size_t i0 = i1 - 1;
++  const double fraction = (log(k_h_mpc) - log(WdmVelocityK[i0])) /
++                          (log(WdmVelocityK[i1]) - log(WdmVelocityK[i0]));
++  return WdmVelocityCorrection[i0] + fraction * (WdmVelocityCorrection[i1] - WdmVelocityCorrection[i0]);
+ }
+ 
+ void ngenic::ngenic_setup_modes_in_kspace(fft_complex *fft_of_grid)
+--- a/src/ngenic/ngenic.h
++++ b/src/ngenic/ngenic.h
+@@ -21,6 +21,7 @@
+ #endif
+ 
+ #include <fftw3.h>
++#include <vector>
+ 
+ #ifdef DOUBLEPRECISION_FFTW
+ typedef double fft_real;
+@@ -58,6 +59,10 @@
+ 
+   unsigned int *seedtable;
+ 
++  std::vector<double> WdmVelocityK;
++  std::vector<double> WdmVelocityCorrection;
++  bool WdmVelocityTransferEnabled = false;
++
+   fft_plan myplan;
+   size_t maxfftsize;
+ 
+@@ -85,8 +90,11 @@
+   void ngenic_distribute_particles();
+   void ngenic_setup_modes_in_kspace(fft_complex *fft_of_grid);
+   void ngenic_readout_disp(fft_real *grid, int axis, double pfac, double vfac);
++  void ngenic_initialize_velocity_transfer(void);
++  double ngenic_velocity_correction(double k_h_mpc) const;
+   void ngenic_initialize_ffts(void);
+-  void ngenic_get_derivate_from_fourier_field(int axes1, int axes2, fft_complex *fft_of_grid);
++  void ngenic_get_derivate_from_fourier_field(int axes1, int axes2, fft_complex *fft_of_grid,
++                                               bool apply_wdm_velocity_correction = false);
+   void ngenic_compute_transform_of_source_potential(fft_real *pot);
+   void print_spec(void);
+ 
+--- a/documentation/05_parameterfile.md
++++ b/documentation/05_parameterfile.md
+@@ -383,6 +383,17 @@
+ matter-only initial conditions are outfitted with gas particles upon
+ code start-up with the `GENERATE_GAS_IN_ICS` option.
+ 
++-------
++
++**NgenicVelocityTransferFile**  `none`
++
++Optional two-column table used only by N-GenIC. The columns are `k [h/Mpc]`
++and a positive multiplicative correction to the scale-independent growing-mode
++velocity. DarkMatterSim uses this for run-matched CLASS thermal-WDM transfer
++responses, `f_particle(k)/f_GADGET(a)`, while preserving the N-GenIC density
++displacement and Fourier phases. The table must cover the fundamental mode
++through the largest three-dimensional particle-mesh wavenumber. Leave it as
++`none` when no scale-dependent first-order correction is required.
+ 
+ -------
+ 

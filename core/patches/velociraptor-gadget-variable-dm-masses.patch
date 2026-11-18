@@ -1,0 +1,11 @@
+--- a/src/hdfitems.h
++++ b/src/hdfitems.h
+@@ -894,7 +894,7 @@
+             names[itemp++]=string("ParticleIDs");
+ 
+             // Masses
+-            if (hdfnametype==HDFSWIFTEAGLENAMES || hdfnametype==HDFSIMBANAMES ||
++            if (hdfnametype==HDFGADGETXNAMES || hdfnametype==HDFSWIFTEAGLENAMES || hdfnametype==HDFSIMBANAMES ||
+                 hdfnametype==HDFMUFASANAMES || hdfnametype==HDFOLDSWIFTEAGLENAMES ||
+ 		hdfnametype==HDFSWIFTFLAMINGONAMES) {
+                 names[itemp++]=string("Masses");

@@ -1,0 +1,19 @@
+# Makefile for Debian Stretch 
+# you may need:
+# fftw-dev
+# libfftw3-dev
+# libfftw3-mpi-dev
+# mpi-default-dev g++ libgsl-dev libhdf5-dev mpich  google-mock libgtest-dev googletest libopenmpi-dev
+# and a few other packages ..
+# #
+CC        = mpiCC
+CXX       = mpiCC
+OPTIMIZE  = -O0 -ggdb -pipe -fopenmp -std=c++17 -Wall
+GSL_INCL  =
+GSL_LIBS  =
+FFTW_INCL =
+FFTW_LIBS =
+MPICHLIB  = 
+HDF5_INCL  = -I/usr/include/hdf5/serial/
+HDF5_LIBS   = -L/usr/lib/x86_64-linux-gnu/hdf5/serial/ -L/usr/lib/i386-linux-gnu/hdf5/serial/
+OPT = -DNOCALLSOFSYSTEM

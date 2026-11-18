@@ -1,0 +1,33 @@
+{
+  "request": {
+    "schema": "native-stream-paired-comparison-request-v1",
+    "reference": {
+      "path": "REPLACE_WITH_REFERENCE_NATIVE_WORLDLINES.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "intervention": {
+      "path": "REPLACE_WITH_INTERVENTION_NATIVE_WORLDLINES.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "memory_gib": 4.0,
+    "maximum_snapshots": 64,
+    "maximum_selected_particles": 16384,
+    "time_absolute_tolerance_myr": 0.0,
+    "maximum_periodic_difference_box_fraction": 0.1,
+    "host_reflex": {
+      "anchor_particle_id": 101,
+      "maximum_host_particles": 1000,
+      "minimum_host_particles": 2,
+      "maximum_host_radius_box_fraction": 0.1,
+      "maximum_stream_radius_box_fraction": 0.4,
+      "reference": {
+        "path": "REPLACE_WITH_REFERENCE_HOST_WORLDLINES.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "intervention": {
+        "path": "REPLACE_WITH_INTERVENTION_HOST_WORLDLINES.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    }
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "schema": "measured-display-build-v1",
+  "memory_gib": 1.0,
+  "maximum_objects": 100000,
+  "maximum_geometry_vertices": 1000000,
+  "frame_contract": {
+    "schema": "gadget-scientific-dataset-v1",
+    "position_units": "proper kpc",
+    "position_representation": "proper",
+    "position_h_scaled": false,
+    "origin": "Exact recorded native FOF centre; fill source-specific origin",
+    "periodic_wrapping": "minimum image relative to the recorded native centre",
+    "velocity_convention": "peculiar km/s",
+    "observer_frame": null
+  },
+  "timeline": [
+    {
+      "frame": 1,
+      "snapshot": 0,
+      "epoch_contract": {
+        "canonical_time": "scale_factor",
+        "scale_factor": null
+      },
+      "products": [
+        {
+          "kind": "shape",
+          "path": "inputs/measured-shape-history.json",
+          "sha256": "FILL_MEASURED_REPORT_SHA256",
+          "fields": {
+            "object_id": {
+              "array": "object_ids",
+              "epoch_index": 0
+            },
+            "position": {
+              "array": "center_proper_kpc",
+              "epoch_index": 0
+            },
+            "geometry_supported": {
+              "array": "shape_supported",
+              "epoch_index": 0
+            },
+            "semiaxes": {
+              "array": "semiaxes_proper_kpc",
+              "epoch_index": 0
+            },
+            "orientation": {
+              "array": "orientation",
+              "epoch_index": 0
+            }
+          },
+          "display_radius": 0.01,
+          "display_line_width": 0.001
+        }
+      ],
+      "lifecycle_products": []
+    },
+    {
+      "frame": 13,
+      "snapshot": 1,
+      "epoch_contract": {
+        "canonical_time": "scale_factor",
+        "scale_factor": null
+      },
+      "products": [
+        {
+          "kind": "shape",
+          "path": "inputs/measured-shape-history.json",
+          "sha256": "FILL_MEASURED_REPORT_SHA256",
+          "fields": {
+            "object_id": {
+              "array": "object_ids",
+              "epoch_index": 1
+            },
+            "position": {
+              "array": "center_proper_kpc",
+              "epoch_index": 1
+            },
+            "geometry_supported": {
+              "array": "shape_supported",
+              "epoch_index": 1
+            },
+            "semiaxes": {
+              "array": "semiaxes_proper_kpc",
+              "epoch_index": 1
+            },
+            "orientation": {
+              "array": "orientation",
+              "epoch_index": 1
+            }
+          },
+          "display_radius": 0.01,
+          "display_line_width": 0.001
+        }
+      ],
+      "lifecycle_products": []
+    }
+  ],
+  "maximum_lifecycle_events": 10000,
+  "maximum_measurement_records": 200000
+}

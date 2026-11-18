@@ -1,0 +1,31 @@
+{
+  "independent_seeds": [
+    101
+  ],
+  "independent_operator_seeds": [
+    201,
+    202,
+    203
+  ],
+  "maximum_runs": 24,
+  "control_values": {
+    "sidm_kernel": [
+      "FILL_DISTINCT_NATIVE_KERNEL_CONTROL"
+    ],
+    "sidm_timestep": [
+      "FILL_DISTINCT_NATIVE_TIMESTEP_CONTROL"
+    ],
+    "sidm_angular_cdf": [
+      "FILL_DISTINCT_NATIVE_CDF_CONTROL"
+    ],
+    "sidm_frequent_approximation": [
+      "FILL_DISTINCT_NATIVE_FREQUENT_CONTROL"
+    ],
+    "sidm_split_angle": [
+      "FILL_DISTINCT_NATIVE_SPLIT_CONTROL"
+    ]
+  },
+  "requirement": {
+    "FILL_EXISTING_CONVERGENCE_REQUIREMENT_FIELDS": true
+  }
+}

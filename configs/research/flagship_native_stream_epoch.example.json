@@ -1,0 +1,41 @@
+{
+  "schema": "flagship-native-stream-epoch-v1",
+  "epoch_index": 0,
+  "selection": {
+    "description": "Explicit persistent stellar IDs for one selected wrap; membership and progenitor evidence remain in the source selection record"
+  },
+  "chart_center_proper_kpc": [0.0, 0.0, 0.0],
+  "velocity_origin_peculiar_kms": [0.0, 0.0, 0.0],
+  "maximum_chart_box_fraction": 0.2,
+  "curve_controls": {
+    "minimum_track_particles": 128,
+    "ordering_neighbors": 12,
+    "ordering_position_kpc": 1.0,
+    "ordering_velocity_kms": 10.0,
+    "maximum_ordering_link": 3.0,
+    "fit_bins": 16,
+    "position_uncertainty_floor_kpc": 0.01,
+    "smoothing_budget": 1.0,
+    "grid_points": 256,
+    "iterations": 12,
+    "projection_tolerance_kpc": 0.01
+  },
+  "bin_controls": {
+    "resolution_kpc": 0.1,
+    "minimum_count": 16,
+    "maximum_bins": 128
+  },
+  "measurement_controls": {
+    "seed": 421,
+    "bootstrap_replicates": 32,
+    "minimum_bin_particles": 16,
+    "minimum_effective_particles": 12,
+    "density_baseline_sigma_bins": 3.0,
+    "feature_significance": 3.0,
+    "spur_offset_kpc": 0.1,
+    "fork_separation_sigma": 3.0,
+    "minimum_power_supported_bins": 8,
+    "coordinate_kind": "intrinsic"
+  },
+  "track_bootstrap_replicates": 16
+}

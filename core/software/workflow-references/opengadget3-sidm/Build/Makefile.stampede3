@@ -1,0 +1,18 @@
+# modules for Stampede3 - at 2025-02-11
+#module load intel/24.0
+#module load impi
+#module load fftw3/3.3.10
+#module load gsl/2.8
+#module load hdf5/1.10.11
+
+CC        = mpicc
+CXX       = mpicxx
+GSL_INCL = -I$(TACC_GSL_INC)
+GSL_LIBS = -L$(TACC_GSL_LIB)
+FFTW_INCL= -I$(TACC_FFTW3_INC)
+FFTW_LIBS= -L$(TACC_FFTW3_LIB)
+MPICHLIB =
+HDF5_INCL = -I$(TACC_HDF5_INC)
+HDF5_LIBS  = -L$(TACC_HDF5_LIB)
+FFTW_LIBNAMES=
+OPTIMIZE = -std=c++17 -Wall -g -O2 -qopenmp -DH5_USE_16_API -lstdc++ -xCORE-AVX512 -qopt-zmm-usage=high

@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "experiment_id": "shape-control",
+  "cosmology_role": "conditioned_on_input_H0",
+  "target_population": "declared synthetic halo controls",
+  "species": [
+    "dark_matter"
+  ],
+  "resource_budget": {
+    "memory_gib": 2.0,
+    "disk_gib": 2.0,
+    "wall_hours": 1.0,
+    "cpu_slots": 2
+  },
+  "excluded_claims": [
+    "H0 inference"
+  ],
+  "stream_resolution": null,
+  "observables": {
+    "shape": {
+      "definition": "mass quadrupole b/a and c/a within declared aperture",
+      "units": "dimensionless",
+      "selection": "all control haloes",
+      "required_data": [
+        "particle coordinates and masses"
+      ],
+      "domain": "synthetic control only",
+      "tests": {
+        "pilot": {
+          "metric": "maximum_axis_ratio_error",
+          "units": "dimensionless",
+          "minimum": 0.0,
+          "maximum": 0.05,
+          "evidence_kind": "pilot"
+        },
+        "convergence": {
+          "metric": "maximum_axis_ratio_error",
+          "units": "dimensionless",
+          "minimum": 0.0,
+          "maximum": 0.05,
+          "evidence_kind": "convergence"
+        }
+      }
+    }
+  },
+  "start_epoch_campaign": {
+    "schema_version": 1,
+    "configuration": {
+      "path": "/Users/bbird/research2/build/block05/accepted-native/sources/base.yaml",
+      "sha256": "6a57d0854f10349ba3ec1654adf08af00e1579ef6f9fb198beb3c134351248a3"
+    },
+    "redshifts": [
+      49.0,
+      99.0,
+      199.0
+    ],
+    "reference_redshift": 199.0,
+    "seeds": [
+      7,
+      9223372036854775819
+    ],
+    "common_scale_factors": [
+      0.1,
+      0.5,
+      1.0
+    ],
+    "epoch_tolerance": 1e-10,
+    "confidence_sigma": 2.0,
+    "observables": {
+      "shape": {
+        "units": "dimensionless",
+        "bin_labels": [
+          "b/a",
+          "c/a"
+        ],
+        "absolute_tolerance": 0.01,
+        "relative_tolerance": 0.01,
+        "absolute_floor": 0.001
+      }
+    },
+    "linear_bundles": [
+      {
+        "redshift": 49.0,
+        "manifest": {
+          "path": "/Users/bbird/research2/build/block05/accepted-native/sources/z49/spectrum.json",
+          "sha256": "f24292e2d6885a00f559f14f0187301de8ab456b20c82b2bc907c2785b33a707"
+        }
+      },
+      {
+        "redshift": 99.0,
+        "manifest": {
+          "path": "/Users/bbird/research2/build/block05/accepted-native/sources/z99/spectrum.json",
+          "sha256": "d73e2e36880192e48f1d51103d4c83f6d15e1638c2405e59fd1582d788d193b8"
+        }
+      },
+      {
+        "redshift": 199.0,
+        "manifest": {
+          "path": "/Users/bbird/research2/build/block05/accepted-native/sources/z199/spectrum.json",
+          "sha256": "891592eb47f9a6a44722c60d99de9e7067ea89af10c21aa503d71df4e2d2747f"
+        }
+      }
+    ]
+  }
+}

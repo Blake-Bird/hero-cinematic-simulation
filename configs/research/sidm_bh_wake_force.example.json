@@ -1,0 +1,31 @@
+{
+  "request": {
+    "schema": "native-dm-wake-force-request-v1",
+    "snapshot": 0,
+    "particle_namespace": "REPLACE_WITH_ACTUAL_NATIVE_DM_NAMESPACE",
+    "probe_position_proper_kpc": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "probe_velocity_peculiar_km_s": [
+      100.0,
+      0.0,
+      0.0
+    ],
+    "radial_edges_proper_kpc": [
+      0.0,
+      0.01,
+      0.03,
+      0.1,
+      0.3,
+      1.0
+    ],
+    "force_support_proper_kpc": 0.01,
+    "maximum_particles": 2000000,
+    "memory_gib": 4.0,
+    "chunk_rows": 65536
+  },
+  "native_stage_receipt": "REPLACE_WITH_ACTUAL_COMPLETED_NATIVE_STAGE_RECEIPT.json",
+  "native_run_directory": "REPLACE_WITH_ACTUAL_ORIGINAL_NATIVE_RUN"
+}

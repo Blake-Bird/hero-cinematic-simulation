@@ -1,0 +1,104 @@
+{
+  "schema": "cosmography-campaign-v1",
+  "experiment_id": "block41_observers.example",
+  "resources": {
+    "memory_gib": 8,
+    "maximum_stage_count": 100,
+    "maximum_objects": 1000000,
+    "maximum_spectral_pixels": 4096
+  },
+  "stages": [
+    {
+      "stage_id": "expansion",
+      "kind": "expansion_truth",
+      "inputs": {
+        "background": "../inputs/background.json"
+      }
+    },
+    {
+      "stage_id": "trajectories",
+      "kind": "native_trajectories",
+      "inputs": {
+        "run_dir": "../../runs/USER_RUN",
+        "particle_ids": "../inputs/selected_uint64_ids.json"
+      },
+      "parameters": {
+        "snapshots": [
+          0,
+          1,
+          2
+        ],
+        "particle_type": 1,
+        "namespace": "USER_RUN:dark_matter"
+      }
+    },
+    {
+      "stage_id": "observer",
+      "kind": "local_observer",
+      "realization_id": "independent-realization-001",
+      "depends_on": [
+        "trajectories"
+      ],
+      "inputs": {
+        "background": "../inputs/background.json",
+        "trajectories": {
+          "stage": "trajectories"
+        }
+      },
+      "parameters": {
+        "observer": {
+          "observer_id": "selected-halo-001",
+          "position_mpc": [
+            100.0,
+            100.0,
+            100.0
+          ],
+          "velocity_kms": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "environment": "halo",
+          "selection_rule": {
+            "kind": "exact_identity",
+            "id": "USER_HALO_ID"
+          }
+        },
+        "generation": {
+          "depth_mpc": 400.0,
+          "z_range": [
+            0.005,
+            0.12
+          ],
+          "seed": 1001,
+          "log_distance_sigma": 0.05,
+          "redshift_sigma": 0.0001,
+          "max_interpolation_gap_redshift": 0.02,
+          "box_mpc": [
+            1000.0,
+            1000.0,
+            1000.0
+          ],
+          "sky_cells": [
+            [
+              0.0,
+              360.0,
+              -90.0,
+              90.0
+            ]
+          ]
+        },
+        "fit": {
+          "redshift_range": [
+            0.01,
+            0.1
+          ],
+          "maximum_cosmographic_redshift": 0.1,
+          "q0": -0.55,
+          "j0": 1.0,
+          "flow_dispersion_kms": 250.0
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "schema": "research-workflow-v1",
+  "resources": {
+    "mpi_ranks": 1,
+    "omp_threads": 1,
+    "memory_gib": 8.0,
+    "disk_gib": 64.0,
+    "maximum_stage_count": 32
+  },
+  "followup_limits": {
+    "maximum_children": 4,
+    "maximum_depth": 2
+  },
+  "physics_spec": {
+    "physics": "hydro",
+    "star_formation": true
+  },
+  "capabilities": [],
+  "requested_products": [
+    "observer_recovery"
+  ],
+  "stages": [
+    {
+      "stage_id": "observer",
+      "kind": "public_command",
+      "parameters": {
+        "command": "cosmography",
+        "arguments": [
+          {
+            "input": "inputs/blinded-observer-campaign.json"
+          },
+          "--output",
+          "{generation}/observers"
+        ],
+        "wall_seconds": 86400.0
+      },
+      "outputs": {
+        "observer_recovery": "observers/campaign.json"
+      },
+      "depends_on": [],
+      "species": []
+    }
+  ]
+}

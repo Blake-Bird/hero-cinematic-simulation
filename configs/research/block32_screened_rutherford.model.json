@@ -1,0 +1,8 @@
+{
+  "schema": "sidm-physical-angular-model-v1",
+  "kind": "screened_rutherford",
+  "velocity_scale_kms": 100.0,
+  "normalized_density_definition": "p(mu) = (1+2a) / [2 (1+a(1-mu))^2], a = v_relative^2 / (2 w^2)",
+  "physical_scope": "screened Rutherford angular shape; total cross section amplitude is specified separately by native evolution",
+  "reference": "https://arxiv.org/abs/2410.07175"
+}

@@ -1,0 +1,209 @@
+--- a/src/io/restart.cc
++++ b/src/io/restart.cc
+@@ -14,6 +14,8 @@
+ // clang-format on
+ 
+ #include "../io/restart.h"
++#include "../io/checkpoint_receipt.h"
++#include "../io/checkpoint_epoch.h"
+ 
+ #include <gsl/gsl_rng.h>
+ #include <math.h>
+@@ -154,6 +156,14 @@
+       if(link(buf, temporary) != 0 || rename(temporary, buf_bak) != 0)
+         Terminate("RESTART: cannot preserve previous rank checkpoint: %s", buf);
+       char receipt[MAXLEN_PATH_EXTRA], receipt_bak[MAXLEN_PATH_EXTRA];
++      char epoch[MAXLEN_PATH_EXTRA], epoch_bak[MAXLEN_PATH_EXTRA];
++      snprintf(epoch, sizeof(epoch), "%s.epoch.json", buf);
++      snprintf(epoch_bak, sizeof(epoch_bak), "%s.epoch.json", buf_bak);
++      snprintf(temporary, sizeof(temporary), "%s.tmp.%d", epoch_bak, (int)getpid());
++      if(link(epoch, temporary) == 0)
++        { if(rename(temporary, epoch_bak) != 0) Terminate("RESTART: cannot preserve checkpoint epoch"); }
++      else if(errno != ENOENT)
++        Terminate("RESTART: cannot preserve checkpoint epoch");
+       snprintf(receipt, sizeof(receipt), "%s.checksum.json", buf);
+       snprintf(receipt_bak, sizeof(receipt_bak), "%s.checksum.json", buf_bak);
+       snprintf(temporary, sizeof(temporary), "%s.tmp.%d", receipt_bak, (int)getpid());
+@@ -254,6 +264,27 @@
+       backup_restartfiles(ThisTask);
+     }
+ 
++  if(modus == MODUS_READ)
++    {
++      char payload[MAXLEN_PATH_EXTRA], metadata[MAXLEN_PATH_EXTRA];
++      snprintf(payload, sizeof(payload), "%s/restartfiles/restart.%d", All.OutputDir, ThisTask);
++      snprintf(metadata, sizeof(metadata), "%s.checksum.json", payload);
++      native_checkpoint_receipt receipt;
++      if(!native_checkpoint_verify(payload, metadata, ThisTask, NTask, receipt))
++        Terminate("RESTART: checkpoint receipt/checksum invalid before particle allocation (rank=%d)", ThisTask);
++      unsigned long long minimum, maximum;
++      double minimum_a, maximum_a;
++      MPI_Allreduce(&receipt.generation, &minimum, 1, MPI_UNSIGNED_LONG_LONG, MPI_MIN, Communicator);
++      MPI_Allreduce(&receipt.generation, &maximum, 1, MPI_UNSIGNED_LONG_LONG, MPI_MAX, Communicator);
++      MPI_Allreduce(&receipt.scale_factor, &minimum_a, 1, MPI_DOUBLE, MPI_MIN, Communicator);
++      MPI_Allreduce(&receipt.scale_factor, &maximum_a, 1, MPI_DOUBLE, MPI_MAX, Communicator);
++      if(minimum != maximum || minimum_a != maximum_a)
++        Terminate("RESTART: mixed checkpoint generation/epoch before particle allocation");
++      checkpoint_generation = receipt.generation;
++      checkpoint_expected_scale_factor = receipt.scale_factor;
++      mpi_printf("RESTART: verified native checkpoint checksums/generation before particle allocation.\n");
++    }
++
+   /* now work the I/O of the files, controlled by scheduler to achieve optimum I/O bandwidth under the constraint of a maximum number
+    * for the concurrent file access */
+   work_files(modus);
+@@ -426,6 +457,8 @@
+ 
+   /* common data  */
+   byten(All.get_data_ptr(), All.get_data_size(), modus);
++  if(modus == MODUS_READ && All.Time != checkpoint_expected_scale_factor)
++    Terminate("RESTART: native checkpoint time disagrees with checksum receipt before particle allocation");
+ 
+   /* converter data to integer coordinates*/
+   intposconvert *converter = &Sim->Sp;
+@@ -606,7 +639,12 @@
+          fflush(metadata) != 0 || fsync(fileno(metadata)) != 0)
+         Terminate("RESTART: checkpoint receipt flush failed");
+       if(fclose(metadata) != 0) Terminate("RESTART: checkpoint receipt close failed");
+-      if(rename(staged, buf) != 0 || rename(receipt_stage, receipt) != 0)
++      char epoch_stage[MAXLEN_PATH_EXTRA], epoch[MAXLEN_PATH_EXTRA];
++      snprintf(epoch, sizeof(epoch), "%s.epoch.json", buf);
++      if(!native_checkpoint_epoch_stage(All.OutputDir, buf, ThisTask, checkpoint_generation,
++                                        All.Time, epoch_stage, sizeof(epoch_stage)))
++        Terminate("RESTART: canonical periodic checkpoint clock invalid");
++      if(rename(staged, buf) != 0 || rename(receipt_stage, receipt) != 0 || rename(epoch_stage, epoch) != 0)
+         Terminate("RESTART: checkpoint publication failed; backups retained");
+       char directory[MAXLEN_PATH_EXTRA];
+       snprintf(directory, sizeof(directory), "%s/restartfiles", All.OutputDir);
+--- a/src/io/restart.h
++++ b/src/io/restart.h
+@@ -35,6 +35,7 @@
+ 
+   FILE *fd;
+   unsigned long long checkpoint_generation;
++  double checkpoint_expected_scale_factor;
+ 
+   struct seq_data
+   {
+--- /dev/null
++++ b/src/io/checkpoint_receipt.h
+@@ -0,0 +1,54 @@
++/* Native checkpoint receipt validation. CRC32 detects accidental corruption;
++ * it does not authenticate raw checkpoint ABI or an adversarial replacement. */
++#ifndef GADGET_CHECKPOINT_RECEIPT_H
++#define GADGET_CHECKPOINT_RECEIPT_H
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <ctype.h>
++#include <math.h>
++#include <zlib.h>
++
++struct native_checkpoint_receipt
++{
++  unsigned long long generation;
++  unsigned long long size_bytes;
++  double scale_factor;
++  unsigned long crc;
++};
++
++inline bool native_checkpoint_verify(const char *payload, const char *metadata,
++                                     int expected_rank, int expected_ranks,
++                                     native_checkpoint_receipt &receipt)
++{
++  FILE *info = fopen(metadata, "r");
++  if(!info) return false;
++  char line[2048], hex[9] = {0};
++  int rank = -1, ranks = -1, consumed = 0;
++  bool okay = fgets(line, sizeof(line), info) != NULL;
++  int extra = fgetc(info);
++  if(fclose(info) != 0 || extra != EOF) okay = false;
++  if(!okay) return false;
++  if(strstr(line, "\"generation\":-") || strstr(line, "\"generation\":+") ||
++     strstr(line, "\"size_bytes\":-") || strstr(line, "\"size_bytes\":+")) return false;
++  int fields = sscanf(line, "{\"schema\":\"gadget-rank-checkpoint-v1\",\"rank\":%d,\"ranks\":%d,\"generation\":%llu,\"a\":%lf,\"size_bytes\":%llu,\"crc32\":\"%8[0123456789abcdef]\"}%n",
++                      &rank, &ranks, &receipt.generation, &receipt.scale_factor,
++                      &receipt.size_bytes, hex, &consumed);
++  if(fields != 6 || consumed == 0 || rank != expected_rank || ranks != expected_ranks ||
++     receipt.generation == 0 || receipt.size_bytes == 0 ||
++     !isfinite(receipt.scale_factor) || receipt.scale_factor <= 0 || strlen(hex) != 8) return false;
++  for(char *p = line + consumed; *p; p++) if(!isspace((unsigned char)*p)) return false;
++  receipt.crc = strtoul(hex, NULL, 16);
++  FILE *input = fopen(payload, "rb");
++  if(!input) return false;
++  unsigned char block[65536];
++  unsigned long crc = crc32(0L, Z_NULL, 0);
++  unsigned long long bytes = 0;
++  size_t count;
++  while((count = fread(block, 1, sizeof(block), input)) != 0)
++    { crc = crc32(crc, block, count); bytes += count; }
++  okay = !ferror(input);
++  if(fclose(input) != 0) okay = false;
++  return okay && bytes == receipt.size_bytes && crc == receipt.crc;
++}
++#endif
+--- /dev/null
++++ b/src/io/checkpoint_epoch.h
+@@ -0,0 +1,62 @@
++/* Canonical time metadata only. No modification to GADGET dynamics.
++ * Shared contract: interpolate CLASS proper time linearly in a, never extrapolate.
++ * The transport CRC32 does not provide cryptographic authenticity. */
++#ifndef GADGET_CHECKPOINT_EPOCH_H
++#define GADGET_CHECKPOINT_EPOCH_H
++#include <stdio.h>
++#include <stdlib.h>
++#include <errno.h>
++#include <string.h>
++#include <math.h>
++#include <unistd.h>
++#include <zlib.h>
++
++inline bool native_checkpoint_epoch_stage(const char *output_dir, const char *payload,
++                                         int rank, unsigned long long generation,
++                                         double a, char *stage, size_t capacity)
++{
++  char clock_path[4096], source[65] = {0}, line[256], checksum[9] = {0};
++  snprintf(clock_path, sizeof(clock_path), "%s/canonical-clock.tsv", output_dir);
++  FILE *clock = fopen(clock_path, "r");
++  bool available = false;
++  double time = 0, previous_a = 0, previous_t = -1;
++  if(clock)
++    {
++      int consumed = 0;
++      if(!fgets(line,sizeof(line),clock) ||
++         sscanf(line,"# native-canonical-clock-v1 %64[0123456789abcdef] %8[0123456789abcdef]%n",source,checksum,&consumed)!=2 ||
++         strlen(source)!=64 || strlen(checksum)!=8 ||
++         (line[consumed]!='\n' && line[consumed]!='\0')) { fclose(clock); return false; }
++      unsigned long crc = crc32(0L,Z_NULL,0);
++      int count = 0;
++      while(fgets(line,sizeof(line),clock))
++        {
++          double x,t;
++          int end=0;
++          crc = crc32(crc,(unsigned char*)line,strlen(line));
++          if(sscanf(line,"%lf %lf%n",&x,&t,&end)!=2 ||
++             (line[end]!='\n' && line[end]!='\0') || !isfinite(x) || !isfinite(t) ||
++             x<=previous_a || t<0 || (count && t<=previous_t)) { fclose(clock); return false; }
++          if(x==a) { time=t; available=true; }
++          if(count && previous_a<a && a<x)
++            { time=previous_t+(t-previous_t)*(a-previous_a)/(x-previous_a); available=true; }
++          previous_a=x; previous_t=t; count++;
++        }
++      bool okay=!ferror(clock) && count>=2 && crc==strtoul(checksum,NULL,16);
++      if(fclose(clock)!=0 || !okay || !available) return false; /* advertised clock cannot disappear */
++    }
++  else if(errno!=ENOENT) return false;
++  if(!isfinite(a) || a<=0) return false;
++  if(snprintf(stage,capacity,"%s.epoch.json.tmp.%d",payload,(int)getpid()) >= (int)capacity) return false;
++  FILE *metadata=fopen(stage,"w");
++  if(!metadata) return false;
++  int written;
++  if(available)
++    written=fprintf(metadata,"{\"schema\":\"native-checkpoint-epoch-v1\",\"rank\":%d,\"generation\":%llu,\"a\":%.17g,\"z\":%.17g,\"cosmic_time_status\":\"AVAILABLE\",\"cosmic_time_gyr\":%.17g,\"clock_source_sha256\":\"%s\"}\n",rank,generation,a,1/a-1,time,source);
++  else
++    written=fprintf(metadata,"{\"schema\":\"native-checkpoint-epoch-v1\",\"rank\":%d,\"generation\":%llu,\"a\":%.17g,\"z\":%.17g,\"cosmic_time_status\":\"UNAVAILABLE\",\"cosmic_time_gyr\":null,\"clock_source_sha256\":null}\n",rank,generation,a,1/a-1);
++  bool okay=written>0 && fflush(metadata)==0 && fsync(fileno(metadata))==0;
++  if(fclose(metadata)!=0) okay=false;
++  return okay;
++}
++#endif

@@ -1,0 +1,10 @@
+OPTIMIZE = -std=c++20 -O3
+CC=nvc++
+CXX=nvc++
+
+CC_ACC_FLAGS = -acc -gpu=ccnative -mp=multicore
+
+CXX += $(CC_ACC_FLAGS)
+CC += $(CC_ACC_FLAGS)
+
+MPICHLIB =

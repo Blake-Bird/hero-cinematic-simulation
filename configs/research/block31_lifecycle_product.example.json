@@ -1,0 +1,31 @@
+{
+  "schema": "measured-lifecycle-events-v1",
+  "epoch_contract": {
+    "canonical_time": "scale_factor",
+    "scale_factor": null
+  },
+  "source_hashes": {
+    "FILL_ACTUAL_NATIVE_EVENT_SOURCE_PATH": "FILL_ACTUAL_SOURCE_SHA256"
+  },
+  "events": [
+    {
+      "namespace": "FILL_PRODUCER_EVENT_NAMESPACE",
+      "object_id": "0",
+      "event_type": "mass_return",
+      "measurement_origin": "retained_scientific_product",
+      "subjects": [
+        {
+          "namespace": "FILL_SELECTED_EXACT_OBJECT_NAMESPACE",
+          "object_id": "0"
+        }
+      ],
+      "quantity_definition": "FILL_ACTUAL_PRODUCER_MEASUREMENT_DEFINITION",
+      "measurements": {
+        "returned_mass": null
+      },
+      "measurement_units": {
+        "returned_mass": "FILL_NATIVE_MEASURED_MASS_UNITS"
+      }
+    }
+  ]
+}

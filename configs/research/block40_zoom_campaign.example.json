@@ -1,0 +1,159 @@
+{
+  "schema": "automatic-zoom-campaign-v1",
+  "parent": {
+    "run_dir": "inputs/parent/run",
+    "snapshot": 8,
+    "initial_ic": "inputs/parent/ics_gadget.hdf5",
+    "source_manifest": "inputs/parent/source.json",
+    "noise": "inputs/parent/wnoise_0007.bin",
+    "spectrum_manifest": "inputs/spectrum/spectrum.json",
+    "sha256": {
+      "initial_ic": "FILL_EXACT_PARENT_ASSET_SHA256",
+      "source_manifest": "FILL_EXACT_PARENT_ASSET_SHA256",
+      "noise": "FILL_EXACT_PARENT_ASSET_SHA256",
+      "spectrum_manifest": "FILL_EXACT_PARENT_ASSET_SHA256"
+    },
+    "seeds_by_level": {
+      "7": 421
+    }
+  },
+  "epochs": {
+    "z_start": null,
+    "z_end": null,
+    "backbone_redshifts": [],
+    "maximum_redshift_error": 1e-07
+  },
+  "resources": {
+    "mpi_ranks": 1,
+    "omp_threads": 1,
+    "memory_gib": 8.0,
+    "disk_gib": 64.0,
+    "maximum_stage_count": 32,
+    "wall_hours": 24.0,
+    "maximum_tracers": 10000000
+  },
+  "generator": {
+    "binary": "../../core/software/music2/build/MUSIC",
+    "binary_sha256": "FILL_EXACT_BINARY_SHA256",
+    "native_validation": "inputs/native-music-controls.json",
+    "validation_sha256": "FILL_EXECUTED_CONTROL_SHA256"
+  },
+  "physics": {
+    "interaction": "collisionless",
+    "linear_model": "cdm"
+  },
+  "capabilities": [],
+  "required_capabilities": [
+    "music_nested",
+    "gadget4_collisionless"
+  ],
+  "selection_rules": {
+    "minimum_dm_particles": 100000,
+    "maximum_targets": 2,
+    "ranking": "dm_count_descending"
+  },
+  "explicit_host_rows": [],
+  "trace": {
+    "aperture_r200c_factor": 2.0
+  },
+  "staging": {
+    "box_mpc_h": 25.0,
+    "parent_level": 7,
+    "padding_cells": 4,
+    "poisson_accuracy": 1e-10,
+    "lpt_order": 2
+  },
+  "refinement_variants": [
+    {
+      "refinement_level": 8,
+      "seeds_by_level": {
+        "7": 421,
+        "8": 422
+      },
+      "padding_comoving_kpc_h": 50.0
+    },
+    {
+      "refinement_level": 9,
+      "seeds_by_level": {
+        "7": 421,
+        "8": 422,
+        "9": 423
+      },
+      "padding_comoving_kpc_h": 100.0
+    }
+  ],
+  "followup_limits": {
+    "maximum_attempts_per_target": 2
+  },
+  "evolution": {
+    "argv": [
+      "{python}",
+      "{suite}/commands.py",
+      "gadget",
+      "--answers",
+      "{answers}",
+      "--existing-ic",
+      "{ic}",
+      "--native-generation-report",
+      "{generation}/generation.json",
+      "--run-dir",
+      "{run}"
+    ],
+    "wall_seconds": 86400.0,
+    "answers_template": {
+      "path": "inputs/zoom.answers.json",
+      "sha256": "FILL_EXACT_PHYSICAL_ANSWER_TEMPLATE_SHA256"
+    }
+  },
+  "diagnostics": {
+    "argv": [
+      "{python}",
+      "{suite}/commands.py",
+      "measure-zoom-campaign",
+      "--run",
+      "{run}",
+      "--recovery",
+      "{recovery}",
+      "--request",
+      "{suite}/configs/research/inputs/zoom-diagnostics.json",
+      "--output",
+      "{attempt}/region-diagnostics.json"
+    ],
+    "wall_seconds": 3600.0,
+    "output": "region-diagnostics.json",
+    "input_files": [
+      {
+        "path": "inputs/zoom-diagnostics.json",
+        "sha256": "FILL_EXACT_FROZEN_DIAGNOSTIC_REQUEST_SHA256"
+      }
+    ]
+  },
+  "recovery": {
+    "snapshots": [
+      8
+    ],
+    "rules": {
+      "minimum_material_fraction": 0.5,
+      "maximum_runner_up_fraction": 0.2,
+      "minimum_shared_particles": 100
+    }
+  },
+  "region_requirements": {
+    "coarse_mass_fraction": {
+      "units": "dimensionless",
+      "maximum": 0.01
+    },
+    "force_error": {
+      "units": "dimensionless",
+      "maximum": 0.01
+    },
+    "observable_error": {
+      "units": "dimensionless",
+      "maximum": 0.01
+    }
+  },
+  "sidm_guard": {
+    "maximum_comoving_support_kpc_h": 10.0,
+    "guard_multiplier": 2.0
+  }
+}

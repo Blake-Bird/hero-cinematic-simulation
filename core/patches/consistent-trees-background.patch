@@ -1,0 +1,757 @@
+diff --git a/diagnostics/fast3tree.c b/diagnostics/fast3tree.c
+deleted file mode 120000
+index e8c02f2..0000000
+--- a/diagnostics/fast3tree.c
++++ /dev/null
+@@ -1 +0,0 @@
+-../src/fast3tree.c
+\ No newline at end of file
+diff --git a/diagnostics/fast3tree.c b/diagnostics/fast3tree.c
+new file mode 100644
+index 0000000..03e2c51
+--- /dev/null
++++ b/diagnostics/fast3tree.c
+@@ -0,0 +1,2 @@
++/* Portable source forwarding file: ZIP extraction needs no symlinks. */
++#include "../src/fast3tree.c"
+diff --git a/diagnostics/rpeak.c b/diagnostics/rpeak.c
+index bc0a38d..1dd5b41 100644
+--- a/diagnostics/rpeak.c
++++ b/diagnostics/rpeak.c
+@@ -14,6 +14,9 @@
+ #include "rpeak.h"
+ 
+ float box_size = 250;
++/* This upstream auxiliary diagnostic hard-codes LCDM (Om=0.27, h=0.7)
++ * below. It is not the cosmology-configured main tree/hlist pipeline. */
++char *BACKGROUND_TABLE = "none";
+ void process_tree(void);
+ float calc_radius(struct halo *h, struct halo *p);
+ void calc_host_mvir_rvir(struct halo *h, struct halo *p, float *mvir_acc, float *rvir_acc);
+diff --git a/diagnostics/stringparse.c b/diagnostics/stringparse.c
+deleted file mode 120000
+index 53d5311..0000000
+--- a/diagnostics/stringparse.c
++++ /dev/null
+@@ -1 +0,0 @@
+-../src/stringparse.c
+\ No newline at end of file
+diff --git a/diagnostics/stringparse.c b/diagnostics/stringparse.c
+new file mode 100644
+index 0000000..23e4326
+--- /dev/null
++++ b/diagnostics/stringparse.c
+@@ -0,0 +1,2 @@
++/* Portable source forwarding file: ZIP extraction needs no symlinks. */
++#include "../src/stringparse.c"
+diff --git a/diagnostics/stringparse.h b/diagnostics/stringparse.h
+deleted file mode 120000
+index e52d8ff..0000000
+--- a/diagnostics/stringparse.h
++++ /dev/null
+@@ -1 +0,0 @@
+-../src/stringparse.h
+\ No newline at end of file
+diff --git a/diagnostics/stringparse.h b/diagnostics/stringparse.h
+new file mode 100644
+index 0000000..a75b56c
+--- /dev/null
++++ b/diagnostics/stringparse.h
+@@ -0,0 +1,2 @@
++/* Portable source forwarding file: ZIP extraction needs no symlinks. */
++#include "../src/stringparse.h"
+diff --git a/diagnostics/strtonum.c b/diagnostics/strtonum.c
+deleted file mode 120000
+index 92bcd66..0000000
+--- a/diagnostics/strtonum.c
++++ /dev/null
+@@ -1 +0,0 @@
+-../src/strtonum.c
+\ No newline at end of file
+diff --git a/diagnostics/strtonum.c b/diagnostics/strtonum.c
+new file mode 100644
+index 0000000..ae72b57
+--- /dev/null
++++ b/diagnostics/strtonum.c
+@@ -0,0 +1,2 @@
++/* Portable source forwarding file: ZIP extraction needs no symlinks. */
++#include "../src/strtonum.c"
+diff --git a/halo_trees_to_catalog.pl b/halo_trees_to_catalog.pl
+index 997be95..41d22fd 100644
+--- a/halo_trees_to_catalog.pl
++++ b/halo_trees_to_catalog.pl
+@@ -373,7 +373,11 @@ sub load_config {
+     our $Om = $config->{Om} || 0.27;
+     our $h0 = $config->{h0} || 0.70;
+     our $MASS_RES_OK = $config->{MASS_RES_OK} || 1e11;
++    # Initialise the analytic fallback first, then activate the physical table.
++    # The fallback precomputes a=0 sentinels outside a finite input table.
++    DMSBackground::init('none');
+     Universe::Time::init($Om, $h0);
++    DMSBackground::init($config->{BACKGROUND_TABLE});
+     
+ #    our $SINGLE_THREAD_OUTPUT = $config->{SINGLE_THREAD_OUTPUT};
+ }
+@@ -440,4 +444,3 @@ sub print {
+     $h->{macc}, $h->{mpeak}, $h->{vacc}, $h->{vpeak}, $h->{halfmass},
+     $h->{acc_inst}, $h->{acc_100}, $h->{acc_dyn}, $h->{acc_2dyn}, $h->{acc_mpeak}, $h->{dlvmax_inst}, $h->{dlvmax_dyn}, $h->{mpeak_scale}, $h->{acc_scale}, $h->{first_acc}{scale}, $h->{first_acc}{orig_mvir}, $h->{first_acc}{vmax}, $h->{vmpeak}, $h->{tidal_av}, $h->{lvmax_tdyn}, $tt_merger, $merger_mmp, $h->{spin_mpeak});
+ }
+-
+diff --git a/read_tree/check_syscalls.c b/read_tree/check_syscalls.c
+deleted file mode 120000
+index 9f97ecd..0000000
+--- a/read_tree/check_syscalls.c
++++ /dev/null
+@@ -1 +0,0 @@
+-../src/check_syscalls.c
+\ No newline at end of file
+diff --git a/read_tree/check_syscalls.c b/read_tree/check_syscalls.c
+new file mode 100644
+index 0000000..5eddf2b
+--- /dev/null
++++ b/read_tree/check_syscalls.c
+@@ -0,0 +1,2 @@
++/* Portable source forwarding file: ZIP extraction needs no symlinks. */
++#include "../src/check_syscalls.c"
+diff --git a/read_tree/check_syscalls.h b/read_tree/check_syscalls.h
+deleted file mode 120000
+index 870212a..0000000
+--- a/read_tree/check_syscalls.h
++++ /dev/null
+@@ -1 +0,0 @@
+-../src/check_syscalls.h
+\ No newline at end of file
+diff --git a/read_tree/check_syscalls.h b/read_tree/check_syscalls.h
+new file mode 100644
+index 0000000..de662e3
+--- /dev/null
++++ b/read_tree/check_syscalls.h
+@@ -0,0 +1,2 @@
++/* Portable source forwarding file: ZIP extraction needs no symlinks. */
++#include "../src/check_syscalls.h"
+diff --git a/read_tree/stringparse.c b/read_tree/stringparse.c
+deleted file mode 120000
+index 53d5311..0000000
+--- a/read_tree/stringparse.c
++++ /dev/null
+@@ -1 +0,0 @@
+-../src/stringparse.c
+\ No newline at end of file
+diff --git a/read_tree/stringparse.c b/read_tree/stringparse.c
+new file mode 100644
+index 0000000..23e4326
+--- /dev/null
++++ b/read_tree/stringparse.c
+@@ -0,0 +1,2 @@
++/* Portable source forwarding file: ZIP extraction needs no symlinks. */
++#include "../src/stringparse.c"
+diff --git a/read_tree/stringparse.h b/read_tree/stringparse.h
+deleted file mode 120000
+index e52d8ff..0000000
+--- a/read_tree/stringparse.h
++++ /dev/null
+@@ -1 +0,0 @@
+-../src/stringparse.h
+\ No newline at end of file
+diff --git a/read_tree/stringparse.h b/read_tree/stringparse.h
+new file mode 100644
+index 0000000..a75b56c
+--- /dev/null
++++ b/read_tree/stringparse.h
+@@ -0,0 +1,2 @@
++/* Portable source forwarding file: ZIP extraction needs no symlinks. */
++#include "../src/stringparse.h"
+diff --git a/read_tree/strtonum.c b/read_tree/strtonum.c
+deleted file mode 120000
+index 92bcd66..0000000
+--- a/read_tree/strtonum.c
++++ /dev/null
+@@ -1 +0,0 @@
+-../src/strtonum.c
+\ No newline at end of file
+diff --git a/read_tree/strtonum.c b/read_tree/strtonum.c
+new file mode 100644
+index 0000000..ae72b57
+--- /dev/null
++++ b/read_tree/strtonum.c
+@@ -0,0 +1,2 @@
++/* Portable source forwarding file: ZIP extraction needs no symlinks. */
++#include "../src/strtonum.c"
+diff --git a/src/DMSBackground.pm b/src/DMSBackground.pm
+new file mode 100644
+index 0000000..9f26318
+--- /dev/null
++++ b/src/DMSBackground.pm
+@@ -0,0 +1,64 @@
++package DMSBackground;
++use strict;
++use warnings;
++use POSIX qw(isfinite);
++
++# Same piecewise power-law H(a)/H0 and exact da/(a E) integral as the native
++# dms_background.h adapter. H0*(t(a)-t(1)) is negative for past epochs.
++my (@a, @e, @time);
++
++sub enabled { return scalar @a; }
++
++sub segment_time {
++    my ($a0, $a1, $e0, $e1, $at) = @_;
++    my $p = log($e1/$e0)/log($a1/$a0);
++    my $l = log($at/$a0);
++    my $x = -$p*$l;
++    return $l/$e0*(1-$p*$l/2+$p*$p*$l*$l/6) if abs($x)<1e-10;
++    my $em1 = abs($x)<1e-5 ? $x*(1+$x/2+$x*$x/6+$x**3/24+$x**4/120) : exp($x)-1;
++    return -$em1/($p*$e0);
++}
++
++sub init {
++    my ($path) = @_;
++    @a=(); @e=(); @time=();
++    return if !defined($path) || !length($path) || $path eq 'none';
++    open my $file, '<', $path or die "Cannot open background $path: $!\n";
++    while(my $line=<$file>) {
++        next if $line =~ /^\s*(#|$)/;
++        my @row = split /\s+/, $line =~ s/^\s+//r;
++        die "Invalid background row in $path\n" unless @row>=2 && isfinite($row[0]) && isfinite($row[1])
++            && $row[0]>0 && $row[1]>0 && (!@a || $row[0]>$a[-1]);
++        push @a, 0+$row[0]; push @e, 0+$row[1];
++    }
++    close $file;
++    die "Background must end at a=1, E=1\n" unless @a>=2 && abs($a[-1]-1)<1e-14 && abs($e[-1]-1)<1e-6;
++    $time[0]=0;
++    for(my $i=1; $i<@a; $i++) {
++        $time[$i]=$time[$i-1]+segment_time($a[$i-1],$a[$i],$e[$i-1],$e[$i],$a[$i]);
++    }
++}
++
++sub interval_index {
++    my ($at)=@_;
++    die "Background epoch $at outside supplied range\n" unless isfinite($at) && $at>=$a[0]*(1-1e-14) && $at<=$a[-1]*(1+1e-14);
++    my ($low,$high)=(0,$#a);
++    while($high-$low>1) {
++        my $mid=int(($low+$high)/2);
++        if($a[$mid]>$at) {$high=$mid;} else {$low=$mid;}
++    }
++    return $low;
++}
++
++sub E {
++    my ($at)=@_;
++    my $i=interval_index($at);
++    return exp(log($e[$i])+log($at/$a[$i])/log($a[$i+1]/$a[$i])*log($e[$i+1]/$e[$i]));
++}
++
++sub time {
++    my ($at)=@_;
++    my $i=interval_index($at);
++    return $time[$i]+segment_time($a[$i],$a[$i+1],$e[$i],$e[$i+1],$at)-$time[-1];
++}
++1;
+diff --git a/src/MassConversions.pm b/src/MassConversions.pm
+index cf9562b..8c457e6 100644
+--- a/src/MassConversions.pm
++++ b/src/MassConversions.pm
+@@ -1,6 +1,7 @@
+ #!/usr/bin/perl -w
+ package MassConversions;
+ use Math::Trig;
++use DMSBackground;
+ 
+ gen_lookups();
+ 
+@@ -60,7 +61,7 @@ sub Delta_vir {
+     my ($z, $om) = @_;
+     $om ||= 0.27;
+     $z ||= 0;
+-    my $omega = $om*((1+$z)**3)/($om*((1+$z)**3) + 1-$om);
++    my $omega = $om*((1+$z)**3)/(DMSBackground::enabled() ? DMSBackground::E(1/(1+$z))**2 : $om*((1+$z)**3) + 1-$om);
+     my $x = $omega - 1;
+     return 1/(1+$x) * (18*pi*pi + 82*$x - 39*$x*$x);
+ }
+@@ -71,11 +72,12 @@ sub Dyn_time {
+     $z ||= 0;
+     $h ||= 0.7;
+     my $dvir = Delta_vir($z, $om); 
+-    my $g = 4.30117902e-9; #Actually, Gc * (Msun / Mpc) in (km/s)^2
+-    my $cd = 2.77519737e11; #3H^2/8piG in (Msun / h) / (Mpc / h)^3
++    # Same G, adopted solar mass and parsec as native trees/Rockstar.
++    my $g = 4.3010473293148021e-9; # G*(Msun/Mpc) in (km/s)^2
++    my $cd = 2.7752823482167468e11; #3H100^2/8piG in (Msun/h)/(Mpc/h)^3
+     my $bd = $cd*$om*((1+$z)**3); #background density
+     my $dyn_time = 1.0/(sqrt((4/3)*pi*$g*$dvir*$bd)*$h); # in Mpc / (km/s)
+-    $dyn_time *= 9.77813106e11; # Mpc/(km/s) to yrs
++    $dyn_time *= 9.777922216807892e11; # Mpc/(km/s) in Julian years
+     return $dyn_time;
+ }
+ 
+diff --git a/src/Universe/Time.pm b/src/Universe/Time.pm
+index 91fdb5a..cdcaca0 100644
+--- a/src/Universe/Time.pm
++++ b/src/Universe/Time.pm
+@@ -1,6 +1,7 @@
+ #!/usr/bin/perl -w
+ package Universe::Time;
+ use Math::Trig;
++use DMSBackground;
+ use base qw(Exporter);
+ 
+ our @EXPORT = qw(scale_to_time scale_to_years exact_time_to_scale);
+@@ -11,13 +12,13 @@ our $t_0 = 0;
+ our $steps = 1024;
+ our @scales;
+ our @times;
+-our $to_years = 1.39687707e10;
++our $to_years = 9.777922216807892e9/0.7;
+ our $exact_t0_conv = 0;
+ 
+ 
+ sub init {
+     my ($om, $h)  = @_;
+-    $to_years = 1.39687707e10*0.7/$h;
++    $to_years = 9.777922216807892e9/$h;
+     $omega_0 = $om;
+     $exact_t0_conv = 0;
+     $exact_t0_conv = exact_scale_to_time(1.0);
+@@ -37,6 +38,7 @@ sub exact_time_to_scale {
+ 
+ sub exact_scale_to_time {
+     my $scale = shift;
++    return DMSBackground::time($scale) if DMSBackground::enabled();
+     my $t = $scale;
+     my $a = exact_time_to_scale($t);
+     my $dt = $scale/10.0;
+@@ -56,6 +58,7 @@ sub exact_scale_to_time {
+ 
+ sub scale_to_time {
+     my $s = shift;
++    return DMSBackground::time($s) if DMSBackground::enabled();
+     my $l = int($s*$steps);
+     my $f = $s*$steps - $l;
+     if ($s > 1) { return exact_scale_to_time($s); }
+diff --git a/src/config.template.h b/src/config.template.h
+index 292198c..3a553b3 100644
+--- a/src/config.template.h
++++ b/src/config.template.h
+@@ -6,6 +6,7 @@
+ real(Om,0.27);
+ real(h0,0.70);
+ real(Ol,0.73);
++string(BACKGROUND_TABLE,"none");
+ 
+ string(MASS_DEFINITION, "vir");
+ 
+diff --git a/src/distance.c b/src/distance.c
+index 876b053..c84b5b7 100644
+--- a/src/distance.c
++++ b/src/distance.c
+@@ -1,5 +1,6 @@
+ #include <math.h>
+ #include <assert.h>
++#include "dms_background.h"
+ 
+ #define MAX_Z 100
+ #define Z_BINS 1000
+@@ -19,6 +20,7 @@ double _Dc[TOTAL_BINS];
+ #endif /* M_PI */
+ 
+ double _E (double z) {
++  if(dms_background_enabled()) return dms_background_E(1./(1.+z));
+   double z1 = 1.0+z;
+   return sqrt(Omega_M * (z1*z1*z1) + Omega_L);
+ }
+@@ -32,6 +34,7 @@ void init_cosmology(double omega_m, double omega_l, double h0)
+   Omega_L = omega_l;
+   h = h0;
+   Dh = 2997.92458 / h; //In Mpc  (Speed of light / H0)
++  if(dms_background_enabled()) return;
+   for (i=0; i<TOTAL_BINS; i++) {
+     z = (float)(i+0.5) / (double)Z_BINS;
+     _Dc[i] = Dc_int * Dh;
+@@ -48,6 +51,7 @@ double scale_factor(double z) {
+ }
+ 
+ double comoving_distance(double z) {
++  if(dms_background_enabled()) return Dh*dms_background_distance_to_today(1./(1.+z));
+   float f = z*(double)Z_BINS;
+   int bin = f;
+   if (z<0) return 0;
+diff --git a/src/dms_background.h b/src/dms_background.h
+new file mode 100644
+index 0000000..b87aeb0
+--- /dev/null
++++ b/src/dms_background.h
+@@ -0,0 +1,133 @@
++/* DarkMatterSim background adapter for Rockstar/Consistent Trees.
++ * Input: a, E(a)=H(a)/H0 (additional GADGET growth columns are ignored).
++ * Interpolation is linear in log(a), log(E), as in patched GADGET. Cosmic
++ * time differences integrate each power-law segment analytically:
++ * H0 dt = da/(a E); for E=E_i (a/a_i)^p, the segment integral is
++ * -expm1[-p log(a/a_i)]/(p E_i), with the p=0 logarithmic limit.
++ * The zero of time is today. No extrapolation outside supplied epochs.
++ * Header-only static storage lets the pinned native build remain unchanged.
++ */
++#ifndef DMS_BACKGROUND_H
++#define DMS_BACKGROUND_H
++#include <float.h>
++#include <math.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++
++extern char *BACKGROUND_TABLE;
++static size_t dms_bg_count = 0;
++static double *dms_bg_a = NULL, *dms_bg_e = NULL, *dms_bg_time = NULL;
++static double *dms_bg_distance = NULL;
++static int dms_bg_ready = 0;
++
++static int dms_background_enabled(void) {
++  return BACKGROUND_TABLE && BACKGROUND_TABLE[0] && strcmp(BACKGROUND_TABLE, "none");
++}
++
++static void dms_bg_error(const char *reason) {
++  fprintf(stderr, "[Error] DarkMatterSim background %s: %s\n", BACKGROUND_TABLE, reason);
++  exit(EXIT_FAILURE);
++}
++
++static double dms_bg_integral(double a0, double a1, double e0, double e1, double a) {
++  double slope = log(e1/e0)/log(a1/a0), distance = log(a/a0);
++  return fabs(slope*distance) < 1.e-10
++    ? distance/e0 * (1. - 0.5*slope*distance + slope*slope*distance*distance/6.)
++    : -expm1(-slope*distance)/(slope*e0);
++}
++
++static void dms_bg_load_impl(void) {
++  FILE *file = fopen(BACKGROUND_TABLE, "r");
++  if(!file) dms_bg_error("cannot open table");
++  char line[2048];
++  size_t capacity = 0;
++  while(fgets(line, sizeof(line), file)) {
++    char *text = line;
++    while(*text == ' ' || *text == '\t' || *text == '\r' || *text == '\n') text++;
++    if(!*text || *text == '#') continue;
++    double a, e;
++    if(sscanf(text, "%lf %lf", &a, &e) != 2 || !isfinite(a) || !isfinite(e) || a <= 0 || e <= 0)
++      dms_bg_error("rows must contain finite positive a and E(a)");
++    if(dms_bg_count && a <= dms_bg_a[dms_bg_count-1]) dms_bg_error("epochs must strictly increase");
++    if(dms_bg_count == capacity) {
++      capacity = capacity ? capacity*2 : 1024;
++      double *new_a = realloc(dms_bg_a, capacity*sizeof(double));
++      if(!new_a) dms_bg_error("allocation failed");
++      dms_bg_a = new_a;
++      double *new_e = realloc(dms_bg_e, capacity*sizeof(double));
++      if(!new_e) dms_bg_error("allocation failed");
++      dms_bg_e = new_e;
++    }
++    dms_bg_a[dms_bg_count] = a;
++    dms_bg_e[dms_bg_count++] = e;
++  }
++  if(ferror(file)) dms_bg_error("reading table failed");
++  fclose(file);
++  if(dms_bg_count < 2 || fabs(dms_bg_a[dms_bg_count-1]-1.) > 64*DBL_EPSILON ||
++     fabs(dms_bg_e[dms_bg_count-1]-1.) > 1.e-6)
++    dms_bg_error("table must end at a=1, E=1 with at least two rows");
++  dms_bg_time = malloc(dms_bg_count*sizeof(double));
++  dms_bg_distance = malloc(dms_bg_count*sizeof(double));
++  if(!dms_bg_time || !dms_bg_distance) dms_bg_error("allocation failed");
++  dms_bg_time[0] = 0.;
++  dms_bg_distance[0] = 0.;
++  for(size_t i=1; i<dms_bg_count; i++) {
++    dms_bg_time[i] = dms_bg_time[i-1] + dms_bg_integral(dms_bg_a[i-1], dms_bg_a[i],
++                                                    dms_bg_e[i-1], dms_bg_e[i], dms_bg_a[i]);
++    /* chi H0/c = integral da/(a^2 E). Apply the same exact segment integral
++       to E_effective=a E, whose power-law slope is increased by one. */
++    dms_bg_distance[i] = dms_bg_distance[i-1] + dms_bg_integral(dms_bg_a[i-1], dms_bg_a[i],
++                   dms_bg_a[i-1]*dms_bg_e[i-1], dms_bg_a[i]*dms_bg_e[i], dms_bg_a[i]);
++  }
++}
++
++static void dms_bg_load(void) {
++  /* Native tree mass conversions can start inside an OpenMP region. Protect
++     lazy loading and publication; no thread may see half-populated arrays. */
++#ifdef _OPENMP
++#pragma omp critical(dms_background_load)
++#endif
++  {
++    if(!dms_bg_ready) {
++      dms_bg_load_impl();
++      dms_bg_ready = 1;
++    }
++  }
++}
++
++static size_t dms_bg_index(double *a) {
++  dms_bg_load();
++  double minimum = dms_bg_a[0], maximum = dms_bg_a[dms_bg_count-1];
++  if(!isfinite(*a) || *a < minimum*(1.-64*DBL_EPSILON) || *a > maximum*(1.+64*DBL_EPSILON))
++    dms_bg_error("requested epoch lies outside table; extend the physical background input");
++  if(*a < minimum) *a = minimum;
++  if(*a > maximum) *a = maximum;
++  size_t low = 0, high = dms_bg_count-1;
++  while(high-low > 1) {
++    size_t middle = low+(high-low)/2;
++    if(dms_bg_a[middle] > *a) high = middle; else low = middle;
++  }
++  return low;
++}
++
++static double dms_background_E(double a) {
++  size_t i = dms_bg_index(&a);
++  double fraction = log(a/dms_bg_a[i])/log(dms_bg_a[i+1]/dms_bg_a[i]);
++  return exp(log(dms_bg_e[i]) + fraction*log(dms_bg_e[i+1]/dms_bg_e[i]));
++}
++
++static double dms_background_time(double a) {
++  size_t i = dms_bg_index(&a);
++  return dms_bg_time[i] + dms_bg_integral(dms_bg_a[i], dms_bg_a[i+1],
++                                        dms_bg_e[i], dms_bg_e[i+1], a)
++         - dms_bg_time[dms_bg_count-1];
++}
++
++static double dms_background_distance_to_today(double a) {
++  size_t i = dms_bg_index(&a);
++  return dms_bg_distance[dms_bg_count-1] - dms_bg_distance[i]
++         - dms_bg_integral(dms_bg_a[i], dms_bg_a[i+1],
++                          dms_bg_a[i]*dms_bg_e[i], dms_bg_a[i+1]*dms_bg_e[i+1], a);
++}
++#endif
+diff --git a/src/gen_sussing_forests.c b/src/gen_sussing_forests.c
+index 00e4954..e0fe809 100644
+--- a/src/gen_sussing_forests.c
++++ b/src/gen_sussing_forests.c
+@@ -13,6 +13,8 @@
+ #include "resort_outputs.h"
+ #include "inthash.h"
+ #include "universe_time.h"
++#include "universal_constants.h"
++#include "dms_background.h"
+ #ifndef NO_FORK
+ #include <sys/wait.h>
+ #include <sys/types.h>
+@@ -21,7 +23,6 @@
+ #include "version.h"
+ 
+ #define forest_id tidal_id
+-#define CRITICAL_DENSITY 2.77459457e11 // 3H^2/8piG in (Msun / h) / (Mpc / h)^3
+ #define NIFTYOFFSET ((int64_t)1000000000000)
+ 
+ //#define FIX_BOLSHOI_SPIN
+@@ -76,7 +77,12 @@ int main(int argc, char **argv) {
+   snprintf(buffer, sizeof buffer, "%s/sussing_index.lst", TREE_OUTBASE);
+   FILE *sindex = check_fopen(buffer, "w");
+   fprintf(sindex, "#%11s %12s %12s %12s %12s %s\n", "snapnum", "a", "z", "t(t0)", "t(year)", "file");
+-  double t0 = scale_to_years(0.0);
++  /* A finite-domain H(a) table determines lookback times, not the age since
++   * a=0. Never extrapolate it to invent a Big-Bang age for this auxiliary
++   * export. Main merger histories use measured time differences instead. */
++  double t0 = NAN;
++  if (!dms_background_enabled()) t0 = scale_to_years(0.0);
++  else fprintf(sindex, "#UNAVAILABLE: cosmic-age columns need H(a) through a=0; supplied table has a finite domain.\n");
+   for (i=0; i<num_outputs; i++) {
+       double t = t0 - scale_to_years(output_scales[i]);
+       snprintf(buffer, sizeof buffer, "sussing_%03"PRId64".z%.3f.AHF_halos",
+@@ -201,7 +207,8 @@ int main(int argc, char **argv) {
+ 
+ float dens_200c(float z) {
+   float inv_vol = pow(1.0+z, 3);
+-  float dens_200m = 200.0*(Om*inv_vol+Ol)/(Om*inv_vol);
++  double e2 = dms_background_enabled() ? pow(dms_background_E(1.0/(1.0+z)), 2.) : Om*inv_vol+Ol;
++  float dens_200m = 200.0*e2/(Om*inv_vol);
+   float background = CRITICAL_DENSITY*Om;
+   return dens_200m*background;
+ }
+diff --git a/src/halo_evolve_lib.c b/src/halo_evolve_lib.c
+index e53d463..afeb072 100644
+--- a/src/halo_evolve_lib.c
++++ b/src/halo_evolve_lib.c
+@@ -11,6 +11,7 @@
+ #include "stringparse.h"
+ #include "gravitational_consistency.h"
+ #include "halo_io.h"
++#include "dms_background.h"
+ 
+ #define FAST3TREE_TYPE struct tree_halo 
+ #define FAST3TREE_PREFIX HEVOLVE
+@@ -102,35 +103,35 @@ inline float halo_grav_range(float mvir, float dt) {
+ void do_timestep(struct halo_stash *h, double a1, double a2, double a3, int special_step)
+ {
+   int64_t i=0;
+-  float dt = (scale_to_years(a3) - scale_to_years(a2))/1.0e6; //In Myr
+-  float old_dt = (scale_to_years(a2) - scale_to_years(a1))/1.0e6; //In Myr
++  float old_dt = special_step == 1 ? 0 : (scale_to_years(a2) - scale_to_years(a1))/1.0e6; // Myr
++  // Complete the old half-kick before looking up new epochs. a1=0 in the
++  // first call and a3=0 in the last are sentinels, not physical times.
++  if(special_step != 1) {
++#pragma omp parallel for private(i)
++    for(i=0; i<h->num_halos; i++) {
++      struct tree_halo *h1 = &(h->halos[i]);
++      for(int64_t j=0; j<3; j++) {
++        h1->vel[j] += h1->a[j]*old_dt*0.5;
++        h1->a[j] = 0;
++      }
++    }
++  }
++  if(special_step < 0) return;
++  float dt = (scale_to_years(a3) - scale_to_years(a2))/1.0e6; // Myr
+   float av_a = (a2+a3)/2.0;
+-  float vel_dt = dt * 1.02268944e-6 * h0 / av_a; //1 km/s to comoving Mpc/Myr/h
++  float vel_dt = dt * 1.022712165045695e-6 * h0 / av_a; // 1 km/s to comoving Mpc/Myr/h (Julian year)
+   float max_dist = box_size / 2.0;
+   float vir_conv_factor = pow(SOFTENING_LENGTH*1.0e-3, 2);
+ 
+   // 1 km/s / Myr to comoving Mpc/Myr^2/h 
+-  float acc_dt2 = (dt*dt / 2.0) * 1.02268944e-6 * h0 / av_a;
++  float acc_dt2 = (dt*dt / 2.0) * 1.022712165045695e-6 * h0 / av_a;
+   float conv_const = av_a*av_a / h0 / h0;
+ 
+-  float H = h0*100.0 * sqrt(Om/(av_a*av_a*av_a)+Ol); //Hubble flow in km/s/(Mpc)
+-  float h_drag = -2.0 * H * av_a * 1.02269032e-6; //km/s/(Mpc) to km/s/Myr / (km/s) = 1/Myr
++  float H = h0*100.0 * (dms_background_enabled() ? dms_background_E(av_a)
++                                               : sqrt(Om/(av_a*av_a*av_a)+Ol)); // km/s/Mpc
++  float h_drag = -2.0 * H * av_a * 1.022712165045695e-6; // km/s/Mpc in Myr^-1
+ 
+   
+-  //Update intermediate velocities
+-  if (special_step != 1) { //If we're not at the first step.
+-#pragma omp parallel for private(i)
+-    for (i=0; i<h->num_halos; i++) {
+-      struct tree_halo *h1 = &(h->halos[i]);
+-      for (int64_t j=0; j<3; j++) {
+-	h1->vel[j] += h1->a[j]*old_dt*0.5;
+-	h1->a[j] = 0;
+-      }
+-    }
+-  }
+-
+-  if (special_step<0) return; //Return if this is the final step.
+-
+   //Calculate accelerations
+   fast3tree_rebuild(ev_halo_tree, h->num_halos, h->halos);
+   IF_PERIODIC _fast3tree_set_minmax(ev_halo_tree, 0, box_size);
+diff --git a/src/halo_io.c b/src/halo_io.c
+index 030907d..49214d1 100644
+--- a/src/halo_io.c
++++ b/src/halo_io.c
+@@ -10,6 +10,7 @@
+ #include "masses.h"
+ #include "check_syscalls.h"
+ #include "stringparse.h"
++#include "universal_constants.h"
+ 
+ extern float min_mvir, max_mvir;
+ extern float box_size;
+@@ -169,7 +170,7 @@ void load_halos(char *filename, struct halo_stash *h, float scale, int dead)
+   int64_t n;
+   int64_t mmp, flags, phantom;
+   float delta_mvir = delta_vir(scale);
+-  float mean_density = 2.77519737e11*Om; //(Msun/h) / (comoving Mpc/h)^3
++  float mean_density = CRITICAL_DENSITY*Om; //(Msun/h) / (comoving Mpc/h)^3
+   float vir_density = delta_mvir*mean_density;
+   int64_t expected_inputs = 30+EXTRA_PARAMS;
+   int64_t regular_inputs = 18;
+diff --git a/src/masses.c b/src/masses.c
+index 305f7f0..ca5d54c 100644
+--- a/src/masses.c
++++ b/src/masses.c
+@@ -1,8 +1,8 @@
+ #include <stdio.h>
+ #include <math.h>
+-#include <math.h>
+ #include "masses.h"
+ #include "universal_constants.h"
++#include "dms_background.h"
+ 
+ #define FF_CACHE_SIZE 10001
+ #define HALO_PROFILE_CUTOFF 100 /* maximum value of rh/rs cached */
+@@ -38,7 +38,8 @@ double inv_ff(double f) {
+ }
+ 
+ double delta_vir(double a) {
+-  double x = 1.0/(1.0+a*a*a*Ol/Om)-1.0;
++  double x = dms_background_enabled() ? Om/(a*a*a*pow(dms_background_E(a), 2.))-1.
++                                    : 1.0/(1.0+a*a*a*Ol/Om)-1.0;
+   return ((18*M_PI*M_PI + 82.0*x - 39*x*x)/(1.0+x));
+ }
+ 
+@@ -119,6 +120,7 @@ float calc_scale_radius(float mvir, float rvir, float vmax, float rvmax, float s
+ 
+ 
+ double ConvertDeltaPcToDeltaPm(float delta, float z) {
++  if(dms_background_enabled()) return delta*pow(dms_background_E(1./(1.+z)), 2.)/(Om*pow(1.+z, 3.));
+   return ((delta * (Om*pow(1+z,3) + (1.0-Om)))/(Om*pow(1+z, 3)));
+ }
+ 
+diff --git a/src/universal_constants.h b/src/universal_constants.h
+index 520a721..a4d24f9 100644
+--- a/src/universal_constants.h
++++ b/src/universal_constants.h
+@@ -1,12 +1,14 @@
+ #ifndef _UNIVERSAL_CONSTANTS_H_
+ #define _UNIVERSAL_CONSTANTS_H_
+ 
+-#define Gc (4.30211349e-9) //Actually, Gc * (Msun / Mpc) in (km/s)^2
+-#define CRITICAL_DENSITY 2.77459457e11 // 3H^2/8piG in (Msun / h) / (Mpc / h)^3
+-#define VMAX_CONST 6.55904985e-5 //sqrt(G*(Msun/h)/(Mpc/h)) in km/s
++/* G=6.67430e-8 cgs, adopted Msun=1.98847e33 g,
++ * Mpc=3.0856775814913673e24 cm. Match physical_constants.py. */
++#define Gc (4.3010473293148021e-9) // G * (Msun / Mpc) in (km/s)^2
++#define CRITICAL_DENSITY 2.7752823482167468e11 // 3H100^2/8piG in (Msun / h) / (Mpc / h)^3
++#define VMAX_CONST 6.5582370567972016e-5 //sqrt(G*(Msun/h)/(Mpc/h)) in km/s
+ #define RMAX_TO_RS 2.1626        /* Rvmax / Rs */
+ #define RS_CONSTANT 0.216216595 /* ln(1+2.1626)/2.1626 - 1/(1+2.1626) */
+ 
+-#define HUBBLE_TIME_CONVERSION 9.77813106e9 /* (100 km/s/Mpc)^-1 to years */
++#define HUBBLE_TIME_CONVERSION 9.777922216807892e9 /* (100 km/s/Mpc)^-1 in Julian years */
+ 
+ #endif /* _UNIVERSAL_CONSTANTS_H_ */
+diff --git a/src/universe_time.c b/src/universe_time.c
+index f43d725..f78bcbe 100644
+--- a/src/universe_time.c
++++ b/src/universe_time.c
+@@ -1,13 +1,14 @@
+ #include <math.h>
+ #include <inttypes.h>
+ #include "universe_time.h"
++#include "dms_background.h"
+ 
+ #define STEPS 1024
+ 
+ double omega_0 = 0.3; // Matter density
+ double t_0 = 0;       // Time now (in Hubble time units).
+ double times[STEPS+1]={0};
+-double H_CONV = 9.77813952e9/0.7;
++double H_CONV = 9.777922216807892e9/0.7;
+ static double exact_t0_conv = 0;
+ 
+ 
+@@ -15,7 +16,8 @@ void init_time_table(double Om, double h0) {
+   double a = 1;
+   int64_t i;
+   omega_0 = Om;
+-  H_CONV = 9.77813952e9/h0; // 1/(1 km/s/Mpc) in years
++  H_CONV = 9.777922216807892e9/h0; // (100 km/s/Mpc)^-1 in Julian years
++  if(dms_background_enabled()) return;
+ 
+   times[STEPS] = t_0;
+   exact_t0_conv = exact_scale_to_time(1.0);
+@@ -31,6 +33,8 @@ double _exact_time_to_scale(double t) {
+ }
+ 
+ double exact_scale_to_time(double scale) {
++  if(dms_background_enabled()) return dms_background_time(scale);
++  if(omega_0 == 1.) return (2./3.)*(pow(scale, 1.5)-1.);
+   double t = scale;
+   double a = _exact_time_to_scale(t);
+   double dt = scale/10.0;
+@@ -50,10 +54,11 @@ double exact_scale_to_time(double scale) {
+ 
+ // Linearly interpolate between calculated values.
+ double scale_to_time(double scale) {
++  if(dms_background_enabled()) return dms_background_time(scale);
+   double s = scale;
+   int64_t l = (int)(s*STEPS);
+   double f = s*STEPS - l;
+-  if (scale > 1) return exact_scale_to_time(scale);
++  if (scale >= 1) return exact_scale_to_time(scale);
+   if (scale < 0) return times[0];
+   return (times[l]+f*(times[l+1]-times[l]));
+ }

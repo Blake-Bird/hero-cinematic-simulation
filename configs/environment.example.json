@@ -1,0 +1,43 @@
+{
+  "schema": "native-environment-v1",
+  "run_directory": "USER_SELECTED_NATIVE_RUN",
+  "snapshot": 0,
+  "mesh_size": 65,
+  "smoothing_comoving_kpc": [
+    0.0,
+    5.0
+  ],
+  "web_threshold": 0.1,
+  "eigenvalue_gap_floor": 0.001,
+  "halo_structure_products": [
+    "USER_SELECTED_STRUCTURE_PRODUCT.json"
+  ],
+  "splashback_component": "dm",
+  "orbital_history": null,
+  "slope_controls": {
+    "window_bins": 5,
+    "polynomial_degree": 3,
+    "minimum_effective_count": 10
+  },
+  "slope_window_study": [
+    5,
+    7,
+    9
+  ],
+  "splashback_controls": {
+    "search_interval_proper_kpc": [
+      0.5,
+      3.0
+    ],
+    "minimum_depth": 0.5,
+    "bootstrap_realizations": 256,
+    "seed": 571,
+    "maximum_fractional_radius_error": 0.2,
+    "minimum_success_fraction": 0.8
+  },
+  "alignment_controls": {
+    "randomized_realizations": 256,
+    "seed": 713
+  },
+  "memory_gib": 1.0
+}

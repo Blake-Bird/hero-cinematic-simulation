@@ -1,0 +1,58 @@
+{
+  "usage": "Use the request object with commands.py sidm-angular-control --request. Limits are illustrative, not calibrated. Export native events with the same nominal speed and an explicit speed tolerance covering the desired diagnostic bins. Each selected event still uses its own actual speed; its table extrapolation policy remains authoritative.",
+  "request": {
+    "schema": "native-sidm-angular-control-request-v2",
+    "cdf_evaluation": "per_event_speed",
+    "memory_gib": 4.0,
+    "maximum_events": 1000000,
+    "maximum_cdf_evaluations": 1000000000,
+    "minimum_events_per_speed_bin": 128,
+    "cosine_roundoff_tolerance": 1e-13,
+    "angular_model_hash": "REPLACE_WITH_EXACT_CANONICAL_NATIVE_MODEL_HASH",
+    "relative_speed_kms": 50.0,
+    "cosine_convention": "identical_particle_folded_absolute_cosine",
+    "minimum_scattering_angle_radians": 0.1,
+    "events": {
+      "path": "REPLACE_WITH_COMPLETED_NATIVE_EVENTS.json",
+      "sha256": "REPLACE_WITH_EXACT_SHA256"
+    },
+    "reference_cdf": {
+      "path": "REPLACE_WITH_RETAINED_PHYSICAL_REFERENCE_CDF.json",
+      "sha256": "REPLACE_WITH_EXACT_SHA256"
+    },
+    "cosine_bin_edges": [
+      0.0,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "speed_bin_edges_kms": [
+      0.0,
+      25.0,
+      50.0,
+      75.0,
+      100.0
+    ],
+    "probability_bin_edges": [
+      0.0,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "empirical_cdf_tolerance": 0.02
+  }
+}

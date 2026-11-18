@@ -1,0 +1,135 @@
+{
+  "schema": "algorithm-records-v1",
+  "records": [
+    {
+      "requirement_ids": [
+        "31",
+        "39"
+      ],
+      "owning_functions": [
+        "core.workflow.compile_requested_product_dag",
+        "core.workflow.execute_stage",
+        "core.display_runtime.apply_epoch"
+      ],
+      "primary_sources": [
+        "https://github.com/snakemake/snakemake",
+        "https://github.com/InteractiveComputerGraphics/blender-sequence-loader"
+      ],
+      "equation_identifiers": [
+        "topological order of explicit product dependencies",
+        "SHA256 inputs/configuration/code/capability fingerprint",
+        "piecewise constant measured saved-epoch visibility"
+      ],
+      "physical_assumptions": [
+        "Intermediate Blender frames do not represent simulation substeps",
+        "Object IDs are exact namespaced uint64"
+      ],
+      "numerical_domain": [
+        "Declared native capabilities and measured output epochs"
+      ],
+      "upstream_revision_or_asset_hash": [
+        {
+          "name": "snakemake",
+          "repository": "https://github.com/snakemake/snakemake",
+          "commit": "5bf5e21b0d0e7e65e247c1f2c61c1a4f74a1a752",
+          "license": "MIT",
+          "license_path": "snakemake/LICENSE.md",
+          "source_role": "workflow/provenance design reference"
+        },
+        {
+          "name": "blender-sequence-loader",
+          "repository": "https://github.com/InteractiveComputerGraphics/blender-sequence-loader",
+          "commit": "b5316abcb6cff382dead53e07088334cfdb631ec",
+          "license": "MIT",
+          "license_path": "blender-sequence-loader/LICENSE",
+          "source_role": "portable measured scientific frame/attribute design reference",
+          "submodule_dependencies": "not fetched; reference only"
+        }
+      ],
+      "license": "First-party implementation; MIT reference sources retained",
+      "independent_controls": [
+        "resume altered input",
+        "orphan/cycle rejection",
+        "fresh load measured endpoints"
+      ]
+    },
+    {
+      "requirement_ids": [
+        "32"
+      ],
+      "owning_functions": [
+        "core.error_budget.evaluate_error_budget",
+        "core.convergence_campaign.compare_campaign"
+      ],
+      "primary_sources": [
+        "https://arxiv.org/abs/2402.01604",
+        "https://arxiv.org/abs/2403.00739"
+      ],
+      "equation_identifiers": [
+        "Cov(sum e)=A Cov(e) A^T",
+        "Cov(a-b)=Cov(a)+Cov(b)-Cov(a,b)-Cov(b,a)",
+        "conservative bound=sum systematic envelopes+k sqrt(diag covariance)",
+        "tolerance=absolute+relative max(abs(reference),dimensional floor)"
+      ],
+      "physical_assumptions": [
+        "Cross-component correlations retained",
+        "Independent native realization and within-realization phase matching are separate",
+        "No universal SIDM resolution domain"
+      ],
+      "numerical_domain": [
+        "Frozen observable/epoch/radius/parameter bins supported by measured controls"
+      ],
+      "upstream_revision_or_asset_hash": {
+        "pdfs/025_2402.01604_Convergence_requirements_for_SIDM_simulations.pdf": "3e8443ffafd26f8b75a0baa0b7675f95c1af59592223d468beb393bb88d4e0e6",
+        "pdfs/026_2403.00739_Numerical_challenges_in_gravothermal-collapse_SIDM_simulations.pdf": "bf4136460b63053db70dd62ded41c42fcfb011287dc53d4a6fb2a4e8b3d7d329"
+      },
+      "license": "First-party equations/implementation; papers used as references",
+      "independent_controls": [
+        "correlated budgets",
+        "PSD rejection",
+        "missing bins/components",
+        "independent realization covariance"
+      ]
+    },
+    {
+      "requirement_ids": [
+        "40"
+      ],
+      "owning_functions": [
+        "core.zoom_campaign.map_lagrangian_target_to_zoom_ids",
+        "core.zoom_campaign.recover_lagrangian_descendant",
+        "core.zoom_diagnostics.measure_native_zoom_history"
+      ],
+      "primary_sources": [
+        "Existing native MUSIC/GADGET material and unit contracts in core/zoom.py and core/data.py",
+        "https://arxiv.org/abs/2402.01604"
+      ],
+      "equation_identifiers": [
+        "parent-cell key=(ix*N+iy)*N+iz at original wrapped q",
+        "exact fine-ID material votes across group membership spans"
+      ],
+      "physical_assumptions": [
+        "Material continuity does not prove galaxy/bound-core identity",
+        "Different-resolution particles never share a row/ID namespace by assumption",
+        "SIDM coarse-boundary omitted scattering is explicitly bounded"
+      ],
+      "numerical_domain": [
+        "Native MUSIC original-q schema 1",
+        "Parent grid levels 1\u201320",
+        "Requested saved history and declared force/observable support"
+      ],
+      "upstream_revision_or_asset_hash": {
+        "core/zoom.py": "ac361421854058bded5cef5860db4345db5fc84f6ab939ce08b59095cc5570a1",
+        "core/data.py": "3ade53be051d575e1b17944426162457da2de86e042756258bedeecf1640e198"
+      },
+      "license": "Existing first-party native adapters; upstream licenses retained",
+      "independent_controls": [
+        "periodic material cells",
+        "split/disrupted descendants",
+        "fine guard expansion",
+        "actual native contamination",
+        "SIDM support/hazard history"
+      ]
+    }
+  ]
+}

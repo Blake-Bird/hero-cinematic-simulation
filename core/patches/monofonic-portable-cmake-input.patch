@@ -1,0 +1,60 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -302,7 +302,7 @@
+ 
+ ########################################################################################################################
+ # include CLASS
+-option(ENABLE_CLASS "Enable CLASS support (as a submodule)." ON)
++option(ENABLE_CLASS "Enable optional embedded CLASS download; suite uses pinned external transfer tables." OFF)
+ 
+ if(ENABLE_CLASS)
+   # Store monofonIC source directory for CLASS version script
+diff --git a/external/class.cmake b/external/class.cmake
+--- a/external/class.cmake
++++ b/external/class.cmake
+@@ -9,7 +9,7 @@
+     GIT_PROGRESS TRUE
+     USES_TERMINAL_DOWNLOAD TRUE   # <---- this is needed only for Ninja
+     PATCH_COMMAND ${CMAKE_COMMAND} -E copy_if_different
+-        ${CMAKE_CURRENT_SOURCE_DIR}/external/CLASS_CMakeLists.txt
++        ${CMAKE_CURRENT_SOURCE_DIR}/external/CLASS_CMakeLists.cmake
+         <SOURCE_DIR>/CMakeLists.txt
+ )
+ 
+diff --git a/external/CLASS_CMakeLists.txt b/external/CLASS_CMakeLists.cmake
+rename from external/CLASS_CMakeLists.txt
+rename to external/CLASS_CMakeLists.cmake
+--- a/external/CLASS_CMakeLists.txt
++++ b/external/CLASS_CMakeLists.cmake
+@@ -77,16 +77,18 @@
+ ## Main library
+ 
+ find_package(Threads REQUIRED)
++add_library(libclass STATIC ${TOOLS_SRC} ${SOURCE_SRC} ${EXTERNAL_SRC} )
++add_library(class::libclass ALIAS libclass)
++
+ if(THREADS_HAVE_PTHREAD_ARG)
+     target_compile_options(libclass PUBLIC "-pthread")
+ endif()
+ 
+ if(CMAKE_THREAD_LIBS_INIT)
+-    target_link_libraries(libclass "${CMAKE_THREAD_LIBS_INIT}")
++    target_link_libraries(libclass PRIVATE "${CMAKE_THREAD_LIBS_INIT}")
+ endif()
+ 
+-add_library(libclass STATIC ${TOOLS_SRC} ${SOURCE_SRC} ${EXTERNAL_SRC} )
+-add_library(class::libclass ALIAS libclass)
++
+ 
+ target_compile_options(libclass PRIVATE -w -Wno-write-strings -fpermissive -O3 -g )
+ set_property(TARGET libclass PROPERTY POSITION_INDEPENDENT_CODE ON)
+@@ -95,7 +97,7 @@
+ target_include_directories(libclass PUBLIC include ${EXTERNAL_INCLUDE})
+ target_link_libraries(libclass PRIVATE m)
+ if(OpenMP_FOUND)
+-    target_link_libraries(libclass PRIVATE OpenMP::OpenMP_C)
++    target_link_libraries(libclass PRIVATE OpenMP::OpenMP_CXX)
+ endif()
+ 
+ if(ENABLE_HYREC)

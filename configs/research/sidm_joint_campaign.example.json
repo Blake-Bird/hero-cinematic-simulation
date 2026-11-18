@@ -1,0 +1,381 @@
+{
+  "schema": "native-joint-response-campaign-request-v1",
+  "base_answers": {
+    "path": "REPLACE_WITH_COMPLETE_NATIVE_ANSWERS.json",
+    "sha256": "REPLACE_WITH_EXACT_SHA256"
+  },
+  "resources": {
+    "mpi_ranks": 1,
+    "omp_threads": 2,
+    "memory_gib": 8.0,
+    "disk_gib": 1024.0,
+    "maximum_stage_count": 512
+  },
+  "followup_limits": {
+    "maximum_children": 0,
+    "maximum_depth": 0
+  },
+  "wall_seconds_per_native_run": 3600.0,
+  "snapshots": [
+    0
+  ],
+  "parameter_bindings": {
+    "cross_section": {
+      "kind": "answer_field",
+      "answer_path": [
+        "sidm",
+        "cross_section_normalization_cm2_per_g"
+      ],
+      "native_binding": {
+        "native_config_path": [
+          "sidm",
+          "cross_section_normalization_cm2_per_g"
+        ]
+      }
+    }
+  },
+  "training": {
+    "schema": "sidm-joint-response-training-request-v2",
+    "memory_gib": 8,
+    "parameter_names": [
+      "cross_section"
+    ],
+    "baseline_parameters": [
+      1.0
+    ],
+    "parameter_scales": [
+      1.0
+    ],
+    "difference_steps": {
+      "cross_section": [
+        0.2,
+        0.1
+      ]
+    },
+    "minimum_realizations": 3,
+    "maximum_samples": 1024,
+    "observable_variance_floors": [
+      1.0
+    ],
+    "derivative_absolute_tolerances": {
+      "cross_section": [
+        1.0
+      ]
+    },
+    "derivative_relative_tolerance": 0.05
+  },
+  "calibration": {
+    "schema": "native-joint-response-calibration-request-v1",
+    "memory_gib": 8.0,
+    "maximum_pairs": 1024,
+    "minimum_realizations_per_point": 3,
+    "parameter_box_half_widths": [
+      0.25
+    ],
+    "maximum_absolute_mean_residual": [
+      1.0
+    ],
+    "maximum_relative_mean_residual": [
+      0.05
+    ],
+    "mean_error_multiplier": 2.0,
+    "maximum_whitened_mean_residual": 1.0,
+    "minimum_design_singular_ratio": 0.0001
+  },
+  "heldout_parameter_offsets": [
+    [
+      0.15
+    ],
+    [
+      -0.15
+    ]
+  ],
+  "realizations": {
+    "training": [
+      {
+        "realization_id": "training-0",
+        "phase_seed": 10,
+        "sidm_operator_seed": 110,
+        "initial_conditions": {
+          "primary": {
+            "path": "REPLACE_WITH_TRAINING_IC_0.hdf5",
+            "sha256": "REPLACE_WITH_EXACT_SHA256"
+          },
+          "files": [
+            {
+              "path": "REPLACE_WITH_TRAINING_IC_0.hdf5",
+              "sha256": "REPLACE_WITH_EXACT_SHA256"
+            }
+          ],
+          "native_generation_report": {
+            "path": "REPLACE_WITH_TRAINING_IC_GENERATION_0.json",
+            "sha256": "REPLACE_WITH_EXACT_SHA256"
+          }
+        },
+        "phase_asset": {
+          "path": "REPLACE_WITH_TRAINING_PHASE_0.grafic",
+          "sha256": "REPLACE_WITH_EXACT_SHA256"
+        }
+      },
+      {
+        "realization_id": "training-1",
+        "phase_seed": 11,
+        "sidm_operator_seed": 111,
+        "initial_conditions": {
+          "primary": {
+            "path": "REPLACE_WITH_TRAINING_IC_1.hdf5",
+            "sha256": "REPLACE_WITH_EXACT_SHA256"
+          },
+          "files": [
+            {
+              "path": "REPLACE_WITH_TRAINING_IC_1.hdf5",
+              "sha256": "REPLACE_WITH_EXACT_SHA256"
+            }
+          ],
+          "native_generation_report": {
+            "path": "REPLACE_WITH_TRAINING_IC_GENERATION_1.json",
+            "sha256": "REPLACE_WITH_EXACT_SHA256"
+          }
+        },
+        "phase_asset": {
+          "path": "REPLACE_WITH_TRAINING_PHASE_1.grafic",
+          "sha256": "REPLACE_WITH_EXACT_SHA256"
+        }
+      },
+      {
+        "realization_id": "training-2",
+        "phase_seed": 12,
+        "sidm_operator_seed": 112,
+        "initial_conditions": {
+          "primary": {
+            "path": "REPLACE_WITH_TRAINING_IC_2.hdf5",
+            "sha256": "REPLACE_WITH_EXACT_SHA256"
+          },
+          "files": [
+            {
+              "path": "REPLACE_WITH_TRAINING_IC_2.hdf5",
+              "sha256": "REPLACE_WITH_EXACT_SHA256"
+            }
+          ],
+          "native_generation_report": {
+            "path": "REPLACE_WITH_TRAINING_IC_GENERATION_2.json",
+            "sha256": "REPLACE_WITH_EXACT_SHA256"
+          }
+        },
+        "phase_asset": {
+          "path": "REPLACE_WITH_TRAINING_PHASE_2.grafic",
+          "sha256": "REPLACE_WITH_EXACT_SHA256"
+        }
+      }
+    ],
+    "heldout": [
+      {
+        "realization_id": "heldout-0",
+        "phase_seed": 1000,
+        "sidm_operator_seed": 1100,
+        "initial_conditions": {
+          "primary": {
+            "path": "REPLACE_WITH_HELDOUT_IC_0.hdf5",
+            "sha256": "REPLACE_WITH_EXACT_SHA256"
+          },
+          "files": [
+            {
+              "path": "REPLACE_WITH_HELDOUT_IC_0.hdf5",
+              "sha256": "REPLACE_WITH_EXACT_SHA256"
+            }
+          ],
+          "native_generation_report": {
+            "path": "REPLACE_WITH_HELDOUT_IC_GENERATION_0.json",
+            "sha256": "REPLACE_WITH_EXACT_SHA256"
+          }
+        },
+        "phase_asset": {
+          "path": "REPLACE_WITH_HELDOUT_PHASE_0.grafic",
+          "sha256": "REPLACE_WITH_EXACT_SHA256"
+        }
+      },
+      {
+        "realization_id": "heldout-1",
+        "phase_seed": 1001,
+        "sidm_operator_seed": 1101,
+        "initial_conditions": {
+          "primary": {
+            "path": "REPLACE_WITH_HELDOUT_IC_1.hdf5",
+            "sha256": "REPLACE_WITH_EXACT_SHA256"
+          },
+          "files": [
+            {
+              "path": "REPLACE_WITH_HELDOUT_IC_1.hdf5",
+              "sha256": "REPLACE_WITH_EXACT_SHA256"
+            }
+          ],
+          "native_generation_report": {
+            "path": "REPLACE_WITH_HELDOUT_IC_GENERATION_1.json",
+            "sha256": "REPLACE_WITH_EXACT_SHA256"
+          }
+        },
+        "phase_asset": {
+          "path": "REPLACE_WITH_HELDOUT_PHASE_1.grafic",
+          "sha256": "REPLACE_WITH_EXACT_SHA256"
+        }
+      },
+      {
+        "realization_id": "heldout-2",
+        "phase_seed": 1002,
+        "sidm_operator_seed": 1102,
+        "initial_conditions": {
+          "primary": {
+            "path": "REPLACE_WITH_HELDOUT_IC_2.hdf5",
+            "sha256": "REPLACE_WITH_EXACT_SHA256"
+          },
+          "files": [
+            {
+              "path": "REPLACE_WITH_HELDOUT_IC_2.hdf5",
+              "sha256": "REPLACE_WITH_EXACT_SHA256"
+            }
+          ],
+          "native_generation_report": {
+            "path": "REPLACE_WITH_HELDOUT_IC_GENERATION_2.json",
+            "sha256": "REPLACE_WITH_EXACT_SHA256"
+          }
+        },
+        "phase_asset": {
+          "path": "REPLACE_WITH_HELDOUT_PHASE_2.grafic",
+          "sha256": "REPLACE_WITH_EXACT_SHA256"
+        }
+      }
+    ]
+  },
+  "matching_template": {
+    "phase_seed": 0,
+    "linear_bundle_sha256": "REPLACED_FROM_ACTUAL_NATIVE_CONFIG",
+    "background_sha256": "REPLACE_WITH_EXACT_RETAINED_BACKGROUND_SHA256",
+    "halo_match_namespace": "native-aperture-selection:campaign",
+    "halo_match_id": 0,
+    "baryon_control_sha256": "REPLACED_FROM_ACTUAL_NATIVE_CONFIG"
+  },
+  "measurement_stages": [
+    {
+      "stage_id": "membership",
+      "kind": "sidm_membership",
+      "parameters": {
+        "native_run_directory": {
+          "campaign_value": "native_run_directory"
+        },
+        "native_stage_receipt": {
+          "campaign_value": "native_stage_receipt"
+        },
+        "request_base": ".",
+        "destination": "{generation}/membership.json",
+        "request": {
+          "schema": "sidm-native-membership-request-v1",
+          "snapshot": 0,
+          "host_row": 0,
+          "species": [
+            0,
+            1,
+            2,
+            4,
+            5
+          ],
+          "maximum_particles": 1000000,
+          "memory_gib": 8.0,
+          "support_radius_proper_kpc": 1.0,
+          "particle_namespace": "native-particles:shared-ic-family",
+          "matching": {
+            "campaign_value": "native_matching"
+          }
+        }
+      },
+      "outputs": {
+        "membership": "membership.json"
+      }
+    },
+    {
+      "stage_id": "profile",
+      "kind": "physical_target_support",
+      "parameters": {
+        "native_run_directory": {
+          "campaign_value": "native_run_directory"
+        },
+        "native_stage_receipt": {
+          "campaign_value": "native_stage_receipt"
+        },
+        "request_base": ".",
+        "destination": "{generation}/profile.json",
+        "request": {
+          "schema": "physical-target-support-request-v1",
+          "kind": "bh_spike",
+          "claim_scope": "resolved_dm_profile",
+          "snapshot": 0,
+          "particle_namespace": "native-particles:shared-ic-family",
+          "target_identity": {
+            "namespace": "native-particles:shared-ic-family",
+            "object_id": 1
+          },
+          "center_product": {
+            "path": {
+              "stage": "membership",
+              "artifact": "membership.json"
+            },
+            "sha256": {
+              "stage": "membership",
+              "artifact": "membership.json",
+              "load": "sha256"
+            }
+          },
+          "radial_edges_proper_kpc": [
+            0.0,
+            0.001,
+            0.002,
+            0.004,
+            0.008
+          ],
+          "memory_gib": 8.0,
+          "maximum_particles": 1000000,
+          "maximum_neighbor_links": 128000000,
+          "maximum_pair_evaluations": 10000000,
+          "minimum_effective_particles": 128,
+          "limits": {
+            "maximum_softening_radius_fraction": 0.1,
+            "maximum_influence_radius_fraction": 0.5,
+            "maximum_schwarzschild_radius_fraction": 0.001,
+            "maximum_coarse_mass_fraction": 0.001
+          }
+        }
+      },
+      "outputs": {
+        "profile": "profile.json"
+      },
+      "depends_on": [
+        "membership"
+      ]
+    }
+  ],
+  "forward_vector": {
+    "schema": "native-forward-observable-vector-request-v1",
+    "maximum_observables": 256,
+    "observables": [
+      {
+        "name": "bh_dm_density",
+        "product": {
+          "path": {
+            "stage": "profile",
+            "artifact": "profile.json"
+          },
+          "sha256": {
+            "stage": "profile",
+            "artifact": "profile.json",
+            "load": "sha256"
+          }
+        },
+        "array": "density_msun_kpc3",
+        "support_array": "physical_supported",
+        "indices": [
+          2
+        ],
+        "units": "Msun / proper kpc^3"
+      }
+    ]
+  }
+}

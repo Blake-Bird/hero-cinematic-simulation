@@ -1,0 +1,42 @@
+{
+  "schema_version": 2,
+  "status": "complete",
+  "model": "lcdm",
+  "solver": "CLASS",
+  "parameters": {
+    "model": "lcdm",
+    "z_start": 49.0,
+    "H0": 70.0,
+    "Omega_b": 0.05,
+    "Omega_cdm": 0.25,
+    "A_s": 2.1e-09,
+    "n_s": 0.96
+  },
+  "class_parameters": {
+    "start": {
+      "H0": 70.0,
+      "omega_b": 0.024499999999999997,
+      "omega_cdm": 0.12249999999999998,
+      "A_s": 2.1e-09,
+      "n_s": 0.96,
+      "T_cmb": 2.7255,
+      "N_ur": 3.046,
+      "z_pk": 49.0,
+      "output": "mPk,mTk,vTk",
+      "nbody_gauge_transfer_functions": "yes"
+    }
+  },
+  "source_files": {
+    "start": {
+      "transfer": "transfer.dat",
+      "background": "background.dat",
+      "ini": "input.ini"
+    }
+  },
+  "checksums_sha256": {
+    "transfer.dat": "15815ad2c9c45d52fda0314d0e3ab21d6ed2e4637d4e6d9e703b8588bacd3f48",
+    "background.dat": "21abb1f5bc79f1c616c8bbbc95f0eb65e3d9db25e590ed7b974c7146142dcacc",
+    "input.ini": "21698271de9fc3d15647d280ab5403a6daddac1e5bae3c7cc4546cbd92ffcc96"
+  },
+  "fixture": "SYNTHETIC pressureless growth control; no Boltzmann solver execution or science acceptance"
+}

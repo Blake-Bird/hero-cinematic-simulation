@@ -1,0 +1,100 @@
+
+InitCondFile		./d1413816_1d_6r_center_1920.ic_gas
+
+% CPU-time limit
+TimeLimitCPU      36000
+
+% Code options
+ICFormat              1
+ComovingIntegrationOn 1
+
+NumFilesPerSnapshot       1
+NumFilesWrittenInParallel 1
+
+MaxMemSize  8400
+
+CoolingOn 1
+
+%  Caracteristics of run
+TimeBegin             0.014084507 % a = 1/(z+1) , z = 70.0
+TimeMax               1.0
+
+Omega0                0.240228
+OmegaLambda           0.759772
+OmegaBaryon           0.0456    
+HubbleParam           0.704
+BoxSize               1000000.0
+PeriodicBoundariesOn   1
+
+% Output frequency
+OutputListFilename  ./tests/asin1413816_1/outputs
+OutputListOn        1
+TimeBetSnapshot        1.04912649189365
+TimeOfFirstSnapshot    0.090909091
+CpuTimeBetRestartFile  1800  % every 30 minutes
+TimeBetStatistics      0.02
+
+%  Parameters of SPH
+InitGasTemp         193.83 % = 2.726*(1+z) => Tgas(z_in) = Tcmb(z_in)
+MinGasTemp          20.
+
+% Further code parameters
+PartAllocFactor        8
+BufferSize             50
+
+% Softening lengths
+SofteningGas       2.0
+SofteningHalo      6.0
+SofteningDisk      600.0
+SofteningBulge     6000.0        
+SofteningStars     1.0
+SofteningBndry     1.0
+
+SofteningGasMaxPhys       2.0
+SofteningHaloMaxPhys      2.0
+SofteningDiskMaxPhys      200.0
+SofteningBulgeMaxPhys     2000.0         
+SofteningStarsMaxPhys     1.0
+SofteningBndryMaxPhys     1.0
+
+% Quantities for star formation and feedback
+StarformationOn  1
+
+InfNeighNum       1
+
+IMFsFileName      Chabrier_pow_new.IMF
+SFsFileName       SFs
+
+SnIaDataFileName  Ia_thielemann.yields
+SnIaDataSetNum    1
+SnIIdataFileName  Massive_Kobayashi.yields
+SnIIDataSetNum    1
+AGBdataFileName   AGB_Karakas.yields
+AGBDataSetNum     1
+
+ConductionEfficiency 0.05
+
+% Black hole Settings
+BlackHolesOn                          1   # Switches black hole module on, see Springel&DiMatheo 2005
+BlackHoleThermalFeedbackOn            1   # Switches thermal feedback on
+massDMpart                  0.082846192   # DM particle mass to use, unless a fixed mass is given in the header
+BlackHoleFoFMinMassForNewSeed        80   # Minmum FoF mass for seeding Black Holes (internal units)
+BlackHoleSeedMass                 32e-5   # Mass of seeded Black Hole
+BlackHoleVariableAccretionFactorOn    0   # Switches on the scaled accreation factor, see Booth&Schaye 2013
+BlackHoleRadiativeEfficiency        0.2   # Radiative efficiency for standard model
+BlackHoleAccretionFactor             10   # Used as alpha Factor in Bondi for total (or hot gas) accreation
+BlackHoleColdAccretionFactor        100   # Used for alpha for the cold gas accreation, values see Gaspari+ 2013
+BlackHoleFeedbackFactor             0.2   # Fixed feedback factor for standard model
+BlackHoleRadioModeFeedbackBoost       4   # Boosts for FeedbackFactor in radi mode, see Fabjan+ 2010
+BlackHoleRadioModeTreshold         0.01   # Treshhold for switching to radio mode
+BlackHoleLimitFeedbackOn              0   # Limits feedback (0=Off, 1=to hot particles only, 2=maximum pressure given by halo, see Vogelsberger+ 2014, 3=1+2)
+BlackHoleFrictionForceOn              0   # Switches On/Off friction force for black holes, see Hirschmann+ 2014
+
+% other
+BC_SED_Path    ./CB07_new/
+WalCoolTables_Path ./CoolingTablesWSS08
+
+% 
+metIRAThMass  0
+egyIRAThMass 0
+

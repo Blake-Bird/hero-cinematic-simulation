@@ -1,0 +1,23 @@
+{
+  "schema": "pinned-reference-sources-v1",
+  "runtime_dependency": false,
+  "sources": [
+    {
+      "name": "snakemake",
+      "repository": "https://github.com/snakemake/snakemake",
+      "commit": "5bf5e21b0d0e7e65e247c1f2c61c1a4f74a1a752",
+      "license": "MIT",
+      "license_path": "snakemake/LICENSE.md",
+      "source_role": "workflow/provenance design reference"
+    },
+    {
+      "name": "blender-sequence-loader",
+      "repository": "https://github.com/InteractiveComputerGraphics/blender-sequence-loader",
+      "commit": "b5316abcb6cff382dead53e07088334cfdb631ec",
+      "license": "MIT",
+      "license_path": "blender-sequence-loader/LICENSE",
+      "source_role": "portable measured scientific frame/attribute design reference",
+      "submodule_dependencies": "not fetched; reference only"
+    }
+  ]
+}

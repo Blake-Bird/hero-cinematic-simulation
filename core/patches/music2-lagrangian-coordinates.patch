@@ -1,0 +1,149 @@
+diff --git a/src/plugins/output_arepo.cc b/src/plugins/output_arepo.cc
+index 77df8cb..0f525a7 100644
+--- a/src/plugins/output_arepo.cc
++++ b/src/plugins/output_arepo.cc
+@@ -40,6 +40,9 @@ protected:
+   double posFac, velFac;
+   long long nPartTotAllTypes;
+   bool doBaryons, useLongIDs, doublePrec;
++  bool shiftBack;
++  std::vector<double> coordinateShift;
++  std::vector<double> maximumDisplacement;
+ 
+   size_t npfine, npart, npcoarse;
+   std::vector<size_t> levelcounts;
+@@ -297,6 +300,7 @@ protected:
+     int ilevel = gh.levelmax();
+ 
+     std::vector<T> data(npfine);
++    std::vector<T> lagrangian(npfine);
+     size_t count = 0;
+ 
+     for (unsigned i = 0; i < gh.get_grid(ilevel)->size(0); ++i)
+@@ -307,6 +311,10 @@ protected:
+             double xx[3];
+             gh.cell_pos(ilevel, i, j, k, xx);
+ 
++            xx[coord] += coordinateShift[coord];
++            maximumDisplacement[coord] = std::max(maximumDisplacement[coord],
++                std::fabs((*gh.get_grid(ilevel))(i, j, k) * boxSize * posFac));
++            lagrangian[count] = (T)(fmod(xx[coord] * boxSize + boxSize, boxSize) * posFac);
+             xx[coord] = (xx[coord] + (*gh.get_grid(ilevel))(i, j, k)) * boxSize;
+             xx[coord] = fmod(xx[coord] + boxSize, boxSize);
+ 
+@@ -314,6 +322,7 @@ protected:
+           }
+ 
+     writeHDF5_b("Coordinates", coord, HIGHRES_DM_PARTTYPE, data); // write fine DM
++    writeHDF5_b("LagrangianCoordinates", coord, HIGHRES_DM_PARTTYPE, lagrangian);
+ 
+     if (count != npfine)
+       throw std::runtime_error("Internal consistency error while writing fine DM pos");
+@@ -322,6 +331,7 @@ protected:
+     if (levelmax_ != levelmin_) // multimass
+     {
+       data = std::vector<T>(npcoarse, 0.0);
++      lagrangian = std::vector<T>(npcoarse, 0.0);
+       count = 0;
+ 
+       for (int ilevel = gh.levelmax() - 1; ilevel >= (int)gh.levelmin(); --ilevel)
+@@ -333,6 +343,10 @@ protected:
+                 double xx[3];
+                 gh.cell_pos(ilevel, i, j, k, xx);
+ 
++                xx[coord] += coordinateShift[coord];
++                maximumDisplacement[coord] = std::max(maximumDisplacement[coord],
++                    std::fabs((*gh.get_grid(ilevel))(i, j, k) * boxSize * posFac));
++                lagrangian[count] = (T)(fmod(xx[coord] * boxSize + boxSize, boxSize) * posFac);
+                 xx[coord] = (xx[coord] + (*gh.get_grid(ilevel))(i, j, k)) * boxSize;
+ 
+                 if (!doBaryons) // if so, we will handle the mod in write_gas_position
+@@ -345,6 +359,7 @@ protected:
+         throw std::runtime_error("Internal consistency error while writing coarse DM pos");
+ 
+       writeHDF5_b("Coordinates", coord, coarsePartType, data); // write coarse DM
++      writeHDF5_b("LagrangianCoordinates", coord, coarsePartType, lagrangian);
+     }
+   }
+ 
+@@ -460,6 +475,7 @@ protected:
+     nPartTotal[GAS_PARTTYPE] = npfine;
+ 
+     std::vector<double> gas_data(npart); // read/write gas at all levels from the gh
++    std::vector<T> gas_lagrangian(npfine);
+     size_t count = 0;
+ 
+     double h = 1.0 / (1ul << gh.levelmax());
+@@ -472,10 +488,15 @@ protected:
+             {
+               double xx[3];
+               gh.cell_pos(ilevel, i, j, k, xx);
++              xx[coord] += coordinateShift[coord];
++              maximumDisplacement[coord] = std::max(maximumDisplacement[coord],
++                  std::fabs((*gh.get_grid(ilevel))(i, j, k) * boxSize * posFac));
+ 
+               // shift particle positions (this has to be done as the same shift
+               // is used when computing the convolution kernel for SPH baryons)
+               xx[coord] += 0.5 * h;
++              if (count < npfine)
++                gas_lagrangian[count] = (T)(fmod(xx[coord] * boxSize + boxSize, boxSize) * posFac);
+ 
+               xx[coord] = (xx[coord] + (*gh.get_grid(ilevel))(i, j, k)) * boxSize;
+ 
+@@ -503,6 +524,13 @@ protected:
+       }
+ 
+       writeHDF5_b("Coordinates", coord, coarsePartType, dm_data); // overwrite coarse DM vels
++      // Coarse particles carry the baryon+CDM center of mass. Their q uses
++      // the same baryonic staggering as x, with no displacement contribution.
++      writeHDF5_b("LagrangianCoordinates", coord, coarsePartType, dm_data, true);
++      for (size_t i = 0; i < npcoarse; i++)
++        dm_data[i] = (T)fmod(dm_data[i] + facb * 0.5 * h * boxSize * posFac + boxSize * posFac,
++                           boxSize * posFac);
++      writeHDF5_b("LagrangianCoordinates", coord, coarsePartType, dm_data);
+     }
+ 
+     // restrict gas_data to fine only and request write
+@@ -516,6 +544,7 @@ protected:
+     std::vector<double>().swap(gas_data); // deallocate
+ 
+     writeHDF5_b("Coordinates", coord, GAS_PARTTYPE, data); // write highres gas
++    writeHDF5_b("LagrangianCoordinates", coord, GAS_PARTTYPE, gas_lagrangian);
+   }
+ 
+ public:
+@@ -524,6 +553,19 @@ public:
+     // ensure that everyone knows we want to do SPH, implies: bsph=1, bbshift=1, decic_baryons=1
+     // -> instead of just writing gas densities (which are here ignored), the gas displacements are also written
+     cf.insert_value("setup", "do_SPH", "yes");
++    // The hierarchy internally recenters zooms by integer coarse cells.
++    // Restore the requested parent frame for both x and q on output. The
++    // noise plugin already evaluates the correspondingly translated phases.
++    shiftBack = cf.get_value_safe<bool>("output", "shift_back", true);
++    coordinateShift = std::vector<double>(3, 0.0);
++    maximumDisplacement = std::vector<double>(3, 0.0);
++    if (shiftBack)
++    {
++      const double coarse_spacing = 1.0 / std::pow(2.0, cf.get_value<int>("setup", "levelmin"));
++      coordinateShift[0] = -cf.get_value_safe<int>("setup", "shift_x", 0) * coarse_spacing;
++      coordinateShift[1] = -cf.get_value_safe<int>("setup", "shift_y", 0) * coarse_spacing;
++      coordinateShift[2] = -cf.get_value_safe<int>("setup", "shift_z", 0) * coarse_spacing;
++    }
+ 
+     // init header and config parameters
+     nPartTotal = std::vector<long long>(NTYPES, 0);
+@@ -769,6 +811,14 @@ public:
+       HDFWriteGroupAttribute(filename, "Header", "Flag_Feedback", 0);
+       HDFWriteGroupAttribute(filename, "Header", "Flag_DoublePrecision", (int)doublePrec);
+       HDFWriteGroupAttribute(filename, "Header", "Music_levelmin", levelmin_);
++      // Schema 1: pre-displacement periodic q, in the same comoving units
++      // and exact ParticleID row order as Coordinates; coarse q is the COM.
++      HDFWriteGroupAttribute(filename, "Header", "Music_lagrangian_schema", 1);
++      HDFWriteGroupAttribute(filename, "Header", "Music_lpt_order", cf_.get_value_safe<bool>("setup", "use_2LPT", false) ? 2 : 1);
++      HDFWriteGroupAttribute(filename, "Header", "Music_lagrangian_unitlength_cm", UnitLength_in_cm);
++      HDFWriteGroupAttribute(filename, "Header", "Music_shift_back", (int)shiftBack);
++      HDFWriteGroupAttribute(filename, "Header", "Music_max_abs_displacement_native", maximumDisplacement);
++      HDFWriteGroupAttribute(filename, "Header", "Music_output_coordinate_shift_box_fraction", coordinateShift);
+       HDFWriteGroupAttribute(filename, "Header", "Music_levelmax", levelmax_);
+       HDFWriteGroupAttribute(filename, "Header", "Music_levelcounts", levelcounts);
+       HDFWriteGroupAttribute(filename, "Header", "haveBaryons", (int)doBaryons);

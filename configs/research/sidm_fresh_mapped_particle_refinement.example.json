@@ -1,0 +1,956 @@
+{
+  "schema": "sidm-fresh-mapped-control-campaign-request-v1",
+  "original_campaign": {
+    "schema": "sidm-physical-control-campaign-request-v1",
+    "resources": {
+      "mpi_ranks": 1,
+      "omp_threads": 1,
+      "memory_gib": 8.0,
+      "disk_gib": 64.0,
+      "maximum_stage_count": 256
+    },
+    "followup_limits": {
+      "maximum_children": 128,
+      "maximum_depth": 12
+    },
+    "population_request": {
+      "schema": "sidm-control-population-request-v1",
+      "kind": "uniform_beam",
+      "identity_namespace": "sidm-control:uniform_beam:example-v1",
+      "seed": 214731,
+      "position_sampling": "periodic_lattice",
+      "components": [
+        {
+          "name": "positive_beam",
+          "particle_count": 4000,
+          "bulk_velocity_kms": [
+            50.0,
+            0.0,
+            0.0
+          ],
+          "dispersion_1d_kms": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "remove_sample_bulk": false
+        },
+        {
+          "name": "negative_beam",
+          "particle_count": 4000,
+          "bulk_velocity_kms": [
+            -50.0,
+            0.0,
+            0.0
+          ],
+          "dispersion_1d_kms": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "remove_sample_bulk": false
+        }
+      ],
+      "box_proper_kpc": 10.0,
+      "macro_mass_msun": 1250000.0,
+      "clock": {
+        "mode": "comoving",
+        "scale_factor": 0.1,
+        "proper_time_seconds": 0.0
+      },
+      "native_units": {
+        "length_cm": 3.0856775814913673e+21,
+        "mass_g": 1.98847e+43,
+        "velocity_cm_s": 100000.0,
+        "hubble_parameter": 0.7,
+        "omega_m0": 0.3,
+        "omega_lambda0": 0.7,
+        "hubble0_km_s_mpc": 70.0
+      },
+      "maximum_particles": 1000000,
+      "memory_gib": 1.0,
+      "disk_gib": 1.0,
+      "chunk_rows": 65536
+    },
+    "realizations": [
+      {
+        "phase_seed": 214731,
+        "operator_seed": 201
+      },
+      {
+        "phase_seed": 214732,
+        "operator_seed": 202
+      },
+      {
+        "phase_seed": 214733,
+        "operator_seed": 203
+      }
+    ],
+    "variants": [
+      {
+        "name": "gadget4_rare",
+        "run_request": {
+          "schema": "sidm-homogeneous-native-run-request-v1",
+          "engine": "gadget4",
+          "population": {
+            "path": "completed/population.json",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "base_configuration": {
+            "path": "REPLACE_WITH_BASE_CONFIGURATION.yaml",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "sidm": {
+            "schema": "native-sidm-configuration-v1",
+            "enabled": true,
+            "physical_model": {
+              "path": "sidm_homogeneous_isotropic.model.json",
+              "sha256": "3cee078aa0c15c1b03407b388d0527b392384785a8551ab1336cb66e2c14a10f"
+            },
+            "event_identity_namespace": "homogeneous-control:example-v1",
+            "operator_seed": 201,
+            "backend": "distributed_spatial",
+            "scheme": "rare",
+            "kernel_kind": "cubic_spline",
+            "particle_convention": "directed",
+            "kernel_support_proper_kpc": 0.1,
+            "coarse_kernel_support_proper_kpc": 0.2,
+            "cross_section_normalization_cm2_per_g": 1.0,
+            "maximum_pair_probability": 0.01,
+            "maximum_particle_probability": 0.01,
+            "macro_mass_relative_tolerance": 1e-12,
+            "conservation_relative_tolerance": 1e-10,
+            "energy_absolute_floor": 1e-12,
+            "momentum_absolute_floor": 1e-12,
+            "cdf_absolute_tolerance": 1e-08,
+            "kernel_origin_relative_bound": 1e-08,
+            "maximum_transfer_depth": 0.01,
+            "maximum_neglected_moment_ratio": 0.05,
+            "split_angle_radians": 0.1,
+            "clock_absolute_tolerance_seconds": 1.0,
+            "clock_relative_tolerance": 1e-09,
+            "maximum_scale_factor_fractional_change": 0.01,
+            "exchange_memory_mib": 128.0,
+            "maximum_kernel_coarse_support_fraction": 0.01,
+            "maximum_omitted_scattering_upper_bound": 0.01,
+            "maximum_particles": 16384,
+            "maximum_events_per_step": 100000,
+            "maximum_substeps": 256,
+            "maximum_clock_panels": 1024,
+            "maximum_local_pairs": 100000,
+            "maximum_matching_rounds": 4096,
+            "maximum_pair_visits": 10000000,
+            "maximum_exchange_records": 500000
+          },
+          "reference_build": null,
+          "output_times_native": [
+            0.1,
+            0.11
+          ],
+          "maximum_timestep_native": 1e-05,
+          "minimum_timestep_native": 0.0,
+          "softening_proper_kpc": 0.01,
+          "output_time_absolute_tolerance_native": 1e-12,
+          "maximum_particles": 8000,
+          "maximum_snapshots": 16,
+          "maximum_snapshot_bytes": 268435456,
+          "mpi_ranks": 1,
+          "omp_threads": 1,
+          "memory_gib": 8.0,
+          "disk_gib": 8.0,
+          "wall_seconds": 3600.0
+        },
+        "history_request": {
+          "schema": "sidm-physical-control-history-request-v1",
+          "population": {
+            "path": "completed/population.json",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "engine": "gadget4",
+          "snapshots": [
+            {
+              "files": [
+                "completed/native-stage/run/snapshot_000.hdf5"
+              ],
+              "native_time": 0.0
+            },
+            {
+              "files": [
+                "completed/native-stage/run/snapshot_001.hdf5"
+              ],
+              "native_time": 1.0
+            }
+          ],
+          "maximum_particles": 8000,
+          "maximum_snapshots": 16,
+          "maximum_bins": 128,
+          "chunk_rows": 2048,
+          "memory_gib": 2.0,
+          "speed_bin_edges_kms": [
+            0.0,
+            25.0,
+            50.0,
+            75.0,
+            100.0,
+            150.0,
+            250.0
+          ],
+          "velocity_bin_edges_kms": [
+            -250.0,
+            -100.0,
+            -50.0,
+            0.0,
+            50.0,
+            100.0,
+            250.0
+          ],
+          "epoch_tolerance": 1e-12,
+          "relative_mass_tolerance": 1e-10,
+          "clock_absolute_tolerance_seconds": 1.0,
+          "clock_relative_tolerance": 1e-08,
+          "maximum_clock_evaluations": 100000,
+          "particle_paths": {
+            "particle_ids": [
+              1,
+              2,
+              4001,
+              4002
+            ],
+            "maximum_selected_particles": 4
+          }
+        },
+        "expectation_request": {
+          "schema": "sidm-control-expectation-request-v1",
+          "history": {
+            "path": "REPLACE_WITH_NATIVE_CONTROL_HISTORY.json",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "physical_model": {
+            "path": "/Users/bbird/research2/configs/research/sidm_homogeneous_isotropic.model.json",
+            "sha256": "3cee078aa0c15c1b03407b388d0527b392384785a8551ab1336cb66e2c14a10f"
+          },
+          "native_differential_table": null,
+          "experiments": [
+            "beam_rate",
+            "relaxation"
+          ],
+          "maximum_particles": 8000,
+          "maximum_pair_visits": 32000000,
+          "pair_chunk_rows": 512,
+          "memory_gib": 2.0,
+          "maximum_thin_optical_depth": 0.05,
+          "relaxation_fraction": 0.5,
+          "minimum_consecutive_outputs": 1,
+          "limits": {
+            "mass_relative": 1e-10,
+            "momentum_absolute_msun_kms": 1.0,
+            "energy_relative": 1e-08,
+            "mean_velocity_absolute_kms": 0.1,
+            "covariance_absolute_kms2": 0.1,
+            "cdf_absolute": 0.05,
+            "rare_exposure_relative": 0.2,
+            "participation_floor": 100.0
+          }
+        }
+      },
+      {
+        "name": "opengadget3_rare",
+        "run_request": {
+          "schema": "sidm-homogeneous-native-run-request-v1",
+          "engine": "opengadget3",
+          "population": {
+            "path": "completed/population.json",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "base_configuration": {
+            "path": "REPLACE_WITH_OPENGADGET3_PARAMETERS.txt",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "sidm": {
+            "schema": "native-sidm-configuration-v1",
+            "enabled": true,
+            "physical_model": {
+              "path": "sidm_homogeneous_isotropic.model.json",
+              "sha256": "3cee078aa0c15c1b03407b388d0527b392384785a8551ab1336cb66e2c14a10f"
+            },
+            "event_identity_namespace": "homogeneous-control:example-v1",
+            "operator_seed": 201,
+            "backend": "distributed_spatial",
+            "scheme": "rare",
+            "kernel_kind": "cubic_spline",
+            "particle_convention": "directed",
+            "kernel_support_proper_kpc": 0.1,
+            "coarse_kernel_support_proper_kpc": 0.2,
+            "cross_section_normalization_cm2_per_g": 1.0,
+            "maximum_pair_probability": 0.01,
+            "maximum_particle_probability": 0.01,
+            "macro_mass_relative_tolerance": 1e-12,
+            "conservation_relative_tolerance": 1e-10,
+            "energy_absolute_floor": 1e-12,
+            "momentum_absolute_floor": 1e-12,
+            "cdf_absolute_tolerance": 1e-08,
+            "kernel_origin_relative_bound": 1e-08,
+            "maximum_transfer_depth": 0.01,
+            "maximum_neglected_moment_ratio": 0.05,
+            "split_angle_radians": 0.1,
+            "clock_absolute_tolerance_seconds": 1.0,
+            "clock_relative_tolerance": 1e-09,
+            "maximum_scale_factor_fractional_change": 0.01,
+            "exchange_memory_mib": 128.0,
+            "maximum_kernel_coarse_support_fraction": 0.01,
+            "maximum_omitted_scattering_upper_bound": 0.01,
+            "maximum_particles": 16384,
+            "maximum_events_per_step": 100000,
+            "maximum_substeps": 256,
+            "maximum_clock_panels": 1024,
+            "maximum_local_pairs": 100000,
+            "maximum_matching_rounds": 4096,
+            "maximum_pair_visits": 10000000,
+            "maximum_exchange_records": 500000
+          },
+          "reference_build": {
+            "capability": {
+              "path": "REPLACE_WITH_BUILD_CAPABILITY.json",
+              "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+            },
+            "configuration": {
+              "path": "REPLACE_WITH_ACTUAL_BUILD_CONFIGURATION.txt",
+              "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+            }
+          },
+          "output_times_native": [
+            0.1,
+            0.11
+          ],
+          "maximum_timestep_native": 1e-05,
+          "minimum_timestep_native": 0.0,
+          "softening_proper_kpc": 0.01,
+          "output_time_absolute_tolerance_native": 1e-12,
+          "maximum_particles": 8000,
+          "maximum_snapshots": 16,
+          "maximum_snapshot_bytes": 268435456,
+          "mpi_ranks": 1,
+          "omp_threads": 1,
+          "memory_gib": 8.0,
+          "disk_gib": 8.0,
+          "wall_seconds": 3600.0
+        },
+        "history_request": {
+          "schema": "sidm-physical-control-history-request-v1",
+          "population": {
+            "path": "completed/population.json",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "engine": "gadget4",
+          "snapshots": [
+            {
+              "files": [
+                "completed/native-stage/run/snapshot_000.hdf5"
+              ],
+              "native_time": 0.0
+            },
+            {
+              "files": [
+                "completed/native-stage/run/snapshot_001.hdf5"
+              ],
+              "native_time": 1.0
+            }
+          ],
+          "maximum_particles": 8000,
+          "maximum_snapshots": 16,
+          "maximum_bins": 128,
+          "chunk_rows": 2048,
+          "memory_gib": 2.0,
+          "speed_bin_edges_kms": [
+            0.0,
+            25.0,
+            50.0,
+            75.0,
+            100.0,
+            150.0,
+            250.0
+          ],
+          "velocity_bin_edges_kms": [
+            -250.0,
+            -100.0,
+            -50.0,
+            0.0,
+            50.0,
+            100.0,
+            250.0
+          ],
+          "epoch_tolerance": 1e-12,
+          "relative_mass_tolerance": 1e-10,
+          "clock_absolute_tolerance_seconds": 1.0,
+          "clock_relative_tolerance": 1e-08,
+          "maximum_clock_evaluations": 100000,
+          "particle_paths": {
+            "particle_ids": [
+              1,
+              2,
+              4001,
+              4002
+            ],
+            "maximum_selected_particles": 4
+          }
+        },
+        "expectation_request": {
+          "schema": "sidm-control-expectation-request-v1",
+          "history": {
+            "path": "REPLACE_WITH_NATIVE_CONTROL_HISTORY.json",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "physical_model": {
+            "path": "/Users/bbird/research2/configs/research/sidm_homogeneous_isotropic.model.json",
+            "sha256": "3cee078aa0c15c1b03407b388d0527b392384785a8551ab1336cb66e2c14a10f"
+          },
+          "native_differential_table": null,
+          "experiments": [
+            "beam_rate",
+            "relaxation"
+          ],
+          "maximum_particles": 8000,
+          "maximum_pair_visits": 32000000,
+          "pair_chunk_rows": 512,
+          "memory_gib": 2.0,
+          "maximum_thin_optical_depth": 0.05,
+          "relaxation_fraction": 0.5,
+          "minimum_consecutive_outputs": 1,
+          "limits": {
+            "mass_relative": 1e-10,
+            "momentum_absolute_msun_kms": 1.0,
+            "energy_relative": 1e-08,
+            "mean_velocity_absolute_kms": 0.1,
+            "covariance_absolute_kms2": 0.1,
+            "cdf_absolute": 0.05,
+            "rare_exposure_relative": 0.2,
+            "participation_floor": 100.0
+          }
+        },
+        "reference_build_request": {
+          "schema": "opengadget3-reference-build-request-v1",
+          "source_root": "/Users/bbird/research2/core/software/workflow-references/opengadget3-sidm",
+          "source_manifest": {
+            "path": "/Users/bbird/research2/configs/research/opengadget3_retained_source.manifest.json",
+            "sha256": "4fa443fb8f311dd88a4111dc5063c9892fefa9c4367eb2f79f0a708c61664049"
+          },
+          "configuration": {
+            "path": "/Users/bbird/research2/configs/research/opengadget3_rare.Config.sh",
+            "sha256": "ac9ef589857761d2c55daf82dda6b4fbc68034416c4cbbb61b3d140438b62b05"
+          },
+          "system_makefile": {
+            "path": "/Users/bbird/research2/configs/research/opengadget3_reference.Makefile.Linux",
+            "sha256": "6c8303ce4e78bb7f8c506f448589dee99ab5e6efbe7c32f895cfa9ac5f3a86d2"
+          },
+          "dependency_manifest": {
+            "path": "REPLACE_WITH_LINUX_MPI_HDF5_GSL_TOOLCHAIN_MANIFEST.json",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "tools": {
+            "make": {
+              "path": "REPLACE_WITH_LINUX_GNU_MAKE",
+              "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+            },
+            "mpi_cxx": {
+              "path": "REPLACE_WITH_LINUX_MPI_CXX_WRAPPER",
+              "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+            },
+            "perl": {
+              "path": "REPLACE_WITH_LINUX_PERL",
+              "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+            },
+            "python3": {
+              "path": "REPLACE_WITH_LINUX_PYTHON3",
+              "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+            }
+          },
+          "scheme": "rare",
+          "particle_convention": "directed",
+          "jobs": 1,
+          "omp_threads": 1,
+          "memory_gib": 8.0,
+          "disk_gib": 16.0,
+          "wall_seconds": 3600.0,
+          "maximum_source_files": 32768,
+          "maximum_source_bytes": 536870912,
+          "maximum_build_bytes": 8589934592,
+          "toolchain_environment": {
+            "PATH": "/usr/bin:/bin"
+          }
+        }
+      }
+    ],
+    "comparisons": [
+      {
+        "name": "independent_rare",
+        "left": "gadget4_rare",
+        "right": "opengadget3_rare",
+        "request": {
+          "schema": "sidm-physical-control-comparison-request-v1",
+          "left": {
+            "path": "completed/gadget4-history.json",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "right": {
+            "path": "completed/opengadget3-history.json",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "physical_model": {
+            "path": "physical-model.json",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "native_differential_table": null,
+          "scope": "independent_engine_trajectories",
+          "metrics": [
+            "cohort_mass_msun",
+            "cohort_mean_velocity_kms",
+            "cohort_covariance_kms2",
+            "cohort_kinetic_energy",
+            "cohort_speed_cdf",
+            "cohort_velocity_cdf",
+            "particle_position_canonical_kpc",
+            "particle_velocity_peculiar_kms",
+            "particle_velocity_canonical_kms"
+          ],
+          "maximum_absolute_error": {
+            "cohort_mass_msun": 1.0,
+            "cohort_mean_velocity_kms": 0.1,
+            "cohort_covariance_kms2": 1.0,
+            "cohort_kinetic_energy": 1.0,
+            "cohort_speed_cdf": 0.05,
+            "cohort_velocity_cdf": 0.05,
+            "particle_position_canonical_kpc": 0.001,
+            "particle_velocity_peculiar_kms": 0.1,
+            "particle_velocity_canonical_kms": 0.1
+          },
+          "maximum_relative_error": {
+            "cohort_mass_msun": 0.01,
+            "cohort_mean_velocity_kms": 0.01,
+            "cohort_covariance_kms2": 0.01,
+            "cohort_kinetic_energy": 0.01,
+            "cohort_speed_cdf": 0.01,
+            "cohort_velocity_cdf": 0.01,
+            "particle_position_canonical_kpc": 0.0,
+            "particle_velocity_peculiar_kms": 0.0,
+            "particle_velocity_canonical_kms": 0.0
+          },
+          "relative_error_floor": {
+            "cohort_mass_msun": 1.0,
+            "cohort_mean_velocity_kms": 1.0,
+            "cohort_covariance_kms2": 1.0,
+            "cohort_kinetic_energy": 1.0,
+            "cohort_speed_cdf": 1.0,
+            "cohort_velocity_cdf": 1.0,
+            "particle_position_canonical_kpc": 1.0,
+            "particle_velocity_peculiar_kms": 1.0,
+            "particle_velocity_canonical_kms": 1.0
+          },
+          "minimum_particles_per_cohort": 4000,
+          "memory_gib": 2.0,
+          "time_tolerance_seconds": 1.0
+        }
+      }
+    ],
+    "maximum_ensemble_observables": 4096
+  },
+  "original_variant": "gadget4_rare",
+  "mapped_campaign_template": {
+    "schema": "sidm-mapped-control-campaign-request-v1",
+    "resources": {
+      "mpi_ranks": 1,
+      "omp_threads": 1,
+      "memory_gib": 8.0,
+      "disk_gib": 64.0,
+      "maximum_stage_count": 32
+    },
+    "followup_limits": {
+      "maximum_children": 0,
+      "maximum_depth": 0
+    },
+    "cases": [
+      {
+        "name": "realization_0",
+        "population": {
+          "path": "REPLACE_WITH_COMPLETED_EXPANDING_POPULATION_0.json",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "reference_history": {
+          "path": "REPLACE_WITH_COMPLETED_EXPANDING_HISTORY_0.json",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "canonical_run_request": {
+          "schema": "sidm-canonical-native-run-request-v1",
+          "engine": "gadget4",
+          "population": {
+            "path": "completed/sidm-canonical-population.json",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "base_configuration": {
+            "path": "REPLACE_WITH_BASE_CONFIGURATION.yaml",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "sidm": {
+            "schema": "native-sidm-configuration-v1",
+            "enabled": true,
+            "physical_model": {
+              "path": "sidm_homogeneous_isotropic.model.json",
+              "sha256": "3cee078aa0c15c1b03407b388d0527b392384785a8551ab1336cb66e2c14a10f"
+            },
+            "event_identity_namespace": "homogeneous-control:example-v1",
+            "operator_seed": 201,
+            "backend": "all_pair_reference",
+            "scheme": "rare",
+            "kernel_kind": "cubic_spline",
+            "particle_convention": "directed",
+            "kernel_support_proper_kpc": 0.1,
+            "coarse_kernel_support_proper_kpc": 0.2,
+            "cross_section_normalization_cm2_per_g": 1.0,
+            "maximum_pair_probability": 0.01,
+            "maximum_particle_probability": 0.01,
+            "macro_mass_relative_tolerance": 1e-12,
+            "conservation_relative_tolerance": 1e-10,
+            "energy_absolute_floor": 1e-12,
+            "momentum_absolute_floor": 1e-12,
+            "cdf_absolute_tolerance": 1e-08,
+            "kernel_origin_relative_bound": 1e-08,
+            "maximum_transfer_depth": 0.01,
+            "maximum_neglected_moment_ratio": 0.05,
+            "split_angle_radians": 0.1,
+            "clock_absolute_tolerance_seconds": 1.0,
+            "clock_relative_tolerance": 1e-09,
+            "maximum_scale_factor_fractional_change": 0.01,
+            "exchange_memory_mib": 128.0,
+            "maximum_kernel_coarse_support_fraction": 0.01,
+            "maximum_omitted_scattering_upper_bound": 0.01,
+            "maximum_particles": 16384,
+            "maximum_events_per_step": 100000,
+            "maximum_substeps": 256,
+            "maximum_clock_panels": 1024,
+            "maximum_local_pairs": 100000,
+            "maximum_matching_rounds": 4096,
+            "maximum_pair_visits": 10000000,
+            "maximum_exchange_records": 500000
+          },
+          "reference_build": null,
+          "output_times_native": [
+            0.0,
+            0.001
+          ],
+          "maximum_timestep_native": 1e-05,
+          "minimum_timestep_native": 0.0,
+          "softening_proper_kpc": 0.01,
+          "output_time_absolute_tolerance_native": 1e-12,
+          "maximum_particles": 8000,
+          "maximum_snapshots": 16,
+          "maximum_snapshot_bytes": 268435456,
+          "mpi_ranks": 1,
+          "omp_threads": 1,
+          "memory_gib": 8.0,
+          "disk_gib": 8.0,
+          "wall_seconds": 3600.0,
+          "canonical_clock_limits": {
+            "maximum_asset_bytes": 1048576,
+            "maximum_rows": 4096,
+            "maximum_clock_work": 1000000
+          },
+          "source_diagnostic_limits": {
+            "maximum_intervals": 65536,
+            "maximum_file_bytes": 536870912,
+            "memory_gib": 1.0,
+            "time_tolerance_native": 1e-12
+          }
+        },
+        "schedule_mode": "original_physical_epochs"
+      }
+    ],
+    "clock_mapping_request": {
+      "schema": "sidm-canonical-clock-mapping-request-v1",
+      "history": {
+        "path": "REPLACE_WITH_NATIVE_CONTROL_HISTORY.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "physical_model": {
+        "path": "/Users/bbird/research2/configs/research/sidm_homogeneous_isotropic.model.json",
+        "sha256": "3cee078aa0c15c1b03407b388d0527b392384785a8551ab1336cb66e2c14a10f"
+      },
+      "native_differential_table": null,
+      "canonical_speed_grid_kms": [
+        0,
+        1,
+        5,
+        10,
+        20,
+        50,
+        100,
+        200,
+        500
+      ],
+      "cosine_grid": [
+        -1,
+        -0.75,
+        -0.5,
+        -0.25,
+        0,
+        0.25,
+        0.5,
+        0.75,
+        1
+      ],
+      "maximum_epochs": 256,
+      "maximum_speeds": 512,
+      "maximum_angles": 1025,
+      "maximum_clock_evaluations": 1000000,
+      "memory_gib": 8,
+      "clock_absolute_tolerance_seconds": 1,
+      "clock_relative_tolerance": 1e-08
+    },
+    "native_clock_request": {
+      "schema": "sidm-native-canonical-clock-request-v1",
+      "mapping": {
+        "path": "REPLACE_WITH_SOURCE_BOUND_CANONICAL_MAPPING.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "maximum_rows": 4096,
+      "maximum_asset_bytes": 1048576,
+      "memory_gib": 8,
+      "clock_absolute_tolerance_seconds": 1,
+      "clock_relative_tolerance": 1e-10,
+      "maximum_clock_panels": 65536,
+      "maximum_inverse_iterations": 128,
+      "inverse_scale_factor_relative_tolerance": 1e-10
+    },
+    "canonical_population_request": {
+      "schema": "sidm-canonical-population-request-v1",
+      "population": {
+        "path": "REPLACE_WITH_ORIGINAL_COMOVING_POPULATION.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "native_clock": {
+        "path": "REPLACE_WITH_NATIVE_CLOCK_DIRECTORY/clock.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "maximum_particles": 1000000,
+      "maximum_asset_bytes": 1048576,
+      "chunk_rows": 65536,
+      "memory_gib": 8,
+      "disk_gib": 8
+    },
+    "canonical_history_request": {
+      "schema": "sidm-canonical-control-history-request-v1",
+      "population": {
+        "path": "completed/sidm-canonical-population.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "engine": "gadget4",
+      "snapshots": [
+        {
+          "files": [
+            "completed/native-canonical-control/data/snapshot_000.hdf5"
+          ],
+          "native_time": 0.0
+        },
+        {
+          "files": [
+            "completed/native-canonical-control/data/snapshot_001.hdf5"
+          ],
+          "native_time": 0.001
+        }
+      ],
+      "maximum_particles": 8000,
+      "maximum_snapshots": 16,
+      "maximum_bins": 128,
+      "chunk_rows": 2048,
+      "memory_gib": 2.0,
+      "speed_bin_edges_kms": [
+        0.0,
+        25.0,
+        50.0,
+        75.0,
+        100.0,
+        150.0,
+        250.0
+      ],
+      "velocity_bin_edges_kms": [
+        -250.0,
+        -100.0,
+        -50.0,
+        0.0,
+        50.0,
+        100.0,
+        250.0
+      ],
+      "epoch_tolerance": 1e-12,
+      "relative_mass_tolerance": 1e-10,
+      "clock_absolute_tolerance_seconds": 1.0,
+      "clock_relative_tolerance": 1e-08,
+      "maximum_clock_evaluations": 100000,
+      "mapped_run": {
+        "path": "completed/native-canonical-control/native-control.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "particle_paths": {
+        "particle_ids": [
+          1,
+          2,
+          4001,
+          4002
+        ],
+        "maximum_selected_particles": 4
+      }
+    },
+    "comparison_request": {
+      "schema": "sidm-physical-control-comparison-request-v1",
+      "left": {
+        "path": "completed/sidm-canonical-history.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "right": {
+        "path": "completed/independent-comoving-history.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "physical_model": {
+        "path": "physical-model.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "native_differential_table": null,
+      "scope": "physical_comoving_mapped_distributions",
+      "metrics": [
+        "cohort_mass_msun",
+        "cohort_mean_velocity_kms",
+        "cohort_covariance_kms2",
+        "cohort_kinetic_energy",
+        "cohort_speed_cdf",
+        "cohort_velocity_cdf",
+        "particle_position_canonical_kpc",
+        "particle_velocity_peculiar_kms",
+        "particle_velocity_canonical_kms"
+      ],
+      "maximum_absolute_error": {
+        "cohort_mass_msun": 1.0,
+        "cohort_mean_velocity_kms": 0.1,
+        "cohort_covariance_kms2": 1.0,
+        "cohort_kinetic_energy": 1.0,
+        "cohort_speed_cdf": 0.05,
+        "cohort_velocity_cdf": 0.05,
+        "particle_position_canonical_kpc": 0.001,
+        "particle_velocity_peculiar_kms": 0.1,
+        "particle_velocity_canonical_kms": 0.1
+      },
+      "maximum_relative_error": {
+        "cohort_mass_msun": 0.01,
+        "cohort_mean_velocity_kms": 0.01,
+        "cohort_covariance_kms2": 0.01,
+        "cohort_kinetic_energy": 0.01,
+        "cohort_speed_cdf": 0.01,
+        "cohort_velocity_cdf": 0.01,
+        "particle_position_canonical_kpc": 0.0,
+        "particle_velocity_peculiar_kms": 0.0,
+        "particle_velocity_canonical_kms": 0.0
+      },
+      "relative_error_floor": {
+        "cohort_mass_msun": 1.0,
+        "cohort_mean_velocity_kms": 1.0,
+        "cohort_covariance_kms2": 1.0,
+        "cohort_kinetic_energy": 1.0,
+        "cohort_speed_cdf": 1.0,
+        "cohort_velocity_cdf": 1.0,
+        "particle_position_canonical_kpc": 1.0,
+        "particle_velocity_peculiar_kms": 1.0,
+        "particle_velocity_canonical_kms": 1.0
+      },
+      "minimum_particles_per_cohort": 4000,
+      "memory_gib": 2.0,
+      "time_tolerance_seconds": 1.0,
+      "maximum_scale_factor_relative_error": 1e-08,
+      "maximum_inverse_epoch_bracket_relative_width": 1e-09
+    },
+    "publish_ensemble": true,
+    "maximum_ensemble_observables": 4096
+  },
+  "refinement": {
+    "schema": "sidm-mapped-timestep-refinement-plan-v1",
+    "levels": [
+      {
+        "label": "coarse",
+        "value": 1e-05
+      },
+      {
+        "label": "middle",
+        "value": 5e-06
+      },
+      {
+        "label": "fine",
+        "value": 2.5e-06
+      }
+    ],
+    "maximum_levels": 8,
+    "comparison_request": {
+      "schema": "sidm-physical-control-comparison-request-v1",
+      "left": {
+        "path": "completed/sidm-canonical-history.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "right": {
+        "path": "completed/independent-comoving-history.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "physical_model": {
+        "path": "physical-model.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "native_differential_table": null,
+      "scope": "same_engine_refinement",
+      "metrics": [
+        "cohort_mass_msun",
+        "cohort_mean_velocity_kms",
+        "cohort_covariance_kms2",
+        "cohort_kinetic_energy",
+        "cohort_speed_cdf",
+        "cohort_velocity_cdf",
+        "particle_position_canonical_kpc",
+        "particle_velocity_peculiar_kms",
+        "particle_velocity_canonical_kms"
+      ],
+      "maximum_absolute_error": {
+        "cohort_mass_msun": 1.0,
+        "cohort_mean_velocity_kms": 0.1,
+        "cohort_covariance_kms2": 1.0,
+        "cohort_kinetic_energy": 1.0,
+        "cohort_speed_cdf": 0.05,
+        "cohort_velocity_cdf": 0.05,
+        "particle_position_canonical_kpc": 0.001,
+        "particle_velocity_peculiar_kms": 0.1,
+        "particle_velocity_canonical_kms": 0.1
+      },
+      "maximum_relative_error": {
+        "cohort_mass_msun": 0.01,
+        "cohort_mean_velocity_kms": 0.01,
+        "cohort_covariance_kms2": 0.01,
+        "cohort_kinetic_energy": 0.01,
+        "cohort_speed_cdf": 0.01,
+        "cohort_velocity_cdf": 0.01,
+        "particle_position_canonical_kpc": 0.0,
+        "particle_velocity_peculiar_kms": 0.0,
+        "particle_velocity_canonical_kms": 0.0
+      },
+      "relative_error_floor": {
+        "cohort_mass_msun": 1.0,
+        "cohort_mean_velocity_kms": 1.0,
+        "cohort_covariance_kms2": 1.0,
+        "cohort_kinetic_energy": 1.0,
+        "cohort_speed_cdf": 1.0,
+        "cohort_velocity_cdf": 1.0,
+        "particle_position_canonical_kpc": 1.0,
+        "particle_velocity_peculiar_kms": 1.0,
+        "particle_velocity_canonical_kms": 1.0
+      },
+      "minimum_particles_per_cohort": 4000,
+      "memory_gib": 2.0,
+      "time_tolerance_seconds": 1.0
+    },
+    "measurement_limits": {
+      "mean_error_multiplier": 2.0,
+      "maximum_sampling_error_fraction": 0.25
+    }
+  }
+}

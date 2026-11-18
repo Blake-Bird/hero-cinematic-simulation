@@ -1,0 +1,43 @@
+{
+  "schema": "stream-campaign-v1",
+  "notes": "Illustrative stream campaign config for Gala and StreaMAX reference handoffs",
+  "resources": {
+    "memory_gib": 4.0,
+    "wall_seconds": 3600.0
+  },
+  "stages": [
+    {
+      "stage_id": "progenitor_state",
+      "kind": "coordinates",
+      "parameters": {
+        "position_kpc": [15.0, 0.0, 5.0],
+        "velocity_kms": [0.0, 180.0, 50.0],
+        "frame": "galactocentric"
+      }
+    },
+    {
+      "stage_id": "spray_model",
+      "kind": "spray",
+      "depends_on": [
+        "progenitor_state"
+      ],
+      "inputs": {
+        "state": {
+          "stage": "progenitor_state"
+        }
+      },
+      "parameters": {
+        "seed": 42,
+        "progenitor_mass_msun": 10000000.0,
+        "host_potential": {
+          "type": "NFW",
+          "m_vir_msun": 1000000000000.0,
+          "c": 12.0
+        },
+        "step_myr": 1.0,
+        "duration_myr": 2000.0
+      }
+    }
+  ]
+}
+

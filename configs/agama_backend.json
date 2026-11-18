@@ -1,0 +1,14 @@
+{
+  "revision": "f302756b8af2b763db58e278e30478517dc8eea3",
+  "source_url": "https://github.com/GalacticDynamics-Oxford/Agama",
+  "G_kpc_km2_s2_msun": 4.30091727067736e-06,
+  "units": {
+    "length": "proper kpc",
+    "mass": "Msun",
+    "velocity": "km/s"
+  },
+  "install_command": "python3 bootstrap.py --install --profile streams --state-root EXTERNAL_STATE_DIRECTORY",
+  "license": "AGAMA source uses BSD/MIT terms; distributed library links GSL and is therefore under GNU GPL; upstream LICENSE retained in installed package/source distribution. No upstream implementation copied into first-party modules.",
+  "license_url": "https://github.com/GalacticDynamics-Oxford/Agama/blob/f302756b8af2b763db58e278e30478517dc8eea3/LICENSE",
+  "installed_asset_policy": "Verify pinned VCS wheel RECORD or external bootstrap installation.json with exact source and installed-file hashes."
+}

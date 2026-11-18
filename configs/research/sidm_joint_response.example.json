@@ -1,0 +1,31 @@
+{
+  "schema": "sidm-joint-response-training-request-v2",
+  "memory_gib": 8,
+  "parameter_names": [
+    "cross_section"
+  ],
+  "baseline_parameters": [
+    1.0
+  ],
+  "parameter_scales": [
+    1.0
+  ],
+  "difference_steps": {
+    "cross_section": [
+      0.2,
+      0.1
+    ]
+  },
+  "minimum_realizations": 3,
+  "maximum_samples": 1024,
+  "samples": [],
+  "observable_variance_floors": [
+    1.0
+  ],
+  "derivative_absolute_tolerances": {
+    "cross_section": [
+      1.0
+    ]
+  },
+  "derivative_relative_tolerance": 0.05
+}

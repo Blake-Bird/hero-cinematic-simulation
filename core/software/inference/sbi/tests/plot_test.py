@@ -1,0 +1,625 @@
+# This file is part of sbi, a toolkit for simulation-based inference. sbi is licensed
+# under the Apache License Version 2.0, see <https://www.apache.org/licenses/>
+
+import warnings
+from typing import get_args
+
+import numpy as np
+import pytest
+import torch
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
+from matplotlib.pyplot import close, subplots
+from torch.utils.tensorboard.writer import SummaryWriter
+
+import sbi.analysis.plot as plt
+from sbi.analysis import LabeledSamples, pairplot, plot_summary, sbc_rank_plot
+from sbi.analysis.plotting_classes import (
+    FigOptions,
+    HistDiagOptions,
+    HistOffDiagOptions,
+)
+from sbi.inference import NLE, NPE, NRE
+from sbi.utils import BoxUniform
+from sbi.utils.tracking import TensorBoardTracker
+
+
+@pytest.mark.parametrize("samples", (torch.randn(100, 1),))
+@pytest.mark.parametrize("limits", ([(-1, 1)], None))
+def test_pairplot1D(samples, limits):
+    fig, axs = pairplot(**{k: v for k, v in locals().items() if v is not None})
+    assert isinstance(fig, Figure)
+    assert isinstance(axs, Axes)
+    close()
+
+
+def test_pairplot_accepts_numpy_limits():
+    limits = np.array([[-1.0, 1.0], [-2.0, 2.0]])
+
+    fig, axes = pairplot(
+        samples=torch.randn(100, 2),
+        limits=limits,
+        fig_kwargs=FigOptions(x_lim_add_eps=0.0),
+    )
+
+    assert axes[0, 0].get_xlim() == pytest.approx((-1.0, 1.0))
+    assert axes[0, 1].get_xlim() == pytest.approx((-2.0, 2.0))
+    assert axes[0, 1].get_ylim() == pytest.approx((-1.0, 1.0))
+    close(fig)
+
+
+@pytest.mark.parametrize("samples", (torch.randn(100, 2),))
+@pytest.mark.parametrize("limits", ([(-1, 1)], None))
+def test_nan_inf(samples, limits):
+    samples[0, 0] = np.nan
+    samples[5, 1] = np.inf
+    samples[3, 0] = -np.inf
+    fig, axs = pairplot(**{k: v for k, v in locals().items() if v is not None})
+    assert isinstance(fig, Figure)
+    assert isinstance(axs[0, 0], Axes)
+    close()
+
+
+@pytest.mark.parametrize("samples", (torch.randn(100, 2), [torch.randn(100, 3)] * 2))
+@pytest.mark.parametrize("points", (torch.ones(1, 3),))
+@pytest.mark.parametrize("limits", ([(-3, 3)], None))
+@pytest.mark.parametrize("subset", (None, [0, 1]))
+@pytest.mark.parametrize("upper", ("scatter",))
+@pytest.mark.parametrize(
+    "lower,lower_kwargs", [(None, None), ("scatter", {"mpl_kwargs": {"s": 10}})]
+)
+@pytest.mark.parametrize("diag", ("hist",))
+@pytest.mark.parametrize("figsize", ((5, 5),))
+@pytest.mark.parametrize("labels", (None, ["a", "b", "c"]))
+@pytest.mark.parametrize("ticks", (None, [[-3, 0, 3], [-3, 0, 3], [0, 1, 2, 3]]))
+@pytest.mark.parametrize("offdiag", (None,))
+@pytest.mark.parametrize("diag_kwargs", (None, {"mpl_kwargs": {"bins": 10}}))
+@pytest.mark.parametrize("upper_kwargs", (None,))
+@pytest.mark.parametrize("fig_kwargs", (None, {"points_labels": ["a"], "legend": True}))
+def test_pairplot(
+    samples,
+    points,
+    limits,
+    subset,
+    upper,
+    lower,
+    diag,
+    figsize,
+    labels,
+    ticks,
+    offdiag,
+    diag_kwargs,
+    upper_kwargs,
+    lower_kwargs,
+    fig_kwargs,
+):
+    fig, axs = pairplot(**{k: v for k, v in locals().items() if v is not None})
+    assert isinstance(fig, Figure)
+    assert isinstance(axs, np.ndarray)
+    assert isinstance(axs[0, 0], Axes)
+    close()
+
+
+@pytest.mark.parametrize("samples", (torch.randn(100, 2), [torch.randn(100, 2)] * 2))
+@pytest.mark.parametrize("labels", (None, ["a", "b"]))
+@pytest.mark.parametrize("legend", (True, False))
+@pytest.mark.parametrize("offdiag", ("hist", "scatter"))
+@pytest.mark.parametrize("samples_labels", (["a", "b"], None))
+@pytest.mark.parametrize("points_labels", (["a", "b"], None))
+@pytest.mark.parametrize("points", (None, torch.ones(2)))
+def test_pairplot_dep(
+    samples, labels, legend, offdiag, samples_labels, points_labels, points
+):
+    # uses old style keywords, checks backward compatibility
+    fig, axs = pairplot(**{k: v for k, v in locals().items() if v is not None})
+
+    assert isinstance(fig, Figure)
+    assert isinstance(axs, np.ndarray)
+    assert isinstance(axs[0, 0], Axes)
+    close()
+
+
+@pytest.mark.parametrize("method", (NPE, NLE, NRE))
+def test_plot_summary(method, tmp_path):
+    num_dim = 1
+    prior = BoxUniform(low=-2 * torch.ones(num_dim), high=2 * torch.ones(num_dim))
+    num_simulations = 6
+
+    summary_writer = SummaryWriter(tmp_path)
+    tracker = TensorBoardTracker(summary_writer)
+
+    def simulator(theta):
+        return theta + 1.0 + torch.randn_like(theta) * 0.1
+
+    inference = method(prior=prior, tracker=tracker)
+
+    theta = prior.sample((num_simulations,))
+    x = simulator(theta)
+
+    train_kwargs = (
+        dict(max_num_epochs=5, validation_fraction=0.5, num_atoms=2)
+        if method == NRE
+        else dict(max_num_epochs=1)
+    )
+    _ = inference.append_simulations(theta, x).train(**train_kwargs)
+    fig, axes = plot_summary(inference)
+    assert isinstance(fig, Figure) and isinstance(axes[0], Axes)
+    close()
+
+
+@pytest.fixture
+def mock_inference(mocker, tmp_path):
+    """Patch event-data loading so unit tests don't need real tensorboard logs."""
+    steps = list(range(10))
+    scalars = {
+        "training_loss": {"step": steps, "value": [1.0 / (i + 1) for i in steps]},
+        "validation_loss": {"step": steps, "value": [1.2 / (i + 1) for i in steps]},
+    }
+    mocker.patch(
+        "sbi.analysis.tensorboard_output._get_event_data_from_log_dir",
+        return_value={"scalars": scalars},
+    )
+    return tmp_path
+
+
+@pytest.mark.parametrize(
+    "overlay, plot_kwargs, colors, expected_n_axes",
+    (
+        (False, None, None, 2),
+        (True, None, None, 1),
+        (True, {"color": "red"}, None, 1),
+        (True, {"color": "red"}, ["blue", "green"], 1),
+    ),
+)
+def test_plot_summary_overlay_kwargs_precedence(
+    mock_inference, overlay, plot_kwargs, colors, expected_n_axes
+):
+    """Cover overlay shape, plot_kwargs forwarding, and the colors-vs-plot_kwargs
+    collision regression: passing both must not raise TypeError, and `colors`
+    must take precedence."""
+    fig, axes = plot_summary(
+        mock_inference,
+        tags=["training_loss", "validation_loss"],
+        overlay=overlay,
+        colors=colors,
+        plot_kwargs=plot_kwargs,
+        verbose=False,
+    )
+    assert axes.shape == (expected_n_axes,)
+    if colors is not None:
+        # colors wins over plot_kwargs["color"]
+        lines = axes[0].get_lines()
+        assert [line.get_color() for line in lines] == colors
+    close()
+
+
+def test_plot_summary_deprecated_kwargs(mock_inference):
+    """Old kwargs `inference` and `disable_tensorboard_prompt` still work but
+    emit a FutureWarning."""
+    with pytest.warns(FutureWarning, match="`inference` is deprecated"):
+        fig, _ = plot_summary(
+            inference=mock_inference,
+            tags=["training_loss"],
+            verbose=False,
+        )
+    close()
+    with pytest.warns(FutureWarning, match="`disable_tensorboard_prompt`"):
+        fig, _ = plot_summary(
+            mock_inference,
+            tags=["training_loss"],
+            disable_tensorboard_prompt=True,
+        )
+    close()
+
+
+@pytest.mark.parametrize("kwarg", ("colors", "labels", "ylabel"))
+def test_plot_summary_length_validation(mock_inference, kwarg):
+    """colors/labels/ylabel with wrong length must raise ValueError, not IndexError."""
+    with pytest.raises(ValueError, match=f"`{kwarg}` must have length 2"):
+        plot_summary(
+            mock_inference,
+            tags=["training_loss", "validation_loss"],
+            **{kwarg: ["only_one_entry"]},
+            verbose=False,
+        )
+
+
+def test_plot_summary_length_validation_aggregates_errors(mock_inference):
+    """Multiple wrong-length kwargs are reported in one ValueError, not iteratively."""
+    with pytest.raises(ValueError) as exc:
+        plot_summary(
+            mock_inference,
+            tags=["training_loss", "validation_loss"],
+            colors=["red"],
+            labels=["only_one"],
+            ylabel=["a", "b", "c"],
+            verbose=False,
+        )
+    msg = str(exc.value)
+    assert "`colors`" in msg and "`labels`" in msg and "`ylabel`" in msg
+
+
+@pytest.mark.parametrize(
+    "overlay, n_axes_passed",
+    [
+        (False, 1),  # overlay=False, expects len(tags)=2 axes, got 1
+        (False, 3),  # overlay=False, expects len(tags)=2 axes, got 3
+        (True, 2),  # overlay=True, expects 1 axis, got 2
+    ],
+)
+def test_plot_summary_axes_length_validation(mock_inference, overlay, n_axes_passed):
+    """Mismatched user-provided `axes` must raise ValueError, not silently misbehave."""
+    fig, axes = subplots(1, n_axes_passed)
+    with pytest.raises(ValueError, match="`axes` must have length"):
+        plot_summary(
+            mock_inference,
+            tags=["training_loss", "validation_loss"],
+            overlay=overlay,
+            fig=fig,
+            axes=axes,
+            verbose=False,
+        )
+    close(fig)
+
+
+@pytest.mark.parametrize("num_parameters", (2, 4, 10))
+@pytest.mark.parametrize("num_cols", (2, 3, 4))
+@pytest.mark.parametrize("custom_figure", (False, True))
+@pytest.mark.parametrize("plot_type", ("hist", "cdf", "cdf-diff"))
+def test_sbc_rank_plot(num_parameters, num_cols, custom_figure, plot_type):
+    """Test sbc plots with different num_parameters, subplot shapes and plot types."""
+
+    num_sbc_runs = 100
+    num_posterior_samples = 100
+    # Create uniform bins.
+    ranks = np.random.randint(
+        1, num_posterior_samples + 1, size=(num_sbc_runs, num_parameters)
+    )
+
+    # Test passing custom figure.
+    if custom_figure:
+        fig, ax = subplots(1, num_parameters, figsize=(5, 18))
+    else:
+        fig, ax = None, None
+
+    fig, ax = sbc_rank_plot(
+        ranks,
+        num_posterior_samples,
+        plot_type=plot_type,
+        fig=fig,
+        ax=ax,
+        **dict(num_cols=num_cols, params_in_subplots=True),
+    )
+    if not custom_figure:
+        if num_parameters > num_cols:
+            assert ax.shape == (
+                int(np.ceil(num_parameters / num_cols)),
+                num_cols,
+            )
+        else:
+            assert ax.shape == (num_parameters,)
+    close()
+
+
+def test_plotting_dataclass_overrides_defaults(mocker):
+    """
+    Verify that custom keyword arguments in `HistOffDiagOptions` correctly
+    override the default values when passed to `pairplot`.
+    """
+
+    posterior_samples = torch.randn(100, 3)
+    hist_off_diag_options = HistOffDiagOptions(
+        np_hist_kwargs=dict(bins=40), mpl_kwargs=dict(origin="upper")
+    )
+
+    spy = mocker.spy(plt, "plt_hist_2d")
+    _ = pairplot(
+        samples=posterior_samples,
+        upper="hist",
+        upper_kwargs=hist_off_diag_options,
+    )
+
+    assert spy.call_count > 0
+
+    args, _ = spy.call_args
+    off_diag_kwargs = args[5]
+
+    # Default values set in HistOffDiagOptions dataclass
+    assert off_diag_kwargs["mpl_kwargs"]["cmap"] == 'viridis'
+    assert off_diag_kwargs["np_hist_kwargs"]["density"] is False
+
+    # Updated values
+    assert off_diag_kwargs["mpl_kwargs"]["origin"] == 'upper'
+    assert off_diag_kwargs["np_hist_kwargs"]["bins"] == 40
+
+    close()
+
+
+def test_plotting_fails_for_insufficient_sample_label_length():
+    """
+    Ensure that `pairplot` raises a `ValueError` when the number of provided
+    sample labels is fewer than the number of sample dimensions.
+    """
+
+    posterior_samples = torch.randn(100, 3)
+    fig_options = FigOptions(legend=True, samples_labels=[])
+
+    with pytest.raises(ValueError, match="Provide at least as many labels as samples."):
+        _ = pairplot(samples=posterior_samples, fig_kwargs=fig_options)
+
+    close()
+
+
+def test_pairplot_warns_on_offdiag_argument():
+    """
+    Verify that `pairplot` raises a warning when using the `offdiag` argument.
+    """
+
+    posterior_samples = torch.randn(100, 3)
+
+    with pytest.warns():
+        _ = pairplot(samples=posterior_samples, offdiag="contour")
+
+    close()
+
+
+def test_pairplot_raises_error_on_offdiag_and_upper_conflict():
+    """
+    Verify that `pairplot` raises a ValueError when using the `offdiag`
+    and `upper` argument together.
+    """
+
+    posterior_samples = torch.randn(100, 3)
+
+    with pytest.raises(ValueError):
+        _ = pairplot(samples=posterior_samples, offdiag="contour", upper="scatter")
+
+    close()
+
+
+def _labeled_samples() -> LabeledSamples:
+    return LabeledSamples(
+        torch.randn(100, 2),
+        name="posterior",
+        dim_labels=["theta_0", "theta_1"],
+        limits=[(-1.0, 1.0)],
+        ticks=[(-0.5, 0.5)],
+    )
+
+
+def test_pairplot_uses_labeled_samples_metadata():
+    ls = _labeled_samples()
+    _, axes = pairplot(ls)
+    assert axes[1, 1].get_xlabel() == "theta_1"
+    assert axes[1, 1].get_xlim() == pytest.approx((-1.0, 1.0), abs=1e-4)
+    assert axes[1, 1].get_xticks().tolist() == pytest.approx([-0.5, 0.5])
+    close()
+
+    # Explicit arguments take precedence over the container.
+    _, axes = pairplot(ls, labels=["a", "b"], limits=[(-9.0, 9.0)], ticks=[(-8.0, 8.0)])
+    assert axes[1, 1].get_xlabel() == "b"
+    assert axes[1, 1].get_xlim() == pytest.approx((-9.0, 9.0), abs=1e-4)
+    assert axes[1, 1].get_xticks().tolist() == pytest.approx([-8.0, 8.0])
+    close()
+
+
+@pytest.mark.parametrize(
+    "samples_labels, expected",
+    (
+        (None, ["posterior", "samples_1"]),
+        (["a", "b"], ["a", "b"]),
+        (["samples_0", "samples_1"], ["samples_0", "samples_1"]),
+    ),
+)
+def test_pairplot_legend_labels_from_labeled_samples(samples_labels, expected):
+    _, axes = pairplot(
+        [_labeled_samples(), torch.randn(100, 2)],
+        fig_kwargs=dict(legend=True, samples_labels=samples_labels),
+    )
+    assert [t.get_text() for t in axes[-1, 0].get_legend().get_texts()] == expected
+    close()
+
+
+@pytest.mark.parametrize(
+    "kwargs", (dict(dim_labels=["a"]), dict(limits=[(-1.0, 1.0)] * 3))
+)
+def test_labeled_samples_validation(kwargs):
+    with pytest.raises(ValueError):
+        LabeledSamples(torch.randn(10, 2), **kwargs)
+
+
+def test_pairplot_raises_on_dimensionality_mismatch():
+    with pytest.raises(ValueError, match="same number of dimensions"):
+        pairplot([torch.randn(10, 2), torch.randn(10, 3)])
+    close()
+
+
+@pytest.mark.parametrize("square_subplots", (True, False))
+def test_plotting_subplot_aspect(square_subplots):
+    """
+    Verify that the subplot aspect ratio is set correctly based on the
+    `square_subplots` option in `FigOptions`.
+    """
+
+    posterior_samples = torch.randn(100, 3)
+    fig_options = FigOptions(square_subplots=square_subplots)
+
+    _, axes = pairplot(samples=posterior_samples, fig_kwargs=fig_options)
+
+    axes = axes.flatten()
+
+    for ax in axes:
+        aspect = ax.get_box_aspect()
+        if square_subplots:
+            assert aspect == 1.0
+        else:
+            assert aspect is None
+
+    close()
+
+
+valid_diag_kwargs = [{}, HistDiagOptions(), None, [{}, HistDiagOptions(), None]]
+valid_off_diag_kwargs = [
+    {},
+    HistOffDiagOptions(),
+    None,
+    [{}, HistOffDiagOptions(), None],
+]
+
+invalid_kwargs_inputs = [False]
+
+
+@pytest.mark.parametrize(
+    "kwargs",
+    [
+        # invalid cases
+        *[
+            pytest.param(
+                {"diag_kwargs": value}, marks=pytest.mark.xfail(raises=TypeError)
+            )
+            for value in invalid_kwargs_inputs
+        ],
+        *[
+            pytest.param(
+                {"upper_kwargs": value}, marks=pytest.mark.xfail(raises=TypeError)
+            )
+            for value in invalid_kwargs_inputs
+        ],
+        *[
+            pytest.param(
+                {"lower_kwargs": value}, marks=pytest.mark.xfail(raises=TypeError)
+            )
+            for value in invalid_kwargs_inputs
+        ],
+        # valid cases
+        *[({"diag_kwargs": v}) for v in valid_diag_kwargs],
+        *[({"lower_kwargs": v}) for v in valid_off_diag_kwargs],
+        *[({"upper_kwargs": v}) for v in valid_off_diag_kwargs],
+    ],
+)
+def test_plotting_kwargs_validation(kwargs):
+    """
+    Validate that `pairplot` correctly enforces the types of `diag_kwargs`,
+    `upper_kwargs`, and `lower_kwargs`.
+    """
+    posterior_samples = torch.randn(100, 3)
+
+    _ = pairplot(samples=posterior_samples, **kwargs)
+
+    close()
+
+
+valid_diag_options = get_args(plt.DiagLiteral) + (None, ["hist", None])
+valid_upper_options = get_args(plt.UpperLiteral) + (None, ["scatter", None])
+valid_lower_options = get_args(plt.LowerLiteral) + (None, ["hist", None])
+
+invalid_inputs = ["", [""]]
+
+
+@pytest.mark.parametrize(
+    "kwargs",
+    [
+        # invalid inputs
+        *[
+            pytest.param({"diag": value}, marks=pytest.mark.xfail(raises=ValueError))
+            for value in invalid_inputs
+        ],
+        *[
+            pytest.param({"upper": value}, marks=pytest.mark.xfail(raises=ValueError))
+            for value in invalid_inputs
+        ],
+        *[
+            pytest.param({"lower": value}, marks=pytest.mark.xfail(raises=ValueError))
+            for value in invalid_inputs
+        ],
+        # valid inputs
+        *[({"diag": value}) for value in valid_diag_options],
+        *[({"upper": value}) for value in valid_upper_options],
+        *[({"lower": value}) for value in valid_lower_options],
+    ],
+)
+def test_plotting_style_arguments_validation(kwargs):
+    """
+    Check that the `pairplot` function correctly validates plotting
+    style arguments.
+    """
+
+    posterior_samples = torch.randn(100, 3)
+
+    _ = pairplot(samples=posterior_samples, **kwargs)
+
+    close()
+
+
+# --- Tests for discrete_indices support ---
+
+
+def _make_mixed_samples(n: int = 200, dim: int = 4) -> torch.Tensor:
+    """Helper: first 2 dims continuous, rest discrete."""
+    samples = torch.randn(n, dim)
+    for i in range(2, dim):
+        samples[:, i] = torch.randint(0, 4, (n,)).float()
+    return samples
+
+
+@pytest.mark.parametrize("diag", ("hist", "kde", "scatter", "bar"))
+@pytest.mark.parametrize("upper", ("scatter", "kde", "contour", "hist"))
+def test_pairplot_discrete_indices(diag, upper):
+    """pairplot with discrete_indices should not crash for any diag/upper combo."""
+    samples = _make_mixed_samples()
+    fig, _ = pairplot(samples, discrete_indices=[2, 3], diag=diag, upper=upper)
+    assert isinstance(fig, Figure)
+    close()
+
+
+@pytest.mark.parametrize(
+    "samples_fn, pairplot_kwargs",
+    [
+        pytest.param(
+            lambda: torch.randint(0, 5, (200, 3)).float(),
+            dict(discrete_indices=[0, 1, 2], diag="kde", upper="kde"),
+            id="all_discrete",
+        ),
+        pytest.param(
+            lambda: _make_mixed_samples(n=200, dim=3),
+            dict(discrete_indices=[2], diag="kde", upper="scatter", lower="contour"),
+            id="lower_triangle",
+        ),
+        pytest.param(
+            lambda: [_make_mixed_samples(n=100, dim=3)] * 2,
+            dict(discrete_indices=[2], diag="kde", upper="scatter"),
+            id="multiple_samples",
+        ),
+        pytest.param(
+            lambda: _make_mixed_samples(),
+            dict(discrete_indices=[2, 3], subset=[0, 2], diag="kde", upper="kde"),
+            id="subset",
+        ),
+    ],
+)
+def test_pairplot_discrete_edge_cases(samples_fn, pairplot_kwargs):
+    """Edge cases: all-discrete, lower triangle, multiple samples, subset."""
+    fig, _ = pairplot(samples_fn(), **pairplot_kwargs)
+    assert isinstance(fig, Figure)
+    close()
+
+
+@pytest.mark.parametrize("kwarg", ("diag_kwargs", "upper_kwargs", "lower_kwargs"))
+def test_pairplot_warns_on_unknown_kwarg_keys(kwarg):
+    """A typo in diag/upper/lower kwargs warns instead of being silently ignored."""
+    plot_arg = kwarg.removesuffix("_kwargs")
+    with pytest.warns(UserWarning, match="unknown keys in plot kwargs"):
+        pairplot(torch.randn(100, 3), **{plot_arg: "hist", kwarg: {"typo_kwarg": 1}})
+    close()
+
+
+def test_pairplot_kde_percentile_levels_are_known_keys():
+    """`percentile` and `levels` are KDE options, not unknown keys."""
+    with warnings.catch_warnings():
+        warnings.filterwarnings("error", message=".*unknown keys in plot kwargs")
+        pairplot(
+            torch.randn(100, 2),
+            upper="kde",
+            upper_kwargs=dict(percentile=True, levels=[0.68, 0.95]),
+        )
+    close()

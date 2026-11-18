@@ -1,0 +1,74 @@
+--- a/src/data/allvars.h
++++ b/src/data/allvars.h
+@@ -362,6 +362,10 @@
+   int GridSize;
+ #endif
+ 
++#ifdef RESEARCH_NUMERICAL_CONTROL
++  int NativeControlPauseStep;
++#endif
++
+ #ifdef EXTERNALGRAVITY_CONTROL
+   int ControlPotential;
+   double ControlGM, ControlScale, ControlAxisY, ControlAxisZ;
+--- a/src/data/allvars.cc
++++ b/src/data/allvars.cc
+@@ -220,6 +220,10 @@
+   add_param("GridSize", &GridSize, PARAM_INT, PARAM_FIXED);
+ #endif
+ 
++#ifdef RESEARCH_NUMERICAL_CONTROL
++  add_param("NativeControlPauseStep", &NativeControlPauseStep, PARAM_INT, PARAM_FIXED);
++#endif
++
+ #ifdef EXTERNALGRAVITY_CONTROL
+   add_param("ControlPotential", &ControlPotential, PARAM_INT, PARAM_FIXED);
+   add_param("ControlGM", &ControlGM, PARAM_DOUBLE, PARAM_FIXED);
+--- a/src/main/run.cc
++++ b/src/main/run.cc
+@@ -212,6 +212,17 @@
+ #endif
+ 
+       All.NumCurrentTiStep++;
++#ifdef RESEARCH_NUMERICAL_CONTROL
++      // An evolved, synchronized native checkpoint boundary for reliability
++      // controls. Restoring the counter makes this pause occur only once.
++      if(All.NativeControlPauseStep > 0 && All.NumCurrentTiStep == All.NativeControlPauseStep)
++        {
++          mpi_printf("CONTROL: pausing evolved native state after step %d.\n", All.NumCurrentTiStep);
++          restart Restart{Communicator};
++          Restart.write(this);
++          return;
++        }
++#endif
+ 
+       /* Check whether we should write a restart file */
+       if(check_for_interruption_of_run())
+--- a/Template-Config.sh
++++ b/Template-Config.sh
+@@ -33,6 +33,7 @@
+ #EXTRA_HIGH_EWALD_ACCURACY                    # this uses third-order instead of second-order Taylor expansion to interpolate Ewald corrections from table 
+ #ALLOW_DIRECT_SUMMATION                       # allows calculation of direct summation gravity force if only a tiny number of particles as active 
+ #EXTERNALGRAVITY                              # switches on inclusion of external gravitational potential
++#RESEARCH_NUMERICAL_CONTROL                  # test-only native checkpoint pause; disabled in production
+ #EXTERNALGRAVITY_CONTROL                      # isolated analytic reliability controls; never a production cosmology
+ #EXTERNALGRAVITY_STATICHQ                     # example for a simple external potential due to a Hernquist halo
+ 
+--- a/buildsystem/option_registry.py
++++ b/buildsystem/option_registry.py
+@@ -1,6 +1,7 @@
+ """Pinned GADGET compile-option and runtime-parameter registry for build checks."""
+ 
+ CONFIG_OPTIONS = {
++    'RESEARCH_NUMERICAL_CONTROL',
+     'BLACK_HOLES',
+     'ADAPTIVE_HYDRO_SOFTENING',
+     'ALLOCATE_SHARED_MEMORY_VIA_POSIX',
+@@ -154,6 +155,7 @@
+ 
+ 
+ PARAMETERS = {
++    'NativeControlPauseStep',
+     'ControlPotential', 'ControlGM', 'ControlScale', 'ControlAxisY', 'ControlAxisZ',
+     'BHRadiativeEfficiency', 'BHFeedbackCoupling', 'BHBondiBoost', 'BHEddingtonFactor',
+     'BHKernelRadiusProperKpc', 'BHSeedMassMsun', 'BHSourceFraction', 'BHMaximumCount',

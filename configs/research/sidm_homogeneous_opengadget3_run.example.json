@@ -1,0 +1,82 @@
+{
+  "request": {
+    "schema": "sidm-homogeneous-native-run-request-v1",
+    "engine": "opengadget3",
+    "population": {
+      "path": "completed/population.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "base_configuration": {
+      "path": "REPLACE_WITH_OPENGADGET3_PARAMETERS.txt",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "sidm": {
+      "schema": "native-sidm-configuration-v1",
+      "enabled": true,
+      "physical_model": {
+        "path": "sidm_homogeneous_isotropic.model.json",
+        "sha256": "3cee078aa0c15c1b03407b388d0527b392384785a8551ab1336cb66e2c14a10f"
+      },
+      "event_identity_namespace": "homogeneous-control:example-v1",
+      "operator_seed": 201,
+      "backend": "distributed_spatial",
+      "scheme": "rare",
+      "kernel_kind": "cubic_spline",
+      "particle_convention": "directed",
+      "kernel_support_proper_kpc": 0.1,
+      "coarse_kernel_support_proper_kpc": 0.2,
+      "cross_section_normalization_cm2_per_g": 1.0,
+      "maximum_pair_probability": 0.01,
+      "maximum_particle_probability": 0.01,
+      "macro_mass_relative_tolerance": 1e-12,
+      "conservation_relative_tolerance": 1e-10,
+      "energy_absolute_floor": 1e-12,
+      "momentum_absolute_floor": 1e-12,
+      "cdf_absolute_tolerance": 1e-08,
+      "kernel_origin_relative_bound": 1e-08,
+      "maximum_transfer_depth": 0.01,
+      "maximum_neglected_moment_ratio": 0.05,
+      "split_angle_radians": 0.1,
+      "clock_absolute_tolerance_seconds": 1.0,
+      "clock_relative_tolerance": 1e-09,
+      "maximum_scale_factor_fractional_change": 0.01,
+      "exchange_memory_mib": 128.0,
+      "maximum_kernel_coarse_support_fraction": 0.01,
+      "maximum_omitted_scattering_upper_bound": 0.01,
+      "maximum_particles": 16384,
+      "maximum_events_per_step": 100000,
+      "maximum_substeps": 256,
+      "maximum_clock_panels": 1024,
+      "maximum_local_pairs": 100000,
+      "maximum_matching_rounds": 4096,
+      "maximum_pair_visits": 10000000,
+      "maximum_exchange_records": 500000
+    },
+    "reference_build": {
+      "capability": {
+        "path": "REPLACE_WITH_BUILD_CAPABILITY.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "configuration": {
+        "path": "REPLACE_WITH_ACTUAL_BUILD_CONFIGURATION.txt",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    "output_times_native": [
+      0.0,
+      0.001
+    ],
+    "maximum_timestep_native": 1e-05,
+    "minimum_timestep_native": 0.0,
+    "softening_proper_kpc": 0.01,
+    "output_time_absolute_tolerance_native": 1e-12,
+    "maximum_particles": 8000,
+    "maximum_snapshots": 16,
+    "maximum_snapshot_bytes": 268435456,
+    "mpi_ranks": 1,
+    "omp_threads": 1,
+    "memory_gib": 8.0,
+    "disk_gib": 8.0,
+    "wall_seconds": 3600.0
+  }
+}

@@ -1,0 +1,29 @@
+MFM Soundwave:
+  stage: MFM_tests
+  extends: .job_settings
+  script:
+    - ./tests/Soundwave/run_soundwave_mfm.sh
+
+MFM Sodshock:
+  stage: MFM_tests
+  extends: .job_settings
+  script:
+    - ./tests/SodShock/run_sodshock_mfm.sh
+
+MFM Sedov:
+  stage: MFM_tests
+  extends: .job_settings
+  script:
+    - ./tests/SedovBlastwave/run_sedov_mfm.sh
+
+MFM Gravity:
+  stage: MFM_tests
+  extends: .job_settings
+  script:
+    - ./tests/FreefallCollapse/run_freefall_mfm.sh
+
+MFM Kepler Disc:
+  stage: MFM_tests
+  extends: .job_settings
+  script:
+    - ./tests/KeplerDisk/run_kepler_mfm.sh

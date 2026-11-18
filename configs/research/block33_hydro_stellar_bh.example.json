@@ -1,0 +1,110 @@
+{
+  "schema": "research-workflow-v1",
+  "resources": {
+    "mpi_ranks": 1,
+    "omp_threads": 1,
+    "memory_gib": 8.0,
+    "disk_gib": 64.0,
+    "maximum_stage_count": 32
+  },
+  "followup_limits": {
+    "maximum_children": 4,
+    "maximum_depth": 2
+  },
+  "physics_spec": {
+    "physics": "hydro",
+    "star_formation": true,
+    "black_holes": true
+  },
+  "capabilities": [],
+  "requested_products": [
+    "native_galaxy_products",
+    "native_galaxy_measurement"
+  ],
+  "stages": [
+    {
+      "stage_id": "hydro",
+      "kind": "public_command",
+      "parameters": {
+        "command": "gadget",
+        "arguments": [
+          "--answers",
+          {
+            "input": "inputs/hydro-stellar-bh.answers.json"
+          },
+          "--run-dir",
+          "{generation}/run"
+        ],
+        "wall_seconds": 86400.0
+      },
+      "outputs": {
+        "hydro_evolution": "run"
+      },
+      "depends_on": [],
+      "species": [
+        "gas",
+        "stars",
+        "black_holes"
+      ],
+      "product_contracts": {
+        "hydro_evolution": {
+          "reader": "native_snapshot_series",
+          "snapshots": [
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "stage_id": "native_galaxy_measurement",
+      "kind": "native_pilot_galaxy_measurement",
+      "parameters": {
+        "request": {
+          "schema": "native-pilot-galaxy-measurement-request-v1",
+          "snapshot": 1,
+          "minimum_star_particles": 100,
+          "minimum_dm_particles": 300,
+          "maximum_galaxies": 1000000,
+          "memory_gib": 2.0
+        },
+        "native_run_directory": {"stage": "hydro", "artifact": "run"},
+        "native_stage_receipt": {"stage": "hydro", "artifact": "stage-receipt.json"},
+        "destination": "{generation}/measured-galaxies"
+      },
+      "outputs": {
+        "native_galaxy_measurement": "measured-galaxies/galaxy-measurement.json",
+        "native_bound_galaxy_catalogue": "measured-galaxies/galaxies.hdf5"
+      },
+      "depends_on": ["hydro"],
+      "species": ["gas", "stars", "black_holes"]
+    },
+    {
+      "stage_id": "galaxy_history",
+      "kind": "public_command",
+      "parameters": {
+        "command": "analysis",
+        "arguments": [
+          {
+            "stage": "hydro",
+            "artifact": "run"
+          },
+          "--graphs",
+          "stellar_components,black_holes,histories"
+        ],
+        "wall_seconds": 86400.0,
+        "copy_run_input": 0
+      },
+      "outputs": {
+        "native_galaxy_products": "private_run/results"
+      },
+      "depends_on": [
+        "hydro"
+      ],
+      "species": [
+        "stars",
+        "black_holes"
+      ]
+    }
+  ]
+}

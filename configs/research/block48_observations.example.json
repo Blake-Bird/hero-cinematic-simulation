@@ -1,0 +1,33 @@
+{
+  "schema": "sidm-observational-comparison-request-v1",
+  "memory_gib": 4,
+  "maximum_comparisons": 64,
+  "comparisons": [
+    {
+      "comparison_id": "matched-h0",
+      "family": "h0_estimator",
+      "collisionless": {
+        "path": "REPLACE_CDM_FROZEN_GENERATION/manifest.json",
+        "sha256": "REPLACE_SHA256"
+      },
+      "sidm": {
+        "path": "REPLACE_SIDM_FROZEN_GENERATION/manifest.json",
+        "sha256": "REPLACE_SHA256"
+      },
+      "matching": {
+        "observer_identity": "REPLACE_EXACT_OBSERVER",
+        "selection_sha256": "REPLACE_SHA256",
+        "nuisance_model_sha256": "REPLACE_SHA256",
+        "background_sha256": "REPLACE_SHA256"
+      },
+      "observables": [
+        {
+          "array": "H0",
+          "support_array": "H0_supported",
+          "units": "km/s/Mpc",
+          "absolute_floor": 1
+        }
+      ]
+    }
+  ]
+}

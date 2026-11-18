@@ -1,0 +1,21 @@
+{
+  "request": {
+    "schema": "native-dm-wake-kernel-comparison-request-v1",
+    "native_diagnostic": {
+      "path": "REPLACE_WITH_OWNED_NATIVE_WAKE_MONOPOLE.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "reference_force": {
+      "path": "REPLACE_WITH_ORIGINAL_NATIVE_PAIR_FORCE_PRODUCT.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "memory_gib": 2.0,
+    "maximum_bins": 128,
+    "maximum_diagnostic_bytes": 1048576,
+    "maximum_native_epoch_error": 0.0,
+    "maximum_probe_position_error_kpc": 1e-06,
+    "relative_mass_tolerance": 1e-08,
+    "maximum_shell_acceleration_error_cm_s2": 1e-10,
+    "maximum_closed_total_force_error_cm_s2": 1e-10
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "repository": "https://github.com/pynbody/pynbody",
+  "revision": "7eaa57380bdcf37a469a089ccc05de838c1f90ce",
+  "path": "core/software/workflow-references/pynbody",
+  "license_declared_by_upstream_pyproject": "GPL-3.0-or-later",
+  "use": "Read-only algorithm reference; no copied source and no imported runtime dependency",
+  "reviewed_source": "pynbody/analysis/profile.py: density, mass_enc, density_enc",
+  "first_party_implementation": "core/convergence_measurements.py",
+  "papers": ["https://arxiv.org/abs/2402.01604", "https://arxiv.org/abs/2403.00739"],
+  "execution": "NOT_RUN"
+}

@@ -1,0 +1,37 @@
+{
+  "request": {
+    "schema": "native-wake-context-request-v1",
+    "response": {
+      "path": "REPLACE_WITH_SUPPORTED_STATE_RESPONSE.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "response_table": {
+      "path": "REPLACE_WITH_NATIVE_STATE_TABLE.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "background_force": {
+      "path": "REPLACE_WITH_ORIGINAL_BACKGROUND_FORCE.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "limits": {
+      "maximum_proper_step_seconds": 10000000000.0,
+      "maximum_reference_error_cm_s2": 1e-10,
+      "maximum_heldout_error_cm_s2": 1e-10,
+      "maximum_fractional_relative_velocity_change": 0.01,
+      "minimum_inertia_eigenvalue_ratio": 1e-06,
+      "conservation_relative_tolerance": 1e-10,
+      "momentum_absolute_floor_msun_km_s": 1e-08,
+      "energy_absolute_floor_msun_km2_s2": 1e-08,
+      "angular_absolute_floor_msun_kpc_km_s": 1e-08,
+      "proper_clock_absolute_tolerance_seconds": 1.0,
+      "proper_clock_relative_tolerance": 1e-09
+    },
+    "seed": 1,
+    "maximum_particles": 1000000,
+    "maximum_workspace_bytes": 1073741824,
+    "maximum_subcycles": 64,
+    "maximum_context_bytes": 65536,
+    "memory_gib": 4.0,
+    "maximum_schedule_workspace_bytes": 65536
+  }
+}

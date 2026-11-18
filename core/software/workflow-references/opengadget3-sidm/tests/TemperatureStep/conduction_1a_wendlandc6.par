@@ -1,0 +1,53 @@
+%  Relevant files
+InitCondFile      tests/TemperatureStep/conduction_1a_wendlandc6.ic
+
+% CPU-time limit %%%%%%%%%%%%%% TimeLimitCPU*0.6=BetRest
+TimeLimitCPU      1728000
+CpuTimeBetRestartFile  900
+
+%  Caracteristics of run
+MaxMemSize          1200
+TimeBegin           0.0
+TimeMax             0.005
+
+BoxSize                1.0
+PeriodicBoundariesOn   1
+
+
+% Output frequency
+
+TimeBetSnapshot        0.0005
+TimeOfFirstSnapshot    0
+
+MaxSizeTimestep        0.005
+
+%  Parameters of SPH
+
+
+ArtBulkViscConst    2.0
+
+
+% Further code parameters
+
+PartAllocFactor       3.0
+
+BufferSize              20
+
+% System of units
+
+UnitLength_in_cm         1.0
+UnitMass_in_g            1.0
+UnitVelocity_in_cm_per_s 1.0
+
+
+% Softening lengths
+
+SofteningGas       0.000051  % 0.4
+
+SofteningGasMaxPhys       0.000051  %0.4
+
+
+% conduction @todo
+
+ConductionEfficiency 1.0
+MaxSizeConductionStep 2.5E-4

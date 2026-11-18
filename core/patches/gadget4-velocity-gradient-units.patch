@@ -1,0 +1,16 @@
+--- a/src/io/snap_io.cc
++++ b/src/io/snap_io.cc
+@@ -200,12 +200,12 @@
+ #ifdef OUTPUT_DIVVEL
+   init_field("DIVV", "VelocityDivergence", MEM_MY_FLOAT, FILE_MY_IO_FLOAT, READ_IF_PRESENT, 1, A_SPHP, &Sp->SphP[0].DivVel, 0,
+              GAS_ONLY, /* hydro velocity divergence */
+-             0, 0, 0, 0, 0, 0, 0);
++             1, -2., 1., -1., 0., 1., All.UnitVelocity_in_cm_per_s / All.UnitLength_in_cm);
+ #endif
+ 
+ #ifdef OUTPUT_CURLVEL
+   init_field("ROTV", "VelocityCurl", MEM_MY_FLOAT, FILE_MY_IO_FLOAT, READ_IF_PRESENT, 1, A_SPHP, &Sp->SphP[0].CurlVel, 0,
+              GAS_ONLY, /* absolute value of rot v */
+-             0, 0, 0, 0, 0, 0, 0);
++             1, -2., 1., -1., 0., 1., All.UnitVelocity_in_cm_per_s / All.UnitLength_in_cm);
+ #endif

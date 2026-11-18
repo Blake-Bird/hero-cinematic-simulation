@@ -1,0 +1,32 @@
+input:
+  dir: ./_catalogs
+  pos: Position
+  data_fn: data.fits
+  randoms_fn: randoms.fits
+  weight: ${Weight}
+
+output:
+  dir: ./_catalogs
+  data_fn: data_rec_script.fits
+  randoms_fn: randoms_rec_script.fits
+  pos: Position
+  pos_rec: Position_rec
+  rdz_rec: [ra_rec, dec_rec, z_rec]
+  columns: [NZ, Weight]
+
+algorithm:
+  name: IterativeFFTParticleReconstruction
+  convention: RecSym
+  los: local
+  # other algorithm-related parameters
+
+delta:
+  smoothing_radius: 15
+
+cosmology:
+  bias: 2.0
+  f: 0.8
+
+mesh:
+  nmesh: 128
+  dtype: f8

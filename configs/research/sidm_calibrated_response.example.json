@@ -1,0 +1,15 @@
+{
+  "schema": "sidm-calibrated-joint-response-request-v1",
+  "memory_gib": 8.0,
+  "training_response": {
+    "path": "REPLACE_WITH_NATIVE_TRAINING_RESPONSE.json",
+    "sha256": "REPLACE_WITH_EXACT_SHA256"
+  },
+  "maximum_calibrations": 16,
+  "calibrations": [
+    {
+      "path": "REPLACE_WITH_MEASURED_HELDOUT_CALIBRATION.json",
+      "sha256": "REPLACE_WITH_EXACT_SHA256"
+    }
+  ]
+}

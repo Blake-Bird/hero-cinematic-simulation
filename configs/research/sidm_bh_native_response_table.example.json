@@ -1,0 +1,12 @@
+{
+  "request": {
+    "schema": "native-wake-response-table-request-v1",
+    "response": {
+      "path": "REPLACE_WITH_ACTUAL_CALIBRATED_WAKE_RESPONSE.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "memory_gib": 4.0,
+    "maximum_knots": 1024,
+    "maximum_table_bytes": 1048576
+  }
+}

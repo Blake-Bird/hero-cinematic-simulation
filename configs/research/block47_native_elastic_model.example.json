@@ -1,0 +1,15 @@
+{
+  "schema": "sidm-elastic-model-v2",
+  "kind": "constant_isotropic",
+  "cross_section_cm2_per_g": 1.0,
+  "supplied_cross_section": "total",
+  "particle_convention": "directed",
+  "differential_units": "cm2_per_g_per_sr",
+  "native_speed_coverage_kms": [0.001, 10000.0],
+  "low_velocity_policy": "constant",
+  "high_velocity_policy": "constant",
+  "interpolation": {
+    "absolute_tolerance_cm2_per_g": 1e-10,
+    "relative_tolerance": 0.0001
+  }
+}

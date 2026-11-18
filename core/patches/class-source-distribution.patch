@@ -1,0 +1,99 @@
+--- a/Makefile
++++ b/Makefile
+@@ -9,7 +9,7 @@
+ 	if ! [ -e $(WRKDIR) ]; then mkdir $(WRKDIR) ; mkdir $(WRKDIR)/lib; fi;
+ 	touch build/.base
+ 
+-vpath %.c source:tools:main:test
++vpath %.c source:tools:main
+ vpath %.o build
+ vpath %.opp build
+ vpath .base build
+@@ -139,36 +139,9 @@
+ 
+ CLASS = class.o
+ 
+-TEST_LOOPS = test_loops.o
++# Portable pipeline distribution: native executable only; no regression fixtures or Python wrappers.
+ 
+-TEST_LOOPS_OMP = test_loops_omp.o
+-
+-TEST_HARMONIC = test_harmonic.o
+-
+-TEST_TRANSFER = test_transfer.o
+-
+-TEST_FOURIER = test_fourier.o
+-
+-TEST_PERTURBATIONS = test_perturbations.o
+-
+-TEST_THERMODYNAMICS = test_thermodynamics.o
+-
+-TEST_BACKGROUND = test_background.o
+-
+-TEST_HYPERSPHERICAL = test_hyperspherical.o
+-
+-C_TOOLS =  $(addprefix tools/, $(addsuffix .c,$(basename $(TOOLS))))
+-C_SOURCE = $(addprefix source/, $(addsuffix .c,$(basename $(SOURCE) $(OUTPUT))))
+-C_TEST = $(addprefix test/, $(addsuffix .c,$(basename $(TEST_DEGENERACY) $(TEST_LOOPS) $(TEST_TRANSFER) $(TEST_FOURIER) $(TEST_PERTURBATIONS) $(TEST_THERMODYNAMICS))))
+-C_MAIN = $(addprefix main/, $(addsuffix .c,$(basename $(CLASS))))
+-C_ALL = $(C_MAIN) $(C_TOOLS) $(C_SOURCE)
+-H_ALL = $(addprefix include/, common.h svnversion.h $(addsuffix .h, $(basename $(notdir $(C_ALL)))))
+-PRE_ALL = cl_ref.pre clt_permille.pre
+-INI_ALL = explanatory.ini lcdm.ini
+-MISC_FILES = Makefile CPU psd_FD_single.dat myselection.dat myevolution.dat README bbn/sBBN.dat external_Pk/* cpp
+-PYTHON_FILES = python/classy.pyx python/setup.py python/cclassy.pxd python/test_class.py
+-
+-all: class libclass.a classy
++all: class libclass.a
+ 
+ libclass.a: $(TOOLS) $(SOURCE) $(EXTERNAL)
+ 	$(AR)  $@ $(addprefix build/, $(TOOLS) $(SOURCE) $(EXTERNAL))
+@@ -176,48 +149,6 @@
+ class: $(TOOLS) $(SOURCE) $(EXTERNAL) $(OUTPUT) $(CLASS)
+ 	$(CPP) $(OPTFLAG) $(OMPFLAG) $(LDFLAG) -o class $(addprefix build/,$(notdir $^)) -lm
+ 
+-test_loops: $(TOOLS) $(SOURCE) $(EXTERNAL) $(OUTPUT) $(TEST_LOOPS)
+-	$(CPP) $(OPTFLAG) $(OMPFLAG) $(LDFLAG) -o $@ $(addprefix build/,$(notdir $^)) -lm
+-
+-test_loops_omp: $(TOOLS) $(SOURCE) $(EXTERNAL) $(OUTPUT) $(TEST_LOOPS_OMP)
+-	$(CPP) $(OPTFLAG) $(OMPFLAG) $(LDFLAG) -o $@ $(addprefix build/,$(notdir $^)) -lm
+-
+-test_harmonic: $(TOOLS) $(SOURCE) $(EXTERNAL) $(TEST_HARMONIC)
+-	$(CPP) $(OPTFLAG) $(OMPFLAG) $(LDFLAG) -o  $@ $(addprefix build/,$(notdir $^)) -lm
+-
+-test_transfer: $(TOOLS) $(SOURCE) $(EXTERNAL) $(TEST_TRANSFER)
+-	$(CPP) $(OPTFLAG) $(OMPFLAG) $(LDFLAG) -o  $@ $(addprefix build/,$(notdir $^)) -lm
+-
+-test_fourier: $(TOOLS) $(SOURCE) $(EXTERNAL) $(TEST_FOURIER)
+-	$(CPP) $(OPTFLAG) $(OMPFLAG) $(LDFLAG) -o  $@ $(addprefix build/,$(notdir $^)) -lm
+-
+-test_perturbations: $(TOOLS) $(SOURCE) $(EXTERNAL) $(TEST_PERTURBATIONS)
+-	$(CPP) $(OPTFLAG) $(OMPFLAG) $(LDFLAG) -o  $@ $(addprefix build/,$(notdir $^)) -lm
+-
+-test_thermodynamics: $(TOOLS) $(SOURCE) $(EXTERNAL) $(TEST_THERMODYNAMICS)
+-	$(CPP) $(OPTFLAG) $(OMPFLAG) $(LDFLAG) -o  $@ $(addprefix build/,$(notdir $^)) -lm
+-
+-test_background: $(TOOLS) $(SOURCE) $(EXTERNAL) $(TEST_BACKGROUND)
+-	$(CPP) $(OPTFLAG) $(OMPFLAG) $(LDFLAG) -o  $@ $(addprefix build/,$(notdir $^)) -lm
+-
+-test_hyperspherical: $(TOOLS) $(TEST_HYPERSPHERICAL)
+-	$(CC) $(OPTFLAG) $(OMPFLAG) $(LDFLAG) -o test_hyperspherical $(addprefix build/,$(notdir $^)) -lm
+-
+-tar: $(C_ALL) $(C_TEST) $(H_ALL) $(PRE_ALL) $(INI_ALL) $(MISC_FILES) $(HYREC) $(PYTHON_FILES)
+-	tar czvf class.tar.gz $(C_ALL) $(H_ALL) $(PRE_ALL) $(INI_ALL) $(MISC_FILES) $(HYREC) $(PYTHON_FILES)
+-
+-classy: libclass.a python/classy.pyx python/cclassy.pxd
+-	export CC=$(CC); output=$$($(PYTHON) -m pip install . 2>&1); \
+-    echo "$$output"; \
+-    if echo "$$output" | grep -q "ERROR: Cannot uninstall"; then \
+-        site_packages=$$($(PYTHON) -c "import distutils.sysconfig; print(distutils.sysconfig.get_python_lib())" || $(PYTHON) -c "import site; print(site.getsitepackages()[0])") && \
+-        echo "Cleaning up previous installation in: $$site_packages" && \
+-        rm -rf $$site_packages/classy* && \
+-        $(PYTHON) -m pip install .; \
+-    fi
+-
+ clean: .base
+ 	rm -rf $(WRKDIR);
+ 	rm -f libclass.a
+-	rm -f $(MDIR)/python/classy.c
+-	rm -rf $(MDIR)/python/build

@@ -1,0 +1,42 @@
+{
+  "schema": "physical-plummer-collision-control-v1",
+  "phase_seed": 42,
+  "first_particle_id": 1152921504606846976,
+  "maximum_particles": 8192,
+  "chunk_particles": 1024,
+  "memory_gib": 4.0,
+  "mpi_ranks": 1,
+  "omp_threads": 1,
+  "multipole_order": 3,
+  "box_side_proper_kpc": 10000.0,
+  "initial_time_gyr": 0.0,
+  "maximum_timestep_gyr": 0.001,
+  "softening_proper_kpc": 0.1,
+  "wall_seconds": 3600.0,
+  "maximum_outputs": 8,
+  "output_times_gyr": [0.0, 0.01, 0.02, 0.04, 0.08],
+  "output_time_absolute_tolerance_native": 0.00000001,
+  "native_units": {
+    "length_cm": 3.0856775814913673e21,
+    "mass_g": 1.98847e43,
+    "velocity_cm_per_s": 100000.0
+  },
+  "sidm": {"enabled": false},
+  "halos": [
+    {
+      "particles": 4096,
+      "mass_msun": 10000000000.0,
+      "scale_proper_kpc": 2.0,
+      "center_proper_kpc": [4990.0, 5000.0, 5000.0],
+      "bulk_velocity_kms": [150.0, 0.0, 0.0]
+    },
+    {
+      "particles": 4096,
+      "mass_msun": 10000000000.0,
+      "scale_proper_kpc": 2.0,
+      "center_proper_kpc": [5010.0, 5000.0, 5000.0],
+      "bulk_velocity_kms": [-150.0, 0.0, 0.0]
+    }
+  ],
+  "scope": "Explicit collisionless baseline inputs; use the same physical population with a full pinned enabled SIDM configuration for matched scattering controls. No event coverage or scientific acceptance is asserted."
+}

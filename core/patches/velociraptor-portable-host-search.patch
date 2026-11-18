@@ -1,0 +1,473 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 240a55c..c9a6476 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -38,7 +38,7 @@ include (VRCMakeUtils)
+ include(VRCompilationMessages)
+ 
+ include(CTest)
+-enable_testing()
++# Portable distribution contains no regression harness.
+ 
+ # Let the *_ROOT variables indicate where to find packages (cmake >= 3.12)
+ if (POLICY CMP0074)
+@@ -212,9 +212,8 @@ endif()
+ # Add git revision information in a generated .cxx file, which we then include
+ # as part of the library
+ #
+-include(cmake/GetGitRevisionDescription.cmake)
+-get_git_head_revision(GIT_REFSPEC GIT_SHA1)
+-git_local_changes(GIT_HAS_LOCAL_CHANGES)
++set(GIT_SHA1 "04e6f6686f0613ca1442636ec12f49be37105cda")
++set(GIT_HAS_LOCAL_CHANGES "applied portable-host-search patch")
+ set(git_revision_cxx "${CMAKE_CURRENT_BINARY_DIR}/git_revision.cxx")
+ configure_file("src/git_revision.cxx.in" "${git_revision_cxx}" @ONLY)
+ 
+@@ -223,7 +222,9 @@ configure_file("src/git_revision.cxx.in" "${git_revision_cxx}" @ONLY)
+ # Go and find our dependencies, depending on whether
+ # we actually need them or not
+ #
+-vr_ensure_git_submodules()
++if (NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/NBodylib/CMakeLists.txt")
++  message(FATAL_ERROR "The pinned NBodylib source must be bundled locally")
++endif()
+ find_gsl()
+ vr_mpi()
+ vr_hdf5()
+@@ -267,5 +268,5 @@ if (_export)
+ 	set(VR_LIBS "${VR_LIBS}" PARENT_SCOPE)
+ 	set(VR_DOC_DIRS "${VR_DOC_DIRS}" PARENT_SCOPE)
+ else()
+-	try_add_doc_target("${VR_DOC_DIRS}")
++	# Documentation is summarized in PROJECT_GUIDE.md.
+ endif()
+diff --git a/cmake/GetGitRevisionDescription.cmake b/cmake/GetGitRevisionDescription.cmake
+deleted file mode 100644
+index 8ab03bc..0000000
+--- a/cmake/GetGitRevisionDescription.cmake
++++ /dev/null
+@@ -1,168 +0,0 @@
+-# - Returns a version string from Git
+-#
+-# These functions force a re-configure on each git commit so that you can
+-# trust the values of the variables in your build system.
+-#
+-#  get_git_head_revision(<refspecvar> <hashvar> [<additional arguments to git describe> ...])
+-#
+-# Returns the refspec and sha hash of the current head revision
+-#
+-#  git_describe(<var> [<additional arguments to git describe> ...])
+-#
+-# Returns the results of git describe on the source tree, and adjusting
+-# the output so that it tests false if an error occurs.
+-#
+-#  git_get_exact_tag(<var> [<additional arguments to git describe> ...])
+-#
+-# Returns the results of git describe --exact-match on the source tree,
+-# and adjusting the output so that it tests false if there was no exact
+-# matching tag.
+-#
+-#  git_local_changes(<var>)
+-#
+-# Returns either "CLEAN" or "DIRTY" with respect to uncommitted changes.
+-# Uses the return code of "git diff-index --quiet HEAD --".
+-# Does not regard untracked files.
+-#
+-# Requires CMake 2.6 or newer (uses the 'function' command)
+-#
+-# Original Author:
+-# 2009-2010 Ryan Pavlik <rpavlik@iastate.edu> <abiryan@ryand.net>
+-# http://academic.cleardefinition.com
+-# Iowa State University HCI Graduate Program/VRAC
+-#
+-# Copyright Iowa State University 2009-2010.
+-# Distributed under the Boost Software License, Version 1.0.
+-# (See accompanying file LICENSE_1_0.txt or copy at
+-# http://www.boost.org/LICENSE_1_0.txt)
+-
+-if(__get_git_revision_description)
+-	return()
+-endif()
+-set(__get_git_revision_description YES)
+-
+-# We must run the following at "include" time, not at function call time,
+-# to find the path to this module rather than the path to a calling list file
+-get_filename_component(_gitdescmoddir ${CMAKE_CURRENT_LIST_FILE} PATH)
+-
+-function(get_git_head_revision _refspecvar _hashvar)
+-	set(GIT_PARENT_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+-	set(GIT_DIR "${GIT_PARENT_DIR}/.git")
+-	while(NOT EXISTS "${GIT_DIR}")	# .git dir not found, search parent directories
+-		set(GIT_PREVIOUS_PARENT "${GIT_PARENT_DIR}")
+-		get_filename_component(GIT_PARENT_DIR ${GIT_PARENT_DIR} PATH)
+-		if(GIT_PARENT_DIR STREQUAL GIT_PREVIOUS_PARENT)
+-			# We have reached the root directory, we are not in git
+-			set(${_refspecvar} "GITDIR-NOTFOUND" PARENT_SCOPE)
+-			set(${_hashvar} "GITDIR-NOTFOUND" PARENT_SCOPE)
+-			return()
+-		endif()
+-		set(GIT_DIR "${GIT_PARENT_DIR}/.git")
+-	endwhile()
+-	# check if this is a submodule
+-	if(NOT IS_DIRECTORY ${GIT_DIR})
+-		file(READ ${GIT_DIR} submodule)
+-		string(REGEX REPLACE "gitdir: (.*)\n$" "\\1" GIT_DIR_RELATIVE ${submodule})
+-		get_filename_component(SUBMODULE_DIR ${GIT_DIR} PATH)
+-		get_filename_component(GIT_DIR ${SUBMODULE_DIR}/${GIT_DIR_RELATIVE} ABSOLUTE)
+-	endif()
+-	set(GIT_DATA "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/git-data")
+-	if(NOT EXISTS "${GIT_DATA}")
+-		file(MAKE_DIRECTORY "${GIT_DATA}")
+-	endif()
+-
+-	if(NOT EXISTS "${GIT_DIR}/HEAD")
+-		return()
+-	endif()
+-	set(HEAD_FILE "${GIT_DATA}/HEAD")
+-	configure_file("${GIT_DIR}/HEAD" "${HEAD_FILE}" COPYONLY)
+-
+-	configure_file("${_gitdescmoddir}/GetGitRevisionDescription.cmake.in"
+-		"${GIT_DATA}/grabRef.cmake"
+-		@ONLY)
+-	include("${GIT_DATA}/grabRef.cmake")
+-
+-	set(${_refspecvar} "${HEAD_REF}" PARENT_SCOPE)
+-	set(${_hashvar} "${HEAD_HASH}" PARENT_SCOPE)
+-endfunction()
+-
+-function(git_describe _var)
+-	if(NOT GIT_FOUND)
+-		find_package(Git QUIET)
+-	endif()
+-	get_git_head_revision(refspec hash)
+-	if(NOT GIT_FOUND)
+-		set(${_var} "GIT-NOTFOUND" PARENT_SCOPE)
+-		return()
+-	endif()
+-	if(NOT hash)
+-		set(${_var} "HEAD-HASH-NOTFOUND" PARENT_SCOPE)
+-		return()
+-	endif()
+-
+-	# TODO sanitize
+-	#if((${ARGN}" MATCHES "&&") OR
+-	#	(ARGN MATCHES "||") OR
+-	#	(ARGN MATCHES "\\;"))
+-	#	message("Please report the following error to the project!")
+-	#	message(FATAL_ERROR "Looks like someone's doing something nefarious with git_describe! Passed arguments ${ARGN}")
+-	#endif()
+-
+-	#message(STATUS "Arguments to execute_process: ${ARGN}")
+-
+-	execute_process(COMMAND
+-		"${GIT_EXECUTABLE}"
+-		describe
+-		${hash}
+-		${ARGN}
+-		WORKING_DIRECTORY
+-		"${CMAKE_CURRENT_SOURCE_DIR}"
+-		RESULT_VARIABLE
+-		res
+-		OUTPUT_VARIABLE
+-		out
+-		ERROR_QUIET
+-		OUTPUT_STRIP_TRAILING_WHITESPACE)
+-	if(NOT res EQUAL 0)
+-		set(out "${out}-${res}-NOTFOUND")
+-	endif()
+-
+-	set(${_var} "${out}" PARENT_SCOPE)
+-endfunction()
+-
+-function(git_get_exact_tag _var)
+-	git_describe(out --exact-match ${ARGN})
+-	set(${_var} "${out}" PARENT_SCOPE)
+-endfunction()
+-
+-function(git_local_changes _var)
+-	if(NOT GIT_FOUND)
+-		find_package(Git QUIET)
+-	endif()
+-	get_git_head_revision(refspec hash)
+-	if(NOT GIT_FOUND)
+-		set(${_var} "GIT-NOTFOUND" PARENT_SCOPE)
+-		return()
+-	endif()
+-	if(NOT hash)
+-		set(${_var} "HEAD-HASH-NOTFOUND" PARENT_SCOPE)
+-		return()
+-	endif()
+-
+-	execute_process(COMMAND
+-		"${GIT_EXECUTABLE}"
+-		diff-index --quiet HEAD --
+-		WORKING_DIRECTORY
+-		"${CMAKE_CURRENT_SOURCE_DIR}"
+-		RESULT_VARIABLE
+-		res
+-		OUTPUT_VARIABLE
+-		out
+-		ERROR_QUIET
+-		OUTPUT_STRIP_TRAILING_WHITESPACE)
+-	if(res EQUAL 0)
+-		set(${_var} "CLEAN" PARENT_SCOPE)
+-	else()
+-		set(${_var} "DIRTY" PARENT_SCOPE)
+-	endif()
+-endfunction()
+diff --git a/cmake/GetGitRevisionDescription.cmake.in b/cmake/GetGitRevisionDescription.cmake.in
+deleted file mode 100644
+index 6d8b708..0000000
+--- a/cmake/GetGitRevisionDescription.cmake.in
++++ /dev/null
+@@ -1,41 +0,0 @@
+-#
+-# Internal file for GetGitRevisionDescription.cmake
+-#
+-# Requires CMake 2.6 or newer (uses the 'function' command)
+-#
+-# Original Author:
+-# 2009-2010 Ryan Pavlik <rpavlik@iastate.edu> <abiryan@ryand.net>
+-# http://academic.cleardefinition.com
+-# Iowa State University HCI Graduate Program/VRAC
+-#
+-# Copyright Iowa State University 2009-2010.
+-# Distributed under the Boost Software License, Version 1.0.
+-# (See accompanying file LICENSE_1_0.txt or copy at
+-# http://www.boost.org/LICENSE_1_0.txt)
+-
+-set(HEAD_HASH)
+-
+-file(READ "@HEAD_FILE@" HEAD_CONTENTS LIMIT 1024)
+-
+-string(STRIP "${HEAD_CONTENTS}" HEAD_CONTENTS)
+-if(HEAD_CONTENTS MATCHES "ref")
+-	# named branch
+-	string(REPLACE "ref: " "" HEAD_REF "${HEAD_CONTENTS}")
+-	if(EXISTS "@GIT_DIR@/${HEAD_REF}")
+-		configure_file("@GIT_DIR@/${HEAD_REF}" "@GIT_DATA@/head-ref" COPYONLY)
+-	else()
+-		configure_file("@GIT_DIR@/packed-refs" "@GIT_DATA@/packed-refs" COPYONLY)
+-		file(READ "@GIT_DATA@/packed-refs" PACKED_REFS)
+-		if(${PACKED_REFS} MATCHES "([0-9a-z]*) ${HEAD_REF}")
+-			set(HEAD_HASH "${CMAKE_MATCH_1}")
+-		endif()
+-	endif()
+-else()
+-	# detached HEAD
+-	configure_file("@GIT_DIR@/HEAD" "@GIT_DATA@/head-ref" COPYONLY)
+-endif()
+-
+-if(NOT HEAD_HASH)
+-	file(READ "@GIT_DATA@/head-ref" HEAD_HASH LIMIT 1024)
+-	string(STRIP "${HEAD_HASH}" HEAD_HASH)
+-endif()
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 8eb696f..6fe54fd 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -67,5 +67,5 @@ set_target_properties(stf PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR
+ sanitizer_options(velociraptor)
+ 
+ if (BUILD_TESTING)
+-	add_subdirectory(tests)
++	# No regression harness in the portable distribution.
+ endif()
+diff --git a/src/allvars.h b/src/allvars.h
+index b64de5e..6d7a63a 100644
+--- a/src/allvars.h
++++ b/src/allvars.h
+@@ -32,7 +32,7 @@
+ #include <sched.h>
+ #include <string>
+ #include <sys/stat.h>
+-#include <sys/sysinfo.h>
++// sysinfo was unused; omit the Linux-only header for portable builds.
+ #include <sys/timeb.h>
+ #include <sys/time.h>
+ #include <tuple>
+diff --git a/src/hdfio.cxx b/src/hdfio.cxx
+index fddee49..5d9dc75 100644
+--- a/src/hdfio.cxx
++++ b/src/hdfio.cxx
+@@ -1040,7 +1040,11 @@ void ReadHDF(Options &opt, vector<Particle> &Part, const Int_t nbodies,Particle
+     //which is particle of type 1
+     N_DM=hdf_header_info[ifirstfile].npartTotal[HDFDMTYPE];
+     N_DM+=((long long)hdf_header_info[ifirstfile].npartTotalHW[HDFDMTYPE]<<32);
+-    LN=(opt.p*lscale/pow(N_DM,1.0/3.0));
++    // Single-host searches use ellxscale=1 and explicit physical linking
++    // lengths, not a fictitious dark-matter population or box spacing.
++    if (opt.iSingleHalo) LN=1.0;
++    else if (N_DM > 0) LN=(opt.p*lscale/pow(N_DM,1.0/3.0));
++    else { LOG(error) << "Field searches require a dark-matter spacing"; exit(9); }
+ #ifdef USEMPI
+     }
+ #endif
+diff --git a/src/localfield.cxx b/src/localfield.cxx
+index 1689dce..a860937 100644
+--- a/src/localfield.cxx
++++ b/src/localfield.cxx
+@@ -509,6 +509,12 @@ void GetVelocityDensityExact(Options &opt, const Int_t nbodies, Particle *Part,
+         period=new Double_t[3];
+         for (int j=0;j<3;j++) period[j]=opt.p;
+     }
++    // Like the approximative path, the exact path accepts a null caller tree.
++    // Build it before FindNearest; the upstream single-host call passes null.
++    if (tree == NULL) {
++        itreeflag=1;
++        tree=new KDTree(Part,nbodies,opt.Bsize,KDTree::TPHYS,KDTree::KEPAN,1000,0,0,0,period);
++    }
+     //if using mpi run NN search store largest distance for each particle so that export list can be built.
+     //if calculating using only particles IN a structure,
+     Double_t *weight;
+diff --git a/src/main.cxx b/src/main.cxx
+index a4d15c8..5eed7ea 100644
+--- a/src/main.cxx
++++ b/src/main.cxx
+@@ -17,6 +17,7 @@
+ 
+ #include "compilation_info.h"
+ #include "ioutils.h"
++#include "io.h" // FileExists declaration for non-STRUCTURE_DEN builds
+ #include "logging.h"
+ #include "stf.h"
+ #include "timer.h"
+@@ -154,7 +155,7 @@ int run(int argc,char **argv)
+ 
+     Coordinate cm,cmvel;
+     Double_t Mtot;
+-    char fname1[1000],fname4[1000];
++    char fname1[1000]={},fname4[1000]={}; // absent optional density cache is an empty path
+ 
+ #ifdef USEMPI
+     mpi_nlocal=new Int_t[NProcs];
+@@ -399,6 +400,7 @@ int run(int argc,char **argv)
+         //nsubset=WriteOutlierValues(opt, nbodies,Part);
+         //Now check if any particles are above the threshold
+         if (nsubset==0) {
++            LOG(info) << "STF_EMPTY_SELECTION";
+             LOG(info) << "No particles found above threshold of " << opt.ellthreshold;
+             LOG(info) << "Exiting";
+             return 0;
+@@ -422,6 +424,24 @@ int run(int argc,char **argv)
+         nbodies=Nlocal;
+ #endif
+     }
++    // SearchFullSet normally creates the hierarchy. Single-host SearchSubset
++    // bypasses it, so initialise measured group roots before downstream output.
++    if (opt.iSingleHalo && ngroup > 0) {
++        psldata=new StrucLevelData;
++        psldata->Allocate(ngroup);
++        psldata->Initialize();
++        psldata->stype=SUBSTYPE;
++        for (Int_t i=0; i<nbodies; ++i) {
++            Int_t gid=pfof[i];
++            if (gid>0 && psldata->gidhead[gid]==NULL) {
++                psldata->gidhead[gid]=&pfof[i];
++                psldata->Phead[gid]=&Part[i];
++                psldata->gidparenthead[gid]=&pfof[i];
++                psldata->giduberparenthead[gid]=&pfof[i];
++                psldata->stypeinlevel[gid]=SUBSTYPE;
++            }
++        }
++    }
+     if (opt.iSubSearch) {
+         LOG(info) << "Searching subset";
+         vr::Timer timer;
+@@ -430,6 +450,8 @@ int run(int argc,char **argv)
+         LOG(info) << "Search for substructures " << Nlocal << " with " << nthreads
+                   << " threads finished in " << timer;
+     }
++    // No selected structures is a valid result, not a zero-array catalogue crash.
++    if (ngroup == 0) { LOG(info) << "STF_EMPTY_SELECTION"; delete[] pfof; return 0; }
+     pdata=new PropData[ngroup+1];
+     //if inclusive halo mass required
+     if (opt.iInclusiveHalo > 0 && opt.iInclusiveHalo < 3 && ngroup>0) {
+diff --git a/src/utilities.cxx b/src/utilities.cxx
+index b30f36c..bd87e70 100644
+--- a/src/utilities.cxx
++++ b/src/utilities.cxx
+@@ -5,6 +5,11 @@
+ #include "ioutils.h"
+ #include "logging.h"
+ #include "stf.h"
++#ifdef __APPLE__
++#include <sys/sysctl.h> // native affinity helper declares sysctlbyname
++#include <mach/mach.h>
++#include <sys/resource.h>
++#endif
+ 
+ namespace vr {
+ 
+@@ -29,7 +34,20 @@ int CompareInt(const void *p1, const void *p2) {
+ /// get the memory use looking at the task
+ namespace vr {
+     memory_usage get_memory_usage() {
+-        memory_usage usage;
++        memory_usage usage{}; // unavailable Linux fields must not expose stack garbage
++#ifdef __APPLE__
++        mach_task_basic_info_data_t info{};
++        mach_msg_type_number_t count=MACH_TASK_BASIC_INFO_COUNT;
++        if (task_info(mach_task_self(), MACH_TASK_BASIC_INFO,
++                      reinterpret_cast<task_info_t>(&info), &count)==KERN_SUCCESS) {
++            usage.vm.current=info.virtual_size;
++            usage.rss.current=info.resident_size;
++        }
++        struct rusage peak{};
++        if (getrusage(RUSAGE_SELF, &peak)==0) usage.rss.peak=peak.ru_maxrss;
++        // macOS does not expose a VM peak here; zero means unavailable.
++        return usage;
++#endif
+ 
+         const char *stat_file = "/proc/self/status";
+         std::ifstream f(stat_file);
+@@ -148,6 +166,11 @@ void cpuset_to_cstr(cpu_set_t *mask, char *str)
+ 
+ void report_binding()
+ {
++#ifdef __APPLE__
++    // macOS does not expose Linux sched_getaffinity masks; do not invent one.
++    LOG(info) << "Core affinity reporting is unavailable on macOS";
++    return;
++#endif
+     std::string binding_report;
+     int rank=0, commsize=1;
+ #ifdef USEMPI
+@@ -169,7 +192,7 @@ void report_binding()
+ #endif
+ #ifdef USEOPENMP
+     #pragma omp parallel \
+-    default(none) shared(binding_report, hnbuf, ThisTask) \
++    default(none) shared(binding_report, hnbuf) \
+     private(coremask, clbuf) \
+     firstprivate(result)
+ #endif
+diff --git a/NBodylib/CMakeLists.txt b/NBodylib/CMakeLists.txt
+index 6608f29..5e67797 100644
+--- a/NBodylib/CMakeLists.txt
++++ b/NBodylib/CMakeLists.txt
+@@ -39,7 +39,7 @@ include (NBodylibCMakeUtils)
+ include(NBodylibCompilationMessages)
+ 
+ include(CTest)
+-enable_testing()
++# Portable distribution contains no regression harness.
+ 
+ 
+ # Are we part of an outside build?
+@@ -232,7 +232,7 @@ add_library(NBodylib::nbodylib ALIAS nbodylib)
+ sanitizer_options(nbodylib)
+ 
+ if (BUILD_TESTING)
+-	add_subdirectory(src/tests)
++	# No regression harness in the portable distribution.
+ endif()
+ 
+ 
+@@ -252,5 +252,5 @@ if (_export)
+ 	set(NBODYLIB_LIBS "${NBODY_LIBS}" PARENT_SCOPE)
+ 	set(NBODYLIB_DOC_DIRS "${NBODY_DOC_DIRS}" PARENT_SCOPE)
+ else()
+-	try_add_doc_target("${NBODY_DOC_DIRS}")
++	# Documentation is summarized in PROJECT_GUIDE.md.
+ endif()

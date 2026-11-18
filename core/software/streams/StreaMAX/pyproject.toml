@@ -1,0 +1,5 @@
+# Metadata lives in setup.py; this file pins the build backend so that
+# `python -m build` (and `uv build`) produce a reproducible wheel.
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"

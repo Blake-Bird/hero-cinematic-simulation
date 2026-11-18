@@ -1,0 +1,38 @@
+{
+  "schema": "sidm-matched-science-request-v1",
+  "memory_gib": 8,
+  "maximum_histories": 16,
+  "baseline_label": "cdm",
+  "histories": [
+    {
+      "label": "cdm",
+      "product": {
+        "path": "REPLACE_CDM_HISTORY.json",
+        "sha256": "REPLACE_SHA256"
+      }
+    },
+    {
+      "label": "sidm",
+      "product": {
+        "path": "REPLACE_SIDM_HISTORY.json",
+        "sha256": "REPLACE_SHA256"
+      }
+    }
+  ],
+  "observables": [
+    "density_msun_kpc3",
+    "axis_ratio_ca",
+    "heat_flux_radial_erg_cm2_s",
+    "central_density_msun_kpc3"
+  ],
+  "absolute_floors": {
+    "density_msun_kpc3": 1,
+    "axis_ratio_ca": 0.001,
+    "heat_flux_radial_erg_cm2_s": 1e-40,
+    "central_density_msun_kpc3": 1
+  },
+  "matching_controls": {
+    "minimum_shared_dm_ids": 100,
+    "minimum_dm_overlap_fraction": 0.5
+  }
+}

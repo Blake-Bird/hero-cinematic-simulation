@@ -1,0 +1,25 @@
+# modules for Marconi100
+# module load gnu/8.4.0  spectrum_mpi/10.3.1--binary fftw/3.3.8--spectrum_mpi--10.3.1--binary hdf5/1.12.0--spectrum_mpi--10.3.1--binary gsl/2.6--gnu--8.4.0
+
+#Modules for Galileo100-gcc
+#module load gnu/10.2.0--gcc--8.3.1 openmpi/4.1.1--gcc--10.2.0-cuda--11.1.0 gsl/2.5--gcc--10.2.0 fftw/3.3.9--openmpi--4.1.1--gcc--10.2.0-cuda--11.1.0 hdf5/1.10.7--gcc--10.2.0 szip/2.1.1--gcc--10.2.0 zlib/1.2.11--gcc--10.2.0 openmpi/4.1.1--gcc--10.2.0-cuda--11.1.0 
+
+
+CC       =   mpic++
+CXX       =   mpic++
+OPTIMIZE =  -O2 -std=c++17 -fopenmp
+#OPTIMIZE =  -O0  -g -Wall -fbounds-check
+
+#GSL_INCL = -I$(GSL_INC)
+#GSL_LIBS = -L$(GSL_LIB)
+GSL_INCL = -I/g100/home/userexternal/sborgani/local_gcc/include
+GSL_LIBS = -L/g100/home/userexternal/sborgani/local_gcc/lib
+
+FFTW_INCL= -I/g100/home/userexternal/sborgani/local_gcc/include
+#FFTW_INCL= -I$(FFTW_HOME)/include
+FFTW_LIBS= -L/g100/home/userexternal/sborgani/local_gcc/lib -lfftw3f_omp
+#FFTW_OPENMP_LIBDIR = -L/g100/home/userexternal/sborgani/local_gcc/lib
+HDF5_INCL = -I$(HDF5_INCLUDE)
+HDF5_LIBS  = -L$(HDF5_LIB) -lhdf5
+
+MPICHLIB =

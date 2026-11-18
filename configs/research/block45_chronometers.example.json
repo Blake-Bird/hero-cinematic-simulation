@@ -1,0 +1,941 @@
+{
+  "schema": "cosmography-campaign-v1",
+  "experiment_id": "block45_chronometers.example",
+  "resources": {
+    "memory_gib": 8,
+    "maximum_stage_count": 100,
+    "maximum_objects": 1000000,
+    "maximum_spectral_pixels": 4096
+  },
+  "stages": [
+    {
+      "stage_id": "chronometers",
+      "kind": "cosmic_chronometer",
+      "realization_id": "independent-realization-001",
+      "inputs": {
+        "observations": "../inputs/passive_spectra.json",
+        "fitting_sps": {
+          "npz": "../inputs/fitting_sps.npz",
+          "metadata": "../inputs/fitting_sps.json"
+        }
+      },
+      "parameters": {
+        "passive_selection": {
+          "observed_cuts": {
+            "dn4000": [
+              1.7,
+              3.0
+            ],
+            "equivalent_width_angstrom": [
+              -1.0,
+              3.0
+            ],
+            "signal_to_noise": [
+              20.0,
+              10000.0
+            ]
+          },
+          "minimum_objects": 40
+        },
+        "spectral_fit": {
+          "require_distinct_sps": true,
+          "continuum_order": 2,
+          "minimum_spectral_pixels": 100,
+          "masked_wavelength_ranges": [],
+          "age_grid_uncertainty_floor_gyr": 0.1,
+          "attenuation_curve": "REPLACE_WITH_NUMERIC_VECTOR_ON_SPS_WAVELENGTH_GRID",
+          "sfh_grid": [
+            {
+              "old_age_gyr": 2.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.008,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 2.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.008,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 2.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.02,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 2.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.02,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 2.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.03,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 2.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.03,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 2.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.008,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 2.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.008,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 2.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.02,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 2.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.02,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 2.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.03,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 2.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.03,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 2.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.008,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 2.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.008,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 2.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.02,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 2.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.02,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 2.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.03,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 2.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.03,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 4.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.008,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 4.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.008,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 4.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.02,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 4.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.02,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 4.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.03,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 4.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.03,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 4.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.008,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 4.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.008,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 4.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.02,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 4.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.02,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 4.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.03,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 4.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.03,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 4.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.008,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 4.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.008,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 4.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.02,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 4.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.02,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 4.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.03,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 4.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.03,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 6.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.008,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 6.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.008,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 6.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.02,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 6.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.02,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 6.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.03,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 6.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.03,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 6.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.008,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 6.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.008,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 6.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.02,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 6.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.02,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 6.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.03,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 6.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.03,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 6.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.008,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 6.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.008,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 6.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.02,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 6.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.02,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 6.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.03,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 6.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.03,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 8.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.008,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 8.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.008,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 8.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.02,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 8.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.02,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 8.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.03,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 8.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.03,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 8.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.008,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 8.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.008,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 8.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.02,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 8.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.02,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 8.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.03,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 8.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.03,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 8.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.008,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 8.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.008,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 8.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.02,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 8.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.02,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 8.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.03,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 8.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.03,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 10.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.008,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 10.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.008,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 10.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.02,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 10.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.02,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 10.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.03,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 10.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.03,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 10.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.008,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 10.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.008,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 10.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.02,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 10.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.02,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 10.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.03,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 10.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.03,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 10.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.008,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 10.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.008,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 10.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.02,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 10.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.02,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 10.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.03,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 10.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.03,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 12.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.008,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 12.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.008,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 12.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.02,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 12.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.02,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 12.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.03,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 12.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.0,
+              "metallicity": 0.03,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 12.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.008,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 12.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.008,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 12.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.02,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 12.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.02,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 12.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.03,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 12.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.01,
+              "metallicity": 0.03,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 12.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.008,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 12.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.008,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 12.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.02,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 12.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.02,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 12.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.03,
+              "dust_ebv": 0.0,
+              "prior_weight": 1.0
+            },
+            {
+              "old_age_gyr": 12.0,
+              "young_age_gyr": 0.5,
+              "young_mass_fraction": 0.05,
+              "metallicity": 0.03,
+              "dust_ebv": 0.05,
+              "prior_weight": 1.0
+            }
+          ],
+          "correlated_age_systematics": []
+        },
+        "differential_fit": {
+          "redshift_windows": [
+            {
+              "range": [
+                0.2,
+                0.4
+              ],
+              "center": 0.3
+            },
+            {
+              "range": [
+                0.4,
+                0.6
+              ],
+              "center": 0.5
+            }
+          ],
+          "polynomial_order": 1,
+          "minimum_objects_per_window": 20,
+          "minimum_redshift_span": 0.1,
+          "minimum_negative_slope_significance": 3.0,
+          "maximum_grid_boundary_probability": 0.1
+        }
+      }
+    }
+  ]
+}

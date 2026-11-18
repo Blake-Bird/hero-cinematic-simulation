@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "configuration": {
+    "path": "configs/start_epoch_inputs/base.yaml",
+    "sha256": "6e78becba9c654061c782b154705b11c4b788dc14ac943ef1f871540b3c5f149"
+  },
+  "redshifts": [
+    49.0,
+    99.0,
+    199.0
+  ],
+  "reference_redshift": 199.0,
+  "seeds": [
+    7,
+    9223372036854775819
+  ],
+  "common_scale_factors": [
+    0.1,
+    0.5,
+    1.0
+  ],
+  "epoch_tolerance": 1e-10,
+  "confidence_sigma": 2.0,
+  "observables": {
+    "shape": {
+      "units": "dimensionless",
+      "bin_labels": [
+        "b/a",
+        "c/a"
+      ],
+      "absolute_tolerance": 0.01,
+      "relative_tolerance": 0.01,
+      "absolute_floor": 0.001
+    }
+  },
+  "linear_bundles": [
+    {
+      "redshift": 49.0,
+      "manifest": {
+        "path": "configs/start_epoch_inputs/z49/spectrum.json",
+        "sha256": "f24292e2d6885a00f559f14f0187301de8ab456b20c82b2bc907c2785b33a707"
+      }
+    },
+    {
+      "redshift": 99.0,
+      "manifest": {
+        "path": "configs/start_epoch_inputs/z99/spectrum.json",
+        "sha256": "d73e2e36880192e48f1d51103d4c83f6d15e1638c2405e59fd1582d788d193b8"
+      }
+    },
+    {
+      "redshift": 199.0,
+      "manifest": {
+        "path": "configs/start_epoch_inputs/z199/spectrum.json",
+        "sha256": "891592eb47f9a6a44722c60d99de9e7067ea89af10c21aa503d71df4e2d2747f"
+      }
+    }
+  ],
+  "example_scope": "Synthetic control inputs only; no executed Boltzmann solver or production science acceptance. Resolve paths from the repository root; replace all bundles and the configuration for a real experiment."
+}

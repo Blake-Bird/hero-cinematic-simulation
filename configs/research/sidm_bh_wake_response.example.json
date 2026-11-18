@@ -1,0 +1,35 @@
+{
+  "request": {
+    "schema": "native-dm-wake-speed-response-request-v1",
+    "training": [
+      {
+        "path": "REPLACE_WITH_TRAINING_SPEED_0_ENSEMBLE.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "path": "REPLACE_WITH_TRAINING_SPEED_1_ENSEMBLE.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "path": "REPLACE_WITH_TRAINING_SPEED_2_ENSEMBLE.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    ],
+    "heldout": [
+      {
+        "path": "REPLACE_WITH_HELDOUT_INTERVAL_0_ENSEMBLE.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "path": "REPLACE_WITH_HELDOUT_INTERVAL_1_ENSEMBLE.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    ],
+    "maximum_points": 32,
+    "memory_gib": 4.0,
+    "maximum_absolute_prediction_error_cm_s2": 1e-10,
+    "maximum_relative_prediction_error": 0.05,
+    "prediction_error_floor_cm_s2": 1e-10,
+    "mean_error_multiplier": 2.0
+  }
+}

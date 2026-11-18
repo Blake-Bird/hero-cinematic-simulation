@@ -1,0 +1,12 @@
+{
+  "schema": "sidm-physical-angular-model-v1",
+  "kind": "born_moller",
+  "regime": "nonrelativistic_born",
+  "spin": "unpolarized_spin_half",
+  "normalization": "rutherford_sigma0_including_identical_final_state_factor",
+  "velocity_scale_kms": 100.0,
+  "parameter_scope": "Illustrative screening scale; choose a physical Born-regime model for the requested claim domain",
+  "reference": "https://arxiv.org/html/2205.03392",
+  "equations": [2, 3],
+  "identical_particle_convention": "folded absolute scattering cosine; identical final-state symmetry factor included exactly once"
+}

@@ -1,0 +1,92 @@
+{
+  "schema": "hmf-execution-smoke-v1",
+  "date": "2026-11-05",
+  "science_acceptance": "NOT_ACCEPTED",
+  "tests": {
+    "focused": 10,
+    "existing_hmf_and_cosmology": 14,
+    "status": "PASS"
+  },
+  "records": {
+    "parallel_class": {
+      "status": "COMPLETE",
+      "requested_samples": 3,
+      "successful_samples": 3,
+      "eligible_cells": 60,
+      "failures": [],
+      "report_path": "/private/tmp/research2-hmf-smoke-20261105/report.json",
+      "report_sha256": "a9252580247b1b579cdc8748f720a60b25e5e973245d980f01297e9e871e59a7"
+    },
+    "axiclass_ede": {
+      "status": "COMPLETE",
+      "requested_samples": 1,
+      "successful_samples": 1,
+      "eligible_cells": 10,
+      "failures": [],
+      "report_path": "/private/tmp/research2-hmf-ede-smoke-20261105/report.json",
+      "report_sha256": "1fed44f63a6d1fc1dd19dca44c78eccd7f1b6c865e2743b8025703e808afd472"
+    },
+    "saved_bundle": {
+      "status": "COMPLETE",
+      "requested_samples": 1,
+      "successful_samples": 1,
+      "eligible_cells": 16,
+      "failures": [],
+      "report_path": "/private/tmp/research2-hmf-reuse-smoke-20261105/report.json",
+      "report_sha256": "0b30ce54b486f02380e9ed0093050cc8afd2bc40813d59522adbc1645c65ede8"
+    },
+    "training": {
+      "target_data": "Synthetic Poisson fixture counts, not simulation science validation",
+      "linear_features": "18 actual CLASS solves across 6 cosmologies and 3 redshifts",
+      "degree": 2,
+      "metrics": {
+        "train": {
+          "mean_poisson_deviance": 0.8689180249810069,
+          "outside_training_feature_bounds": 0,
+          "rows": 144,
+          "cosmologies": 4
+        },
+        "validation": {
+          "mean_poisson_deviance": 1.0853110811662074,
+          "outside_training_feature_bounds": 0,
+          "rows": 36,
+          "cosmologies": 1
+        },
+        "test": {
+          "mean_poisson_deviance": 1.0025730549946401,
+          "outside_training_feature_bounds": 0,
+          "rows": 36,
+          "cosmologies": 1
+        }
+      },
+      "model_path": "/private/tmp/research2-hmf-training-smoke-20261105/fitted-equation/model.json",
+      "model_sha256": "e935b6b476d233e0e0979af2d02610d3bd7c5f4695a907c943b8c777ba5f2eed",
+      "predict_cli": "PASS; 216 rows exported"
+    }
+  },
+  "correction_validation": {
+    "date": "2026-11-05",
+    "tests": {
+      "hmf_research": 15,
+      "existing_hmf_cosmology": 14,
+      "status": "PASS"
+    },
+    "native_grid_scan": {
+      "cosmologies": 6,
+      "redshifts": [
+        0,
+        1
+      ],
+      "workers": 2,
+      "status": "COMPLETE",
+      "candidate_handoffs": 6,
+      "criterion": "absolute factor 1.1 for handoff smoke testing",
+      "handoff_class_validation": "PASS"
+    },
+    "unusual_disagreement": "Unit tests distinguish formula-spread anomalies from overall halo-abundance anomalies and uniformly large usual spread; identical eligible fit sets required",
+    "gadget_measurements": "Tiny native HDF5 catalogue fixtures verify measured host counts, zero bins, complete shards, recursive collection and 512/1024 resolution selection logic",
+    "large_simulations": "No 512^3 or 1024^3 GADGET simulation was executed for these code checks",
+    "training_targets": "GADGET-measured counts; fitting-function abundance columns excluded from training inputs",
+    "native_report": "/private/tmp/research2-hmf-corrected-scan-20261105/report.json"
+  }
+}

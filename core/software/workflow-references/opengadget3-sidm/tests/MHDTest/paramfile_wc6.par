@@ -1,0 +1,106 @@
+%  Relevant files
+
+InitCondFile            ./tests/MHDTest/briowu_wc6_295.ic
+OutputDir               .
+
+% CPU-time limit %%%%%%%%%%%%%% TimeLimitCPU*0.6=BetRest
+
+TimeLimitCPU      86400
+CpuTimeBetRestartFile  40000
+
+
+%  Caracteristics of run
+
+MaxMemSize          12000
+TimeBegin           0.0
+TimeMax             7.0
+
+BoxSize                1.0
+PeriodicBoundariesOn   1
+
+
+% Output frequency
+
+TimeBetSnapshot        0.35
+TimeOfFirstSnapshot    0
+
+
+TimeBetStatistics      0.05
+
+
+% Accuracy of time integration
+
+TypeOfTimestepCriterion 0
+ErrTolIntAccuracy       0.1
+
+MaxSizeTimestep        0.1
+MinSizeTimestep        1.0e-8
+
+% Tree algorithm and force accuracy
+
+ErrTolTheta            0.0
+
+ErrTolForceAcc         0.05 %%
+MaxRMSDisplacementFac  0.25
+
+
+%TreeUpdateFrequency    0.1
+
+
+
+%  Parameters of SPH
+
+ArtBulkViscConst    2.0
+CourantFac          0.15
+
+
+% Further code parameters
+
+PartAllocFactor       3.0
+
+BufferSize              20
+
+
+% System of units
+
+UnitLength_in_cm         3.085678e21        ;  1.0 kpc /h
+UnitMass_in_g            1.989e43           ;  solar masses
+UnitVelocity_in_cm_per_s 1e5                ;  1 km/sec
+GravityConstantInternal  0
+
+
+% Softening lengths
+
+MinGasHsmlFractional     0.0  % minimum gas smoothing in terms of the gravitational softening length
+
+SofteningGas       0.000051  % 0.4
+
+SofteningGasMaxPhys       0.000051  %0.4
+
+
+%Uncommment for Magnetic dissipation
+ArtificialMagneticDissipationConstant    0.1
+%ArtificialMagneticDissipationMin         0.2
+%ArtificialMagneticDissipationSource      15.0
+%ArtificialMagneticDissipationDecaytime   0.3
+
+%Uncomment for Bfield smoothing
+
+%Uncomment for Dedner divB cleaning
+%DivBcleaningParabolicSigma   2
+%DivBcleaningHyperbolicSigma  1
+%DivBcleaningQ                0.5
+
+
+ArtCondConstant 0.2
+
+ViscositySourceScaling 20.0
+ViscosityDecayLength   10.0
+ViscosityAlphaMin      0.01
+
+%ShockfinderNoiselevel 0.05
+
+
+DivBcleaningParabolicSigma   1
+DivBOverCleanFac   2
+

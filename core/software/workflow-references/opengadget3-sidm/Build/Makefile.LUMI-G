@@ -1,0 +1,12 @@
+CC = CC
+CXX = CC
+
+OPTIMIZE = -std=c++17 -O2 -fopenmp -fopenmp-targets=amdgcn-amd-amdhsa -Xopenmp-target=amdgcn-amd-amdhsa -march=gfx90a
+
+ifeq (TIMER_ROCTX,$(filter TIMER_ROCTX,$(CONFIGVARS)))
+    OPTIMIZE += -lroctx64
+endif
+
+ifeq (TIMER_OMNITRACE,$(filter TIMER_OMNITRACE,$(CONFIGVARS)))
+    OPTIMIZE += -lomnitrace-user
+endif

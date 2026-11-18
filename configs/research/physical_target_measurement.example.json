@@ -1,0 +1,19 @@
+{
+  "usage": "Produces an actual radial vector accepted by the existing mass/softening/timestep comparison intake. Preserve target, phases, physics, epochs and bins across numerical refinements.",
+  "request_base": ".",
+  "request": {
+    "schema": "physical-target-resolution-measurement-request-v1",
+    "memory_gib": 4.0,
+    "observable": "bh_dm_density",
+    "dataset": "density_msun_kpc3",
+    "radial_bin_indices": [
+      1,
+      2,
+      3
+    ],
+    "support_product": {
+      "path": "REPLACE_WITH_COMPLETED_NATIVE_PRODUCT.json",
+      "sha256": "REPLACE_WITH_EXACT_SHA256"
+    }
+  }
+}

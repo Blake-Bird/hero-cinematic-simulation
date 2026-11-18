@@ -1,0 +1,42 @@
+{
+  "request": {
+    "schema": "native-wake-state-response-request-v1",
+    "training": [
+      {
+        "path": "REPLACE_WITH_TRAINING_WARM_BATH_ENSEMBLE.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    ],
+    "heldout": [
+      {
+        "path": "REPLACE_WITH_HELDOUT_WARM_BATH_ENSEMBLE.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    ],
+    "maximum_products": 16,
+    "maximum_realizations": 128,
+    "memory_gib": 4.0,
+    "active_coordinates": [
+      "relative_velocity_x_km_s",
+      "bath_density_msun_kpc3",
+      "bath_covariance_xx_km2_s2"
+    ],
+    "coordinate_scales": [
+      100.0,
+      100.0,
+      100.0,
+      100000000.0,
+      10000.0,
+      10000.0,
+      10000.0,
+      10000.0,
+      10000.0,
+      10000.0
+    ],
+    "minimum_design_singular_ratio": 1e-06,
+    "convex_weight_residual_tolerance": 1e-09,
+    "maximum_absolute_prediction_error_cm_s2": 1e-10,
+    "maximum_relative_prediction_error": 0.1,
+    "prediction_error_floor_cm_s2": 1e-12
+  }
+}

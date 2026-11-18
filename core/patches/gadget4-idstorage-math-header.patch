@@ -1,0 +1,28 @@
+--- a/src/data/idstorage.h
++++ b/src/data/idstorage.h
+@@ -15,6 +15,7 @@
+ #include "gadgetconfig.h"
+ 
+ #include <climits>
++#include <cmath>
+ 
+ #if !defined(IDS_48BIT)
+ #define ID_MSB ((MyIDType)(~((MyIDType)(~((MyIDType)0)) >> ((MyIDType)1))))
+@@ -46,7 +47,7 @@
+         return;
+       }
+ 
+-    double l = log(size / ALEN_MIN) / log(ALEN_MAX / ALEN_MIN) * (USHRT_MAX - 1) + 1;
++    double l = std::log(size / ALEN_MIN) / std::log(ALEN_MAX / ALEN_MIN) * (USHRT_MAX - 1) + 1;
+ 
+     if(l < 1)
+       alen = 0;
+@@ -63,7 +64,7 @@
+       return 0;
+     else
+       {
+-        return (long long)(ALEN_MIN * exp((alen - 1.0) / (USHRT_MAX - 1) * log(ALEN_MAX / ALEN_MIN)) + 0.5);
++        return (long long)(ALEN_MIN * std::exp((alen - 1.0) / (USHRT_MAX - 1) * std::log(ALEN_MAX / ALEN_MIN)) + 0.5);
+       }
+   }
+ };

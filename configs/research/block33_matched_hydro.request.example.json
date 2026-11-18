@@ -1,0 +1,53 @@
+{
+  "schema": "matched-native-hydro-pilot-request-v1",
+  "base_answers_reference": {
+    "path": "inputs/hydro-stellar-bh.answers.json",
+    "sha256": "FILL_CONFIGURED_COMPLETE_NATIVE_ANSWER_FILE_SHA256"
+  },
+  "existing_ic": {
+    "path": "inputs/ics.0.hdf5",
+    "files": [
+      {"path": "inputs/ics.0.hdf5", "sha256": "FILL_ACTUAL_DELIVERED_NATIVE_IC_SHARD_SHA256"}
+    ]
+  },
+  "phase_asset": {
+    "path": "inputs/native-phase-cube.bin",
+    "sha256": "FILL_ACTUAL_PHASE_NOISE_ASSET_SHA256"
+  },
+  "native_generation_report": {
+    "path": "inputs/native-generation.json",
+    "sha256": "FILL_ACTUAL_COMPLETE_NATIVE_GENERATION_REPORT_SHA256"
+  },
+  "maximum_variants": 4,
+  "variants": [
+    {"label": "full_stellar_bh", "changes": {}},
+    {"label": "matched_no_bh", "changes": {"black_holes": {"enabled": false}}},
+    {"label": "matched_no_stellar_return", "changes": {"stellar_evolution": {"enabled": false}}}
+  ],
+  "reference_label": "full_stellar_bh",
+  "snapshots": [0, 1],
+  "comparison_snapshot": 1,
+  "galaxy_measurement": {
+    "minimum_star_particles": 100,
+    "minimum_dm_particles": 300,
+    "maximum_galaxies": 1000000,
+    "memory_gib": 2.0
+  },
+  "host_center_proper_kpc": [0.0, 0.0, 0.0],
+  "wall_seconds": 86400.0,
+  "resources": {"mpi_ranks": 1, "omp_threads": 1, "memory_gib": 8.0, "disk_gib": 128.0, "maximum_stage_count": 16},
+  "followup_limits": {"maximum_children": 0, "maximum_depth": 0},
+  "comparison": {
+    "radial_edges_proper_kpc": [0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10.0],
+    "memory_gib": 2.0,
+    "maximum_actual_epoch_difference": 0.0,
+    "relative_error_limits": {
+      "dm_mass_msun": 0.05,
+      "gas_mass_msun": 0.05,
+      "stellar_mass_msun": 0.05,
+      "bh_gravity_mass_msun": 0.05,
+      "gas_sfr_msun_year": 0.05,
+      "gas_thermal_energy_erg": 0.05
+    }
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "schema": "stream-campaign-v1",
+  "experiment_id": "choose-native-sources-and-science-controls",
+  "notice": "Authoring template; paths and numerical controls are illustrative, not verified native sources or accepted physics.",
+  "resources": {
+    "memory_gib": 4.0,
+    "maximum_particles": 4096,
+    "maximum_stages": 32
+  },
+  "stages": [
+    {
+      "stage_id": "power",
+      "kind": "density_power",
+      "depends_on": [],
+      "inputs": {
+        "particles": "CHOOSE_NATIVE_COMMON_COMOVING_PARTICLES.json"
+      },
+      "parameters": {
+        "spectrum": {
+          "box_comoving_mpc": 100.0,
+          "mesh_size": 128,
+          "k_edges_mpc_inverse": [
+            0.05,
+            0.1,
+            0.2,
+            0.4,
+            0.8,
+            1.6,
+            3.2
+          ],
+          "maximum_nyquist_fraction": 0.5,
+          "minimum_modes": 20,
+          "subtract_poisson_shot_noise": true
+        }
+      }
+    },
+    {
+      "stage_id": "hmf",
+      "kind": "population_function",
+      "depends_on": [],
+      "inputs": {
+        "catalogue": "CHOOSE_COSMOLOGY_LABELLED_OBJECTS.json"
+      },
+      "parameters": {
+        "quantity": "mass_msun",
+        "quantity_units": "Msun",
+        "definition_hash": "CHOOSE_COMMON_M200_DEFINITION",
+        "edges": [
+          100000000.0,
+          1000000000.0,
+          10000000000.0,
+          100000000000.0,
+          1000000000000.0,
+          10000000000000.0
+        ],
+        "wdm_reliability": {
+          "discreteness_mass_multiplier": 2.0,
+          "minimum_lagrangian_c_over_a": 0.1,
+          "minimum_bound_particles": 300
+        }
+      }
+    },
+    {
+      "stage_id": "matched",
+      "kind": "matched_cosmologies",
+      "depends_on": [],
+      "inputs": {
+        "run_family": "CHOOSE_PHASE_MATCHED_RUN_FAMILY.json"
+      },
+      "parameters": {
+        "family": {
+          "reference_run": "LCDM"
+        },
+        "wdm_reliability": {
+          "discreteness_mass_multiplier": 2.0,
+          "minimum_lagrangian_c_over_a": 0.1,
+          "minimum_bound_particles": 300
+        },
+        "matching": {
+          "maximum_match_cells": 1000000,
+          "initial_mass_relative_tolerance": 1e-08,
+          "minimum_jaccard": 0.5,
+          "minimum_assignment_margin": 0.1
+        },
+        "observable_definitions": {
+          "width": {
+            "family": "stream_width",
+            "definition_hash": "CHOOSE_COMMON_ESTIMATOR",
+            "units": "proper kpc"
+          }
+        },
+        "matching_covariance": {
+          "width": [
+            [
+              0.01
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "stage_id": "discovery",
+      "kind": "discovery_catalogue",
+      "depends_on": [],
+      "inputs": {
+        "candidates": "CHOOSE_INDEPENDENT_NULL_OBJECT_MEASUREMENTS.json"
+      },
+      "parameters": {
+        "controls": {
+          "false_discovery_rate": 0.05,
+          "arbitrary_dependence": true
+        }
+      }
+    }
+  ]
+}

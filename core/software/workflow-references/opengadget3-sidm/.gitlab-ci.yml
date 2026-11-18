@@ -1,0 +1,29 @@
+# Define overall behavior of the CI pipeline
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push" || $CI_PIPELINE_SOURCE == "web" || $CI_PIPELINE_SOURCE == "pipeline"
+
+# Shared settings for every test job
+.job_settings:
+  resource_group: OpenGadget3
+  when: always
+
+# Set default artifacts expiration time
+default:
+  artifacts:
+    expire_in: 2 days
+
+# Include all files which contain the individual tests
+include:
+    - local: '.gitlab/MFMTests.yml'
+    - local: '.gitlab/PESTests.yml'
+    - local: '.gitlab/SPHTests.yml'
+    - local: '.gitlab/ConductionTests.yml'
+
+# CI Pipeline containing all stages for OpenGadget3
+# List of stages for all jobs, and their order of execution
+stages:
+  - SPH_tests
+  - PES_tests
+  - MFM_tests
+  - Conduction_tests

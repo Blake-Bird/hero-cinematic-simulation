@@ -1,0 +1,182 @@
+--- a/src/io/restart.cc
++++ b/src/io/restart.cc
+@@ -16,6 +16,8 @@
+ #include "../io/restart.h"
+ #include "../io/checkpoint_receipt.h"
+ #include "../io/checkpoint_epoch.h"
++#include "../io/checkpoint_layout.h"
++#include "research_restart_fingerprint.h"
+ 
+ #include <gsl/gsl_rng.h>
+ #include <math.h>
+@@ -454,6 +456,14 @@
+     }
+   else
+     Terminate("unknown modus\n");
++
++  native_checkpoint_layout expected = native_checkpoint_layout_make(
++      All.get_data_size(), sizeof(particle_data), sizeof(sph_particle_data), NTask,
++      research_restart_fingerprint);
++  native_checkpoint_layout saved = expected;
++  byten(&saved, sizeof(saved), modus);
++  if(modus == MODUS_READ && !native_checkpoint_layout_equal(saved, expected))
++    Terminate("RESTART: incompatible source/configuration/layout before restoring state or allocating particles");
+ 
+   /* common data  */
+   byten(All.get_data_ptr(), All.get_data_size(), modus);
+--- a/src/io/snap_io.h
++++ b/src/io/snap_io.h
+@@ -250,6 +250,8 @@
+     else
+       {
+         MyIDType *in_buffer = (MyIDType *)buffer;
++        if(in_buffer[0] > ID_MAX)
++          Terminate("IO: particle ID exceeds native domain; most-significant bit is reserved for native membership state");
+         thisobj->Sp->P[particle].ID.set(in_buffer[0]);
+       }
+   }
+--- a/src/data/particle_data.h
++++ b/src/data/particle_data.h
+@@ -15,6 +15,7 @@
+ #include "gadgetconfig.h"
+ 
+ #include <atomic>
++#include "research_source_state.h"
+ #include <climits>
+ 
+ #include "../data/constants.h"
+@@ -37,7 +38,7 @@
+   // we are using them encapsulated in a structure defined in dtypes.h that implements these copy and assignment operators explicitly.
+   // This is fine because the code logic guarantees that there is no concurrent access when such copies of particle_data happen.
+ 
+-  particle_data() {
++  particle_data() : ResearchSourceState{} {
+ #ifdef BLACK_HOLES
+     BHMass = BHInflowRate = BHCumulativeRadiatedMass = BHCumulativeFeedbackEnergy = 0;
+ #endif
+@@ -49,6 +50,8 @@
+   double BHCumulativeRadiatedMass;
+   double BHCumulativeFeedbackEnergy;
+ #endif
++
++  research_source_state ResearchSourceState; // serialized with every particle in native restarts
+ 
+   MyIntPosType IntPos[3];    /**< particle position at its current time, stored as an integer type */
+   MyFloat Vel[3];            /**< particle velocity at its current time */
+--- a/buildsystem/config.py
++++ b/buildsystem/config.py
+@@ -1,6 +1,9 @@
+ import re 
+ import sys
+ import os
++import hashlib
++import json
++from pathlib import Path
+ 
+ 
+ def get_options(fin):
+@@ -18,6 +21,17 @@
+     return options
+     
+ def out1(options, fname):
++    # Digest relative source names, source bytes and exact compile-time options.
++    root = Path(__file__).resolve().parents[1]
++    digest = hashlib.sha256(json.dumps(options, sort_keys=True).encode())
++    for path in sorted((root / 'src').rglob('*')):
++        if path.is_file() and path.suffix in ('.h', '.cc', '.cpp'):
++            digest.update(path.relative_to(root).as_posix().encode() + b'\0')
++            digest.update(path.read_bytes())
++    for path in (root / 'Makefile', root / 'buildsystem/config.py'):
++        digest.update(path.read_bytes())
++    fingerprint = Path(fname).parent / 'research_restart_fingerprint.h'
++    fingerprint.write_text('static const char research_restart_fingerprint[] = "' + digest.hexdigest() + '";\n')
+     f = open(fname, "w")
+     
+     keys = list(options.keys())
+--- a/buildsystem/Makefile.config
++++ b/buildsystem/Makefile.config
+@@ -8,5 +8,5 @@
+ 
+ all: $(BUILD_DIR)/gadgetconfig.h 
+ 
+-$(BUILD_DIR)/gadgetconfig.h:  $(CONFIG) buildsystem/config.py
++$(BUILD_DIR)/gadgetconfig.h:  $(CONFIG) buildsystem/config.py $(shell find $(SRC_DIR) -type f -name "*.h" -o -name "*.cc" -o -name "*.cpp")
+ 	$(PYTHON) buildsystem/config.py $(CONFIG) $(BUILD_DIR) $(CURDIR) $(SRC_DIR)
+--- /dev/null
++++ b/src/data/research_source_state.h
+@@ -0,0 +1,26 @@
++/* Restart storage for source integrators. Physics producers update these fields
++ * in their own blocks; zero initialization does not enable any physical model.
++ * No pointers, platform-sized counters or random-generator process globals. */
++#ifndef RESEARCH_SOURCE_STATE_H
++#define RESEARCH_SOURCE_STATE_H
++#include "gadgetconfig.h"
++#include <stdint.h>
++#include <type_traits>
++struct research_source_state
++{
++  double sidm_last_update_time;
++  double sidm_optical_depth;
++  uint64_t sidm_collision_count;
++  uint64_t sidm_random_counter;
++  double stellar_last_source_time;
++  double stellar_returned_mass;
++  double stellar_injected_energy;
++  double stellar_returned_elements[11];
++  uint64_t stellar_event_counter;
++  double bh_last_source_time;
++  double bh_feedback_reservoir;
++  uint64_t bh_event_counter;
++};
++static_assert(std::is_trivially_copyable<research_source_state>::value,
++              "Native source restart state must contain no pointers or owning objects");
++#endif
+--- /dev/null
++++ b/src/io/checkpoint_layout.h
+@@ -0,0 +1,37 @@
++/* Versioned raw restart ABI guard. Check before restoring All or allocating P.
++ * Same-sized source/configuration changes are rejected by the generated digest. */
++#ifndef RESEARCH_CHECKPOINT_LAYOUT_H
++#define RESEARCH_CHECKPOINT_LAYOUT_H
++#include "gadgetconfig.h"
++#include <stdint.h>
++#include <string.h>
++struct native_checkpoint_layout
++{
++  char magic[8];
++  uint64_t version, global_bytes, particle_bytes, sph_bytes, ranks, endian, compiler;
++  char source_config_sha256[64];
++};
++static_assert(sizeof(native_checkpoint_layout) == 128, "Unexpected checkpoint header layout");
++inline native_checkpoint_layout native_checkpoint_layout_make(uint64_t global_bytes,
++  uint64_t particle_bytes, uint64_t sph_bytes, uint64_t ranks, const char *fingerprint)
++{
++  native_checkpoint_layout result = {};
++  memcpy(result.magic, "R2RST001", 8);
++  result.version = 1;
++  result.global_bytes = global_bytes;
++  result.particle_bytes = particle_bytes;
++  result.sph_bytes = sph_bytes;
++  result.ranks = ranks;
++  result.endian = UINT64_C(0x0102030405060708);
++  result.compiler = UINT64_C(14695981039346656037);
++  for(const char *p = __VERSION__; *p; ++p)
++    result.compiler = (result.compiler ^ (unsigned char)*p) * UINT64_C(1099511628211);
++  memcpy(result.source_config_sha256, fingerprint, 64);
++  return result;
++}
++inline bool native_checkpoint_layout_equal(const native_checkpoint_layout &saved,
++                                           const native_checkpoint_layout &expected)
++{
++  return memcmp(&saved, &expected, sizeof(saved)) == 0;
++}
++#endif
+--- a/defines_extra
++++ b/defines_extra
+@@ -151,3 +151,6 @@
+ DIFFERENT_TRANSFER_FUNC
+ MULTICOMPONENTGLASSFILE
+ 
++
++RESEARCH_SOURCE_STATE_H
++RESEARCH_CHECKPOINT_LAYOUT_H

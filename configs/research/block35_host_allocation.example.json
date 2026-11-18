@@ -1,0 +1,23 @@
+{
+  "schema": "production-host-allocation-v1",
+  "hosts": [
+    {
+      "host_id": "scheduler-node-01",
+      "mpi_ranks": 4,
+      "allocated_cpu_slots": 16,
+      "allocated_memory_gib": 128.0,
+      "maximum_rank_memory_gib": 32.0
+    },
+    {
+      "host_id": "scheduler-node-02",
+      "mpi_ranks": 4,
+      "allocated_cpu_slots": 16,
+      "allocated_memory_gib": 128.0,
+      "maximum_rank_memory_gib": 32.0
+    }
+  ],
+  "output_filesystem": {
+    "capacity_scope": "scheduler_declared_shared",
+    "allocated_disk_gib": 2048.0
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "stellar_evolution": {
+    "enabled": true,
+    "model_manifest": "USER_COMPILED_STELLAR_MODEL.json",
+    "model_sha256": "USER_COMPILED_MANIFEST_SHA256",
+    "kernel_radius_proper_kpc": 0.1,
+    "source_fraction": 0.05,
+    "maximum_count": 100000,
+    "maximum_subcycles": 100000
+  },
+  "chemistry": {
+    "enabled": true,
+    "primordial_network": 3,
+    "metal_cooling": false,
+    "uv_background": false,
+    "data_file": "configs/grackle_HM2012_cooling.h5",
+    "data_sha256": "65d29f32cb646ceef3f274b570829a8c186c91a749d56a3891ad72d1db4c532a",
+    "library_file": "USER_BUILT_PRECISION64_LIBGRACKLE",
+    "library_sha256": "USER_BUILT_LIBRARY_SHA256",
+    "upstream_revision": "af7939494ce65007887ada7b98d1813df6843346",
+    "deuterium_hydrogen_number_ratio": 2.6e-05,
+    "initial_species_number_fractions": {
+      "HI": 0.99979799,
+      "HII": 0.0002,
+      "HeI": 1.0,
+      "HeII": 0.0,
+      "HeIII": 0.0,
+      "HM": 0.0,
+      "H2I": 1e-06,
+      "H2II": 0.0,
+      "DI": 2.5989999999999997e-05,
+      "DII": 0.0,
+      "HDI": 1e-08
+    }
+  },
+  "example_scope": "Illustrative H2/HD seed model, not prescribed primordial abundances; select source-backed fractions and actual compiled model/library hashes."
+}

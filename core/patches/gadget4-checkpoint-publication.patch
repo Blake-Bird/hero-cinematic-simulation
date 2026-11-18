@@ -1,0 +1,147 @@
+--- a/src/io/restart.cc
++++ b/src/io/restart.cc
+@@ -22,6 +22,11 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <sys/stat.h>
++#include <sys/time.h>
++#include <unistd.h>
++#include <errno.h>
++#include <fcntl.h>
++#include <zlib.h>
+ 
+ #include "../data/allvars.h"
+ #include "../data/dtypes.h"
+@@ -143,8 +148,27 @@
+     {
+       fclose(fcheck);
+ 
+-      rename(buf, buf_bak);
+-
++      /* Preserve the current rank until its replacement is complete. */
++      char temporary[MAXLEN_PATH_EXTRA];
++      snprintf(temporary, sizeof(temporary), "%s.tmp.%d", buf_bak, (int)getpid());
++      if(link(buf, temporary) != 0 || rename(temporary, buf_bak) != 0)
++        Terminate("RESTART: cannot preserve previous rank checkpoint: %s", buf);
++      char receipt[MAXLEN_PATH_EXTRA], receipt_bak[MAXLEN_PATH_EXTRA];
++      snprintf(receipt, sizeof(receipt), "%s.checksum.json", buf);
++      snprintf(receipt_bak, sizeof(receipt_bak), "%s.checksum.json", buf_bak);
++      snprintf(temporary, sizeof(temporary), "%s.tmp.%d", receipt_bak, (int)getpid());
++      if(link(receipt, temporary) == 0)
++        { if(rename(temporary, receipt_bak) != 0) Terminate("RESTART: cannot preserve checkpoint receipt"); }
++      else if(errno != ENOENT)
++        Terminate("RESTART: cannot preserve checkpoint receipt");
++
++      char directory[MAXLEN_PATH_EXTRA];
++      snprintf(directory, sizeof(directory), "%s/restartfiles", All.OutputDir);
++      int descriptor = open(directory, O_RDONLY);
++      if(descriptor < 0) Terminate("RESTART: cannot open backup directory");
++      if(fsync(descriptor) != 0 && errno != EINVAL && errno != ENOTSUP)
++        Terminate("RESTART: backup directory flush failed");
++      if(close(descriptor) != 0) Terminate("RESTART: backup directory close failed");
+       bak_files_status = 1;
+     }
+ 
+@@ -152,10 +176,10 @@
+   MPI_Allreduce(&bak_files_status, &bak_files_status_sum, 1, MPI_INT, MPI_SUM, Communicator);
+ 
+   if(bak_files_status_sum != NTask && bak_files_status_sum != 0)
+-    mpi_printf("RESTART: some (%d) restart files were renamed to bak, but some (%d) weren't - something is very possibly wrong!",
++    mpi_printf("RESTART: some (%d) restart files were preserved as bak, but some (%d) weren't - something is very possibly wrong!",
+                bak_files_status, NTask - bak_files_status);
+   else if(bak_files_status_sum == NTask)
+-    mpi_printf("RESTART: done renaming pre-existing restart files to bak files.\n");
++    mpi_printf("RESTART: done preserving pre-existing restart files as bak files.\n");
+   else if(bak_files_status_sum == 0)
+     mpi_printf("RESTART: no pre-existing restart files for renaming were found.\n");
+ }
+@@ -219,7 +243,16 @@
+     files_groups++;
+ 
+   if(modus == MODUS_WRITE)
+-    backup_restartfiles(ThisTask);
++    {
++      if(ThisTask == 0)
++        {
++          struct timeval stamp;
++          if(gettimeofday(&stamp, NULL) != 0) Terminate("RESTART: cannot timestamp checkpoint generation");
++          checkpoint_generation = (unsigned long long)stamp.tv_sec * 1000000ULL + stamp.tv_usec;
++        }
++      MPI_Bcast(&checkpoint_generation, 1, MPI_UNSIGNED_LONG_LONG, 0, Communicator);
++      backup_restartfiles(ThisTask);
++    }
+ 
+   /* now work the I/O of the files, controlled by scheduler to achieve optimum I/O bandwidth under the constraint of a maximum number
+    * for the concurrent file access */
+@@ -370,8 +403,9 @@
+ 
+ void restart::contents_restart_file(int modus)
+ {
+-  char buf[MAXLEN_PATH_EXTRA];
++  char buf[MAXLEN_PATH_EXTRA], staged[MAXLEN_PATH_EXTRA];
+   snprintf(buf, MAXLEN_PATH_EXTRA, "%s/restartfiles/%s.%d", All.OutputDir, "restart", ThisTask);
++  snprintf(staged, sizeof(staged), "%s.tmp.%d", buf, (int)getpid());
+ 
+   if(modus == MODUS_READ)
+     {
+@@ -382,7 +416,7 @@
+     }
+   else if(modus == MODUS_WRITE)
+     {
+-      if(!(fd = fopen(buf, "w")))
++      if(!(fd = fopen(staged, "w")))
+         {
+           Terminate("RESTART: Restart file '%s' cannot be opened.\n", buf);
+         }
+@@ -548,7 +582,40 @@
+   byten(Sim->Domain.FirstTopleafOfTask, NTask * sizeof(int), modus);
+   byten(Sim->Domain.NumTopleafOfTask, NTask * sizeof(int), modus);
+ 
+-  fclose(fd);
++  if(modus == MODUS_WRITE && (fflush(fd) != 0 || fsync(fileno(fd)) != 0))
++    Terminate("RESTART: checkpoint flush failed; previous rank retained");
++  if(fclose(fd) != 0)
++    Terminate("RESTART: checkpoint close failed");
++  if(modus == MODUS_WRITE)
++    {
++      unsigned char block[65536];
++      unsigned long crc = crc32(0L, Z_NULL, 0);
++      unsigned long long bytes = 0;
++      FILE *verify = fopen(staged, "rb");
++      if(!verify) Terminate("RESTART: cannot checksum staged checkpoint");
++      size_t count;
++      while((count = fread(block, 1, sizeof(block), verify)) != 0)
++        { crc = crc32(crc, block, count); bytes += count; }
++      if(ferror(verify) || fclose(verify) != 0) Terminate("RESTART: checksum read failed");
++      char receipt[MAXLEN_PATH_EXTRA], receipt_stage[MAXLEN_PATH_EXTRA];
++      snprintf(receipt, sizeof(receipt), "%s.checksum.json", buf);
++      snprintf(receipt_stage, sizeof(receipt_stage), "%s.tmp.%d", receipt, (int)getpid());
++      FILE *metadata = fopen(receipt_stage, "w");
++      if(!metadata) Terminate("RESTART: cannot stage checkpoint receipt");
++      if(fprintf(metadata, "{\"schema\":\"gadget-rank-checkpoint-v1\",\"rank\":%d,\"ranks\":%d,\"generation\":%llu,\"a\":%.17g,\"size_bytes\":%llu,\"crc32\":\"%08lx\"}\n", ThisTask, NTask, checkpoint_generation, All.Time, bytes, crc) < 0 ||
++         fflush(metadata) != 0 || fsync(fileno(metadata)) != 0)
++        Terminate("RESTART: checkpoint receipt flush failed");
++      if(fclose(metadata) != 0) Terminate("RESTART: checkpoint receipt close failed");
++      if(rename(staged, buf) != 0 || rename(receipt_stage, receipt) != 0)
++        Terminate("RESTART: checkpoint publication failed; backups retained");
++      char directory[MAXLEN_PATH_EXTRA];
++      snprintf(directory, sizeof(directory), "%s/restartfiles", All.OutputDir);
++      int descriptor = open(directory, O_RDONLY);
++      if(descriptor < 0) Terminate("RESTART: cannot open checkpoint directory");
++      if(fsync(descriptor) != 0 && errno != EINVAL && errno != ENOTSUP)
++        Terminate("RESTART: checkpoint directory flush failed");
++      if(close(descriptor) != 0) Terminate("RESTART: checkpoint directory close failed");
++    }
+ }
+ 
+ /*! \brief Adjusts the timeline if the TimeMax variable is
+--- a/src/io/restart.h
++++ b/src/io/restart.h
+@@ -34,6 +34,7 @@
+   sim *Sim;
+ 
+   FILE *fd;
++  unsigned long long checkpoint_generation;
+ 
+   struct seq_data
+   {

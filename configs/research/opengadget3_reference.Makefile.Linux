@@ -1,0 +1,13 @@
+# Independent OpenGadget3 CPU build. CC/CXX/PERL are pinned recipe arguments.
+# Paths to MPI/compiler/HDF5/GSL headers and libraries belong in the caller's
+# retained dependency manifest. This template uses the usual Debian layout.
+# Copy and explicitly pin a platform-specific variant when paths differ.
+OPTIMIZE = -std=c++17 -O2 -g -fopenmp
+MPICHLIB =
+HDF5_INCL = -I/usr/include/hdf5/serial
+HDF5_LIBS = -L/usr/lib/x86_64-linux-gnu/hdf5/serial
+GSL_INCL = -I/usr/include
+GSL_LIBS = -L/usr/lib/x86_64-linux-gnu
+MPICH_INCL =
+FFTW_INCL =
+FFTW_LIBS =

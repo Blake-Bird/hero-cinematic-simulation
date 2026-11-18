@@ -1,0 +1,153 @@
+--- a/src/main/run.cc
++++ b/src/main/run.cc
+@@ -386,7 +386,7 @@
+               else
+                 ti = (integertime)((time - All.TimeBegin) / All.Timebase_interval);
+ 
+-#ifndef OUTPUT_NON_SYNCHRONIZED_ALLOWED
++#if !defined(OUTPUT_NON_SYNCHRONIZED_ALLOWED) && !defined(OUTPUT_EXACT_SYNCHRONIZED)
+               /* We will now modify 'ti' to map it to the closest available output time according to the specified MaxSizeTimestep.
+                * The real output time may hence deviate by  +/- 0.5*MaxSizeTimestep from the desired output time.
+                */
+@@ -404,6 +404,11 @@
+ 
+               /* now round this to the nearest multiple of timax */
+               ti = ((integertime)(multiplier + 0.5)) * timax;
++#endif
++
++#ifdef OUTPUT_EXACT_SYNCHRONIZED
++              /* Bin 1 is the smallest legal step; bin 0 means no step. */
++              ti = time == All.TimeMax ? TIMEBASE : (ti / 2) * 2;
+ #endif
+ 
+               if(ti >= ti_curr)
+@@ -458,7 +463,7 @@
+           else
+             ti = (integertime)((time - All.TimeBegin) / All.Timebase_interval);
+ 
+-#ifndef OUTPUT_NON_SYNCHRONIZED_ALLOWED
++#if !defined(OUTPUT_NON_SYNCHRONIZED_ALLOWED) && !defined(OUTPUT_EXACT_SYNCHRONIZED)
+           /* We will now modify 'ti' to map it to the closest available output time according to the specified MaxSizeTimestep.
+            * The real output time may hence deviate by  +/- 0.5*MaxSizeTimestep from the desired output time.
+            */
+@@ -476,6 +481,11 @@
+ 
+           /* now round this to the nearest multiple of timax */
+           ti = ((integertime)(multiplier + 0.5)) * timax;
++#endif
++
++#ifdef OUTPUT_EXACT_SYNCHRONIZED
++          /* Bin 1 is the smallest legal step; bin 0 means no step. */
++          ti = time == All.TimeMax ? TIMEBASE : (ti / 2) * 2;
+ #endif
+ 
+           if(ti >= ti_curr)
+--- a/src/time_integration/timestep.cc
++++ b/src/time_integration/timestep.cc
+@@ -29,6 +29,11 @@
+ #include "../system/system.h"
+ #include "../time_integration/driftfac.h"
+ #include "../time_integration/timestep.h"
++#include "exact_output_timeline.h"
++
++#if defined(OUTPUT_EXACT_SYNCHRONIZED) && defined(OUTPUT_NON_SYNCHRONIZED_ALLOWED)
++#error "Exact synchronized outputs cannot use nonsynchronized output mode"
++#endif
+ 
+ /*! This function advances the system in momentum space, i.e. it does apply the 'kick' operation after the
+  *  forces have been computed. Additionally, it assigns new timesteps to particles. At start-up, a
+@@ -243,6 +248,9 @@
+       Terminate("integer timestep reached zero");
+     }
+ 
++#ifdef OUTPUT_EXACT_SYNCHRONIZED
++  ti_step = research_output_step_limit(ti_step, All.Ti_Current, All.Ti_nextoutput, (integertime)TIMEBASE);
++#endif
+   return ti_step;
+ }
+ 
+@@ -253,6 +261,10 @@
+   while(ti_step > (All.DtDisplacement / All.Timebase_interval))
+     ti_step >>= 1;
+ 
++#ifdef OUTPUT_EXACT_SYNCHRONIZED
++  ti_step = research_output_step_limit(ti_step, All.Ti_Current, All.Ti_nextoutput, (integertime)TIMEBASE);
++#endif
++
+   if(ti_step > (All.PM_Ti_endstep - All.PM_Ti_begstep)) /* PM-timestep wants to increase */
+     {
+       int bin    = get_timestep_bin(ti_step);
+@@ -267,6 +279,9 @@
+   if(All.Ti_Current == TIMEBASE) /* we here finish the last timestep. */
+     ti_step = 0;
+ 
++#ifdef OUTPUT_EXACT_SYNCHRONIZED
++  ti_step = research_output_step_limit(ti_step, All.Ti_Current, All.Ti_nextoutput, (integertime)TIMEBASE);
++#endif
+   return ti_step;
+ }
+ #endif
+@@ -372,6 +387,9 @@
+           P[p].GravAccel[2], P[p].getMass(), All.cf_hubble_a);
+     }
+ 
++#ifdef OUTPUT_EXACT_SYNCHRONIZED
++  ti_step = research_output_step_limit(ti_step, All.Ti_Current, All.Ti_nextoutput, (integertime)TIMEBASE);
++#endif
+   return ti_step;
+ }
+ 
+--- /dev/null
++++ b/src/time_integration/exact_output_timeline.h
+@@ -0,0 +1,21 @@
++// Exact synchronized snapshot boundaries on GADGET's integer timeline.
++// Steps remain dyadic and are never enlarged. The usual alignment checks still
++// apply; all active physics must stop before the next output boundary.
++#ifndef RESEARCH_EXACT_OUTPUT_TIMELINE_H
++#define RESEARCH_EXACT_OUTPUT_TIMELINE_H
++
++template <typename Integer>
++inline Integer research_output_step_limit(Integer step, Integer current,
++                                          Integer next_output, Integer timebase)
++{
++  if(next_output > current && next_output <= timebase && step > next_output - current)
++    {
++      Integer limit = next_output - current;
++      Integer dyadic = 1;
++      while(dyadic <= limit / 2)
++        dyadic *= 2;
++      return dyadic;
++    }
++  return step;
++}
++#endif
+--- a/Template-Config.sh
++++ b/Template-Config.sh
+@@ -126,6 +126,7 @@
+ #OUTPUT_COOLHEAT                              # output actual energy loss/gain in cooling/heating routine
+ #OUTPUT_PRESSURE_SPH_DENSITY                  # output also density computed in the pressure-entropy forumulation
+ #OUTPUT_VISCOSITY_PARAMETER                   # output current viscosity parameter in SPH particle output (only for time-dependent viscosity)
++#OUTPUT_EXACT_SYNCHRONIZED                    # reach even integer output clocks with fully synchronized capped steps
+ #OUTPUT_NON_SYNCHRONIZED_ALLOWED              # allow snapshot creation also at steps that are not fully synchronized
+ #OUTPUT_VELOCITIES_IN_HALF_PRECISION          # special option to store velocities in reduced precision
+ #OUTPUT_ACCELERATIONS_IN_HALF_PRECISION       # special option to store acclerations in reduced precision
+--- a/buildsystem/option_registry.py
++++ b/buildsystem/option_registry.py
+@@ -101,6 +101,7 @@
+     'OUTPUT_DIVVEL',
+     'OUTPUT_ENTROPY',
+     'OUTPUT_IN_DOUBLEPRECISION',
++    'OUTPUT_EXACT_SYNCHRONIZED',
+     'OUTPUT_NON_SYNCHRONIZED_ALLOWED',
+     'OUTPUT_POTENTIAL',
+     'OUTPUT_PRESSURE',
+--- a/defines_extra
++++ b/defines_extra
+@@ -157,6 +157,7 @@
+ RESEARCH_RESTART_INTEGRATOR_CAPSULE_H
+ BITS_FOR_POSITIONS
+ RESEARCH_CHECKPOINT_LAYOUT_H
++RESEARCH_EXACT_OUTPUT_TIMELINE_H
+ 
+ RESEARCH_ASSET_SHA256_H
+ RESEARCH_BH_DYNAMICS_H

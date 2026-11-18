@@ -1,0 +1,18 @@
+{
+  "request": {
+    "schema": "native-stream-paired-comparison-request-v1",
+    "reference": {
+      "path": "REPLACE_WITH_REFERENCE_NATIVE_WORLDLINES.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "intervention": {
+      "path": "REPLACE_WITH_INTERVENTION_NATIVE_WORLDLINES.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "memory_gib": 4.0,
+    "maximum_snapshots": 64,
+    "maximum_selected_particles": 100000,
+    "time_absolute_tolerance_myr": 0.0,
+    "maximum_periodic_difference_box_fraction": 0.1
+  }
+}

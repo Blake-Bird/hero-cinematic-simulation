@@ -1,0 +1,12 @@
+{
+  "repository": "https://github.com/DanengYang/parametricSIDM",
+  "revision": "eab292b195067f51708519a87fae898acb9f22eb",
+  "archive_url": "https://codeload.github.com/DanengYang/parametricSIDM/tar.gz/eab292b195067f51708519a87fae898acb9f22eb",
+  "archive_sha256": "0c8fcc2c972b0e18ba2a2a84d7c57f4883cf06cbfd1306297700f5d5cacc0a49",
+  "files_retained": 44,
+  "license_paths": [
+    "LICENSE"
+  ],
+  "adaptation_policy": "reference-only source reading; no unlicensed code copied into production",
+  "runtime_execution": "NOT_EXECUTED"
+}

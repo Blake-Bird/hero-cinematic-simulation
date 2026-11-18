@@ -1,0 +1,56 @@
+{
+  "schema_version": 2,
+  "cosmology_bundle": {
+    "path": "REPLACE_EXACT_LINEAR_BUNDLE.json",
+    "sha256": "REPLACE_EXACT_SHA256",
+    "background_model": "lcdm"
+  },
+  "epochs": {
+    "z_start": null,
+    "z_end": null,
+    "backbone_redshifts": [],
+    "start_epoch_comparison": []
+  },
+  "dark_matter": {
+    "linear_model": "cdm",
+    "interactions": {
+      "kind": "collisionless"
+    }
+  },
+  "resources": {
+    "mpi_ranks": 1,
+    "omp_threads": 1,
+    "memory_gib": 8,
+    "disk_gib": 64,
+    "maximum_stage_count": 32,
+    "followup_limits": {
+      "maximum_children": 0,
+      "maximum_depth": 0
+    }
+  },
+  "science": {
+    "products": [
+      "measured_native_observables"
+    ],
+    "product_options": {
+      "native_evolution": {
+        "answers": {
+          "path": "REPLACE_COMPLETE_NATIVE_ANSWERS.json",
+          "sha256": "REPLACE_EXACT_SHA256"
+        },
+        "wall_seconds": 3600,
+        "snapshots": [
+          0
+        ]
+      },
+      "measured_native_observables": {
+        "producer": "native_forward_vector",
+        "request_reference": {
+          "path": "REPLACE_NATIVE_OBSERVABLE_VECTOR_REQUEST.json",
+          "sha256": "REPLACE_EXACT_SHA256"
+        }
+      }
+    }
+  },
+  "capabilities": []
+}

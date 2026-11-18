@@ -1,0 +1,41 @@
+%  Relevant files
+InitCondFile  	          tests/EvrardCollapse/box.ic
+
+% CPU-time limit
+
+TimeLimitCPU              36000
+MaxMemSize                2000
+
+% Code options
+
+GravityConstantInternal 1.0
+ArtBulkViscConst        0.8
+
+%  Caracteristics of run
+
+TimeBegin                 0.0
+TimeMax	                  3.0
+
+BoxSize                   1
+
+
+% Output frequency
+
+TimeBetSnapshot           0.1
+TimeOfFirstSnapshot       0
+
+% Memory allocation
+
+PartAllocFactor           2.5
+
+% System of units
+
+UnitLength_in_cm          1.0
+UnitMass_in_g             1.0
+UnitVelocity_in_cm_per_s  1.0
+
+% Softening lengths
+
+SofteningGas              0.004       % only gas is used here
+
+SofteningGasMaxPhys       0.004

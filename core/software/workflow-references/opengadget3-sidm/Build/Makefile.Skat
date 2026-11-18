@@ -1,0 +1,7 @@
+#CC       =  /home/skat/arth/lib/openmpi-1.6.1/bin/mpic++
+GSL_INCL = -I/home/moon/lboess/gsl/include/
+GSL_LIBS = -L/home/moon/lboess/gsl/lib64 -lgsl -lgslcblas
+FFTW_INCL= -I/home/moon/ragagnin/include/
+FFTW_LIBS= -L/home/moon/ragagnin/lib64
+OPTIMIZE  = -std=c++17  -g -O2 -fopenmp
+MPICHLIB  =

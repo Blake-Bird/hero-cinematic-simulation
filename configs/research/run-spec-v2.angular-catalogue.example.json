@@ -1,0 +1,65 @@
+{
+  "schema_version": 2,
+  "cosmology_bundle": {
+    "path": "REPLACE_EXACT_LINEAR_BUNDLE.json",
+    "sha256": "REPLACE_EXACT_SHA256",
+    "background_model": "lcdm"
+  },
+  "epochs": {
+    "z_start": null,
+    "z_end": null,
+    "backbone_redshifts": [],
+    "start_epoch_comparison": []
+  },
+  "dark_matter": {
+    "linear_model": "cdm",
+    "interactions": {
+      "kind": "elastic_sidm"
+    }
+  },
+  "resources": {
+    "mpi_ranks": 1,
+    "omp_threads": 1,
+    "memory_gib": 8,
+    "disk_gib": 64,
+    "maximum_stage_count": 32,
+    "followup_limits": {
+      "maximum_children": 0,
+      "maximum_depth": 0
+    }
+  },
+  "science": {
+    "products": [
+      "angles"
+    ],
+    "product_options": {
+      "angles": {
+        "producer": "sidm_angular_control",
+        "request_reference": {
+          "path": "REPLACE_ANGULAR_CONTROL_REQUEST.json",
+          "sha256": "REPLACE_EXACT_SHA256"
+        }
+      },
+      "sidm_reference_cdf": {
+        "request_reference": {
+          "path": "REPLACE_CDF_REQUEST.json",
+          "sha256": "REPLACE_EXACT_SHA256"
+        }
+      },
+      "sidm_native_events": {
+        "native_source": {
+          "stage_receipt": {
+            "path": "REPLACE_COMPLETED_NATIVE_STAGE_RECEIPT.json",
+            "sha256": "REPLACE_EXACT_SHA256"
+          },
+          "run_directory": "REPLACE_OWNED_NATIVE_RUN"
+        },
+        "request_reference": {
+          "path": "REPLACE_NATIVE_EVENT_EXPORT_REQUEST.json",
+          "sha256": "REPLACE_EXACT_SHA256"
+        }
+      }
+    }
+  },
+  "capabilities": []
+}

@@ -1,0 +1,43 @@
+{
+  "request": {
+    "schema": "sidm-canonical-clock-mapping-request-v1",
+    "history": {
+      "path": "REPLACE_WITH_NATIVE_CONTROL_HISTORY.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "physical_model": {
+      "path": "/Users/bbird/research2/configs/research/sidm_homogeneous_isotropic.model.json",
+      "sha256": "3cee078aa0c15c1b03407b388d0527b392384785a8551ab1336cb66e2c14a10f"
+    },
+    "native_differential_table": null,
+    "canonical_speed_grid_kms": [
+      0,
+      1,
+      5,
+      10,
+      20,
+      50,
+      100,
+      200,
+      500
+    ],
+    "cosine_grid": [
+      -1,
+      -0.75,
+      -0.5,
+      -0.25,
+      0,
+      0.25,
+      0.5,
+      0.75,
+      1
+    ],
+    "maximum_epochs": 256,
+    "maximum_speeds": 512,
+    "maximum_angles": 1025,
+    "maximum_clock_evaluations": 1000000,
+    "memory_gib": 8,
+    "clock_absolute_tolerance_seconds": 1,
+    "clock_relative_tolerance": 1e-08
+  }
+}

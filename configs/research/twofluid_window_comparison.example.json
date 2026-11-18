@@ -1,0 +1,28 @@
+{
+  "request_base": ".",
+  "request": {
+    "schema": "twofluid-window-comparison-request-v1",
+    "native_generation": {
+      "path": "native-ic/twofluid-generation.json",
+      "sha256": "REPLACE_WITH_ACTUAL_SEALED_NATIVE_GENERATION_SHA256"
+    },
+    "memory_gib": 8,
+    "maximum_particles": 1000000,
+    "maximum_modes": 64,
+    "maximum_windows": 8,
+    "chunk_rows": 4096,
+    "maximum_phase_evaluations": 100000000,
+    "maximum_k_cell_width": 0.5,
+    "integer_wavevectors": [[1, 0, 0], [0, 1, 0], [0, 0, 1]],
+    "quadrature_orders": [2, 4, 8],
+    "density_absolute_tolerance": 0.001,
+    "momentum_absolute_tolerance_km_s": 0.01,
+    "quadrature_density_tolerance": 0.000001,
+    "quadrature_momentum_tolerance_km_s": 0.00001,
+    "windows": [
+      {"name": "fine_gas", "native_types": [0], "minimum_level": 1, "maximum_level": 20},
+      {"name": "fine_cdm", "native_types": [1], "minimum_level": 1, "maximum_level": 20},
+      {"name": "coarse_material", "native_types": [2], "minimum_level": 1, "maximum_level": 20}
+    ]
+  }
+}

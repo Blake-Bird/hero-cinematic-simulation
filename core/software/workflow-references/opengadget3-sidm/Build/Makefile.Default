@@ -1,0 +1,9 @@
+OPTIMIZE  = -std=c++17  -g -O2 -fopenmp
+
+ifdef ADD_COMPILE_OPTIONS
+    OPTIMIZE += -fsanitize=undefined -fsanitize-address-use-after-scope -fbounds-check -Wall # -fsanitize=leak
+endif
+
+MPICHLIB  = 
+HDF5_INCL = -I/usr/include/hdf5/serial/
+HDF5_LIBS = -L/usr/lib/x86_64-linux-gnu/hdf5/serial/

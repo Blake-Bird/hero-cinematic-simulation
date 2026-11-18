@@ -1,0 +1,112 @@
+__all__ = ["MultiDataBase"]
+
+import numpy as np
+
+
+class MultiDataBase(object):
+    """Base class with definitions that are shared among all variations of modelling
+    multiple data sets."""
+
+    def __init__(self, image_model_list, compute_bool=None):
+        """
+
+        :param image_model_list: list of ImageModel instances (supporting linear inversions)
+        :param compute_bool: list of booleans for each imaging band indicating whether to model it or not.
+        """
+        self._num_bands = len(image_model_list)
+        if compute_bool is None:
+            compute_bool = [True] * self._num_bands
+        else:
+            if not len(compute_bool) == self._num_bands:
+                raise ValueError(
+                    "compute_bool statement has not the same range as number of bands available!"
+                )
+        self._compute_bool = compute_bool
+        self._image_model_list = image_model_list
+        self._num_response_list = []
+        for i, imageModel in enumerate(image_model_list):
+            self._num_response_list.append(imageModel.num_data_evaluate)
+            imageModel.image_index = i
+
+    @property
+    def num_bands(self):
+        return self._num_bands
+
+    @property
+    def num_response_list(self):
+        """List of number of data elements that are used in the minimization.
+
+        :return: list of integers
+        """
+        return self._num_response_list
+
+    def reset_point_source_cache(self, cache=True):
+        """Deletes all the cache in the point source class and saves it from then on.
+
+        :return:
+        """
+        for imageModel in self._image_model_list:
+            imageModel.reset_point_source_cache(cache=cache)
+
+    @property
+    def num_data_evaluate(self):
+        num = 0
+        for i in range(self._num_bands):
+            if self._compute_bool[i] is True:
+                num += self._image_model_list[i].num_data_evaluate
+        return num
+
+    def num_param_linear(
+        self, kwargs_lens, kwargs_source, kwargs_lens_light, kwargs_ps
+    ):
+        """
+
+        :return: number of linear coefficients to be solved for in the linear inversion
+        """
+        num = 0
+        for i in range(self._num_bands):
+            if self._compute_bool[i] is True:
+                num += self._image_model_list[i].num_param_linear(
+                    kwargs_lens, kwargs_source, kwargs_lens_light, kwargs_ps
+                )
+        return num
+
+    def reduced_residuals(self, model_list, error_map_list=None):
+        """
+
+        :param model_list: list of models
+        :param error_map_list: list of error maps
+        :return:
+        """
+        residual_list = []
+        if error_map_list is None:
+            error_map_list = np.zeros(self.num_bands)
+        index = 0
+        for i in range(self._num_bands):
+            if self._compute_bool[i] is True:
+                residual_list.append(
+                    self._image_model_list[i].reduced_residuals(
+                        model_list[index], error_map=error_map_list[index]
+                    )
+                )
+                index += 1
+        return residual_list
+
+    def update_pixel_grid_coordinates(self, kwargs_special):
+        """Updates the coordinate grid with shifts and rotations.
+
+        :param kwargs_special: special parameter dictionary. should contain
+            "kwargs_offsets" to contain a list of dictionaries with "ra_shift",
+            "dec_shift", "phi_rot" consistent with PixelGrid.update_coordinate_grid()
+            definition.
+        :type kwargs_special: dict
+        :return: new Coordinate() class and pixel grid for all bands that are being
+            modeled
+        """
+        if kwargs_special is not None:
+            if "kwargs_offsets" in kwargs_special:
+                for i in range(self._num_bands):
+                    if self._compute_bool[i] is True:
+                        self._image_model_list[i].update_pixel_grid_coordinates(
+                            kwargs_special, model_index=i
+                        )

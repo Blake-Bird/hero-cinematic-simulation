@@ -1,0 +1,60 @@
+CC        = mpiicpx
+CXX       = mpiicpx
+
+# replace -ffast-math with -fp-model=precise to have best precission
+OPTIMIZE = -std=c++17 -g -O2 -xcommon-avx512 -fimf-precision=high -fimf-use-svml=true -DH5_USE_16_API
+
+ifeq (ACC_OPENMP,$(filter ACC_OPENMP,$(CONFIGVARS)))
+  OPTIMIZE+= -fiopenmp
+  OPTIMIZE+= -mlong-double-64 -ffast-math -mfma -fopenmp-targets=spir64="-mlong-double-64"
+else
+  OPTIMIZE+= -qopenmp
+endif
+
+ifeq (TIMER_VTUNE,$(filter TIMER_VTUNE,$(CONFIGVARS)))
+    export PATH := $(VTUNE_PROFILER_DIR)/bin64:$(PATH)
+    export CPATH := $(VTUNE_PROFILER_DIR)/include:$(CPATH)
+    export LIBRARY_PATH := $(VTUNE_PROFILER_DIR)/lib64:$(LIBRARY_PATH)
+    export LD_LIBRARY_PATH := $(VTUNE_PROFILER_DIR)/lib64:$(LD_LIBRARY_PATH)
+    OPTIMIZE += -littnotify
+endif
+
+GSL_INCL = -I$(GSL_ROOT_DIR)/include
+GSL_LIBS = -L$(GSL_ROOT_DIR)/lib
+
+HDF5_INCL = $(HDF5_INC)
+HDF5_LIBS  = $(HDF5_SHLIB)
+
+MPICHLIB =
+
+# FFTW
+ifndef MKLFFTW  #- System module
+  FFTW_INCL= $(FFTW_INC)
+  # Do not use FFTW_LIB and similar, the right one is chosen later
+  FFTW_LIBS= -L$(FFTW_LIBDIR)
+  FFTW_LIBNAMES=
+else #- oneMKL's
+# Just put what https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-link-line-advisor.html
+# spits out. The rest is added later.
+ifeq ($(MKLFFTW), seq) # Sequential
+  FFTW_INCL= -qmkl-ilp64=sequential -DMKL_ILP64
+  FFTW_LIBS= -qmkl-ilp64=sequential -lmkl_cdft_core -lmkl_blacs_intelmpi_ilp64
+  FFTW_LIBNAMES=
+else ifeq ($(MKLFFTW), par) # OpenMP
+  FFTW_INCL= -qmkl-ilp64=parallel -DMKL_ILP64
+  FFTW_LIBS= -qmkl-ilp64=parallel -lmkl_cdft_core -lmkl_blacs_intelmpi_ilp64
+  FFTW_LIBNAMES=
+else ifeq ($(MKLFFTW), tbb) # TBB
+  FFTW_INCL= -qmkl-ilp64=parallel -qtbb -DMKL_ILP64
+  FFTW_LIBS= -qmkl-ilp64=parallel -qtbb -lmkl_cdft_core -lmkl_blacs_intelmpi_ilp64
+  FFTW_LIBNAMES=
+else ifeq ($(MKLFFTW), gpu) # GPU offload
+  FFTW_INCL=-fiopenmp -fopenmp-targets=spir64 -m64 -DMKL_ILP64  -qmkl-ilp64=parallel
+  FFTW_LIBS=-qmkl-ilp64=parallel -fiopenmp -fopenmp-targets=spir64 -qmkl-sycl-impl=dft -lmkl_cdft_core -lmkl_blacs_intelmpi_ilp64 -lstdc++
+  FFTW_LIBNAMES=
+else
+  $(error Makefile.$(SYSTYPE): MKLFFTW is $(MKLFFTW), set it to: seq, par, tbb or gpu)
+endif
+  FFTW_LIBS+=-L$(PWD)/$(SYSTYPE)_mklfftw3 -lfftw3x_cdft_ilp64
+  FFTW_INCL+=$(MKL_INC)/fftw
+endif

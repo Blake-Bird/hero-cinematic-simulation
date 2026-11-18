@@ -1,0 +1,123 @@
+--- a/src/io/hdf5_util.cc
++++ b/src/io/hdf5_util.cc
+@@ -12,6 +12,9 @@
+ #include "gadgetconfig.h"
+ 
+ #include <hdf5.h>
++#include <errno.h>
++#include <fcntl.h>
++#include <string>
+ #include <math.h>
+ #include <mpi.h>
+ #include <stdio.h>
+@@ -535,13 +538,56 @@
+  */
+ herr_t my_H5Fclose(hid_t file_id, const char *fname)
+ {
++  unsigned int intent = 0;
++  if(H5Fget_intent(file_id, &intent) < 0)
++    Terminate("HDF5: cannot determine file intent for %s", fname);
++  if((intent & H5F_ACC_RDWR) && H5Fflush(file_id, H5F_SCOPE_GLOBAL) < 0)
++    Terminate("HDF5: cannot flush output %s", fname);
+   herr_t status = H5Fclose(file_id);
+   if(status < 0)
+     {
+       H5Eset_auto(H5E_DEFAULT, NULL, NULL);
+       Terminate("Error detected in HDF5: unable to close file %s\n", fname);
+     }
+-  return status;
++  if(intent & H5F_ACC_RDWR)
++    {
++      int descriptor = open(fname, O_RDONLY);
++      if(descriptor < 0 || fsync(descriptor) != 0)
++        Terminate("HDF5: cannot durably flush output %s", fname);
++      if(close(descriptor) != 0) Terminate("HDF5: cannot close flushed output %s", fname);
++    }
++  return status;
++}
++
++/* Each shard is immutable until close/flush, then published by rename.
++ * Complete multi-shard epoch validation remains the caller's responsibility. */
++void native_publish_hdf5_file(const char *stage, const char *target)
++{
++  struct stat previous;
++  if(lstat(target, &previous) == 0)
++    {
++      if(!S_ISREG(previous.st_mode) && !S_ISLNK(previous.st_mode))
++        Terminate("HDF5: output target is not a regular file/link: %s", target);
++      char archive[MAXLEN_PATH_EXTRA];
++      if(snprintf(archive, sizeof(archive), "%s.previous.XXXXXX", target) >= (int)sizeof(archive))
++        Terminate("HDF5: previous output path too long");
++      int descriptor = mkstemp(archive);
++      if(descriptor < 0) Terminate("HDF5: cannot reserve prior output archive");
++      if(close(descriptor) != 0 || unlink(archive) != 0 || link(target, archive) != 0)
++        Terminate("HDF5: cannot preserve prior output %s", target);
++    }
++  else if(errno != ENOENT) Terminate("HDF5: cannot inspect output %s", target);
++  std::string directory(target);
++  size_t slash = directory.find_last_of('/');
++  directory = slash == std::string::npos ? "." : slash == 0 ? "/" : directory.substr(0, slash);
++  int descriptor = open(directory.c_str(), O_RDONLY);
++  if(descriptor < 0) Terminate("HDF5: cannot open output directory");
++  if(fsync(descriptor) != 0 && errno != EINVAL && errno != ENOTSUP)
++    Terminate("HDF5: cannot flush prior output archive");
++  if(rename(stage, target) != 0) Terminate("HDF5: cannot publish staged output %s", target);
++  if(fsync(descriptor) != 0 && errno != EINVAL && errno != ENOTSUP)
++    Terminate("HDF5: cannot flush output publication");
++  if(close(descriptor) != 0) Terminate("HDF5: cannot close output directory");
+ }
+ 
+ /*!
+--- a/src/io/hdf5_util.h
++++ b/src/io/hdf5_util.h
+@@ -66,4 +66,6 @@
+ int read_scalar_attribute(hid_t handle, const char *attr_name, const char *alternative_name, void *buf, hid_t mem_type_id);
+ void read_vector_attribute(hid_t handle, const char *attr_name, void *buf, hid_t mem_type_id, int length);
+ 
++void native_publish_hdf5_file(const char *stage, const char *target);
++
+ #endif
+--- a/src/io/io.cc
++++ b/src/io/io.cc
+@@ -19,6 +19,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <sys/stat.h>
++#include <unistd.h>
+ 
+ #include <algorithm>
+ 
+@@ -817,6 +818,7 @@
+  */
+ void IO_Def::write_file(char *fname, int writeTask, int lastTask, void *CommBuffer, int numfilesperdump, int chunksize)
+ {
++  char native_final[MAXLEN_PATH_EXTRA] = {0}, native_stage[MAXLEN_PATH_EXTRA] = {0};
+   int typelist[N_DataGroups];
+   long long n_type[N_DataGroups], npart[N_DataGroups], pcsum = 0;
+   char label[LABEL_LEN + 1];
+@@ -845,9 +847,12 @@
+           snprintf(buf, MAXLEN_PATH_EXTRA, "%s.hdf5", fname);
+           mpi_printf("%s file: '%s' (file 1 of %d)\n", info, fname, numfilesperdump);
+ 
+-          rename_file_to_bak_if_it_exists(buf);
+-
+-          hdf5_file = my_H5Fcreate(buf, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
++          if(snprintf(native_final, sizeof(native_final), "%s", buf) >= (int)sizeof(native_final) ||
++             snprintf(native_stage, sizeof(native_stage), "%s.partial.XXXXXX", buf) >= (int)sizeof(native_stage))
++            Terminate("HDF5: output stage path too long");
++          int descriptor = mkstemp(native_stage);
++          if(descriptor < 0 || close(descriptor) != 0) Terminate("HDF5: cannot reserve output stage");
++          hdf5_file = my_H5Fcreate(native_stage, H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+ 
+           hdf5_headergrp = my_H5Gcreate(hdf5_file, "/Header", 0);
+           write_header_fields(hdf5_headergrp);
+@@ -1109,7 +1114,8 @@
+           my_H5Gclose(hdf5_configgrp, "/Config");
+ 
+           snprintf(buf, MAXLEN_PATH, "%s.hdf5", fname);
+-          my_H5Fclose(hdf5_file, buf);
++          my_H5Fclose(hdf5_file, native_stage);
++      native_publish_hdf5_file(native_stage, native_final);
+         }
+       else
+         fclose(fd);

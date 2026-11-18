@@ -1,0 +1,26 @@
+doc/_build/
+**/__pycache__
+**/pytest_cache
+**/*.egg
+**/*.egg-info
+**/.astropy
+**/.cache
+**/.config
+**/.wget*
+**/_tests
+**/dist
+**/eggs
+**/build
+**/_catalogs
+**/.ipynb_checkpoints
+**/bak
+**/_tests
+**/lib
+**/*_utils.c
+**/*.so
+
+# Unit test / coverage reports
+**/.coverage
+
+# the annoying macOS hidden file
+.DS_Store

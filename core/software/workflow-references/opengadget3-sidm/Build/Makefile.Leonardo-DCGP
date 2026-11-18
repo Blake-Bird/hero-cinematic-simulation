@@ -1,0 +1,15 @@
+CC       =   mpic++
+CXX       =   mpic++
+OPTIMIZE =  -O2  -fopenmp
+
+GSL_INCL = -I$(GSL_INC)
+GSL_LIBS = -L$(GSL_LIB)
+
+FFTW_INCL= -I$(FFTW_INC)
+FFTW_LIBS= -L$(FFTW_LIB) -lfftw3f_omp
+FFTW_OPENMP_LIBDIR = $(FFTW_LIB)
+HDF5_INCL = -I$(HDF5_INCLUDE)
+HDF5_LIBS  = -L$(HDF5_LIB) -lhdf5
+
+MPICHLIB =
+

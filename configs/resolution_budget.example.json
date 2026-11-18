@@ -1,0 +1,33 @@
+{
+  "schema": "observable-resolution-request-v1",
+  "radial_edges_proper_kpc": [
+    0,
+    1,
+    2,
+    4
+  ],
+  "maximum_coarse_mass_fraction": 0.0,
+  "minimum_relaxation_age_ratio": 0.01,
+  "maximum_timestep_crossing_fraction": 0.1,
+  "maximum_force_support_fraction": 0.1,
+  "observables": [
+    {
+      "name": "profile",
+      "kind": "halo_profile",
+      "minimum_radius_proper_kpc": 2.0,
+      "minimum_members": 10,
+      "species": 1,
+      "maximum_relative_error": 0.05,
+      "absolute_error_floor": 1.0,
+      "units": "Msun"
+    }
+  ],
+  "refinement": {
+    "maximum_levels": 2,
+    "mass_reduction_factor": 8.0,
+    "softening_reduction_factor": 2.0,
+    "timestep_reduction_factor": 2.0,
+    "memory_gib": 2.0,
+    "disk_gib": 4.0
+  }
+}

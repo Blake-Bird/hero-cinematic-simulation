@@ -1,0 +1,20 @@
+{
+  "control_values": {
+    "integration_accuracy": [0.01, 0.005],
+    "gravity_force_accuracy": [0.002, 0.001],
+    "gravity_tree_opening": [0.35, 0.25]
+  },
+  "native_configuration_bindings": {
+    "phase_seed": [{"native_path": ["seed"], "scale": 1.0}],
+    "integration_accuracy": [{"native_path": ["err_tol_int_accuracy"], "scale": 1.0}],
+    "gravity_force_accuracy": [{"native_path": ["err_tol_force_acc"], "scale": 1.0}],
+    "gravity_tree_opening": [{"native_path": ["err_tol_theta"], "scale": 1.0}]
+  },
+  "component_controls": [
+    {"component": "integration", "control": "integration_accuracy", "value": 0.005},
+    {"component": "gravity_force_accuracy", "control": "gravity_force_accuracy", "value": 0.001},
+    {"component": "gravity_tree_opening", "control": "gravity_tree_opening", "value": 0.25}
+  ],
+  "references": ["https://arxiv.org/abs/2402.01604", "https://arxiv.org/abs/2403.00739"],
+  "scope": "Fields to merge into a configured frozen native convergence request; numerical values are explicit example controls and establish no accepted physical domain"
+}

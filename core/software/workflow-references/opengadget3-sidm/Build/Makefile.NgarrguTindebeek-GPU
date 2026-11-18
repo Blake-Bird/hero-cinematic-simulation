@@ -1,0 +1,19 @@
+OPTIMIZE = -std=c++23 -O3
+CC=nvc++
+CXX=nvc++
+
+# for OpenACC:
+ifeq (ACC_OPENACC,$(filter ACC_OPENACC,$(CONFIGVARS)))
+    OPTIMIZE += -mp=multicore -acc
+endif
+
+# for OpenMP: 
+ifeq (ACC_OPENMP,$(filter ACC_OPENMP,$(CONFIGVARS)))
+    OPTIMIZE += -mp=gpu -target=gpu
+endif
+
+CC_ACC_FLAGS = -gpu=cc80,rdc
+CXX += $(CC_ACC_FLAGS)
+CC += $(CC_ACC_FLAGS)
+
+MPICHLIB = -lmpi

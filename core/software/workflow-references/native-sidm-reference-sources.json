@@ -1,0 +1,40 @@
+{
+  "schema": "native-sidm-reference-sources-v2",
+  "execution_status": "NOT_RUN",
+  "references": [
+    {
+      "role": "required_independent_rare_frequent_engine",
+      "repository": "https://gitlab.lrz.de/AstroCodes/OpenGadget3",
+      "path": "/Users/bbird/research2/core/software/workflow-references/opengadget3-sidm",
+      "commit": "7d90b03df29fa3c416b2b06c3fa6cc8c7821f1f1",
+      "license": "GPL-3.0-or-later",
+      "first_party_adapter": "mSIDM/research_differential_table.hpp",
+      "adapter_description": "OpenGadget3 independently integrates and samples common retained differential-table law; no native transport code imported"
+    },
+    {
+      "role": "additional_public_rare_engine",
+      "repository": "https://github.com/N-BodyShop/changa",
+      "path": "/Users/bbird/research2/core/software/workflow-references/changa-sidm",
+      "commit": "39fc62a71382a5aa2c7b2b1355ec07d0bbd1ccbd",
+      "license_file": "LICENSE.md",
+      "runtime_dependency": false,
+      "source_distribution": "Pinned reference and attribution only; unused full checkout archived outside portable source"
+    },
+    {
+      "role": "native_counter_random_generator",
+      "repository": "https://github.com/DEShawResearch/random123",
+      "path": "/Users/bbird/research2/core/software/gadget4/third_party/random123",
+      "commit": "9545ff6413f258be2f04c1d319d99aaef7521150",
+      "license": "BSD",
+      "license_file": "LICENSE"
+    }
+  ],
+  "methods": [
+    "https://arxiv.org/html/2603.10107v1",
+    "https://arxiv.org/abs/1208.3025",
+    "https://arxiv.org/abs/2012.10277",
+    "https://arxiv.org/abs/2310.07750",
+    "https://arxiv.org/html/2410.07175v2",
+    "https://arxiv.org/abs/2203.06035"
+  ]
+}

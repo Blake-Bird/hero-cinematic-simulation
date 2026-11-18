@@ -1,0 +1,65 @@
+%  Relevant files
+
+InitCondFile   ./tests/GalaxyMerger/GalaxyMerger.ic
+
+OutputDir      ./
+
+MaxMemSize	     4000
+
+% CPU-time limit
+
+TimeLimitCPU      3600
+
+ComovingIntegrationOn 0
+
+NumFilesPerSnapshot       1
+NumFilesWrittenInParallel 1
+
+CoolingOn       1
+
+StarformationOn 1
+ 
+%  Caracteristics of run
+
+TimeBegin           0.00000
+TimeMax	            5.00000
+
+Omega0	              0.0      % total matter density
+OmegaLambda           0.0
+
+OmegaBaryon           0.00
+HubbleParam           0.71     % only needed for cooling
+
+BoxSize                50000.0
+PeriodicBoundariesOn   0
+
+% Softening lengths
+SofteningGas       0.013
+SofteningHalo      0.081
+SofteningDisk      0.013
+SofteningBulge     0.013
+SofteningStars     0.013
+SofteningBndry     0.013         % this will be the black hole particles
+
+SofteningGasMaxPhys       0.013
+SofteningHaloMaxPhys      0.081
+SofteningDiskMaxPhys      0.013
+SofteningBulgeMaxPhys     0.013
+SofteningStarsMaxPhys     0.013
+SofteningBndryMaxPhys     0.013
+
+% Output frequency
+
+OutputListOn        0
+
+TimeBetSnapshot        0.1
+TimeOfFirstSnapshot    0.0
+ 
+CpuTimeBetRestartFile  7200.0  % every 2 hours 
+
+TimeBetStatistics      0.1
+
+% Further code parametertodon
+PartAllocFactor       5.0  
+BufferSize            100
+MinSizeTimestep       0.005

@@ -1,0 +1,22 @@
+{
+  "schema": "cosmography-campaign-v1",
+  "experiment_id": "block43_time_delay.example",
+  "resources": {
+    "memory_gib": 8,
+    "maximum_stage_count": 100,
+    "maximum_objects": 1000000,
+    "maximum_spectral_pixels": 4096
+  },
+  "stages": [
+    {
+      "stage_id": "lens",
+      "kind": "time_delay",
+      "realization_id": "independent-realization-001",
+      "inputs": {
+        "observations": "../inputs/lens_observations.json",
+        "lens_fit_model": "../inputs/lens_joint_model.json"
+      },
+      "parameters": {}
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+# modules for Anvil - at 2025-02-11
+#module purge
+#module load modtree/cpu
+#module load hdf5
+#module load fftw
+#module load gsl
+
+CC        = mpicc
+CXX       = mpicxx
+GSL_INCL = 
+GSL_LIBS = 
+FFTW_INCL=
+FFTW_LIBS=
+MPICHLIB =
+HDF5_INCL = 
+HDF5_LIBS  = 
+FFTW_LIBNAMES=
+OPTIMIZE = -std=c++17 -Wall -g -O2 -fopenmp -DH5_USE_16_API -lstdc++ -lmpi_cxx

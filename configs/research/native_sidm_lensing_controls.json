@@ -1,0 +1,18 @@
+{
+  "schema": "native-recovered-sidm-lensing-controls-v1",
+  "source_redshift": 2.0,
+  "pixels": 16,
+  "half_width_proper_kpc": 20.0,
+  "half_depth_proper_kpc": 20.0,
+  "line_of_sight": [0.0, 0.0, 1.0],
+  "horizontal_direction": [1.0, 0.0, 0.0],
+  "background_surface_density_msun_kpc2": 0.0,
+  "minimum_particles_per_pixel": 100,
+  "maximum_coarse_mass_fraction": 0.01,
+  "maximum_particles": 2000000,
+  "observables": [
+    {"array": "surface_density_msun_kpc2", "units": "Msun / proper kpc^2", "absolute_floor": 1.0},
+    {"array": "kappa", "units": "dimensionless", "absolute_floor": 0.00000001},
+    {"array": "reduced_deflection_x_rad", "units": "rad", "absolute_floor": 0.0000000001}
+  ]
+}

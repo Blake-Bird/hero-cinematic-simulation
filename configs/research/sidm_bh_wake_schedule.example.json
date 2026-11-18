@@ -1,0 +1,26 @@
+{
+  "schema": "native-wake-schedule-request-v1",
+  "physics_signature": "0000000000000000000000000000000000000000000000000000000000000000",
+  "maximum_particles": 1000000,
+  "maximum_work": 3000000,
+  "maximum_workspace_bytes": 268435456,
+  "maximum_publication_bytes": 1048576,
+  "epoch_tolerance_native": 0.0,
+  "maximum_bytes": 1048576,
+  "maximum_rows": 128,
+  "rows": [
+    {
+      "native_time": 0.02,
+      "carrier_id": 1,
+      "measurement_id": 1,
+      "radial_edges_proper_kpc": [
+        0.0,
+        0.01,
+        0.03,
+        0.1,
+        0.3,
+        1.0
+      ]
+    }
+  ]
+}

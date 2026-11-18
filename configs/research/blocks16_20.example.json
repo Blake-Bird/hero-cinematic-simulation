@@ -1,0 +1,202 @@
+{
+  "schema": "stream-campaign-v1",
+  "experiment_id": "blocks16-20-edit-before-running",
+  "resources": {
+    "memory_gib": 8.0,
+    "maximum_particles": 4096,
+    "maximum_stages": 16
+  },
+  "notice": "Illustrative request only. Replace source paths, host/frame/epochs, identities, calibration, science tolerances and resource limits before running. Analytical action potential is a CONTROL and must be replaced for native inference. Without a classifier calibration catalogue classes remain ambiguous.",
+  "stages": [
+    {
+      "stage_id": "catalogue",
+      "kind": "catalogue",
+      "inputs": {
+        "run_directory": "../../runs/CHOOSE_RUN",
+        "identity_graph": "../../outputs/CHOOSE_IDENTITY_GRAPH"
+      },
+      "parameters": {
+        "snapshot": 0,
+        "host_row": 0,
+        "particle_namespace": "CHOOSE_NATIVE_NAMESPACE",
+        "host_bulk_velocity_kms": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "controls": {
+          "minimum_particles": 40,
+          "maximum_neighbor_edges": 2000000,
+          "minimum_neighbors": 8,
+          "link_position_kpc": 2.0,
+          "link_velocity_kms": 20.0,
+          "split_known_progenitors": true,
+          "minimum_posterior": 0.95,
+          "minimum_heldout_precision": 0.95
+        }
+      }
+    },
+    {
+      "stage_id": "coordinates",
+      "kind": "coordinates",
+      "depends_on": [
+        "catalogue"
+      ],
+      "inputs": {
+        "sample": {
+          "stage": "catalogue"
+        }
+      },
+      "parameters": {
+        "candidate_id": 0,
+        "unwrapped_phase": null,
+        "wrap_controls": {
+          "position_link_kpc": 2.0,
+          "velocity_link_kms": 20.0,
+          "max_edges": 2000000,
+          "phase_origin": 0.0
+        },
+        "curve_controls": {
+          "minimum_track_particles": 40,
+          "ordering_neighbors": 8,
+          "ordering_position_kpc": 1.0,
+          "ordering_velocity_kms": 10.0,
+          "maximum_ordering_link": 10.0,
+          "fit_bins": 20,
+          "position_uncertainty_floor_kpc": 0.005,
+          "smoothing_budget": 20.0,
+          "grid_points": 256,
+          "iterations": 12,
+          "projection_tolerance_kpc": 0.001
+        },
+        "bin_controls": {
+          "resolution_kpc": 0.1,
+          "minimum_count": 12,
+          "maximum_bins": 40
+        },
+        "measurement_controls": {
+          "seed": 4271,
+          "minimum_bin_particles": 12,
+          "minimum_effective_particles": 8.0,
+          "bootstrap_replicates": 64,
+          "density_baseline_sigma_bins": 3.0,
+          "feature_significance": 3.0,
+          "spur_offset_kpc": 0.3,
+          "fork_separation_sigma": 3.0,
+          "coordinate_kind": "intrinsic",
+          "progenitor_s_kpc": null
+        },
+        "track_bootstrap_replicates": 32
+      }
+    },
+    {
+      "stage_id": "geometry",
+      "kind": "geometry",
+      "depends_on": [
+        "coordinates"
+      ],
+      "inputs": {
+        "coordinates": {
+          "stage": "coordinates"
+        }
+      },
+      "parameters": {
+        "wrap_id": 0,
+        "geometry": {
+          "directions": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0
+            ]
+          ],
+          "host_center_kpc": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "host_center_covariance_kpc2": [
+            [
+              0.01,
+              0,
+              0
+            ],
+            [
+              0,
+              0.01,
+              0
+            ],
+            [
+              0,
+              0,
+              0.01
+            ]
+          ],
+          "controls": {
+            "seed": 4271,
+            "uncertainty_replicates": 64,
+            "parameter_speed_floor": 1e-08,
+            "curvature_floor_kpc_inverse": 1e-07,
+            "arclength_floor_kpc": 1e-08,
+            "width_margin": 4.0,
+            "maximum_curvature_width": 0.1,
+            "uncertainty_smoothing_variance_kpc2": 0.0001,
+            "minimum_convex_probability": 0.975,
+            "minimum_convex_length_kpc": 0.5
+          }
+        }
+      }
+    },
+    {
+      "stage_id": "actions",
+      "kind": "actions",
+      "depends_on": [
+        "coordinates"
+      ],
+      "inputs": {
+        "sample": {
+          "stage": "coordinates"
+        }
+      },
+      "parameters": {
+        "wrap_id": 0,
+        "potential": {
+          "kind": "analytic",
+          "parameters": {
+            "kind": "isochrone",
+            "mass_msun": 100000000000.0,
+            "scale_kpc": 5.0
+          }
+        },
+        "potential_domain": {
+          "symmetry": "spherical",
+          "time_dependent": false,
+          "symmetry_evidence": "Illustrative analytic control, not inferred native host symmetry",
+          "time_variation": null
+        },
+        "controls": {
+          "quadrature": {
+            "minimum_radius_kpc": 1e-05,
+            "maximum_radius_kpc": 1000.0,
+            "turning_grid_points": 512,
+            "root_tolerance_kpc": 1e-10,
+            "quadrature_relative_tolerance": 1e-07,
+            "quadrature_absolute_floor": 1e-10,
+            "maximum_quadrature_subintervals": 256,
+            "angular_momentum_floor_kpc_kms": 1e-08
+          }
+        }
+      }
+    }
+  ]
+}

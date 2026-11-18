@@ -1,0 +1,98 @@
+{
+  "schema": "native-late-counterfactual-campaign-request-v1",
+  "parent_native_stage_receipt": {
+    "path": "REPLACE_WITH_ACTUAL_COMPLETED_PARENT_NATIVE_STAGE_RECEIPT.json",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "parent_native_run_directory": "REPLACE_WITH_ACTUAL_PARENT_NATIVE_RUN",
+  "state_request": {
+    "schema": "native-counterfactual-ic-request-v3",
+    "original_ic": {
+      "path": "REPLACE_WITH_ORIGINAL_COMPLETE_SAVED_SNAPSHOT_010.hdf5",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "operation": "remove_dm_particles",
+    "removed_dm_particle_ids": [
+      100,
+      101
+    ],
+    "stream_particle_ids": [
+      1,
+      2,
+      3
+    ],
+    "stream_species": 4,
+    "particle_namespace": "REPLACE_WITH_ACTUAL_NATIVE_NAMESPACE",
+    "maximum_particles": 2000000,
+    "memory_gib": 4.0,
+    "disk_gib": 32.0,
+    "chunk_rows": 65536,
+    "source_snapshot": 10
+  },
+  "stream_request": {
+    "schema": "native-stream-worldline-request-v1",
+    "snapshots": [
+      0,
+      1,
+      2
+    ],
+    "species": 4,
+    "particle_ids": [
+      1,
+      2,
+      3
+    ],
+    "particle_namespace": "REPLACE_WITH_ACTUAL_NATIVE_NAMESPACE",
+    "maximum_snapshots": 64,
+    "maximum_selected_particles": 16384,
+    "maximum_census_particles": 2000000,
+    "memory_gib": 4.0
+  },
+  "run_request": {
+    "schema": "native-counterfactual-run-request-v1",
+    "intervention_ic": {
+      "path": "REPLACE_WITH_COMPLETED_COUNTERFACTUAL_IC_LINEAGE.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "mpi_launcher": {
+      "path": "REPLACE_WITH_PINNED_EXECUTABLE_MPI_LAUNCHER",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "mpi_ranks": 1,
+    "omp_threads": 1,
+    "memory_gib": 4.0,
+    "disk_gib": 32.0,
+    "wall_hours": 1.0,
+    "maximum_snapshot_bytes": 10737418240,
+    "maximum_snapshots": 4096
+  },
+  "comparison_limits": {
+    "memory_gib": 4.0,
+    "maximum_snapshots": 64,
+    "maximum_selected_particles": 16384,
+    "time_absolute_tolerance_myr": 0.0,
+    "maximum_periodic_difference_box_fraction": 0.1
+  },
+  "threeway_limits": {
+    "frame": "inertial",
+    "memory_gib": 8.0,
+    "maximum_snapshots": 64,
+    "maximum_selected_particles": 16384,
+    "maximum_restart_position_error_kpc": 0.001,
+    "maximum_restart_velocity_error_kms": 0.1,
+    "maximum_restart_signal_fraction": 0.1,
+    "position_signal_floor_kpc": 0.001,
+    "velocity_signal_floor_kms": 0.1
+  },
+  "resources": {
+    "mpi_ranks": 1,
+    "omp_threads": 1,
+    "memory_gib": 8.0,
+    "disk_gib": 160.0,
+    "maximum_stage_count": 32
+  },
+  "followup_limits": {
+    "maximum_children": 32,
+    "maximum_depth": 8
+  }
+}

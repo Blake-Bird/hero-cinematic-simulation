@@ -1,0 +1,16 @@
+{
+  "schema": "finding-revalidation-requirement-v1",
+  "maximum_measurements": 4,
+  "measurements": [
+    {
+      "stage_id": "rerun_measured_native_galaxies",
+      "product": "native_galaxy_measurement",
+      "product_schema": "native-pilot-galaxy-measurement-v1",
+      "measurement_origin": "native_evolved_population",
+      "conditions": [
+        {"path": ["resolved_galaxy_count"], "operator": "minimum", "value": 1},
+        {"path": ["synthetic_fixture"], "operator": "exact", "value": false}
+      ]
+    }
+  ]
+}

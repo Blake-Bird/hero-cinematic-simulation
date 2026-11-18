@@ -1,0 +1,15 @@
+--- a/rockstar/interleaving.h
++++ b/rockstar/interleaving.h
+@@ -21 +21 @@
+-struct bgroup *final_bg;
++extern struct bgroup *final_bg;
+--- a/rockstar/fun_times.h
++++ b/rockstar/fun_times.h
+@@ -18 +18 @@
+-struct prev_bounds *p_bounds;
++extern struct prev_bounds *p_bounds;
+--- a/gadget4/Makefile
++++ b/gadget4/Makefile
+@@ -97 +97 @@
+-PYTHON   = python
++PYTHON   = python3

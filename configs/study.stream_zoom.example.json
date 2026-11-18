@@ -1,0 +1,44 @@
+{
+  "schema": "research2-study-v1",
+  "notes": "End-to-end cosmological study orchestrating simulation, target selection, streams, and scene generation",
+  "linear": {
+    "config": "configs/linear_lcdm.json"
+  },
+  "answers": "configs/run_32.json",
+  "run_dir": "/tmp/study_stream/run",
+  "state_dir": "/tmp/study_stream/state",
+  "analysis": {
+    "graphs": [
+      "hmf",
+      "pk",
+      "subhalos",
+      "galaxies",
+      "stellar_components",
+      "maps"
+    ],
+    "find_halos": true
+  },
+  "target_selection": {
+    "snapshot": 6,
+    "memory_gib": 2.0,
+    "minimum_dm_particles": 32,
+    "maximum_targets": 1,
+    "ranking": "dm_count_descending"
+  },
+  "streams": {
+    "campaign": "configs/research/streams.example.json",
+    "resources": {
+      "memory_gib": 4.0
+    }
+  },
+  "visualization": {
+    "max_points": 100000,
+    "quality": "preview",
+    "frames_per_snapshot": 8
+  },
+  "requested_integrations": [
+    "target_selection",
+    "streams"
+  ]
+}
+

@@ -1,0 +1,442 @@
+# This file is part of sbi, a toolkit for simulation-based inference. sbi is licensed
+# under the Apache License Version 2.0, see <https://www.apache.org/licenses/>
+
+from copy import deepcopy
+from typing import Callable, List, Optional, Tuple, Union
+
+import torch
+import torch.distributions.transforms as torch_tf
+from torch import Tensor, nn
+from torch.distributions import Distribution
+
+from sbi.inference.potentials.base_potential import BasePotential
+from sbi.neural_nets.estimators.mixture_density_estimator import (
+    MixtureDensityEstimator,
+)
+from sbi.utils.torchutils import ensure_theta_batched
+
+
+def compute_corrcoeff(probs: Tensor, limits: Tensor):
+    """
+    Given a matrix of probabilities `probs`, return the correlation coefficient.
+
+    Args:
+        probs: Matrix of (unnormalized) evaluations of a 2D density.
+        limits: Limits within which the entries of the matrix are evenly spaced.
+
+    Returns: Pearson correlation coefficient.
+    """
+
+    normalized_probs = _normalize_probs(probs, limits)
+    covariance = _compute_covariance(normalized_probs, limits)
+
+    marginal_x, marginal_y = _calc_marginals(normalized_probs, limits)
+    variance_x = _compute_covariance(marginal_x, limits[0], lambda x: x**2)
+    variance_y = _compute_covariance(marginal_y, limits[1], lambda x: x**2)
+
+    return covariance / torch.sqrt(variance_x * variance_y)
+
+
+def _compute_covariance(
+    probs: Tensor, limits: Tensor, f: Callable = lambda x, y: x * y
+) -> Tensor:
+    """
+    Return the covariance between two RVs from evaluations of their pdf on a grid.
+
+    The function computes the covariance as:
+    Cov(X,Y) = E[X*Y] - E[X] * E[Y]
+
+    In the more general case, when using a different function `f`, it returns:
+    E[f(X,Y)] - f(E[X], E[Y])
+
+    By using different function `f`, this function can be also deal with more than two
+    dimensions, but this has not been tested.
+
+    Lastly, this function can also compute the variance of a 1D distribution. In that
+    case, `probs` will be a vector, and f would be: f = lambda x: x**2:
+    Var(X,Y) = E[X**2] - E[X]**2
+
+    Args:
+        probs: Matrix of evaluations of a 2D density.
+        limits: Limits within which the entries of the matrix are evenly spaced.
+        f: The operation to be applied to the expected values, usually just the product.
+
+    Returns: Covariance.
+    """
+
+    probs = ensure_theta_batched(probs)
+    limits = ensure_theta_batched(limits)
+
+    # Compute E[X*Y].
+    expected_value_of_joint = _expected_value_f_of_x(probs, limits, f)
+
+    # Compute E[X] * E[Y].
+    expected_values_of_marginals = [
+        _expected_value_f_of_x(prob.unsqueeze(0), lim.unsqueeze(0))
+        for prob, lim in zip(_calc_marginals(probs, limits), limits, strict=False)
+    ]
+
+    return expected_value_of_joint - f(*expected_values_of_marginals)
+
+
+def _expected_value_f_of_x(
+    probs: Tensor, limits: Tensor, f: Callable = lambda x: x
+) -> Tensor:
+    """
+    Return the expected value of a function of random variable(s) E[f(X_i,...,X_k)].
+
+    The expected value is computed from evaluations of the joint density on an evenly
+    spaced grid, passed as `probs`.
+
+    This function can not deal with functions `f` that have multiple outputs. They will
+    simply be summed over.
+
+    Args:
+        probs: Matrix of evaluations of the density.
+        limits: Limits within which the entries of the matrix are evenly spaced.
+        f: The operation to be applied to the expected values.
+
+    Returns: Expected value.
+    """
+
+    probs = ensure_theta_batched(probs)
+    limits = ensure_theta_batched(limits)
+
+    x_values_over_which_we_integrate = [
+        torch.linspace(lim[0].item(), lim[1].item(), prob.shape[0], device=probs.device)
+        for lim, prob in zip(torch.flip(limits, [0]), probs, strict=False)
+    ]  # See #403 and #404 for flip().
+    grids = list(torch.meshgrid(x_values_over_which_we_integrate))
+    expected_val = torch.sum(f(*grids) * probs)
+
+    limits_diff = torch.prod(limits[:, 1] - limits[:, 0])
+    expected_val /= probs.numel() / limits_diff.item()
+
+    return expected_val
+
+
+def _calc_marginals(
+    probs: Tensor, limits: Tensor
+) -> Union[Tensor, Tuple[Tensor, Tensor]]:
+    """
+    Given a 2D matrix of probabilities, return the normalized marginal vectors.
+
+    Args:
+        probs: Matrix of evaluations of a 2D density.
+        limits: Limits within which the entries of the matrix are evenly spaced.
+    """
+
+    if probs.shape[0] > 1:
+        # Marginalize and normalize if multi-D distribution.
+        marginal_x = torch.sum(probs, dim=0)
+        marginal_y = torch.sum(probs, dim=1)
+
+        marginal_x = _normalize_probs(marginal_x, limits[0].unsqueeze(0))
+        marginal_y = _normalize_probs(marginal_y, limits[1].unsqueeze(0))
+        return marginal_x, marginal_y
+    else:
+        # Only normalize if already a 1D distribution.
+        return _normalize_probs(probs, limits)
+
+
+def _normalize_probs(probs: Tensor, limits: Tensor) -> Tensor:
+    """
+    Given a matrix or a vector of probabilities, return the normalized matrix or vector.
+
+    Args:
+        probs: Matrix / vector of probabilities.
+        limits: Limits within which the entries of the matrix / vector are evenly
+            spaced. Must have a batch dimension if probs is a vector.
+
+    Returns: Normalized probabilities.
+    """
+    limits_diff = torch.prod(limits[:, 1] - limits[:, 0])
+    return probs * probs.numel() / limits_diff / torch.sum(probs)
+
+
+def extract_and_transform_mog(
+    estimator: MixtureDensityEstimator, context: Optional[Tensor] = None
+) -> Tuple[Tensor, Tensor, Tensor, Tensor]:
+    """Extracts the Mixture of Gaussians (MoG) parameters
+    from an MDN based DirectPosterior at either the default x or input x.
+
+    If z-scoring was enabled on the estimator, the MoG parameters are
+    transformed back to the original (un-z-scored) parameter space.
+
+    Args:
+        estimator: MixtureDensityEstimator instance.
+        context: Conditioning context for posterior $p(\theta|x)$. If not provided,
+            fall back onto `x` passed to `set_default_x()`.
+
+    Returns:
+        norm_logits: Normalised log weights of the underlying MoG.
+            (batch_size, n_mixtures)
+        means_transformed: Recentred and rescaled means of the underlying MoG
+            (batch_size, n_mixtures, n_dims)
+        precfs_transformed: Rescaled precision factors of the underlying MoG.
+            (batch_size, n_mixtures, n_dims, n_dims)
+        sumlogdiag: Sum of the log of the diagonal of the precision factors
+            of the new conditional distribution. (batch_size, n_mixtures)
+    """
+    if context is None:
+        raise ValueError("context must be provided for extract_and_transform_mog")
+
+    # Get MoG (raw density estimator output in z-scored space)
+    mog = estimator.get_uncorrected_mog(context)
+
+    norm_logits = mog.log_weights
+    means = mog.means
+    # precision_factors is guaranteed non-None after MoG.__post_init__
+    precfs = mog.precision_factors
+    assert precfs is not None  # For type checker
+
+    # Transform means and precision factors to original space if z-scoring is enabled
+    if getattr(estimator, "_prior_transform", None) is not None:
+        raise NotImplementedError(
+            "Conditional density extraction is not supported for "
+            "z_score='transform_to_unconstrained' (it assumes an affine "
+            "z-score)."
+        )
+    if estimator.has_input_transform:
+        # The z-score transform is: z = (theta - shift) / scale
+        # To transform means: theta = z * scale + shift
+        shift = estimator._transform_shift
+        scale = estimator._transform_scale
+
+        # Transform means: mu_theta = mu_z * scale + shift
+        means_transformed = means * scale + shift
+
+        # Transform precision factors:
+        # For z = (theta - shift) / scale:
+        #   - Covariance transforms as: Cov_theta = Cov_z * scale^2 (element-wise)
+        #   - Precision transforms as: Prec_theta = Prec_z / scale^2 (element-wise)
+        #   - More precisely: Prec_theta_ij = Prec_z_ij / (scale_i * scale_j)
+        #
+        # For precision factors U (upper triangular) where Prec = U^T @ U:
+        #   - We need: U_theta^T @ U_theta = U_z^T @ U_z / (scale ⊗ scale)
+        #   - This is achieved by: U_theta = U_z @ diag(1/scale)
+        #   - Which is equivalent to: U_theta[:, :, :, j] = U_z[:, :, :, j] / scale[j]
+        #   - Or simply: U_theta = U_z / scale (broadcasting divides columns)
+        precfs_transformed = precfs / scale
+    else:
+        means_transformed = means
+        precfs_transformed = precfs
+
+    # Compute sumlogdiag for the (potentially transformed) precision factors
+    sumlogdiag = torch.sum(
+        torch.log(torch.diagonal(precfs_transformed, dim1=2, dim2=3)), dim=2
+    )
+
+    return norm_logits, means_transformed, precfs_transformed, sumlogdiag
+
+
+class ConditionedPotential(BasePotential):
+    def __init__(
+        self,
+        potential_fn: BasePotential,
+        condition: Tensor,
+        dims_to_sample: List[int],
+    ):
+        r"""
+        Return conditional posterior log-probability or $-\infty$ if outside prior.
+
+        Args:
+            potential_fn: Potential function to condition on.
+            condition: Fixed parameters $\theta_j$, batch size 1.
+            dims_to_sample: Which dimensions to sample from. The dimensions not
+                specified in `dims_to_sample` will be fixed to values given in
+                `condition`.
+
+        Returns:
+            Conditional posterior log-probability $\log(p(\theta_i|\theta_j, x))$,
+            masked outside of prior.
+        """
+        condition = torch.atleast_2d(condition)
+        if condition.shape[0] > 1:
+            raise ValueError("Condition with batch size > 1 not supported.")
+
+        self.potential_fn = potential_fn
+        self.condition = condition
+        self.dims_to_sample = dims_to_sample
+        self.device = self.potential_fn.device
+
+    def __call__(self, theta: Tensor, track_gradients: bool = True) -> Tensor:
+        r"""
+        Returns the conditional potential $\log(p(\theta_i|\theta_j, x))$.
+
+        Args:
+            theta: Free parameters $\theta_i$, batch dimension 1.
+            x_o: Unused keyword argument. Only present to match the signature of the
+                `Potential` class.
+            track_gradients: Whether to track gradients.
+
+        Returns:
+            Conditional posterior log-probability $\log(p(\theta_i|\theta_j, x))$,
+            masked outside of prior.
+        """
+        theta_ = ensure_theta_batched(torch.as_tensor(theta, dtype=torch.float32))
+
+        # `theta_condition`` will first have all entries of the `condition` and then
+        # override the entries that should be sampled with `theta` (see below).
+        theta_condition = deepcopy(self.condition)
+
+        # In case `theta` is a batch of theta (e.g. multi-chain MCMC), we have to
+        # repeat `theta_condition`` to the same batchsize.
+        theta_condition = theta_condition.repeat(theta_.shape[0], 1)
+        theta_condition[:, self.dims_to_sample] = theta_
+
+        return self.potential_fn(theta_condition, track_gradients=track_gradients)
+
+    @property
+    def x_embedding_net(self) -> Optional[nn.Module]:
+        """Delegate to the wrapped potential, like `set_x` and `return_x_o`."""
+        return self.potential_fn.x_embedding_net
+
+    @property
+    def x_is_iid(self) -> bool:
+        """If x has batch dimension greater than 1, whether to intepret the batch as iid
+        samples or batch of data points."""
+        if hasattr(self, "_x_is_iid") and self._x_is_iid is not None:
+            return self._x_is_iid
+        elif hasattr(self, "potential_fn") and self.potential_fn is not None:
+            return self.potential_fn.x_is_iid
+        else:
+            raise ValueError(
+                "No observed data is available. Use `potential_fn.bind(x_o)`."
+            )
+
+    def set_x(self, x_o: Optional[Tensor], x_is_iid: Optional[bool] = True):
+        """Check the shape of the observed data and, if valid, set it.
+
+        DEPRECATED: Use bind() instead. This method delegates to bind() internally.
+        """
+        import warnings
+
+        warnings.warn(
+            "set_x() is deprecated, use bind() instead",
+            FutureWarning,
+            stacklevel=2,
+        )
+        bound = self.bind(x_o, x_is_iid=x_is_iid)
+        self._x_is_iid = bound._x_is_iid
+        self.potential_fn = bound.potential_fn
+
+    def bind(self, x_o: Tensor, x_is_iid: bool = True) -> "ConditionedPotential":
+        """Create new potential with x bound, without mutable state."""
+        bound = ConditionedPotential(
+            potential_fn=self.potential_fn.bind(x_o, x_is_iid),
+            condition=self.condition,
+            dims_to_sample=self.dims_to_sample,
+        )
+        bound._x_is_iid = x_is_iid
+        return bound
+
+    @property
+    def x_o(self) -> Tensor:
+        """Return the observed data at which the potential is evaluated."""
+        if self.potential_fn._x_o is not None:
+            return self.potential_fn._x_o
+        else:
+            raise ValueError("No observed data is available.")
+
+    def return_x_o(self) -> Optional[Tensor]:
+        """Return the observed data at which the potential is evaluated.
+
+        Difference to the `x_o` property is that it will not raise an error if
+        `self._x_o` is `None`.
+        """
+        return self.potential_fn._x_o
+
+
+class RestrictedPriorForConditional:
+    """
+    Class to restrict a prior to fewer dimensions as needed for conditional sampling.
+
+    The resulting prior samples only from the free dimensions of the conditional.
+
+    This is needed for the the MCMC initialization functions when conditioning. For the
+    prior init, we could post-hoc select the relevant dimensions. But for SIR, we want
+    to evaluate the `potential_fn` of the conditional posterior, which takes only a
+    subset of the full parameter vector theta (only the `dims_to_sample`). This subset
+    is provided by `.sample()` from this class.
+    """
+
+    def __init__(self, full_prior: Distribution, dims_to_sample: List[int]):
+        self.full_prior = full_prior
+        self.dims_to_sample = dims_to_sample
+
+    def sample(self, *args, **kwargs):
+        """
+        Sample only from the relevant dimension. Other dimensions are filled in
+        by the `ConditionalPotentialFunctionProvider()` during MCMC.
+        """
+        return self.full_prior.sample(*args, **kwargs)[:, self.dims_to_sample]
+
+    def log_prob(self, *args, **kwargs):
+        r"""
+        `log_prob` is same as for the full prior, because we usually evaluate
+        the $\theta$ under the full joint once we have added the condition.
+        """
+        return self.full_prior.log_prob(*args, **kwargs)
+
+
+class RestrictedTransformForConditional(torch_tf.Transform):
+    """
+    Class to restrict the transform to fewer dimensions for conditional sampling.
+
+    The resulting transform transforms only the free dimensions of the conditional.
+    Notably, the `log_abs_det` is computed given all dimensions. However, the
+    `log_abs_det` stemming from the fixed dimensions is a constant and drops out during
+    MCMC.
+
+    All methods work in a similar way: `full_theta`` will first have all entries of the
+    `condition` and then override the entries that should be sampled with `theta`. In
+    case `theta` is a batch of `theta` (e.g. multi-chain MCMC), we have to repeat
+    `theta_condition`` to the match the batchsize.
+
+    This is needed for the the MCMC initialization functions when conditioning and when
+    transforming the samples back into the original theta space after sampling.
+    """
+
+    def __init__(
+        self,
+        transform: torch_tf.Transform,
+        condition: Tensor,
+        dims_to_sample: List[int],
+    ) -> None:
+        super().__init__()  # type: ignore
+        self.transform = transform
+        self.condition = ensure_theta_batched(condition)
+        self.dims_to_sample = dims_to_sample
+
+    def __call__(self, theta: Tensor) -> Tensor:
+        r"""
+        Transform restricted $\theta$.
+        """
+        full_theta = self.condition.repeat(theta.shape[0], 1)
+        full_theta[:, self.dims_to_sample] = theta
+        tf_full_theta = self.transform(full_theta)
+        return tf_full_theta[:, self.dims_to_sample]  # type: ignore
+
+    def inv(self, theta: Tensor) -> Tensor:
+        r"""
+        Inverse transform restricted $\theta$.
+        """
+        full_theta = self.condition.repeat(theta.shape[0], 1)
+        full_theta[:, self.dims_to_sample] = theta
+        tf_full_theta = self.transform.inv(full_theta)
+        return tf_full_theta[:, self.dims_to_sample]  # type: ignore
+
+    def log_abs_det_jacobian(self, theta1: Tensor, theta2: Tensor) -> Tensor:
+        """
+        Return the `log_abs_det_jacobian` of |dtheta1 / dtheta2|.
+
+        The determinant is summed over all dimensions, not just the `dims_to_sample`
+        ones.
+        """
+        full_theta1 = self.condition.repeat(theta1.shape[0], 1)
+        full_theta1[:, self.dims_to_sample] = theta1
+        full_theta2 = self.condition.repeat(theta2.shape[0], 1)
+        full_theta2[:, self.dims_to_sample] = theta2
+        log_abs_det = self.transform.log_abs_det_jacobian(full_theta1, full_theta2)
+        return log_abs_det

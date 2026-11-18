@@ -1,0 +1,116 @@
+--- a/src/gravity/grav_external.cc
++++ b/src/gravity/grav_external.cc
+@@ -53,6 +53,54 @@
+       Sp.P[target].ExtPotential = 0;
+ #endif
+ 
++#ifdef EXTERNALGRAVITY_CONTROL
++      {
++        // Dedicated isolated controls: GM is supplied in the existing native
++        // length/velocity units. No new production force or cosmology route.
++        if(All.ComovingIntegrationOn || All.ControlPotential < 1 || All.ControlPotential > 4 ||
++           !(All.ControlGM > 0) || !(All.ControlScale > 0) ||
++           !(All.ControlAxisY > 0) || !(All.ControlAxisZ > 0))
++          Terminate("Invalid isolated analytic control parameters");
++        vector<double> pos;
++        Sp.nearest_image_intpos_to_pos(Sp.P[target].IntPos, intpos_center, pos.da);
++        double r = sqrt(pos.r2()), b = All.ControlScale, gm = All.ControlGM;
++        double factor = 0, phi = 0;
++        if(All.ControlPotential == 1) // Plummer
++          {
++            double d = sqrt(r*r + b*b);
++            factor = -gm/(d*d*d); phi = -gm/d;
++          }
++        else if(All.ControlPotential == 2) // Hernquist, central cusp is excluded by fixtures
++          {
++            if(r == 0) Terminate("Hernquist control cannot evaluate the cusp");
++            factor = -gm/(r*(r+b)*(r+b)); phi = -gm/(r+b);
++          }
++        else if(All.ControlPotential == 3) // untruncated NFW; GM=4*pi*G*rho_s*r_s^3
++          {
++            if(r == 0) Terminate("NFW control cannot evaluate the cusp");
++            double u = r/b;
++            double enclosed = log1p(u)-u/(1+u);
++            // Avoid cancellation for small radii.
++            if(u < 1.e-4) enclosed = u*u*(0.5-u*(2./3.-u*(0.75-0.8*u)));
++            factor = -gm*enclosed/(r*r*r); phi = -gm*log1p(u)/r;
++          }
++        else // separable anisotropic harmonic: gm/b^3 = omega_x^2
++          {
++            double w2 = gm/(b*b*b);
++            double axes[3] = {1, All.ControlAxisY, All.ControlAxisZ};
++            for(int k=0;k<3;k++)
++              {
++                Sp.P[target].GravAccel[k] -= w2*axes[k]*axes[k]*pos[k];
++                phi += 0.5*w2*axes[k]*axes[k]*pos[k]*pos[k];
++              }
++          }
++        if(All.ControlPotential != 4) Sp.P[target].GravAccel += factor*pos;
++#if defined(EVALPOTENTIAL) || defined(OUTPUT_POTENTIAL)
++        Sp.P[target].ExtPotential += phi;
++#endif
++      }
++#endif
++
+ #ifdef EXTERNALGRAVITY_STATICHQ
+       {
+         vector<double> pos;
+--- a/src/data/allvars.h
++++ b/src/data/allvars.h
+@@ -362,6 +362,11 @@
+   int GridSize;
+ #endif
+ 
++#ifdef EXTERNALGRAVITY_CONTROL
++  int ControlPotential;
++  double ControlGM, ControlScale, ControlAxisY, ControlAxisZ;
++#endif
++
+ #ifdef EXTERNALGRAVITY_STATICHQ
+   double A_StaticHQHalo;
+   double Mass_StaticHQHalo;
+--- a/src/data/allvars.cc
++++ b/src/data/allvars.cc
+@@ -220,6 +220,14 @@
+   add_param("GridSize", &GridSize, PARAM_INT, PARAM_FIXED);
+ #endif
+ 
++#ifdef EXTERNALGRAVITY_CONTROL
++  add_param("ControlPotential", &ControlPotential, PARAM_INT, PARAM_FIXED);
++  add_param("ControlGM", &ControlGM, PARAM_DOUBLE, PARAM_FIXED);
++  add_param("ControlScale", &ControlScale, PARAM_DOUBLE, PARAM_FIXED);
++  add_param("ControlAxisY", &ControlAxisY, PARAM_DOUBLE, PARAM_FIXED);
++  add_param("ControlAxisZ", &ControlAxisZ, PARAM_DOUBLE, PARAM_FIXED);
++#endif
++
+ #ifdef EXTERNALGRAVITY_STATICHQ
+   add_param("A_StaticHQHalo", &A_StaticHQHalo, PARAM_DOUBLE, PARAM_FIXED);
+   add_param("Mass_StaticHQHalo", &Mass_StaticHQHalo, PARAM_DOUBLE, PARAM_FIXED);
+--- a/Template-Config.sh
++++ b/Template-Config.sh
+@@ -33,6 +33,7 @@
+ #EXTRA_HIGH_EWALD_ACCURACY                    # this uses third-order instead of second-order Taylor expansion to interpolate Ewald corrections from table 
+ #ALLOW_DIRECT_SUMMATION                       # allows calculation of direct summation gravity force if only a tiny number of particles as active 
+ #EXTERNALGRAVITY                              # switches on inclusion of external gravitational potential
++#EXTERNALGRAVITY_CONTROL                      # isolated analytic reliability controls; never a production cosmology
+ #EXTERNALGRAVITY_STATICHQ                     # example for a simple external potential due to a Hernquist halo
+ 
+ #--------------------------------------- TreePM Options
+--- a/buildsystem/option_registry.py
++++ b/buildsystem/option_registry.py
+@@ -25,6 +25,7 @@
+     'EXPLICIT_VECTORIZATION',
+     'EXTERNALGRAVITY',
+     'EXTERNALGRAVITY_STATICHQ',
++    'EXTERNALGRAVITY_CONTROL',
+     'EXTRAPOTTERM',
+     'EXTRA_HIGH_EWALD_ACCURACY',
+     'FFT_COLUMN_BASED',
+@@ -153,6 +154,7 @@
+ 
+ 
+ PARAMETERS = {
++    'ControlPotential', 'ControlGM', 'ControlScale', 'ControlAxisY', 'ControlAxisZ',
+     'BHRadiativeEfficiency', 'BHFeedbackCoupling', 'BHBondiBoost', 'BHEddingtonFactor',
+     'BHKernelRadiusProperKpc', 'BHSeedMassMsun', 'BHSourceFraction', 'BHMaximumCount',
+     'BHSeedingMode', 'BHSeedDensityHydrogenCm3', 'BHSeedExclusionProperKpc',

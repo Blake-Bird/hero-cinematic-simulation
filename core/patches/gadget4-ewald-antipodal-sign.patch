@@ -1,0 +1,38 @@
+--- a/src/gravity/ewald.cc
++++ b/src/gravity/ewald.cc
+@@ -385,6 +385,8 @@
+   int j = (gridpos[1] >> (BITS_FOR_POSITIONS - (EWLEVEL + 1) - MAX_LONG_Y_BITS));
+   int k = (gridpos[2] >> (BITS_FOR_POSITIONS - (EWLEVEL + 1) - MAX_LONG_Z_BITS));
+ 
++  // At exact half-box separation the signed integer nearest image is negative.
++  // Include equality so Newtonian and Ewald corrections use the same branch.
+   int signx = 1, signy = 1, signz = 1;
+ 
+ #if defined(GRAVITY_TALLBOX) && (GRAVITY_TALLBOX == 0)
+@@ -399,7 +401,7 @@
+       i = 2 * ENX - i;
+       signx = -1;
+     }
+-  else if(i == ENX && gridpos[0] < temppos[0])
++  else if(i == ENX && gridpos[0] <= temppos[0])
+     signx = -1;
+ #endif
+ 
+@@ -415,7 +417,7 @@
+       j = 2 * ENY - j;
+       signy = -1;
+     }
+-  else if(j == ENY && gridpos[1] < temppos[1])
++  else if(j == ENY && gridpos[1] <= temppos[1])
+     signy = -1;
+ #endif
+ 
+@@ -431,7 +433,7 @@
+       k = 2 * ENZ - k;
+       signz = -1;
+     }
+-  else if(k == ENZ && gridpos[2] < temppos[2])
++  else if(k == ENZ && gridpos[2] <= temppos[2])
+     signz = -1;
+ #endif
+ 

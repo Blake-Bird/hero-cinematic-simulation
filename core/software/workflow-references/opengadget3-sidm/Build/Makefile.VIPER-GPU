@@ -1,0 +1,19 @@
+CC = mpicxx
+CXX = mpicxx
+
+OPTIMIZE  = -std=c++17 -O3 -fopenmp --offload-arch=gfx942 -Wl,-rpath,${FFTW3_ROOT}/lib -Wl,-rpath,${GSL_HOME}/lib -Wl,-rpath,${HDF5_HOME}/lib
+
+GSL_INCL = -I$(GSL_HOME)/include
+GSL_LIBS = -L$(GSL_HOME)/lib -lgsl -lgslcblas -lm
+
+HDF5_INCL = -I$(HDF5_HOME)/include
+HDF5_LIBS = -L$(HDF5_HOME)/lib -lhdf5
+
+FFTW_INCL = -I$(FFTW3_ROOT)/include
+FFTW_LIBS = -L$(FFTW3_ROOT)/lib -lpthread  -lfftw3_omp
+
+MPICHLIB  =
+
+ifeq (TIMER_ROCTX,$(filter TIMER_ROCTX,$(CONFIGVARS)))
+    OPTIMIZE += -L${ROCM_PATH}/lib -lrocprofiler-sdk-roctx
+endif

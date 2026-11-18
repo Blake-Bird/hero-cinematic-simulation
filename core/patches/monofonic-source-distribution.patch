@@ -1,0 +1,10 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -339,6 +339,4 @@
+ endif()
+ 
+ ########################################################################################################################
+-# Regression tests
+-enable_testing()
+-add_subdirectory(tests)
++# Source distribution omits upstream regression fixtures; build the scientific executable only.

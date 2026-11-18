@@ -1,0 +1,17 @@
+{
+  "request": {
+    "schema": "sidm-native-canonical-clock-request-v1",
+    "mapping": {
+      "path": "REPLACE_WITH_SOURCE_BOUND_CANONICAL_MAPPING.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "maximum_rows": 4096,
+    "maximum_asset_bytes": 1048576,
+    "memory_gib": 8,
+    "clock_absolute_tolerance_seconds": 1,
+    "clock_relative_tolerance": 1e-10,
+    "maximum_clock_panels": 65536,
+    "maximum_inverse_iterations": 128,
+    "inverse_scale_factor_relative_tolerance": 1e-10
+  }
+}

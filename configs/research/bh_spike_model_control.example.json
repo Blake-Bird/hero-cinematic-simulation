@@ -1,0 +1,44 @@
+{
+  "usage": "Sampled weakly collisional cusp prerequisites. Histories must be raw physical-target-support-v1 resolved_dm_profile products from the same native trajectory, with three or more increasing actual epochs.",
+  "request_base": ".",
+  "request": {
+    "schema": "physical-target-model-control-request-v1",
+    "claim_scope": "weakly_collisional_sidm_cusp",
+    "target_identity": {
+      "namespace": "native-particles:run-identity",
+      "object_id": 1
+    },
+    "radial_edges_proper_kpc": [
+      0.0,
+      0.001,
+      0.002,
+      0.004,
+      0.008
+    ],
+    "memory_gib": 4.0,
+    "maximum_epochs": 256,
+    "histories": [
+      {
+        "path": "REPLACE_WITH_RAW_BH_EPOCH_0.json",
+        "sha256": "REPLACE_WITH_EXACT_SHA256"
+      },
+      {
+        "path": "REPLACE_WITH_RAW_BH_EPOCH_1.json",
+        "sha256": "REPLACE_WITH_EXACT_SHA256"
+      },
+      {
+        "path": "REPLACE_WITH_RAW_BH_EPOCH_2.json",
+        "sha256": "REPLACE_WITH_EXACT_SHA256"
+      }
+    ],
+    "limits": {
+      "maximum_background_bh_mass_ratio": 0.1,
+      "maximum_output_orbit_fraction": 0.1,
+      "minimum_collision_orbit_ratio": 10.0,
+      "minimum_elapsed_collision_times": 3.0,
+      "minimum_mean_free_path_radius_ratio": 10.0,
+      "maximum_density_change_per_collision_time": 0.05,
+      "maximum_dispersion_change_per_collision_time": 0.05
+    }
+  }
+}

@@ -1,0 +1,110 @@
+--- a/src/io/io.cc
++++ b/src/io/io.cc
+@@ -19,6 +19,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <sys/stat.h>
++#include <sys/time.h>
+ #include <unistd.h>
+ 
+ #include <algorithm>
+@@ -701,6 +702,20 @@
+  * number of files simultanuously */
+ void IO_Def::write_multiple_files(char *fname, int numfilesperdump, int append_flag, int chunksize)
+ {
++  if(file_format == FILEFORMAT_HDF5)
++    {
++      if(ThisTask == 0)
++        {
++          struct timeval now;
++          if(gettimeofday(&now, NULL) != 0) Terminate("cannot establish output generation");
++          snprintf(native_output_generation, sizeof(native_output_generation), "%lld-%ld-%ld",
++                   (long long)now.tv_sec, (long)now.tv_usec, (long)getpid());
++          native_hdf5_set_record(fname, native_output_generation, numfilesperdump, "PENDING");
++        }
++      MPI_Bcast(native_output_generation, sizeof(native_output_generation), MPI_CHAR, 0, Communicator);
++      MPI_Barrier(Communicator);
++    }
++
+   if(ThisTask == 0)
+     if(!(seq = (seq_data *)Mem.mymalloc("seq", NTask * sizeof(seq_data))))
+       Terminate("can't allocate seq_data");
+@@ -789,6 +804,14 @@
+         append_file(buf, masterTask, lastTask, CommBuffer, numfilesperdump, chunksize);
+       else
+         write_file(buf, masterTask, lastTask, CommBuffer, numfilesperdump, chunksize);
++    }
++
++  if(file_format == FILEFORMAT_HDF5)
++    {
++      MPI_Barrier(Communicator);
++      if(ThisTask == 0)
++        native_hdf5_set_record(fname, native_output_generation, numfilesperdump, "COMPLETE");
++      MPI_Barrier(Communicator);
+     }
+ 
+   Mem.myfree(CommBuffer);
+@@ -856,6 +879,8 @@
+ 
+           hdf5_headergrp = my_H5Gcreate(hdf5_file, "/Header", 0);
+           write_header_fields(hdf5_headergrp);
++          write_string_attribute(hdf5_headergrp, "Research2Generation", native_output_generation);
++          write_scalar_attribute(hdf5_headergrp, "Research2ShardCount", &numfilesperdump, H5T_NATIVE_INT);
+ 
+           hdf5_paramsgrp = my_H5Gcreate(hdf5_file, "/Parameters", 0);
+           write_parameters_attributes_in_hdf5(hdf5_paramsgrp);
+--- a/src/io/io.h
++++ b/src/io/io.h
+@@ -188,6 +188,7 @@
+   enum file_contents type_of_file;
+ 
+  private:
++  char native_output_generation[64] = {0};
+   struct IO_Field
+   {
+     enum types_in_memory type_in_memory;
+--- a/src/io/hdf5_util.cc
++++ b/src/io/hdf5_util.cc
+@@ -767,3 +767,22 @@
+   my_H5Aclose(hdf5_attribute, attr_name);
+   my_H5Sclose(hdf5_dataspace, H5S_SCALAR);
+ }
++
++/* A durable set marker surrounds all shard writes, including appends. */
++void native_hdf5_set_record(const char *base, const char *generation, int count, const char *state)
++{
++  std::string target = std::string(base) + ".publication.json";
++  std::string pattern = target + ".partial.XXXXXX";
++  char *stage = strdup(pattern.c_str());
++  if(!stage) Terminate("cannot allocate HDF5 set marker path");
++  int fd = mkstemp(stage);
++  if(fd < 0) Terminate("cannot reserve HDF5 set marker");
++  FILE *stream = fdopen(fd, "w");
++  if(!stream) Terminate("cannot open HDF5 set marker stream");
++  if(fprintf(stream, "{\"schema\":\"native-hdf5-set-publication-v1\",\"state\":\"%s\",\"generation\":\"%s\",\"shard_count\":%d}\n",
++             state, generation, count) < 0 || fflush(stream) != 0 || fsync(fd) != 0)
++    Terminate("cannot durably write HDF5 set marker");
++  if(fclose(stream) != 0) Terminate("cannot close HDF5 set marker");
++  native_publish_hdf5_file(stage, target.c_str());
++  free(stage);
++}
+--- a/src/io/hdf5_util.h
++++ b/src/io/hdf5_util.h
+@@ -68,4 +68,6 @@
+ 
+ void native_publish_hdf5_file(const char *stage, const char *target);
+ 
++void native_hdf5_set_record(const char *base, const char *generation, int count, const char *state);
++
+ #endif
+--- a/src/io/io.cc
++++ b/src/io/io.cc
+@@ -1176,6 +1176,8 @@
+ 
+       hdf5_headergrp = my_H5Gopen(hdf5_file, "/Header");
+       write_header_fields(hdf5_headergrp);
++      write_string_attribute(hdf5_headergrp, "Research2Generation", native_output_generation);
++      write_scalar_attribute(hdf5_headergrp, "Research2ShardCount", &numfilesperdump, H5T_NATIVE_INT);
+ 
+       for(int type = 0; type < N_DataGroups; type++)
+         {

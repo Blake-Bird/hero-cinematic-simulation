@@ -1,0 +1,55 @@
+{
+  "particle_counts": {
+    "dm": 1000000,
+    "gas": 0,
+    "stars": 0,
+    "black_holes": 0
+  },
+  "resources": {
+    "mpi_ranks": 1,
+    "omp_threads": 1,
+    "memory_gib": 8.0,
+    "disk_gib": 64.0,
+    "maximum_stage_count": 32
+  },
+  "snapshot_count": 8,
+  "mesh_side": 128,
+  "retained_restart_generations": 2,
+  "analysis_bytes": 1073741824,
+  "asset_bytes": 1073741824,
+  "rank_imbalance_factor": 1.25,
+  "followup_limits": {
+    "maximum_children": 2,
+    "maximum_particle_multiplier": 8,
+    "maximum_mesh_cell_multiplier": 8
+  },
+  "storage_model": {
+    "particle_bytes": 256,
+    "hydro_extra_bytes": 192,
+    "stellar_extra_bytes": 128,
+    "bh_extra_bytes": 192,
+    "snapshot_particle_bytes": 80,
+    "tree_bytes_per_particle": 128,
+    "mesh_bytes_per_cell": 96,
+    "restart_particle_bytes": 320,
+    "memory_safety_factor": 1.5,
+    "disk_safety_factor": 1.2
+  },
+  "sidm": {
+    "synchronized_timesteps": true,
+    "neighbors_per_particle": 64,
+    "neighbor_bytes": 24,
+    "per_particle_state_bytes": 48,
+    "kernel_table_bytes": 65536,
+    "angle_table_bytes": 65536,
+    "selected_event_count": 100000,
+    "event_bytes": 128,
+    "operator_intervals": 10000,
+    "conflict_rounds_per_interval": 64,
+    "boundary_pair_fraction": 0.1,
+    "endpoint_exchange_bytes": 64,
+    "frequent_pair_seconds": 1e-06,
+    "rare_pair_seconds": 1e-06,
+    "frequent_pair_fraction": 0.5
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "schema": "research-workflow-v1",
+  "resources": {
+    "mpi_ranks": 1,
+    "omp_threads": 1,
+    "memory_gib": 8.0,
+    "disk_gib": 64.0,
+    "maximum_stage_count": 32
+  },
+  "followup_limits": {
+    "maximum_children": 4,
+    "maximum_depth": 2
+  },
+  "physics_spec": {
+    "physics": "dm"
+  },
+  "capabilities": [],
+  "requested_products": [
+    "live_stream",
+    "measured_scene_assets"
+  ],
+  "stages": [
+    {
+      "stage_id": "parent",
+      "kind": "public_command",
+      "parameters": {
+        "command": "gadget",
+        "arguments": [
+          "--answers",
+          {
+            "input": "inputs/parent.answers.json"
+          },
+          "--run-dir",
+          "{generation}/run"
+        ],
+        "wall_seconds": 86400.0
+      },
+      "outputs": {
+        "parent_evolution": "run"
+      },
+      "depends_on": [],
+      "species": [],
+      "product_contracts": {
+        "parent_evolution": {
+          "reader": "native_snapshot_series",
+          "snapshots": [
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "stage_id": "zoom",
+      "kind": "zoom_campaign",
+      "parameters": {
+        "request": {
+          "json_input": "inputs/zoom-campaign.json"
+        },
+        "destination": "{generation}/zooms",
+        "request_base": "{request_base}"
+      },
+      "outputs": {
+        "zoom_evolution": "zooms/zoom-campaign.json"
+      },
+      "depends_on": [
+        "parent"
+      ]
+    },
+    {
+      "stage_id": "streams",
+      "kind": "public_command",
+      "parameters": {
+        "command": "streams",
+        "arguments": [
+          {
+            "input": "inputs/live-stream-campaign.json"
+          },
+          "--output",
+          "{generation}/streams"
+        ],
+        "wall_seconds": 86400.0
+      },
+      "outputs": {
+        "live_stream": "streams/campaign.json"
+      },
+      "depends_on": [
+        "zoom"
+      ],
+      "species": []
+    },
+    {
+      "stage_id": "measured_display",
+      "kind": "display_products",
+      "parameters": {
+        "request": {"json_input": "inputs/collisionless-zoom-stream.display.json"},
+        "request_base": "{request_base}",
+        "destination": "{generation}/measured",
+        "memory_gib": 2.0
+      },
+      "outputs": {
+        "measured_zoom_stream_display": "measured/display.json",
+        "measured_zoom_stream_display_assembly": "display-assembly.json"
+      },
+      "depends_on": ["zoom", "streams"]
+    },
+    {
+      "stage_id": "scene",
+      "kind": "public_command",
+      "parameters": {
+        "command": "blender",
+        "arguments": [
+          {
+            "stage": "parent",
+            "artifact": "run"
+          },
+          "--max-points",
+          "100000",
+          "--quality",
+          "preview",
+          "--frames-per-snapshot",
+          "12",
+          "--measured-display",
+          {"stage": "measured_display", "artifact": "measured/display.json"},
+          "--build"
+        ],
+        "wall_seconds": 86400.0,
+        "copy_run_input": 0
+      },
+      "outputs": {
+        "measured_scene_assets": "private_run/results/3d"
+      },
+      "depends_on": [
+        "measured_display"
+      ],
+      "species": []
+    }
+  ]
+}

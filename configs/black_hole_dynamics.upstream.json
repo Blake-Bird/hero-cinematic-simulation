@@ -1,0 +1,25 @@
+{
+  "schema": "pinned-black-hole-dynamics-upstream-v1",
+  "assets": [
+    {
+      "path": "configs/precession_bh_REFERENCE.txt",
+      "sha256": "d940ddd80292cda5f12d0d2083b244f210b1a0e0a84784933d9898838ce719c8",
+      "url": "https://raw.githubusercontent.com/dgerosa/precession/cf850140d1a6af1594d63ec996d4fd2c752fafef/precession/precession.py",
+      "revision": "cf850140d1a6af1594d63ec996d4fd2c752fafef",
+      "license_asset": "configs/precession_REFERENCE_LICENSE.txt",
+      "license_sha256": "8b96658cea0aa71d09487d4ba08bfe71e192531a0f4502fc7737a77796e1efe1",
+      "license": "MIT; copyright/license also retained inline in the native port"
+    },
+    {
+      "path": "configs/precession_REFERENCE_LICENSE.txt",
+      "sha256": "8b96658cea0aa71d09487d4ba08bfe71e192531a0f4502fc7737a77796e1efe1",
+      "url": "https://raw.githubusercontent.com/dgerosa/precession/cf850140d1a6af1594d63ec996d4fd2c752fafef/LICENSE",
+      "revision": "cf850140d1a6af1594d63ec996d4fd2c752fafef"
+    }
+  ],
+  "scope": "Pinned analytic remnant coefficients/reference source; original native coupling and PN integrator. Not numerical relativity or a calibrated SIDM model.",
+  "validation_status": "NOT_RUN",
+  "updated_utc": "2026-10-05T17:34:45.149139+00:00",
+  "build_status": "NOT_RUN",
+  "test_status": "NOT_RUN"
+}

@@ -1,0 +1,10 @@
+{
+  "repository": "https://github.com/ymzhong/gravothermal",
+  "revision": "1c638bd83045600fcc20595f28367ed78da2b58a",
+  "archive_url": "https://codeload.github.com/ymzhong/gravothermal/tar.gz/1c638bd83045600fcc20595f28367ed78da2b58a",
+  "archive_sha256": "392140d6f20c488d1ea56ba37112982ac4b5a99571091feb1a580df864ba4157",
+  "files_retained": 3,
+  "license_paths": [],
+  "adaptation_policy": "reference-only source reading; no unlicensed code copied into production",
+  "runtime_execution": "NOT_EXECUTED"
+}

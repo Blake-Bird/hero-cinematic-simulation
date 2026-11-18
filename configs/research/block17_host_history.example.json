@@ -1,0 +1,121 @@
+{
+  "schema": "stream-host-history-v1",
+  "frame": {
+    "times_myr": [
+      0.0,
+      50.0
+    ],
+    "center_kpc": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "center_velocity_kms": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "rotations": [
+      [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ]
+    ],
+    "max_interval_myr": 50.0,
+    "center_covariance_kpc2": [
+      [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    ]
+  },
+  "fields": [
+    {
+      "product": "../../outputs/CHOOSE_ACTUAL_EPOCH0_HOST.json",
+      "proper_time_myr": 0.0,
+      "physics": "collisionless"
+    },
+    {
+      "product": "../../outputs/CHOOSE_ACTUAL_EPOCH1_HOST.json",
+      "proper_time_myr": 50.0,
+      "physics": "collisionless"
+    }
+  ],
+  "satellites": [],
+  "satellite_accounting": "already_in_field",
+  "notice": "Replace illustrative motion with actual unwrapped proper inertial host history and actual chosen output times. Coefficient coordinates are parent Cartesian offsets. Explicit satellites must be excluded from reconstructed fields."
+}

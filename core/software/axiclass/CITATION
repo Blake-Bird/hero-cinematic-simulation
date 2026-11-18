@@ -1,0 +1,13 @@
+AxiCLASS is based on CLASS by Julien Lesgourgues and Thomas Tram.
+AxiCLASS authors listed upstream: Vivian Poulin, Tristan Smith, Tanvi Karwal.
+Pinned source: ae9609e1f96ddebbb6cc8a46de94512514c68781
+
+In addition to standard CLASS citations, upstream asks users to cite:
+Smith, Poulin & Amin, Oscillating scalar fields and the Hubble tension:
+a resolution with novel signatures, https://arxiv.org/abs/1908.06995;
+Poulin et al., Cosmological implications of ultralight axionlike fields,
+https://arxiv.org/abs/1806.10608.
+This is a citation notice, not a newly assigned software license.
+Read upstream's full author/citation notice at:
+https://github.com/PoulinV/AxiCLASS/blob/ae9609e1f96ddebbb6cc8a46de94512514c68781/README.md
+Local solver/build changes are recorded under core/patches.

@@ -1,0 +1,97 @@
+{
+  "schema": "cosmography-campaign-v1",
+  "experiment_id": "block46_comparison.example",
+  "resources": {
+    "memory_gib": 8,
+    "maximum_stage_count": 100,
+    "maximum_objects": 1000000,
+    "maximum_spectral_pixels": 4096
+  },
+  "stages": [
+    {
+      "stage_id": "comparison",
+      "kind": "hubble_comparison",
+      "inputs": {
+        "methods": {
+          "local_observer": [
+            "../inputs/local_fit_001.json",
+            "../inputs/local_fit_002.json"
+          ],
+          "distance_ladder": [
+            "../inputs/ladder_fit_001.json",
+            "../inputs/ladder_fit_002.json"
+          ],
+          "time_delay": [
+            "../inputs/lens_fit_001.json",
+            "../inputs/lens_fit_002.json"
+          ],
+          "bao": [
+            "../inputs/bao_fit_001.json",
+            "../inputs/bao_fit_002.json"
+          ],
+          "cosmic_chronometer": [
+            "../inputs/chronometer_fit_001.json",
+            "../inputs/chronometer_fit_002.json"
+          ]
+        },
+        "expansion_truth": "../inputs/expansion_truth.json"
+      },
+      "parameters": {
+        "truth_sha256": "REPLACE_WITH_EXACT_TRUTH_PRODUCT_SHA256",
+        "minimum_shared_realizations": 20,
+        "accuracy_budgets": {
+          "local_observer": {
+            "minimum_realizations": 20,
+            "maximum_absolute_bias": 1.0,
+            "coverage_range": [
+              0.58,
+              0.78
+            ],
+            "followup_limit": 3,
+            "refinement": "increase independent realizations and compare recorded model variants"
+          },
+          "distance_ladder": {
+            "minimum_realizations": 20,
+            "maximum_absolute_bias": 1.0,
+            "coverage_range": [
+              0.58,
+              0.78
+            ],
+            "followup_limit": 3,
+            "refinement": "increase independent realizations and compare recorded model variants"
+          },
+          "time_delay": {
+            "minimum_realizations": 20,
+            "maximum_absolute_bias": 1.0,
+            "coverage_range": [
+              0.58,
+              0.78
+            ],
+            "followup_limit": 3,
+            "refinement": "increase independent realizations and compare recorded model variants"
+          },
+          "bao": {
+            "minimum_realizations": 20,
+            "maximum_absolute_bias": 1.0,
+            "coverage_range": [
+              0.58,
+              0.78
+            ],
+            "followup_limit": 3,
+            "refinement": "increase independent realizations and compare recorded model variants"
+          },
+          "cosmic_chronometer": {
+            "minimum_realizations": 20,
+            "maximum_absolute_bias": 1.0,
+            "coverage_range": [
+              0.58,
+              0.78
+            ],
+            "followup_limit": 3,
+            "refinement": "increase independent realizations and compare recorded model variants"
+          }
+        }
+      }
+    }
+  ]
+}

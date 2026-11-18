@@ -1,0 +1,96 @@
+{
+  "schema": "stream-campaign-v1",
+  "experiment_id": "choose-native-sources-and-science-controls",
+  "notice": "Authoring template; paths and numerical controls are illustrative, not verified native sources or accepted physics.",
+  "resources": {
+    "memory_gib": 4.0,
+    "maximum_particles": 4096,
+    "maximum_stages": 32
+  },
+  "stages": [
+    {
+      "stage_id": "sps",
+      "kind": "stellar_sps",
+      "depends_on": [],
+      "inputs": {
+        "native_run_directory": "CHOOSE_NATIVE_HYDRO_RUN"
+      },
+      "parameters": {
+        "snapshot": 0,
+        "namespace": "CHOOSE_NATIVE_SSP_NAMESPACE",
+        "synthesis": {
+          "age_domain_gyr": [
+            0.001,
+            13.0
+          ],
+          "metallicity_domain_mass_fraction": [
+            0.0002,
+            0.03
+          ],
+          "solar_metallicity_mass_fraction": 0.0185,
+          "backend": {
+            "sps_home": "../../core/software/sps/python-fsps/src/fsps/libfsps",
+            "data_source_sha256_file": "fsps-data-source-sha256.json",
+            "expected_libraries": [
+              "mist",
+              "miles",
+              "DL07"
+            ],
+            "fsps_parameters": {
+              "imf_type": 2
+            },
+            "filters": [
+              "sdss_u",
+              "sdss_g",
+              "sdss_r",
+              "sdss_i",
+              "sdss_z"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "stage_id": "survey",
+      "kind": "synthetic_survey",
+      "depends_on": [
+        "sps"
+      ],
+      "inputs": {
+        "stellar_sps": {
+          "stage": "sps"
+        },
+        "geometry": "CHOOSE_EXACT_SSP_OBSERVER_GEOMETRY.json",
+        "filters": "CHOOSE_HASHED_FILTER_CURVES.json"
+      },
+      "parameters": {
+        "survey": {
+          "seed": 421,
+          "measurement_covariance_jy2": "REPLACE_WITH_N_BY_BAND_BY_BAND_ACTUAL_NOISE_MATRIX",
+          "covariance_tolerance_jy2": 1e-18,
+          "selection": {
+            "band_index": 2,
+            "flux_limit_jy": 1e-06,
+            "width_jy": 2e-07
+          },
+          "missingness": {
+            "intercept": [
+              -4.0,
+              -4.0,
+              -4.0,
+              -4.0,
+              -4.0
+            ],
+            "flux_slope_per_jy": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,186 @@
+diff --git a/src/main.cc b/src/main.cc
+index 1f492ec..3799cba 100644
+--- a/src/main.cc
++++ b/src/main.cc
+@@ -374,7 +374,7 @@ void output_system_info()
+ 
+ region_generator_plugin *the_region_generator;
+ 
+-int main(int argc, const char *argv[])
++int run_music(int argc, const char *argv[])
+ {
+ 	const unsigned nbnd = 4;
+ 
+@@ -1418,9 +1418,26 @@ int main(int argc, const char *argv[])
+ 
+ 	ltime = time(NULL);
+ 
+-	music::ulog.Print("Run finished succesfully on %s", asctime(localtime(&ltime)));
++	if (!bfatal)
++		music::ulog.Print("Run finished succesfully on %s", asctime(localtime(&ltime)));
+ 
+ 	cf.dump_to_log();
+ 
+-	return 0;
++	return bfatal ? 1 : 0;
++}
++
++// Configuration and plugin constructors also throw before the driver branch.
++// Return a normal failure status instead of aborting with an uncaught exception.
++int main(int argc, const char *argv[])
++{
++	try
++	{
++		return run_music(argc, argv);
++	}
++	catch (const std::exception &excp)
++	{
++		music::elog.Print("Fatal initialization error: %s", excp.what());
++		std::cerr << " - " << excp.what() << std::endl;
++		return 1;
++	}
+ }
+diff --git a/src/mg_solver.hh b/src/mg_solver.hh
+index ea72922..6709077 100644
+--- a/src/mg_solver.hh
++++ b/src/mg_solver.hh
+@@ -48,6 +48,7 @@ template <class S, class I, class O>
+ class solver
+ {
+ public:
++	unsigned maximum_iterations = 500;
+ 	typedef S scheme;
+ 	typedef O mgop;
+ 	typedef I interp;
+@@ -127,6 +128,7 @@ solver<S, I, O>::solver(GridHierarchy<real_t> &f, opt::smtype smoother, unsigned
+ 			m_smoother(smoother), m_ilevelmin(f.levelmin()), m_is_ini(true), m_pf(&f)
+ {
+ 	m_is_ini = true;
++	m_residu_ini.resize(f.levelmax() + 1, 0.0);
+ }
+ 
+ template <class S, class I, class O>
+@@ -310,6 +312,27 @@ void solver<S, I, O>::twoGrid(unsigned ilevel)
+ 			for (int iz = ok; iz < ok + (int)ff->size(2) / 2; ++iz)
+ 				(*fc)(ix, iy, iz) += ((tLu(ix, iy, iz) - (m_scheme.apply(*uc, ix, iy, iz) / (4.0 * h2))));
+ 
++	// Periodic Poisson has no solution for a nonzero source mean. Restriction
++	// across a refinement interface can introduce a DC term into the FAS
++	// coarse source, even when the original density contrast is normalized.
++	// Project that null-space component out on full periodic grids only.
++	if (m_bperiodic && ilevel - 1 <= m_ilevelmin)
++	{
++		long double source_sum = 0.0;
++		const int cnx = fc->size(0), cny = fc->size(1), cnz = fc->size(2);
++		#pragma omp parallel for reduction(+ : source_sum) collapse(3)
++		for (int ix = 0; ix < cnx; ++ix)
++			for (int iy = 0; iy < cny; ++iy)
++				for (int iz = 0; iz < cnz; ++iz)
++					source_sum += (*fc)(ix, iy, iz);
++		const double source_mean = source_sum / (static_cast<size_t>(cnx) * cny * cnz);
++		#pragma omp parallel for collapse(3)
++		for (int ix = 0; ix < cnx; ++ix)
++			for (int iy = 0; iy < cny; ++iy)
++				for (int iz = 0; iz < cnz; ++iz)
++					(*fc)(ix, iy, iz) -= source_mean;
++	}
++
+ 	tLu.deallocate();
+ 
+ 	meshvar_bnd ucsave(*uc, true);
+@@ -463,10 +486,10 @@ double solver<S, I, O>::compute_RMS_resid(const GridHierarchy<real_t> &uh, const
+ 				nz = uh.get_grid(ilevel)->size(2);
+ 
+ 		double h = 1.0 / (1 << ilevel), h2 = h * h;
+-		double sum = 0.0, sumd2 = 0.0;
++		double sum = 0.0, sumd2 = 0.0, rhs_sum = 0.0, residual_sum = 0.0;
+ 		size_t count = 0;
+ 
+-		#pragma omp parallel for reduction(+ : sum, sumd2, count)
++		#pragma omp parallel for reduction(+ : sum, sumd2, count, rhs_sum, residual_sum)
+ 		for (int ix = 0; ix < nx; ++ix)
+ 			for (int iy = 0; iy < ny; ++iy)
+ 				for (int iz = 0; iz < nz; ++iz)
+@@ -475,6 +498,8 @@ double solver<S, I, O>::compute_RMS_resid(const GridHierarchy<real_t> &uh, const
+ 					sumd2 += d * d;
+ 
+ 					double r = ((double)m_scheme.apply(*uh.get_grid(ilevel), ix, iy, iz) / h2 + (double)(*fh.get_grid(ilevel))(ix, iy, iz));
++					rhs_sum += d;
++					residual_sum += r;
+ 					sum += r * r;
+ 
+ 					++count;
+@@ -486,8 +511,9 @@ double solver<S, I, O>::compute_RMS_resid(const GridHierarchy<real_t> &uh, const
+ 		double err_abs = sqrt(sum / count);
+ 		double err_rel = err_abs / sqrt(sumd2 / count);
+ 
+-		if (verbose && !m_is_ini)
+-			std::cout << "      Level " << std::setw(6) << ilevel << ",   Error = " << err_rel << std::endl;
++		if (verbose)
++			std::cout << "      Level " << std::setw(6) << ilevel << ", RMS residual/source = " << err_rel
++			          << ", source mean = " << rhs_sum / count << ", residual mean = " << residual_sum / count << std::endl;
+ 
+ 		music::dlog.Print("[mg]      level %3d,  rms residual %g,  rel. error %g", ilevel, err_abs, err_rel);
+ 
+@@ -535,7 +561,7 @@ double solver<S, I, O>::solve(GridHierarchy<real_t> &uh, double acc, double h, b
+ 		if (err < maxerr)
+ 			maxerr = err;
+ 
+-		if ((niter > 1) && ((err < acc) || (niter > 20)))
++		if ((niter > 1) && ((err < acc) || (niter >= maximum_iterations)))
+ 			break;
+ 	}
+ 
+@@ -543,6 +569,7 @@ double solver<S, I, O>::solve(GridHierarchy<real_t> &uh, double acc, double h, b
+ 	{
+ 		std::cout << "Error : no convergence in Poisson solver" << std::endl;
+ 		music::elog.Print("No convergence in Poisson solver, final error: %g.", err);
++		compute_RMS_resid(*m_pu, *m_pf, true);
+ 	}
+ 	else if (verbose)
+ 	{
+diff --git a/src/poisson.cc b/src/poisson.cc
+index faf2585..55f0ec9 100644
+--- a/src/poisson.cc
++++ b/src/poisson.cc
+@@ -75,6 +75,9 @@ real_t multigrid_poisson_plugin::solve(grid_hierarchy &f, grid_hierarchy &u)
+ 	unsigned ps_presmooth, ps_postsmooth, order;
+ 
+ 	acc = cf_.get_value_safe<real_t>("poisson", "accuracy", acc);
++	unsigned maximum_iterations = cf_.get_value_safe<unsigned>("poisson", "maximum_iterations", 500);
++	if (!std::isfinite(acc) || acc <= 0 || maximum_iterations < 2 || maximum_iterations > 100000)
++		throw std::runtime_error("Invalid declared Poisson tolerance/iteration budget");
+ 	ps_presmooth = cf_.get_value_safe<unsigned>("poisson", "pre_smooth", 3);
+ 	ps_postsmooth = cf_.get_value_safe<unsigned>("poisson", "post_smooth", 3);
+ 	ps_smoother_name = cf_.get_value_safe<std::string>("poisson", "smoother", "gs");
+@@ -117,18 +120,21 @@ real_t multigrid_poisson_plugin::solve(grid_hierarchy &f, grid_hierarchy &u)
+ 	{
+ 		music::ulog.Print("Running multigrid solver with 2nd order Laplacian...");
+ 		poisson_solver_O2 ps(f, ps_smtype, ps_presmooth, ps_postsmooth);
++		ps.maximum_iterations = maximum_iterations;
+ 		err = ps.solve(u, acc, true);
+ 	}
+ 	else if (order == 4)
+ 	{
+ 		music::ulog.Print("Running multigrid solver with 4th order Laplacian...");
+ 		poisson_solver_O4 ps(f, ps_smtype, ps_presmooth, ps_postsmooth);
++		ps.maximum_iterations = maximum_iterations;
+ 		err = ps.solve(u, acc, true);
+ 	}
+ 	else if (order == 6)
+ 	{
+ 		music::ulog.Print("Running multigrid solver with 6th order Laplacian..");
+ 		poisson_solver_O6 ps(f, ps_smtype, ps_presmooth, ps_postsmooth);
++		ps.maximum_iterations = maximum_iterations;
+ 		err = ps.solve(u, acc, true);
+ 	}
+ 	else
+@@ -138,6 +144,8 @@ real_t multigrid_poisson_plugin::solve(grid_hierarchy &f, grid_hierarchy &u)
+ 	}
+ 
+ 	//------------------------------//
++	if (!std::isfinite(err) || err > acc)
++		throw std::runtime_error("Poisson residual failed declared tolerance; IC output is incomplete");
+ 
+ #if defined(_OPENMP)
+ 	tend = omp_get_wtime();

@@ -1,0 +1,347 @@
+{
+  "schema": "clean-linux-release-campaign-v1",
+  "profiles": {
+    "collisionless": {
+      "binary": "inputs/builds/collisionless/Gadget4",
+      "build": {
+        "argv": [
+          "{python}",
+          "{suite}/commands.py",
+          "gadget",
+          "--answers",
+          "inputs/collisionless.answers.json",
+          "--run-dir",
+          "{profile_output}/prepared",
+          "--prepare-only",
+          "--existing-ic",
+          "inputs/collisionless/ics_gadget.hdf5",
+          "--native-generation-report",
+          "inputs/collisionless/generation.json"
+        ],
+        "wall_seconds": 3600.0
+      },
+      "controls": [
+        {
+          "kind": "public_workflow",
+          "recipe": {
+            "argv": [
+              "{python}",
+              "{suite}/commands.py",
+              "workflow",
+              "--campaign",
+              "inputs/collisionless.workflow.json",
+              "--output",
+              "{profile_output}/workflow"
+            ],
+            "wall_seconds": 86400.0
+          },
+          "evidence": "{profile_output}/workflow/workflow.json"
+        },
+        {
+          "kind": "blender_fresh_load",
+          "recipe": {
+            "argv": [
+              "blender",
+              "--background",
+              "{profile_output}/workflow/scene.blend",
+              "--python",
+              "{suite}/core/display_fresh_load.py",
+              "--",
+              "{profile_output}/fresh-load.json"
+            ],
+            "wall_seconds": 3600.0
+          },
+          "evidence": "{profile_output}/fresh-load.json"
+        },
+        {
+          "kind": "interrupt_resume",
+          "recipe": {
+            "initial": {
+              "argv": [
+                "{python}",
+                "{suite}/commands.py",
+                "gadget",
+                "--answers",
+                "inputs/collisionless.answers.json",
+                "--run-dir",
+                "{profile_output}/restart/native_run",
+                "--existing-ic",
+                "inputs/collisionless/ics_gadget.hdf5",
+                "--native-generation-report",
+                "inputs/collisionless/generation.json"
+              ],
+              "wall_seconds": 86400.0
+            },
+            "checkpoint_marker": "{profile_output}/restart/checkpoint-published.json",
+            "checkpoint_wait_seconds": 3600.0,
+            "resume": {
+              "argv": [
+                "{python}",
+                "{suite}/commands.py",
+                "gadget",
+                "--run-dir",
+                "{profile_output}/restart/native_run",
+                "--resume"
+              ],
+              "wall_seconds": 86400.0
+            },
+            "comparison": {
+              "argv": [
+                "{python}",
+                "{suite}/commands.py",
+                "workflow",
+                "--campaign",
+                "inputs/collisionless.restart-comparison.json",
+                "--output",
+                "{profile_output}/restart-comparison"
+              ],
+              "wall_seconds": 3600.0
+            },
+            "comparison_receipt": "{profile_output}/restart-comparison/physical-control.json",
+            "checkpoint_run_dir": "{profile_output}/restart/native_run",
+            "checkpoint_mpi_ranks": 1,
+            "minimum_checkpoint_generation": 1
+          }
+        },
+        {
+          "kind": "patch_reproduction",
+          "recipe": {
+            "bundle_manifest": "core/patches/gadget4-full-source/manifest.json"
+          }
+        }
+      ],
+      "build_signature": "inputs/builds/collisionless/build_signature.json",
+      "required_features": []
+    },
+    "hydro_stellar_bh": {
+      "binary": "inputs/builds/hydro_stellar_bh/Gadget4",
+      "build": {
+        "argv": [
+          "{python}",
+          "{suite}/commands.py",
+          "gadget",
+          "--answers",
+          "inputs/hydro_stellar_bh.answers.json",
+          "--run-dir",
+          "{profile_output}/prepared",
+          "--prepare-only",
+          "--existing-ic",
+          "inputs/hydro_stellar_bh/ics_gadget.hdf5",
+          "--native-generation-report",
+          "inputs/hydro_stellar_bh/generation.json"
+        ],
+        "wall_seconds": 3600.0
+      },
+      "controls": [
+        {
+          "kind": "public_workflow",
+          "recipe": {
+            "argv": [
+              "{python}",
+              "{suite}/commands.py",
+              "workflow",
+              "--campaign",
+              "inputs/hydro_stellar_bh.workflow.json",
+              "--output",
+              "{profile_output}/workflow"
+            ],
+            "wall_seconds": 86400.0
+          },
+          "evidence": "{profile_output}/workflow/workflow.json"
+        },
+        {
+          "kind": "blender_fresh_load",
+          "recipe": {
+            "argv": [
+              "blender",
+              "--background",
+              "{profile_output}/workflow/scene.blend",
+              "--python",
+              "{suite}/core/display_fresh_load.py",
+              "--",
+              "{profile_output}/fresh-load.json"
+            ],
+            "wall_seconds": 3600.0
+          },
+          "evidence": "{profile_output}/fresh-load.json"
+        },
+        {
+          "kind": "interrupt_resume",
+          "recipe": {
+            "initial": {
+              "argv": [
+                "{python}",
+                "{suite}/commands.py",
+                "gadget",
+                "--answers",
+                "inputs/hydro_stellar_bh.answers.json",
+                "--run-dir",
+                "{profile_output}/restart/native_run",
+                "--existing-ic",
+                "inputs/hydro_stellar_bh/ics_gadget.hdf5",
+                "--native-generation-report",
+                "inputs/hydro_stellar_bh/generation.json"
+              ],
+              "wall_seconds": 86400.0
+            },
+            "checkpoint_marker": "{profile_output}/restart/checkpoint-published.json",
+            "checkpoint_wait_seconds": 3600.0,
+            "resume": {
+              "argv": [
+                "{python}",
+                "{suite}/commands.py",
+                "gadget",
+                "--run-dir",
+                "{profile_output}/restart/native_run",
+                "--resume"
+              ],
+              "wall_seconds": 86400.0
+            },
+            "comparison": {
+              "argv": [
+                "{python}",
+                "{suite}/commands.py",
+                "workflow",
+                "--campaign",
+                "inputs/hydro_stellar_bh.restart-comparison.json",
+                "--output",
+                "{profile_output}/restart-comparison"
+              ],
+              "wall_seconds": 3600.0
+            },
+            "comparison_receipt": "{profile_output}/restart-comparison/physical-control.json",
+            "checkpoint_run_dir": "{profile_output}/restart/native_run",
+            "checkpoint_mpi_ranks": 1,
+            "minimum_checkpoint_generation": 1
+          }
+        },
+        {
+          "kind": "patch_reproduction",
+          "recipe": {
+            "bundle_manifest": "core/patches/gadget4-full-source/manifest.json"
+          }
+        }
+      ],
+      "build_signature": "inputs/builds/hydro_stellar_bh/build_signature.json",
+      "required_features": [
+        "COOLING",
+        "STARFORMATION",
+        "BLACK_HOLES"
+      ]
+    },
+    "sidm": {
+      "binary": "inputs/builds/sidm/Gadget4",
+      "build": {
+        "argv": [
+          "{python}",
+          "{suite}/commands.py",
+          "gadget",
+          "--answers",
+          "inputs/sidm.answers.json",
+          "--run-dir",
+          "{profile_output}/prepared",
+          "--prepare-only",
+          "--existing-ic",
+          "inputs/sidm/ics_gadget.hdf5",
+          "--native-generation-report",
+          "inputs/sidm/generation.json"
+        ],
+        "wall_seconds": 3600.0
+      },
+      "controls": [
+        {
+          "kind": "public_workflow",
+          "recipe": {
+            "argv": [
+              "{python}",
+              "{suite}/commands.py",
+              "workflow",
+              "--campaign",
+              "inputs/sidm.workflow.json",
+              "--output",
+              "{profile_output}/workflow"
+            ],
+            "wall_seconds": 86400.0
+          },
+          "evidence": "{profile_output}/workflow/workflow.json"
+        },
+        {
+          "kind": "blender_fresh_load",
+          "recipe": {
+            "argv": [
+              "blender",
+              "--background",
+              "{profile_output}/workflow/scene.blend",
+              "--python",
+              "{suite}/core/display_fresh_load.py",
+              "--",
+              "{profile_output}/fresh-load.json"
+            ],
+            "wall_seconds": 3600.0
+          },
+          "evidence": "{profile_output}/fresh-load.json"
+        },
+        {
+          "kind": "interrupt_resume",
+          "recipe": {
+            "initial": {
+              "argv": [
+                "{python}",
+                "{suite}/commands.py",
+                "gadget",
+                "--answers",
+                "inputs/sidm.answers.json",
+                "--run-dir",
+                "{profile_output}/restart/native_run",
+                "--existing-ic",
+                "inputs/sidm/ics_gadget.hdf5",
+                "--native-generation-report",
+                "inputs/sidm/generation.json"
+              ],
+              "wall_seconds": 86400.0
+            },
+            "checkpoint_marker": "{profile_output}/restart/checkpoint-published.json",
+            "checkpoint_wait_seconds": 3600.0,
+            "resume": {
+              "argv": [
+                "{python}",
+                "{suite}/commands.py",
+                "gadget",
+                "--run-dir",
+                "{profile_output}/restart/native_run",
+                "--resume"
+              ],
+              "wall_seconds": 86400.0
+            },
+            "comparison": {
+              "argv": [
+                "{python}",
+                "{suite}/commands.py",
+                "workflow",
+                "--campaign",
+                "inputs/sidm.restart-comparison.json",
+                "--output",
+                "{profile_output}/restart-comparison"
+              ],
+              "wall_seconds": 3600.0
+            },
+            "comparison_receipt": "{profile_output}/restart-comparison/physical-control.json",
+            "checkpoint_run_dir": "{profile_output}/restart/native_run",
+            "checkpoint_mpi_ranks": 1,
+            "minimum_checkpoint_generation": 1
+          }
+        },
+        {
+          "kind": "patch_reproduction",
+          "recipe": {
+            "bundle_manifest": "core/patches/gadget4-full-source/manifest.json"
+          }
+        }
+      ],
+      "build_signature": "inputs/builds/sidm/build_signature.json",
+      "required_features": [
+        "SIDM"
+      ]
+    }
+  }
+}

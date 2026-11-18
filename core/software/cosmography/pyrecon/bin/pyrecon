@@ -1,0 +1,354 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+"""
+**pyrecon** entry point for standalone runs.
+Not fully tested.
+"""
+
+import os
+import re
+import logging
+import datetime
+import argparse
+from numbers import Number
+
+import numpy as np
+import yaml
+
+from mpytools import Catalog
+import pyrecon
+from pyrecon import __version__, setup_logging, utils, IterativeFFTParticleReconstruction
+
+
+ascii_art = r"""
+  _ __  _   _ _ __ ___  ___ ___  _ __
+ | '_ \| | | | '__/ _ \/ __/ _ \| '_ \
+ | |_) | |_| | | |  __/ (_| (_) | | | |
+ | .__/ \__, |_|  \___|\___\___/|_| |_|
+ | |     __/ |
+ |_|    |___/                          """ + """\n\n""" + \
+ """version: {}                     date: {}\n""".format(__version__, datetime.date.today())
+
+
+class YamlLoader(yaml.SafeLoader):
+    """
+    *yaml* loader that correctly parses numbers.
+    Taken from https://stackoverflow.com/questions/30458977/yaml-loads-5e-6-as-string-and-not-a-number.
+    """
+
+
+YamlLoader.add_implicit_resolver(u'tag:yaml.org,2002:float',
+                                 re.compile(u'''^(?:
+                                 [-+]?(?:[0-9][0-9_]*)\\.[0-9_]*(?:[eE][-+]?[0-9]+)?
+                                 |[-+]?(?:[0-9][0-9_]*)(?:[eE][-+]?[0-9]+)
+                                 |\\.[0-9_]+(?:[eE][-+][0-9]+)?
+                                 |[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+\\.[0-9_]*
+                                 |[-+]?\\.(?:inf|Inf|INF)
+                                 |\\.(?:nan|NaN|NAN))$''', re.X),
+                                 list(u'-+0123456789.'))
+
+YamlLoader.add_implicit_resolver('!none', re.compile('None$'), first='None')
+
+
+def none_constructor(loader, node):
+    return None
+
+
+YamlLoader.add_constructor('!none', none_constructor)
+
+
+class ConfigError(Exception):
+
+    """Exception raised when issue with configuration."""
+
+
+def main(args=None, **input_config):
+
+    print(ascii_art)
+    logger = logging.getLogger('Main')
+
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('config_fn', action='store', type=str, help='Name of configuration file')
+    parser.add_argument('--data-fn', nargs='?', metavar='<fits, hdf5 file>', help='Path(s) to input data file (overrides configuration file)')
+    parser.add_argument('--randoms-fn', nargs='?', metavar='<fits, hdf5 file>', help='Path(s) to input randoms file (overrides configuration file)')
+    parser.add_argument('--output-data-fn', nargs='?', metavar='<fits, hdf5 file>', help='Path to output data file (overrides configuration file)')
+    parser.add_argument('--output-randoms-fn', nargs='?', metavar='<fits, hdf5file>', help='Path to output randoms file (overrides configuration file)')
+    parser.add_argument('--growth-rate', nargs='?', type=float, help='Value of the logarithmic growth rate (overrides configuration file)')
+    parser.add_argument('--galaxy-bias', nargs='?', type=float, help='Value of the linear galaxy bias (overrides configuration file)')
+
+    opt = parser.parse_args(args=args)
+    setup_logging()
+
+    config = {}
+    config['input'] = {}
+    config['output'] = {}
+    config['algorithm'] = {'name': 'MultiGridReconstruction', 'convention': 'RecSym'}
+    config['delta'] = {'smoothing_radius': 15.}
+    config['cosmology'] = {}
+    config['mesh'] = {'nmesh': 512, 'dtype': 'f4'}
+
+    def update_config(c1, c2):
+        # Update (in-place) config dictionary c1 with c2
+        for section, value in c2.items():
+            c1.setdefault(section, {})
+            c1[section].update(value)
+
+        # Turn empty things (dict, list, str) to None
+        for section in c1:
+            for name, value in c1[section].items():
+                if not isinstance(value, Number) and not value: c1[section][name] = None
+
+    update_config(config, input_config)
+
+    if opt.config_fn is not None:
+        logger.info('Loading config file {}.'.format(opt.config_fn))
+        with open(opt.config_fn, 'r') as file:
+            update_config(config, yaml.safe_load(file))
+
+    # Override with command-line arguments
+    if opt.data_fn:
+        config['input']['data_fn'] = opt.data_fn
+    if opt.randoms_fn:
+        config['input']['randoms_fn'] = opt.randoms_fn
+    if opt.output_data_fn:
+        config['output']['data_fn'] = opt.output_data_fn
+    if opt.output_randoms_fn:
+        config['output']['randoms_fn'] = opt.output_randoms_fn
+    if opt.growth_rate:
+        config['cosmology']['f'] = opt.growth_rate
+    if opt.galaxy_bias:
+        config['cosmology']['bias'] = opt.galaxy_bias
+
+    # Fetch reconstruction algorithm, e.g. MultiGridReconstruction
+    ReconstructionAlgorithm = getattr(pyrecon, config['algorithm'].pop('name'))
+    config_cosmo = {name: value for name, value in config['cosmology'].items() if name in ['f', 'bias']}
+    config_cosmo['los'] = config['algorithm'].pop('los', None)
+    convention = config['algorithm'].pop('convention').lower()
+    allowed_conventions = ['recsym', 'reciso', 'rsd']
+    if convention not in allowed_conventions:
+        raise ConfigError('Unknown convention {}. Choices are {}'.format(convention, allowed_conventions))
+    logger.info('Convention is {}.'.format(convention))
+
+    def get_comoving_distance():
+        # Return z -> distance callables
+        from cosmoprimo import fiducial
+        cosmo = getattr(fiducial, config['cosmology'].get('fiducial', 'DESI'))()
+        return cosmo.comoving_radial_distance
+
+    def make_list(cols):
+        # Turn single column name to list of column names
+        if cols is None: return []
+        if isinstance(cols, str): cols = [cols]
+        return cols
+
+    def remove_duplicates(cols):
+        # Remove duplicate column names
+        toret = []
+        for col in cols:
+            if col not in toret: toret.append(col)
+        return toret
+
+    def decode_eval_str(s):
+        # Change ${col} => col, and return list of columns
+        if s is None:
+            return '', []
+        toret = str(s)
+        columns = []
+        for replace in re.finditer(r'(\${.*?})', s):
+            value = replace.group(1)
+            col = value[2:-1]
+            toret = toret.replace(value, col)
+            if col not in columns: columns.append(col)
+        return toret, columns
+
+    # Whether nbar is provided by randoms catalog, or nbar is assumed uniform
+    allowed_selection_functions = ['uniform', 'randoms', '']
+    selection_function = config['delta'].pop('selection_function', '').lower()
+    if selection_function not in allowed_selection_functions:
+        raise ConfigError('Unknown input selection function {}. Choices are {}'.format(selection_function, allowed_selection_functions))
+    # First check what we have in input/output
+    input_fns, output_fns = {}, {}
+    for name in ['data', 'randoms']:
+        tmp_fn = config['input'].get('{}_fn'.format(name), None)
+        if tmp_fn is None:
+            if name == 'randoms':
+                if selection_function == 'randoms':
+                    raise ConfigError('Please provide randoms catalog.')
+                # No randoms provided and no instruction on selection function, defaults to uniform nbar
+                if not selection_function:
+                    logger.info('No randoms provided.')
+                    selection_function = 'uniform'
+            else:
+                raise ConfigError('Please provide data catalog.')
+        else:  # We've got a file name!
+            input_fns[name] = tmp_fn
+        tmp_fn = config['output'].get('{}_fn'.format(name), None)
+        if tmp_fn is not None:
+            # Check that requested catalog can be supplied given input
+            if name not in input_fns:
+                raise ConfigError('Cannot output {} catalog if not provided as input.'.format(name))
+            output_fns[name] = tmp_fn
+    # Randoms catalog provided and no instruction on selection function, defaults to nbar from randoms
+    if not selection_function:
+        selection_function = 'randoms'
+    logger.info('Using {} selection function.'.format(selection_function))
+
+    # Allowed inputs are RA, DEC, Z or X, Y, Z
+    allowed_position_types = ['rdz', 'xyz', 'pos']
+    catalogs = {}
+    positions = {}
+    weights = {}
+    input_position_type = {}
+    keep_input_columns = {}
+
+    for name in input_fns:
+        # First get format, xyz or rdz, from e.g. 'xyz', 'xyz_data', 'rdz_randoms'
+        input_position_type[name] = None
+        for position_type in allowed_position_types:
+            cols = config['input'].get('{}_{}'.format(position_type, name), None)
+            if cols is not None:
+                # Check whether e.g. 'rdz_data' but 'xyz_data' has been specified previously
+                if input_position_type[name] is not None:
+                    raise ConfigError('Cannot use two different input position types')
+                input_position_type[name] = position_type
+                position_columns = cols
+        # Fallback on non-differenciation between data and randoms, 'xyz', 'rdz'
+        if input_position_type[name] is None:
+            for position_type in allowed_position_types:
+                cols = config['input'].get(position_type, None)
+                if cols is not None:
+                    # Check whether e.g. 'rdz' but 'xyz' has been specified previously
+                    if input_position_type[name] is not None:
+                        raise ConfigError('Cannot use two different input position types')
+                    input_position_type[name] = position_type
+                    position_columns = cols
+        position_type = input_position_type[name]
+        # No format 'xyz', 'xyz_data', 'rdz_randoms', ... found
+        if position_type is None:
+            raise ConfigError('Unknown input position type. Choices are {}'.format(position_type))
+        position_columns = make_list(position_columns)
+
+        # Get catalog file name
+        fn = os.path.join(config['input'].get('dir', ''), input_fns[name])
+        # Optionally, mask to apply
+        mask_str = config['input'].get('mask_{}'.format(name), config['input'].get('mask', None))
+        mask_str, mask_columns = decode_eval_str(mask_str)
+        weight_str = config['input'].get('weights_{}'.format(name), config['input'].get('weights', None))
+        weight_str, weight_columns = decode_eval_str(weight_str)
+        # Input columns to keep for ouput
+        keep_input_columns[name] = make_list(config['output'].get('columns_{}'.format(name), config['output'].get('columns', None)))
+        columns = []
+        # All columns to actually read from catalogs (positions, weights, masks, and columns to be saved in output)
+        for cols in [position_columns, weight_columns, mask_columns, keep_input_columns[name]]: columns += cols
+        columns = remove_duplicates(columns)
+        catalog = {}
+        # Read in catalog, depending on file format
+        catalog = Catalog.read(fn)[columns]  # to load all columns
+
+        csize = catalog.csize
+        if catalog.mpicomm.rank == 0:
+            logger.info('Size of catalog {} is {:d}.'.format(name, csize))
+        # Apply masks
+        if mask_str:
+            dglobals = {'np': np}
+            dglobals.update(catalog.data)
+            mask = eval(mask_str, dglobals, {})
+            catalog = catalog[mask]
+            csize = catalog.csize
+            logger.info('Size of catalog {} after masking is {:d}.'.format(name, csize))
+
+        # Prepare Cartesian positions from input columns
+        if position_type == 'rdz':
+            if not len(position_columns) == 3:  # RA, DEC, Z
+                raise ConfigError('Position type rdz requires 3 position columns')
+            comoving_distance = get_comoving_distance()
+            distance = comoving_distance(catalog[position_columns[2]])
+            positions[name] = utils.sky_to_cartesian(distance, catalog[position_columns[0]], catalog[position_columns[1]])
+            position_type = 'pos'
+        elif position_type == 'xyz':
+            if not len(position_columns) == 3:
+                raise ConfigError('Position type xyz requires 3 position columns')
+            positions[name] = [catalog[col] for col in position_columns]
+        else:  # 'pos'
+            if not len(position_columns) == 1:
+                raise ConfigError('Position type pos requires 1 position column')
+            positions[name] = catalog[position_columns[0]]
+
+        # Build up weights
+        weights.setdefault(name, None)
+        if weight_str:
+            dglobals = {'np': np}
+            dglobals.update(catalog.data)
+            weights[name] = eval(weight_str, dglobals, {})
+
+        # Remove all columns that are not requested in output catalogs
+        catalogs[name] = catalog[keep_input_columns[name]]
+
+    # Run reconstruction
+    recon = ReconstructionAlgorithm(**config_cosmo, **config['mesh'], positions=positions['randoms'] if selection_function == 'randoms' else None, position_type=position_type)
+    recon.assign_data(positions['data'], weights['data'])
+    if selection_function == 'randoms': recon.assign_randoms(positions['randoms'], weights['randoms'])
+    recon.set_density_contrast(**config['delta'])
+    recon.run(**config['algorithm'])
+
+    # Read shifts
+    positions_rec = {}
+    field = 'rsd' if convention == 'rsd' else 'disp+rsd'
+    if type(recon) is IterativeFFTParticleReconstruction:
+        positions_rec['data'] = recon.read_shifted_positions('data', field=field)
+    else:
+        positions_rec['data'] = recon.read_shifted_positions(positions['data'], field=field)
+    if 'randoms' in output_fns:
+        # RSD removal only: no effect on the randoms
+        if convention == 'rsd':
+            positions_rec['randoms'] = positions['randoms']
+        else:
+            # convention == recsym: move randoms by Zeldovich + RSD displacement
+            # convention == reciso: move randoms by Zeldovich displacement
+            field = 'disp+rsd' if convention == 'recsym' else 'disp'
+            # Note that if wrap is True, output reconstructed random positions will be wrapped so may differ from input positions
+            # even if convention is 'rsd' if input positions are not wrapped
+            positions_rec['randoms'] = recon.read_shifted_positions(positions['randoms'], field=field)
+
+    # Now dump reconstructed catalogs to disk
+    for name in output_fns:
+        catalog = catalogs[name]
+        columns = list(keep_input_columns[name])
+        # How do we save position columns?
+        for rec, positions_ in zip(['', '_rec'], [positions[name], positions_rec[name]]):
+            for position_type in allowed_position_types:
+                # First look for e.g. 'xyz_data', 'rdz_randoms', 'xyz_rec_data'
+                position_columns = config['output'].get('{}{}_{}'.format(position_type, rec, name), None)
+                # Fallback on non-differenciation between data and randoms, 'xyz', 'rdz', 'xyz_rec'
+                if position_columns is None:
+                    position_columns = config['output'].get('{}{}'.format(position_type, rec), None)
+                if position_columns is not None:
+                    position_columns = make_list(position_columns)
+                    if position_type == 'rdz':
+                        if not len(position_columns) == 3:  # RA, DEC, Z columns
+                            raise ConfigError('Format rdz requires 3 position columns')
+                        distance, ra, dec = utils.cartesian_to_sky(positions_)
+                        distance_to_redshift = utils.DistanceToRedshift(get_comoving_distance())
+                        z = distance_to_redshift(distance)
+                        for col, value in zip(position_columns, [ra, dec, z]):
+                            catalog[col] = value
+                    elif position_type == 'xyz':
+                        if not len(position_columns) == 3:
+                            raise ConfigError('Position type xyz requires 3 position columns')
+                        for icol, col in enumerate(position_columns):
+                            catalog[col] = positions_[:, icol]
+                    else:  # pos
+                        if not len(position_columns) == 1:
+                            raise ConfigError('Position type pos requires 1 position column')
+                        catalog[position_columns[0]] = positions_
+                    columns += position_columns
+        columns = remove_duplicates(columns)
+        fn = os.path.join(config['output'].get('dir', ''), output_fns[name])
+        catalog = catalog[columns]
+        catalog.write(fn)
+
+
+if __name__ == '__main__':
+
+    main()

@@ -1,0 +1,44 @@
+diff --git a/src/io/snap_io.cc b/src/io/snap_io.cc
+index 6cf4559..119284a 100644
+--- a/src/io/snap_io.cc
++++ b/src/io/snap_io.cc
+@@ -82,7 +82,12 @@ void snap_io::init_basic(simparticles *Sp_ptr)
+              0., 1., 0., All.UnitMass_in_g);
+ #endif
+ 
+-
++#ifdef INDIVIDUAL_GRAVITY_SOFTENING
++  init_field("GSFT", "GravitySoftening", MEM_DOUBLE, FILE_DOUBLE, SKIP_ON_READ, 1, A_NONE, NULL,
++             io_func_gravity_softening, ALL_TYPES, 1, 1., -1., 0., 1., 0., All.UnitLength_in_cm);
++  init_field("GSCL", "GravitySofteningClass", MEM_INT, FILE_INT, SKIP_ON_READ, 1, A_NONE, NULL,
++             io_func_gravity_softening_class, ALL_TYPES, 0, 0., 0., 0., 0., 0., 0.);
++#endif
+ 
+ #ifdef BLACK_HOLES
+   init_field("BHMA", "BH_Mass", MEM_DOUBLE, FILE_DOUBLE, READ_IF_PRESENT, 1, A_P, &Sp->P[0].BHMass, NULL,
+diff --git a/src/io/snap_io.h b/src/io/snap_io.h
+index 3508ea3..4230da5 100644
+--- a/src/io/snap_io.h
++++ b/src/io/snap_io.h
+@@ -270,7 +270,21 @@ class snap_io : public IO_Def
+       }
+   }
+ 
++#ifdef INDIVIDUAL_GRAVITY_SOFTENING
++  static void io_func_gravity_softening(IO_Def *ptr, int particle, int components, void *buffer, int mode)
++  {
++    snap_io *thisobj = (snap_io *)ptr;
++    if(mode == 0)
++      ((double *)buffer)[0] = All.SofteningTable[thisobj->Sp->P[particle].getSofteningClass()];
++  }
+ 
++  static void io_func_gravity_softening_class(IO_Def *ptr, int particle, int components, void *buffer, int mode)
++  {
++    snap_io *thisobj = (snap_io *)ptr;
++    if(mode == 0)
++      ((int *)buffer)[0] = thisobj->Sp->P[particle].getSofteningClass();
++  }
++#endif
+ 
+   static void io_func_u(IO_Def *ptr, int particle, int components, void *buffer, int mode)
+   {

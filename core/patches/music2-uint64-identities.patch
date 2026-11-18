@@ -1,0 +1,44 @@
+--- a/src/plugins/output_arepo.cc
++++ b/src/plugins/output_arepo.cc
+@@ -19,6 +19,7 @@
+ #include <sstream>
+ #include <string>
+ #include <algorithm>
++#include <limits>
+ #include "output.hh"
+ #include "HDF_IO.hh"
+ 
+@@ -197,7 +198,7 @@
+   // called from finalize()
+   void generateAndWriteIDs(void)
+   {
+-    long long offset = 1; // don't use ID==0
++    unsigned long long offset = 1; // don't use ID==0
+     nPartTotAllTypes = 0;
+ 
+     for (size_t i = 0; i < nPartTotal.size(); i++)
+@@ -205,10 +206,15 @@
+       if (!nPartTotal[i])
+         continue;
+ 
++      if(nPartTotal[i] < 0 || (unsigned long long)nPartTotal[i] > std::numeric_limits<unsigned long long>::max() - offset)
++        throw std::runtime_error("Native particle identity namespace exceeds uint64");
+       nPartTotAllTypes += nPartTotal[i];
+ 
+       if (!useLongIDs)
+       {
++        if(offset > (unsigned long long)std::numeric_limits<int>::max() ||
++           (unsigned long long)nPartTotal[i] - 1 > (unsigned long long)std::numeric_limits<int>::max() - offset)
++          throw std::runtime_error("32-bit native particle identities would truncate; enable long IDs");
+         std::vector<int> ids = std::vector<int>(nPartTotal[i]);
+         for (int j = 0; j < nPartTotal[i]; j++)
+           ids[j] = offset + j;
+@@ -217,7 +223,7 @@
+       }
+       else
+       {
+-        std::vector<long long> ids = std::vector<long long>(nPartTotal[i]);
++        std::vector<unsigned long long> ids = std::vector<unsigned long long>(nPartTotal[i]);
+         for (long long j = 0; j < nPartTotal[i]; j++)
+           ids[j] = offset + j;
+ 

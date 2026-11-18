@@ -1,0 +1,19 @@
+{
+  "schema": "retained-native-chemistry-source-v1",
+  "repository": "https://github.com/grackle-project/grackle",
+  "revision": "af7939494ce65007887ada7b98d1813df6843346",
+  "archive_sha256": "69eaf1a43cfa3626d0e16ff665f3a404ac29e755930795d62f6d39bc28f91b7c",
+  "license": "grackle/LICENSE",
+  "links_materialized_as_regular_files": [],
+  "documentation_links_not_materialized": [
+    {
+      "path": "input",
+      "link": "grackle_data_files/input"
+    },
+    {
+      "path": "src/python/tests/test_data",
+      "link": "../../../grackle_data_files/testing"
+    }
+  ],
+  "runtime_execution": "NONE"
+}

@@ -1,0 +1,18 @@
+{
+  "repository": "https://github.com/NSphere-SIDM/NSphere-SIDM",
+  "revision": "014aead807684820988eb5c45d730b9721c0fce5",
+  "path": "core/software/workflow-references/nsphere-sidm",
+  "license": "Apache-2.0",
+  "license_file": "core/software/workflow-references/nsphere-sidm/LICENSE",
+  "notice_file": "core/software/workflow-references/nsphere-sidm/NOTICE",
+  "use": "Downloaded source reference for SIDM halo/scattering diagnostics; not a runtime replacement for GADGET",
+  "related_papers": [
+    "https://arxiv.org/abs/2403.00739",
+    "https://arxiv.org/abs/2402.01604"
+  ],
+  "execution": "NOT_RUN",
+  "reviewed_source": [
+    "src/c/nsphere.c: center-of-mass elastic scattering update and perform_sidm_scattering_serial",
+    "src/python/nsphere_plot.py: saved energy diagnostic conventions"
+  ]
+}

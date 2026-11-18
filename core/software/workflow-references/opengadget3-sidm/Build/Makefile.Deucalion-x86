@@ -1,0 +1,6 @@
+CC= mpicxx
+CXX = mpicxx
+
+OPTIMIZE = -std=c++17 -O2 -g -fopenmp
+
+MPICHLIB = 

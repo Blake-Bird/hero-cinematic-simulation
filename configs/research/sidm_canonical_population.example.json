@@ -1,0 +1,18 @@
+{
+  "request": {
+    "schema": "sidm-canonical-population-request-v1",
+    "population": {
+      "path": "REPLACE_WITH_ORIGINAL_COMOVING_POPULATION.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "native_clock": {
+      "path": "REPLACE_WITH_NATIVE_CLOCK_DIRECTORY/clock.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "maximum_particles": 1000000,
+    "maximum_asset_bytes": 1048576,
+    "chunk_rows": 65536,
+    "memory_gib": 8,
+    "disk_gib": 8
+  }
+}

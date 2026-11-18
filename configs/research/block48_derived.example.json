@@ -1,0 +1,23 @@
+{
+  "schema": "sidm-derived-science-request-v1",
+  "product": "satellite",
+  "memory_gib": 8,
+  "inputs": [
+    {
+      "path": "REPLACE_INITIAL_BOUND_PRODUCT.json",
+      "sha256": "REPLACE_SHA256"
+    },
+    {
+      "path": "REPLACE_CURRENT_BOUND_PRODUCT.json",
+      "sha256": "REPLACE_SHA256"
+    }
+  ],
+  "settings": {
+    "potential_gauge": "instantaneous_satellite_escape_zero",
+    "mass_absolute_floor_msun": 1,
+    "minimum_bound_particles": 100
+  },
+  "matched_experiment": {
+    "REPLACE_WITH_PRODUCER_DECLARED_COMMON_CONTROLS": true
+  }
+}

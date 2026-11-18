@@ -1,0 +1,35 @@
+diff --git a/src/plugins/output_arepo.cc b/src/plugins/output_arepo.cc
+index f629ebf..77df8cb 100644
+--- a/src/plugins/output_arepo.cc
++++ b/src/plugins/output_arepo.cc
+@@ -530,8 +530,8 @@ public:
+     massTable = std::vector<double>(NTYPES, 0.0);
+ 
+     coarsePartType = cf.get_value_safe<unsigned>("output", "arepo_coarsetype", COARSE_DM_DEFAULT_PARTTYPE);
+-    UnitLength_in_cm = cf.get_value_safe<double>("output", "arepo_unitlength", 3.085678e21); // 1.0 kpc
+-    UnitMass_in_g = cf.get_value_safe<double>("output", "arepo_unitmass", 1.989e43);         // 1.0e10 solar masses
++    UnitLength_in_cm = cf.get_value_safe<double>("output", "arepo_unitlength", 3.0856775814913673e21); // project kpc
++    UnitMass_in_g = cf.get_value_safe<double>("output", "arepo_unitmass", 1.98847e43);         // project 1e10 Msun
+     UnitVelocity_in_cm_per_s = cf.get_value_safe<double>("output", "arepo_unitvel", 1e5);    // 1 km/sec
+ 
+     omega0 = cf.get_value<double>("cosmology", "Omega_m");
+@@ -549,13 +549,15 @@ public:
+ 
+     // factors which multiply positions and velocities
+     time = 1.0 / (1.0 + redshift);
+-    posFac = 3.085678e24 / UnitLength_in_cm; // MUSIC uses Mpc internally, i.e. posFac=1e3 for kpc output
++    posFac = 3.0856775814913673e24 / UnitLength_in_cm; // project Mpc to native length
+     velFac = (1.0f / sqrt(time)) * boxSize;
+ 
+     // critical density
+-    rhoCrit = 27.7519737e-9; // in h^2 1e10 M_sol / kpc^3
+-    rhoCrit *= pow(UnitLength_in_cm / 3.085678e21, 3.0);
+-    rhoCrit *= (1.989e43 / UnitMass_in_g);
++    // Same G and unit conventions as the project's GADGET backend. Derive
++    // critical density rather than importing an older rounded mass constant.
++    const double H100_cgs = 1.0e7 / 3.0856775814913673e24;
++    rhoCrit = 3.0 * H100_cgs * H100_cgs / (8.0 * M_PI * 6.67430e-8);
++    rhoCrit *= pow(UnitLength_in_cm, 3.0) / UnitMass_in_g;
+ 
+     // calculate PMGRID suggestion
+     pmgrid = pow(2, levelmin_) * 2; // unigrid

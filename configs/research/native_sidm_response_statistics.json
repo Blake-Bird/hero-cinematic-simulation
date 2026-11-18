@@ -1,0 +1,124 @@
+{
+  "schema": "native-sidm-response-statistics-v1",
+  "parameter_bindings": {
+    "cross_section": {
+      "kind": "answer_field",
+      "answer_path": [
+        "sidm",
+        "cross_section_normalization_cm2_per_g"
+      ],
+      "native_binding": {
+        "native_config_path": [
+          "sidm",
+          "cross_section_normalization_cm2_per_g"
+        ]
+      }
+    },
+    "feedback_coupling": {
+      "kind": "answer_field",
+      "answer_path": [
+        "black_holes",
+        "feedback_coupling"
+      ],
+      "native_binding": {
+        "native_config_path": [
+          "black_holes",
+          "feedback_coupling"
+        ]
+      }
+    }
+  },
+  "training": {
+    "parameter_names": [
+      "cross_section",
+      "feedback_coupling"
+    ],
+    "baseline_parameters": [
+      1.0,
+      0.05
+    ],
+    "parameter_scales": [
+      1.0,
+      0.05
+    ],
+    "difference_steps": {
+      "cross_section": [
+        0.2,
+        0.1
+      ],
+      "feedback_coupling": [
+        0.01,
+        0.005
+      ]
+    },
+    "minimum_realizations": 3,
+    "maximum_samples": 1024,
+    "observable_variance_floors": [
+      1.0,
+      1.0
+    ],
+    "derivative_absolute_tolerances": {
+      "cross_section": [
+        1.0,
+        1.0
+      ],
+      "feedback_coupling": [
+        1.0,
+        1.0
+      ]
+    },
+    "derivative_relative_tolerance": 0.05
+  },
+  "calibration": {
+    "maximum_pairs": 1024,
+    "minimum_realizations_per_point": 3,
+    "parameter_box_half_widths": [
+      0.25,
+      0.0125
+    ],
+    "maximum_absolute_mean_residual": [
+      1.0,
+      1.0
+    ],
+    "maximum_relative_mean_residual": [
+      0.05,
+      0.05
+    ],
+    "mean_error_multiplier": 2.0,
+    "maximum_whitened_mean_residual": 1.0,
+    "minimum_design_singular_ratio": 0.0001
+  },
+  "heldout_parameter_offsets": [
+    [
+      -0.15,
+      0
+    ],
+    [
+      0.15,
+      0
+    ],
+    [
+      0,
+      -0.0075
+    ],
+    [
+      0,
+      0.0075
+    ],
+    [
+      -0.15,
+      -0.0075
+    ],
+    [
+      0.15,
+      0.0075
+    ]
+  ],
+  "degeneracy_settings": {
+    "parameter_scales": [
+      1.0,
+      0.05
+    ],
+    "minimum_whitened_singular_value": 0.1
+  }
+}

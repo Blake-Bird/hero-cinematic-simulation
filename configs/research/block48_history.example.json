@@ -1,0 +1,80 @@
+{
+  "schema": "sidm-halo-history-request-v1",
+  "memory_gib": 8,
+  "maximum_particles": 4000000,
+  "maximum_epochs": 64,
+  "maximum_halos": 1,
+  "particle_namespace": "REPLACE_NATIVE_PARTICLE_NAMESPACE",
+  "species": [
+    1,
+    2
+  ],
+  "species_components": {
+    "1": "dm",
+    "2": "coarse_dm"
+  },
+  "dark_matter_model": "elastic_sidm",
+  "require_sidm_diagnostics": true,
+  "matching": {
+    "phase_seed": 0,
+    "linear_bundle_sha256": "REPLACE_EXACT_LINEAR_BUNDLE_SHA256",
+    "background_sha256": "REPLACE_EXACT_BACKGROUND_SHA256",
+    "halo_match_namespace": "REPLACE_MEASURED_MATCH_NAMESPACE",
+    "halo_match_id": 0,
+    "baryon_control": "REPLACE_PHYSICS_CONTROL_NAME",
+    "baryon_control_sha256": "REPLACE_ACTUAL_SAVED_NATIVE_PHYSICS_SHA256"
+  },
+  "epochs": [
+    {
+      "snapshot": 0,
+      "elapsed_time_gyr": 0,
+      "selection": {
+        "path": "REPLACE_NATIVE_MEMBERSHIP.json",
+        "sha256": "REPLACE_SOURCE_SHA256"
+      }
+    }
+  ],
+  "radial_edges_proper_kpc": [
+    0,
+    0.25,
+    0.5,
+    1,
+    2,
+    4,
+    8,
+    16,
+    32,
+    64
+  ],
+  "minimum_shell_particles": 100,
+  "minimum_effective_particles": 100,
+  "minimum_resolved_radius_proper_kpc": 0.25,
+  "minimum_shape_eigenvalue_gap_fraction": 0.1,
+  "maximum_coarse_support_fraction": 0.001,
+  "maximum_omitted_scattering_upper_bound": 0.001,
+  "central_aperture_proper_kpc": 1,
+  "minimum_central_particles": 100,
+  "core_fit": {
+    "radius_interval_proper_kpc": [
+      0.5,
+      16
+    ],
+    "core_radius_bounds_proper_kpc": [
+      0.25,
+      32
+    ],
+    "minimum_bins": 4,
+    "density_floor_msun_kpc3": 1,
+    "maximum_density_multiple": 100,
+    "maximum_function_evaluations": 1000
+  },
+  "component_centroids": {
+    "aperture_proper_kpc": 16,
+    "minimum_particles": 100,
+    "minimum_eigenvalue_gap_fraction": 0.1
+  },
+  "collapse": {
+    "collapse_density_ratio": 10,
+    "minimum_consecutive_crossings": 3
+  }
+}

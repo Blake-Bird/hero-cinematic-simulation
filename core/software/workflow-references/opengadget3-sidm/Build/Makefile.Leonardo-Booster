@@ -1,0 +1,14 @@
+CC=nvc++
+CXX=nvc++
+
+CC_ACC_FLAGS = -acc=gpu -gpu=ccall,pinned -mp=multicore -Minfo=accel -Wl,-z,noexecstack 
+CC_OPT ?= -O3
+CXX += $(CC_ACC_FLAGS)
+CC += $(CC_ACC_FLAGS)
+
+OPTIMIZE = -std=c++17 $(CC_OPT)
+
+MPICHLIB=-L/leonardo/prod/opt/libraries/openmpi/4.1.6/nvhpc--23.11/lib -lmpi
+FFTW_INCL = -I/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/nvhpc-23.11/fftw-3.3.10-s5dbb6u4kzyeb7hzppcdcyugzsiwruvz/include
+FFTW_LIBS = -L/leonardo/prod/spack/5.2/install/0.21/linux-rhel8-icelake/nvhpc-23.11/fftw-3.3.10-s5dbb6u4kzyeb7hzppcdcyugzsiwruvz/lib  -lpthread  -lfftw3_omp
+GSL_LIBS = -lgsl -lgslcblas -lm

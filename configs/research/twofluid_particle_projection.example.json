@@ -1,0 +1,22 @@
+{
+  "request_base": ".",
+  "request": {
+    "schema": "twofluid-native-particle-projection-request-v1",
+    "memory_gib": 8.0,
+    "maximum_particles": 1000000,
+    "chunk_rows": 100000,
+    "particle_namespace": "original-native-uniform-parent:species-union",
+    "relative_fields": {
+      "path": "REPLACE_WITH_EVOLVED_TWOFLUID_FIELDS.json",
+      "sha256": "REPLACE_WITH_EXACT_SHA256"
+    },
+    "native_particle_load": {
+      "path": "REPLACE_WITH_ORIGINAL_NATIVE_UNIFORM_PARENT_IC.hdf5",
+      "sha256": "REPLACE_WITH_EXACT_SHA256"
+    },
+    "displacement_absolute_tolerance_mpc_h": 1e-05,
+    "velocity_absolute_tolerance_km_s": 0.01,
+    "material_weight_absolute_tolerance": 0.0001,
+    "maximum_mass_rescaling_fraction": 1e-06
+  }
+}

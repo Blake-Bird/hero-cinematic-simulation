@@ -1,0 +1,372 @@
+(contributing)=
+# How to contribute
+
+  By participating in the `sbi` community, all members are expected to comply with
+  our [Code of Conduct](code_of_conduct.md). This ensures a positive and inclusive
+  environment for everyone involved.
+
+## User experiences, bugs, and feature requests
+
+If you are using `sbi` to infer the parameters of a simulator, we would be
+delighted to know how it worked for you. If it didn't work according to plan,
+please open up an [issue](https://github.com/sbi-dev/sbi/issues) or
+[discussion](https://github.com/sbi-dev/sbi/discussions) and tell us more about
+your use case: the dimensionality of the input parameters and of the output,
+as well as the setup you used to run inference (i.e., number of simulations,
+number of rounds, etc.).
+
+To report bugs and suggest features -- including better documentation --
+please equally head over to [issues on GitHub](https://github.com/sbi-dev/sbi/issues)
+and tell us everything.
+
+## Contributing code
+
+Contributions to the `sbi` package are always welcome! The preferred way to do
+it is via pull requests onto our [main repository](https://github.com/sbi-dev/sbi).
+To give credit to contributors, we consider adding contributors who repeatedly
+and substantially contributed to `sbi` to the list of authors of the package at
+the end of every year. Additionally, we mention all contributors in the releases.
+
+To avoid duplicated work, please look at our current
+[open issues](https://github.com/sbi-dev/sbi/issues) and
+[pull requests](https://github.com/sbi-dev/sbi/pulls) first, to see if somebody is
+already working on it.
+
+For a small and obvious change, for example a typo or a clear bug fix, open a pull
+request directly.
+
+For all other issues, comment on the issue first. Tell us what causes the problem, how
+you want to solve it, and how you want to test it. This proposal is your claim on the
+issue. It shows us that you understand the problem, and it lets us tell you early if we
+want a different solution. Please write this comment yourself, see
+[Using AI Coding Assistants](#using-ai-coding-assistants). We do not assign issues.
+Comments that only ask for permission are not claims, and we usually do not answer them.
+Please send the proposal instead.
+
+If you plan a larger change that nobody proposed yet, for example a new feature or a new
+example, open an issue first and describe what you intend to do. This prevents wasted
+work on both sides.
+
+We review pull requests when we can. We are a small team, and we cannot give guidance on
+how to make a contribution outside of our hackathons and our Google Summer of Code
+projects. If your pull request does not get a review quickly, this is a question of our
+capacity, not of your work.
+
+### Contribution workflow
+
+The following steps describe all parts of the workflow for doing a contribution
+such as installing locally `sbi` from source, creating a `conda` environment,
+setting up your `git` repository, etc. We've taken strong inspiration from the
+contribution guides of
+[`scikit-learn`](https://scikit-learn.org/stable/developers/contributing.html)
+and [`mne`](https://mne.tools/stable/development/contributing.html):
+
+**Step 1**: [Create an account](https://github.com/) on GitHub if you do not
+already have one.
+
+**Step 2**: Fork the [project repository](https://github.com/sbi-dev/sbi): click
+on the ‘Fork’ button near the top of the page. This will create a copy of the
+`sbi` codebase under your GitHub user account. See more details on how to fork
+a repository [here](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo).
+
+**Step 3**: Clone your fork of the `sbi` repo from your GitHub account to your
+local disk:
+
+```bash
+git clone git@github.com:$USERNAME/sbi.git
+cd sbi
+```
+
+**Step 4**: Set up your development environment. Follow the [installation
+instructions](installation.md) to install Python and create a virtual environment with
+`uv`.
+
+**Step 5**: Install `sbi` in editable mode with development dependencies:
+
+```bash
+uv pip install -e ".[dev]"
+```
+
+This installs the `sbi` package in editable mode, meaning changes to the source code
+will be immediately reflected when you import `sbi`, along with all development and
+testing dependencies.
+
+**Step 6**: Add the upstream remote. This saves a reference to the main `sbi`
+repository, which you can use to keep your repository synchronized with the latest
+changes:
+
+```bash
+git remote add upstream git@github.com:sbi-dev/sbi.git
+```
+
+Check that the upstream and origin remote aliases are configured correctly by
+running `git remote -v` which should display:
+
+```bash
+origin  git@github.com:$USERNAME/sbi.git (fetch)
+origin  git@github.com:$USERNAME/sbi.git (push)
+upstream        git@github.com:sbi-dev/sbi.git (fetch)
+upstream        git@github.com:sbi-dev/sbi.git (push)
+```
+
+**Step 7**: Install `pre-commit` to run code style checks before each commit:
+
+```bash
+pre-commit install
+```
+
+You should now have a working installation of `sbi` and a git repository
+properly configured for making contributions. The following steps describe the
+process of modifying code and submitting a pull request:
+
+**Step 8**: Synchronize your main branch with the upstream/main branch. See more
+details on [GitHub Docs](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork):
+
+```bash
+git checkout main
+git fetch upstream
+git merge upstream/main
+```
+
+**Step 9**: Create a feature branch to hold your development changes:
+
+```bash
+git checkout -b my_feature
+```
+
+and start making changes. Always use a feature branch! It’s good practice
+to never work on the main branch, as this allows you to easily get back to a
+working state of the code if needed (e.g., if you’re working on multiple
+changes at once, or need to pull in recent changes from someone else to get
+your new feature to work properly). In most cases you should make PRs into the
+upstream’s main branch.
+
+**Step 10**: Develop your code on your feature branch on the computer, using
+Git to do the version control. When you’re done editing, add changed files
+using `git add` and then `git commit` to record your changes:
+
+```bash
+git add modified_files
+git commit -m "description of your commit"
+```
+
+Then push the changes to your GitHub account with:
+
+```bash
+git push -u origin my_feature
+```
+
+The `-u` flag ensures that your local branch will be automatically linked with
+the remote branch, so you can later use `git push` and `git pull` without any
+extra arguments.
+
+**Step 11**: Follow [these](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)
+instructions to create a pull request from your fork.
+This will send a notification to `sbi` maintainers and trigger reviews and comments
+regarding your contribution.
+
+> It is often helpful to keep your local feature branch synchronized
+with the latest changes of the main `sbi` repository:
+```
+git fetch upstream
+git merge upstream/main
+```
+
+### Style conventions and testing
+
+All our docstrings and comments are written following the [Google
+Style](http://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings).
+
+For code linting and formating, we use [`ruff`](https://docs.astral.sh/ruff/),
+which is installed alongside `sbi`.
+
+You can exclude slow tests and those which require a GPU with
+
+```bash
+pytest -m "not slow and not gpu"
+```
+
+Additionally, we recommend to run tests with
+
+```bash
+pytest -n auto -m "not slow and not gpu"
+```
+
+in parallel. GPU tests should probably not be run this way. If you see unexpected
+behavior (tests fail if they shouldn't), try to run them without `-n auto` and
+see if it persists. When writing new tests and debugging things, it may make sense
+to also run them without `-n auto`.
+
+When you create a PR onto `main`, our Continuous Integration (CI) actions on
+GitHub will perform the following checks:
+
+- **[`ruff`](https://docs.astral.sh/ruff/formatter/)** for linting and formatting
+  (including `black`, `isort`, and `flake8`)
+- **[`pyright`](https://github.com/Microsoft/pyright)** for static type checking.
+- **[`pytest`](https://docs.pytest.org/en/stable/index.html)** for running a subset of
+  fast tests from our test suite.
+
+If any of these fail, try reproducing and solving the error locally:
+
+- **`ruff`**: Make sure you have `pre-commit` installed locally with the same version as
+ specified in the
+ [`pyproject.toml`](https://github.com/sbi-dev/sbi/blob/main/pyproject.toml). Execute it
+  using `pre-commit run --all-files`. `ruff` tends to give informative error messages
+  that help you fix the problem. Note that pre-commit only detects problems with `ruff`
+  linting and formatting, but does not fix them. You can fix them either by running
+  `ruff check . --fix` (linting), followed by `ruff format .` (formatting), or by
+  hand.
+- **`pyright`**: Run it locally using `pyright sbi/` and ensure you are using
+the same
+  `pyright` version as used in the CI (which is the case if you have installed
+  it with `pip install -e ".[dev]"` but note that you have to rerun it once
+  someone updates the version in the `pyproject.toml`).
+  - Known issues and fixes:
+    - If using `**kwargs`, you either have to specify all possible types of
+    `kwargs`, e.g. `**kwargs: Union[int, boolean]` or use `**kwargs: Any`
+- **`pytest`**: On GitHub Actions you can see which test failed. Reproduce it
+locally, e.g., using `pytest -n auto tests/linearGaussian_snpe_test.py`. Note
+that this will run for a few minutes and should result in passes and expected
+fails (xfailed).
+- Commit and push again until CI tests pass. Don't hesitate to ask for help by
+  commenting on the PR.
+
+#### mini-sbibm tests
+
+As SBI is a fundamentally data-driven approach, we are not only interested in whether
+the modifications to the codebase "pass the tests" but also in whether they improve or
+at least do not deteriorate the performance of the package for inference. To this end,
+we have a set of *mini-sbibm* tests (a minimal version of the sbi benchmarking package
+[`sbibm`](https://github.com/sbi-benchmark/sbibm)) that are intended for developers to
+run locally.
+
+These tests differ from the regular tests in that they always pass (provided there
+are no errors) but output performance metrics that can be compared, e.g., to the
+performance metrics of the main branch or relative to each other. The user-facing API
+is available via `pytest` through custom flags. To run the mini-sbibm tests, you can use
+the following command:
+
+```bash
+pytest --bm
+```
+
+This will run all the mini-sbibm tests on all methods with default parameters and output
+the performance metrics nicely formatted to the console. If you have multiple CPU cores
+available, you can run the tests in parallel using the `-n auto` flag:
+
+```bash
+pytest --bm -n auto
+```
+
+What if you are currently working on a specific method and you want to run the
+mini-sbibm tests only for this class of methods? You can use the `--bm-mode` flag:
+
+```bash
+pytest --bm --bm-mode npse
+```
+
+This will run the mini-sbibm tests only for methods of the `npse` class, but with a
+few major hyperparameter choices, such as different base network architectures and
+different diffusion processes.
+
+The currently available modes are: `"npe"`, `"nle"`, `"nre"`, `"fmpe"`, `"npse"`,
+`"snpe"`, `"snle"`, `"snre"`, and `"mnle"`. If you require another mode, you can add
+it to the test suite in `tests/bm_test.py`.
+
+Use `--bm-estimators` to replace the selected mode's default estimators with a
+comma-separated list. For example, the following command collects the NPE cases for
+the `nsf` and `maf` density estimators on the `two_moons` task:
+
+```bash
+pytest --bm --bm-mode npe --bm-estimators nsf,maf -k two_moons --collect-only
+```
+
+The MNLE mode runs the mixed data task. Its evaluation observations contain 10
+independent trials by default. Use `--bm-num-iid-trials` to change that number:
+
+```bash
+pytest --bm --bm-mode mnle --bm-num-iid-trials 20
+```
+
+The trial count is included in the test ID and result task name, for example
+`mixed_data-20trials`, so runs with different observation sizes remain separate.
+
+## Contributing to the documentation
+
+Most of the documentation for `sbi` is written in reStructuredText and the website is
+generated using `Sphinx`. The tutorials and examples are Jupyter notebooks that are
+automatically converted during the build process. To work on improvements of the
+documentation, you should first install the `doc` dependencies:
+
+```bash
+uv sync --extra doc
+```
+
+Then, you can build and serve the website locally by executing in the `docs` folder
+
+```bash
+sphinx-autobuild . _build/html
+```
+
+This command will automatically build the website and start a local development server with
+automatic rebuilding and live reload, so you can open it in your browser and see changes
+as you edit. Changes to the documentation files will automatically trigger a rebuild and
+be displayed locally.
+
+### Using AI Coding Assistants
+
+We understand that AI coding assistants (like GitHub Copilot, ChatGPT, etc.) can be
+helpful tools. You are welcome to use them when contributing to this project, but *with
+caution and responsibility*.
+
+`sbi` is a community project. It is fine to use an AI assistant to read the code, to
+understand a problem, and to check your plan. It is a good way to learn a codebase
+quickly. But a contribution is more than the patch: we want to grow the group of people
+who understand `sbi`. This is why we ask that you can explain every part of what you
+submit, in your own words.
+
+- **Understand the Code:** Do *not* blindly accept suggestions from AI assistants. You
+    are responsible for ensuring that any code you submit (whether written by you or
+    generated by an AI) is correct, efficient, secure, and follows all project
+    guidelines.
+- **Thoroughly Review AI-Generated Code:** Treat AI-generated code as you would any
+  other code you didn't write yourself: review it carefully, line by line.  Understand
+  what it does, how it does it, and why it's the best approach.
+- **Test Extensively:** AI assistants can make mistakes (hallucinations, subtle bugs,
+  inefficient code).  Write comprehensive unit tests to verify the correctness of any
+  AI-generated code.  Don't rely solely on the AI to test its own code.
+- **Attribution:** If a significant portion of the code was generated by an AI
+  assistant, briefly mention this in your commit message or pull request description
+  (e.g., "Implemented feature X with assistance from GitHub Copilot"). This helps
+  reviewers understand the origin of the code.  However, you remain responsible for the
+  code's correctness.
+- **Maintainability:** Make sure the code is well-formatted, commented and does follow
+  our code style.
+- **Write your issue comments yourself:** when you propose a solution on an issue, write
+  the comment in your own words. Use an AI assistant to understand the code first, if
+  that helps you. We react to your proposal, so it has to show what *you* understood.
+- **Do not use AI assistants to review the code of others:** see
+  [Reviewing pull requests](#reviewing-pull-requests) below.
+
+**In essence: Use AI assistants as a *tool* to enhance your productivity, but *you* are
+the programmer.  You are ultimately responsible for the quality and correctness of the
+code you contribute.**
+
+### Reviewing pull requests
+
+Reviews come from the maintainers, or from somebody that the author or a maintainer
+asked directly. In addition, we use [CodeRabbit](https://coderabbit.ai) for automated
+reviews. Its comments are marked as automated.
+
+Please do not post unsolicited reviews on the pull requests of other contributors, and
+do not post reviews that an AI assistant wrote for you. These reviews look thorough, but
+they are often quite verbose and can report problems that do not exist. Somebody then
+has to spend time to show that the problem is not real, which costs more than the review
+saves.
+
+If you want to help with a pull request, tell us what you tested and what you saw. A
+short comment with a concrete result is more useful to us than a long list of possible
+problems.
+
+If you would like to become a reviewer, the best way is to contribute code first. We ask
+contributors who know the codebase to review.

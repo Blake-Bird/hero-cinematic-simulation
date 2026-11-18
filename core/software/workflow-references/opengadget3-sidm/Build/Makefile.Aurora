@@ -1,0 +1,14 @@
+CC        = mpicxx
+CXX       = mpicxx
+GSL_INCL = -I/lus/flare/projects/CRsInCosmoSims/libs/gsl-2.8/include
+GSL_LIBS = -L/lus/flare/projects/CRsInCosmoSims/libs/gsl-2.8/lib
+FFTW_INCL= -I/lus/flare/projects/CRsInCosmoSims/libs/fftw3/include
+FFTW_LIBS= -L/lus/flare/projects/CRsInCosmoSims/libs/fftw3/lib
+MPICHLIB =
+MPICH_INCL =
+HDF5_INCL = -I$(HDF5_ROOT)/include
+HDF5_LIBS  = -L$(HDF5_ROOT)/lib
+
+OPTIMIZE = -O2 -g -Wall -xCORE-AVX512 -std=c++17 -fiopenmp
+# replace -ffast-math with -fp-model=precise to have best precision
+OPTIMIZE+= -mlong-double-64 -ffast-math -fno-finite-math-only -mfma -fopenmp-targets=spir64="-mlong-double-64"

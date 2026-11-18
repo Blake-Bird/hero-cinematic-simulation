@@ -1,0 +1,200 @@
+{
+  "schema": "flagship-analysis-input-contracts-v1",
+  "scope": "Machine-readable required input contracts for existing producers; this catalogue is not an executable campaign or proof of supplied observations/accepted forward models.",
+  "observational_intake": {
+    "command": "python commands.py ingest-cosmography REQUEST DESTINATION",
+    "request_schema": "measured-cosmography-intake-v1",
+    "required_fields": [
+      "schema",
+      "method",
+      "observations",
+      "provenance",
+      "fit_model",
+      "unit_contract",
+      "memory_gib"
+    ],
+    "asset_binding": {
+      "keys": [
+        "path",
+        "sha256"
+      ],
+      "meaning": "Actual regular file with exact SHA256"
+    },
+    "provenance_schema": "measured-cosmography-provenance-v1",
+    "provenance_required_fields": [
+      "source_origin=published_observations",
+      "citation",
+      "release",
+      "selection_definition",
+      "files[name].sha256"
+    ],
+    "distance_ladder": {
+      "source_schema": "cosmography-observations-v1",
+      "source_role": "estimator_observations",
+      "required_content": [
+        "exact object IDs and namespace",
+        "indicator columns consumed by original stellar_observations._ladder_design",
+        "explicit observed selection",
+        "anchor host IDs, distance moduli and full covariance",
+        "original photometric covariance and instrument zeropoint calibration",
+        "metallicity/TRGB pivots",
+        "fit redshift bounds, cosmographic q0/j0, flow dispersion and declared priors"
+      ],
+      "unit_contract": {
+        "magnitudes": "mag",
+        "photometric_covariance": "mag^2",
+        "anchor_distance_moduli": "mag",
+        "anchor_covariance": "mag^2",
+        "redshift": "dimensionless",
+        "period": "log10(day)",
+        "metallicity": "dex",
+        "flow_velocity": "km/s"
+      },
+      "estimator_scope": "Original GLS or selected-likelihood local curvature; these results are not posterior draws."
+    },
+    "time_delay": {
+      "source_schema": "lens-observations-v1",
+      "source_role": "estimator_observations",
+      "required_content": [
+        "lens/source redshifts",
+        "measured delays and original full covariance or measured uncertainties",
+        "measured image bands, instrument flux/noise, PSF, angular pixel transforms",
+        "original astrometry, kinematics and LOS priors when used",
+        "explicit source selection and lens identity namespace",
+        "complete original lenstronomy model/parameter/constraint/likelihood/sampling configuration",
+        "normalized expansion-shape E(z) covering lens/source, curvature assumption",
+        "distance sampling and actual MCMC/emcee/zeus sequence"
+      ],
+      "unit_contract": {
+        "time_delay": "day",
+        "time_delay_covariance": "day^2",
+        "astrometry": "arcsec",
+        "pixel_transform": "arcsec/pixel",
+        "image_flux": "declared instrument flux",
+        "noise": "same instrument flux",
+        "exposure": "s",
+        "redshift": "dimensionless"
+      },
+      "posterior_scope": "Only full sampled lens-model posterior reaches time_delay_posteriors; reduced Gaussian approximations rejected."
+    }
+  },
+  "bao": {
+    "intake_function": "core.bao.ingest_compressed_bao",
+    "request_schema": "compressed-bao-input-request-v1",
+    "required_fields": [
+      "schema",
+      "source_origin=published_observations",
+      "maximum_rows",
+      "mean[path,sha256]",
+      "covariance[path,sha256]",
+      "provenance[path,sha256]"
+    ],
+    "quantities": [
+      "DM_over_rs",
+      "DH_over_rs",
+      "DV_over_rs"
+    ],
+    "units": "dimensionless",
+    "row_policy": "Exact original ordered measured rows and full positive-definite measured covariance; no diagonalization/renormalization.",
+    "model_inputs": [
+      "validated frozen linear_bundle",
+      "exact original CLASS baryon-drag execution/log/invocation from same model"
+    ],
+    "calibration_scope": "Original CLASS predicted sound horizon is a fixed physical-model input; it is not a measured CMB likelihood.",
+    "posterior_scope": "Existing two-dimensional alpha_perp/alpha_parallel distance dilation sampler; not H0."
+  },
+  "cmb": {
+    "status": "EXTERNAL_MEASURED_LIKELIHOOD_NOT_SUPPLIED",
+    "required_content": [
+      "explicit selected measured CMB likelihood or released chain/data manifest",
+      "original measured covariance and nuisance/calibration/selection assumptions",
+      "sound-horizon and cosmological parameter convention with original provenance"
+    ],
+    "missing_policy": "BAO graph labels CMB likelihood NOT_SUPPLIED; a CLASS background cannot stand in for measured CMB constraints."
+  },
+  "inference": {
+    "original_campaign_schema": "stream-campaign-v1",
+    "required_lineage": [
+      "accepted physical forward-domain receipt with source-bound simulator signature",
+      "lineage-disjoint training/validation/test design",
+      "frozen actual model and original parameter priors/units before heldout truth access",
+      "original posterior draws/weights or real sampler chains",
+      "actual heldout SBC integer ranks, randomized PIT, independent component rows, coverage and original tests",
+      "training-only OOD reference and original inference thresholds",
+      "paired identical heldout graph/baseline calibration with original paired score/bootstrap decisions"
+    ],
+    "original_stage_kinds": [
+      "stream_inference",
+      "halo_shape_inference",
+      "posterior_predictive",
+      "sbi_forward_signature",
+      "sbi_dataset",
+      "sbi_train",
+      "sbi_calibration",
+      "sbi_graph_gain",
+      "sbi_posterior"
+    ],
+    "figure_source": [
+      "completed original stream-stage-receipt-v1 with current producer/source hashes",
+      "original source-bound numeric product; no caller-created accuracy flag"
+    ],
+    "missing_policy": "No accepted forward model, frozen calibration or supported observational input is invented. Unaccepted calibration and OOD rejection remain visible.",
+    "branch_preparation": {
+      "command": "python commands.py native-prepare sbi REQUEST DESTINATION",
+      "request_schema": "native-sbi-branch-request-v1",
+      "required_asset_bindings": [
+        "designs[path,sha256]",
+        "accepted_forward_domain[path,sha256]",
+        "observations[path,sha256]",
+        "selection[path,sha256]"
+      ],
+      "required_controls": [
+        "predictive_design_id",
+        "domain",
+        "priors",
+        "bindings",
+        "encoder",
+        "generation",
+        "summary_training",
+        "graph_training",
+        "ood_reference",
+        "calibration",
+        "gain",
+        "inference",
+        "predictive",
+        "predictive_sampler",
+        "resources",
+        "wall_seconds"
+      ],
+      "original_gate": "Original accepted-forward-domain-v1 receipt with unchanged current forward_signature, observable_contract, actual parameter_bounds, PASS force/time_integration/progenitor/observation/selection/model_discrepancy controls and current source hashes.",
+      "lineage_policy": "Original deterministic union-find split uses actual supplied parent_realization and lineage_ids before training; supplied design count cannot be expanded by relabeling repeated parents. Actual independent test component count must meet original calibration floor.",
+      "predictive_scope": "The designated-design posterior predictive uses its own original physical likelihood/sampler conditional on that known design. It is distinct from the SBI posterior marginalized over native training design identities.",
+      "prepared_stages": [
+        "signature",
+        "dataset",
+        "summary",
+        "summary_calibration",
+        "graph",
+        "graph_calibration",
+        "graph_gain",
+        "posterior",
+        "physical_posterior",
+        "predictive"
+      ],
+      "required_runtime": "Existing bootstrap.py SBI profile / requirements-sbi installs recorded SBI backend and existing inference sampler dependencies; signature preparation uses PyTorch encoder but never trains a model.",
+      "missing_policy": "Missing accepted physical controls, measured observations or adequate independent lineage inventory are exact required inputs; preparation rejects them. No fake acceptance/calibration/source measurements are generated."
+    }
+  },
+  "figure_preparation": {
+    "command": "python commands.py prepare-analysis-figures REQUEST DESTINATION",
+    "request_schema": "analysis-figure-campaign-request-v1",
+    "required_fields": [
+      "schema",
+      "campaign[path,sha256]",
+      "resources",
+      "wall_seconds",
+      "figures[variant,producer_stage]"
+    ],
+    "execution": "Original cosmography/streams public command followed by source-bound Hubble/inference graph stages; actual product paths and hashes resolve from completed generations."
+  }
+}

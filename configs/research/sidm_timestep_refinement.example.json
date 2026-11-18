@@ -1,0 +1,87 @@
+{
+  "schema": "sidm-homogeneous-refinement-request-v1",
+  "campaign_template": {
+    "path": "/Users/bbird/research2/configs/research/sidm_control_campaign.example.json",
+    "sha256": "a89b1f9a944d7b86e7d7625a3f3e8df57c082fbd95b7c1cbc9b9164edf0a72f3"
+  },
+  "base_variant": "gadget4_rare",
+  "axes": [
+    {
+      "name": "timestep",
+      "parameter_path": [
+        "maximum_timestep_native"
+      ],
+      "levels": [
+        {
+          "label": "coarse",
+          "value": 1e-05
+        },
+        {
+          "label": "medium",
+          "value": 5e-06
+        },
+        {
+          "label": "fine",
+          "value": 2.5e-06
+        }
+      ]
+    }
+  ],
+  "comparison_request": {
+    "schema": "sidm-physical-control-comparison-request-v1",
+    "left": {
+      "path": "completed/gadget4-history.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "right": {
+      "path": "completed/opengadget3-history.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "physical_model": {
+      "path": "physical-model.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "native_differential_table": null,
+    "scope": "same_engine_refinement",
+    "metrics": [
+      "cohort_mass_msun",
+      "cohort_mean_velocity_kms",
+      "cohort_covariance_kms2",
+      "cohort_kinetic_energy",
+      "cohort_speed_cdf",
+      "cohort_velocity_cdf"
+    ],
+    "maximum_absolute_error": {
+      "cohort_mass_msun": 1.0,
+      "cohort_mean_velocity_kms": 0.1,
+      "cohort_covariance_kms2": 1.0,
+      "cohort_kinetic_energy": 1.0,
+      "cohort_speed_cdf": 0.05,
+      "cohort_velocity_cdf": 0.05
+    },
+    "maximum_relative_error": {
+      "cohort_mass_msun": 0.01,
+      "cohort_mean_velocity_kms": 0.01,
+      "cohort_covariance_kms2": 0.01,
+      "cohort_kinetic_energy": 0.01,
+      "cohort_speed_cdf": 0.01,
+      "cohort_velocity_cdf": 0.01
+    },
+    "relative_error_floor": {
+      "cohort_mass_msun": 1.0,
+      "cohort_mean_velocity_kms": 1.0,
+      "cohort_covariance_kms2": 1.0,
+      "cohort_kinetic_energy": 1.0,
+      "cohort_speed_cdf": 1.0,
+      "cohort_velocity_cdf": 1.0
+    },
+    "minimum_particles_per_cohort": 4000,
+    "memory_gib": 2.0,
+    "time_tolerance_seconds": 1.0
+  },
+  "maximum_levels_per_axis": 8,
+  "measurement_limits": {
+    "mean_error_multiplier": 2.0,
+    "maximum_sampling_error_fraction": 0.25
+  }
+}

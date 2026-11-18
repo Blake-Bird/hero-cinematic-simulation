@@ -1,0 +1,56 @@
+{
+  "usage": "Limits and preflight time/speed are illustrative; choose and bind physical values before production. The primary support owns the exact target, epoch and native census. Omit convergence for the initial fingerprint, then supply the current sealed convergence report.",
+  "request": {
+    "schema": "observable-resolution-request-v1",
+    "radial_edges_proper_kpc": [
+      0.0,
+      0.001,
+      0.002,
+      0.004,
+      0.008
+    ],
+    "observables": [
+      {
+        "name": "bh_dm_density",
+        "kind": "bh_spike",
+        "claim_scope": "resolved_dm_profile",
+        "minimum_radius_proper_kpc": 0.004,
+        "minimum_members": 128,
+        "species": 1,
+        "maximum_relative_error": 0.05,
+        "absolute_error_floor": 1.0,
+        "units": "Msun / proper kpc^3"
+      }
+    ],
+    "maximum_coarse_mass_fraction": 0.001,
+    "minimum_relaxation_age_ratio": 10.0,
+    "maximum_timestep_crossing_fraction": 0.05,
+    "maximum_force_support_fraction": 0.1,
+    "refinement": {
+      "maximum_levels": 3,
+      "mass_reduction_factor": 8.0,
+      "softening_reduction_factor": 2.0,
+      "timestep_reduction_factor": 2.0,
+      "memory_gib": 4.0,
+      "disk_gib": 32.0
+    },
+    "physical_support": {
+      "bh_dm_density": {
+        "path": "REPLACE_WITH_ACTUAL_PHYSICAL_SUPPORT.json",
+        "sha256": "REPLACE_WITH_EXACT_SHA256",
+        "memory_gib": 4.0
+      }
+    }
+  },
+  "request_base": ".",
+  "primary_support": {
+    "path": "REPLACE_WITH_ACTUAL_PHYSICAL_SUPPORT.json",
+    "sha256": "REPLACE_WITH_EXACT_SHA256"
+  },
+  "memory_gib": 4.0,
+  "target": {
+    "age_myr": 100.0,
+    "maximum_proper_timestep_myr": 0.01,
+    "relative_speed_km_s": 10.0
+  }
+}

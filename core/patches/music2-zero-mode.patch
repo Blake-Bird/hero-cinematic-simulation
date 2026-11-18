@@ -1,0 +1,135 @@
+diff --git a/src/convolution_kernel.cc b/src/convolution_kernel.cc
+index 4a4efc9..93cb2a4 100644
+--- a/src/convolution_kernel.cc
++++ b/src/convolution_kernel.cc
+@@ -71,8 +71,6 @@ void perform(kernel *pk, void *pd, bool shift, bool fix, bool flip)
+ 
+ 	//.............................................
+ 
+-	std::complex<double> dcmode(RE(cdata[0]), IM(cdata[0]));
+-
+ 	
+ 	#pragma omp parallel
+ 	{
+@@ -144,15 +142,11 @@ void perform(kernel *pk, void *pd, bool shift, bool fix, bool flip)
+ 	FFTW_API(destroy_plan)(plan);
+ 	FFTW_API(destroy_plan)(iplan);
+ 
+-	// set the DC mode here to avoid a possible truncation error in single precision
+-	{
+-		size_t nelem = (size_t)cparam_.nx * (size_t)cparam_.ny * (size_t)cparam_.nz;
+-		real_t mean = dcmode.real() * fftnorm / (real_t)nelem;
+-
+-#pragma omp parallel for
+-		for (size_t i = 0; i < nelem; ++i)
+-			data[i] += mean;
+-	}
++	// The cosmological zero mode is zero. Nested patches receive their local
++	// long-wavelength mean through Fourier splicing from the parent field.
++	// Adding the raw white-noise DC amplitude here bypasses the transfer
++	// function, generates perturbations for a zero transfer, and breaks linear
++	// scaling between independently specified density and velocity fields.
+ }
+ 
+ void perform(kernel *pk, void *pd, bool shift, bool fix, bool flip);
+diff --git a/src/plugins/output_arepo.cc b/src/plugins/output_arepo.cc
+--- a/src/plugins/output_arepo.cc
++++ b/src/plugins/output_arepo.cc
+@@ -44,6 +44,7 @@
+   bool shiftBack;
+   std::vector<double> coordinateShift;
+   std::vector<double> maximumDisplacement;
++  std::vector<double> removedBulkVelocity = std::vector<double>(3, 0.0);
+ 
+   size_t npfine, npart, npcoarse;
+   std::vector<size_t> levelcounts;
+@@ -718,6 +719,72 @@
+   {
+   }
+ 
++  // A nested quadrature need not integrate a zero-mode-free grid to zero
++  // particle momentum. Remove only the global velocity zero mode from all
++  // delivered species together, preserving relative velocities. The applied
++  // frame shift is saved explicitly in the native header.
++  void removeDeliveredMomentumZeroMode()
++  {
++    if (cf_.get_value_safe<std::string>("cosmology", "transfer", "") != "DMS_file")
++      return;
++    if (numFiles != 1 || !doublePrec)
++      throw std::runtime_error("DMS particle momentum closure requires one double-precision native IC");
++    const auto readMasses = [&](int type, size_t count) {
++      std::vector<double> values(count, massTable[type]);
++      if (massTable[type] == 0.0)
++      {
++        const std::string name = "PartType" + std::to_string(type) + "/Masses";
++        hid_t file = H5Fopen(fname_.c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
++        hid_t dataset = file < 0 ? -1 : H5Dopen(file, name.c_str());
++        herr_t status = dataset < 0 ? -1 : H5Dread(dataset, H5T_NATIVE_DOUBLE,
++            H5S_ALL, H5S_ALL, H5P_DEFAULT, values.data());
++        if (dataset >= 0) H5Dclose(dataset);
++        if (file >= 0) H5Fclose(file);
++        if (status < 0) throw std::runtime_error("Cannot read native masses for particle momentum closure");
++      }
++      for (double value : values)
++        if (!(std::isfinite(value) && value > 0.0))
++          throw std::runtime_error("Invalid native mass in particle momentum closure");
++      return values;
++    };
++    long double total = 0.0L;
++    std::array<long double, 3> momentum = {{0.0L, 0.0L, 0.0L}};
++    for (int type : {GAS_PARTTYPE, HIGHRES_DM_PARTTYPE, (int)coarsePartType})
++    {
++      const size_t count = nPartTotal[type];
++      if (!count) continue;
++      const auto masses = readMasses(type, count);
++      for (double mass : masses) total += (long double)mass;
++      std::vector<double> values(count);
++      for (int coord = 0; coord < 3; ++coord)
++      {
++        writeHDF5_b("Velocities", coord, type, values, true);
++        for (size_t index = 0; index < count; ++index)
++        {
++          if (!std::isfinite(values[index]))
++            throw std::runtime_error("Invalid native velocity in particle momentum closure");
++          momentum[coord] += (long double)masses[index] * values[index];
++        }
++      }
++    }
++    if (!(total > 0.0L && std::isfinite(total)))
++      throw std::runtime_error("No finite native mass for particle momentum closure");
++    for (int coord = 0; coord < 3; ++coord)
++      removedBulkVelocity[coord] = (double)(momentum[coord] / total);
++    for (int type : {GAS_PARTTYPE, HIGHRES_DM_PARTTYPE, (int)coarsePartType})
++    {
++      const size_t count = nPartTotal[type];
++      if (!count) continue;
++      std::vector<double> values(count);
++      for (int coord = 0; coord < 3; ++coord)
++      {
++        writeHDF5_b("Velocities", coord, type, values, true);
++        for (double &value : values) value -= removedBulkVelocity[coord];
++        writeHDF5_b("Velocities", coord, type, values);
++      }
++    }
++  }
++
+   /* ------------------------------------------------------------------------------- */
+   void write_dm_mass(const grid_hierarchy &gh)
+   {
+@@ -783,6 +850,7 @@
+   void finalize(void)
+   {
+     // generate and add contiguous IDs for each particle type we have written
++    removeDeliveredMomentumZeroMode();
+     generateAndWriteIDs();
+ 
+     std::vector<unsigned int> nPartTotalLW(nPartTotal.size());
+@@ -844,6 +912,8 @@
+       HDFWriteGroupAttribute(filename, "Header", "Music_shift_back", (int)shiftBack);
+       HDFWriteGroupAttribute(filename, "Header", "Music_max_abs_displacement_native", maximumDisplacement);
+       HDFWriteGroupAttribute(filename, "Header", "Music_output_coordinate_shift_box_fraction", coordinateShift);
++      HDFWriteGroupAttribute(filename, "Header", "Music_removed_bulk_velocity_gadget", removedBulkVelocity);
++      HDFWriteGroupAttribute(filename, "Header", "Music_momentum_schema", 1);
+       HDFWriteGroupAttribute(filename, "Header", "Music_levelmax", levelmax_);
+       HDFWriteGroupAttribute(filename, "Header", "Music_levelcounts", levelcounts);
+       HDFWriteGroupAttribute(filename, "Header", "haveBaryons", (int)doBaryons);

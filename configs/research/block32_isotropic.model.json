@@ -1,0 +1,6 @@
+{
+  "schema": "sidm-physical-angular-model-v1",
+  "kind": "isotropic",
+  "normalized_density_definition": "p(mu) = 1/2 for directed cosine; p(abs(mu)) = 1 for identical-particle folded cosine",
+  "physical_scope": "normalized isotropic angular shape; total cross section amplitude is specified separately by native evolution"
+}

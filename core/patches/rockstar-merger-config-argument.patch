@@ -1,0 +1,11 @@
+--- a/scripts/gen_merger_cfg.pl
++++ b/scripts/gen_merger_cfg.pl
+@@ -4,7 +4,7 @@
+ $ENV{PWD} = abs_path(".") unless (abs_path($ENV{PWD}) eq abs_path("."));
+ 
+ for (@ARGV) {
+-    next if (/-c/);
++    next if ($_ eq "-c");
+     our $config = new ReadConfig($_);
+     last;
+ }

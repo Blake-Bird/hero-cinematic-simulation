@@ -1,0 +1,17 @@
+{
+  "schema": "flagship-bounded-zoom-settings-v1",
+  "status": "IMPLEMENTED_CANDIDATE_NOT_NUMERICALLY_ACCEPTED",
+  "poisson": {
+    "hybrid_source_extension": "bounded_conservative",
+    "hybrid_extension_degree": 5,
+    "hybrid_extension_boundary": 32,
+    "hybrid_extension_memory_mib": 2048,
+    "hybrid_extension_max_side": 256
+  },
+  "requirements": [
+    "Nested finite-difference mixed 2LPT",
+    "Rebuild MUSIC from the current source",
+    "Use the existing numerical handoff gate before production evolution",
+    "Increase workspace only within the available allocation"
+  ]
+}

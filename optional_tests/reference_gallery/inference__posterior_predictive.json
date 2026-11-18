@@ -1,0 +1,282 @@
+{
+  "schema": "darkmattersim-figure-v1",
+  "created_utc": "2026-11-04T19:03:49.018830+00:00",
+  "title": "Observed and replicated covariance-weighted discrepancies \u2014 ORIGINAL\nINFERENCE SCOPE",
+  "axes": [
+    {
+      "title": "Observed and replicated covariance-weighted discrepancies \u2014 ORIGINAL\nINFERENCE SCOPE",
+      "x_label": "x_replication [dimensionless]",
+      "y_label": "y_replication [dimensionless]",
+      "role": "plot",
+      "has_data": true
+    }
+  ],
+  "font_family": "STIXGeneral",
+  "style": "journal",
+  "layout": "double_column",
+  "formats": [
+    "png",
+    "pdf",
+    "svg"
+  ],
+  "png_dpi": 160,
+  "figure_size_inches": [
+    7.2,
+    2.88
+  ],
+  "figure_facecolor_rgba": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "layout_diagnostics": {
+    "canvas_inches": [
+      7.2,
+      2.88
+    ],
+    "export_bbox_inches": [
+      0.00666999999999994,
+      0.006669999999999995,
+      7.193330000000001,
+      2.8733299999999997
+    ],
+    "export_padding_inches": 0.035,
+    "tolerance_inches": 0.015,
+    "visible_text_outside_canvas_count": 0,
+    "visible_text_outside_canvas": []
+  },
+  "scientific_metadata": {
+    "family": "inference",
+    "variant": "posterior_predictive",
+    "recipe": {
+      "figure_id": "native-posterior_predictive",
+      "family": "inference",
+      "variant": "posterior_predictive",
+      "title": "posterior predictive",
+      "science_status": "NOT_ACCEPTED",
+      "epoch": {
+        "meaning": "Original source observation/training/heldout epochs and lineage"
+      },
+      "panels": [
+        {
+          "panel_id": "replication",
+          "title": "Observed and replicated covariance-weighted discrepancies",
+          "quality_status": "ORIGINAL_INFERENCE_SCOPE",
+          "selection": "Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.",
+          "xlabel": "x_replication [dimensionless]",
+          "ylabel": "y_replication [dimensionless]",
+          "x_units": "dimensionless",
+          "y_units": "dimensionless",
+          "series": [
+            {
+              "source": "measurement",
+              "kind": "scatter",
+              "x": "x_replication",
+              "y": "y_replication",
+              "label": "Observed and replicated covariance-weighted discrepancies",
+              "marker_size": 8
+            }
+          ]
+        }
+      ]
+    },
+    "selections": [
+      {
+        "panel": "replication",
+        "counts": [
+          {
+            "label": "Observed and replicated covariance-weighted discrepancies",
+            "supported": 8,
+            "masked": 0
+          }
+        ],
+        "selection": "Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.",
+        "quality_status": "ORIGINAL_INFERENCE_SCOPE"
+      }
+    ],
+    "unit_source": "explicit physical source-array recipe",
+    "source_hashes": {
+      "/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json": "55fe2841edb82f8a7e681df81dd8120fec060b980e2ec4fb0d5306d53dde0f93",
+      "/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json.data/arrays.npz": "fecafbc3603fcaf1a6cbf0e1e942581377c788977ed81ce76ba5e6615455ce12"
+    },
+    "physical_array_contract": {
+      "schema": "darkmattersim-data-contract-v1",
+      "container": "pickle-free NPZ",
+      "path": "native-posterior_predictive.physical_arrays.npz",
+      "sha256": "6e4c733b0162413b54a0d5646cfc94e2151917764ebe4fb57d84c7cf15450a49",
+      "datasets": {
+        "replication__series_000_x": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "dimensionless",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[8]",
+          "dtype": "float64",
+          "payload_sha256": "a6937f8715cfa34c803fecb095b379f69dcb2167ece4db9f9483c4a9f4a1b098",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "replication__series_000_x",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "PRODUCER_DECLARED",
+          "epoch_json": "{\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": {\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}, \"family\": \"inference\", \"figure_id\": \"native-posterior_predictive\", \"panels\": [{\"panel_id\": \"replication\", \"quality_status\": \"ORIGINAL_INFERENCE_SCOPE\", \"selection\": \"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.\", \"series\": [{\"kind\": \"scatter\", \"label\": \"Observed and replicated covariance-weighted discrepancies\", \"marker_size\": 8, \"source\": \"measurement\", \"x\": \"x_replication\", \"y\": \"y_replication\"}], \"title\": \"Observed and replicated covariance-weighted discrepancies\", \"x_units\": \"dimensionless\", \"xlabel\": \"x_replication [dimensionless]\", \"y_units\": \"dimensionless\", \"ylabel\": \"y_replication [dimensionless]\"}], \"science_status\": \"NOT_ACCEPTED\", \"title\": \"posterior predictive\", \"variant\": \"posterior_predictive\"}, \"sources\": {\"measurement\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json\": \"55fe2841edb82f8a7e681df81dd8120fec060b980e2ec4fb0d5306d53dde0f93\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json.data/arrays.npz\": \"fecafbc3603fcaf1a6cbf0e1e942581377c788977ed81ce76ba5e6615455ce12\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        },
+        "replication__series_000_y": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "dimensionless",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[8]",
+          "dtype": "float64",
+          "payload_sha256": "58fb9cf558fbeec1f381c1c2206817532e9e156c803057aa3132c5bbf2733d8a",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "replication__series_000_y",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "PRODUCER_DECLARED",
+          "epoch_json": "{\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": {\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}, \"family\": \"inference\", \"figure_id\": \"native-posterior_predictive\", \"panels\": [{\"panel_id\": \"replication\", \"quality_status\": \"ORIGINAL_INFERENCE_SCOPE\", \"selection\": \"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.\", \"series\": [{\"kind\": \"scatter\", \"label\": \"Observed and replicated covariance-weighted discrepancies\", \"marker_size\": 8, \"source\": \"measurement\", \"x\": \"x_replication\", \"y\": \"y_replication\"}], \"title\": \"Observed and replicated covariance-weighted discrepancies\", \"x_units\": \"dimensionless\", \"xlabel\": \"x_replication [dimensionless]\", \"y_units\": \"dimensionless\", \"ylabel\": \"y_replication [dimensionless]\"}], \"science_status\": \"NOT_ACCEPTED\", \"title\": \"posterior predictive\", \"variant\": \"posterior_predictive\"}, \"sources\": {\"measurement\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json\": \"55fe2841edb82f8a7e681df81dd8120fec060b980e2ec4fb0d5306d53dde0f93\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json.data/arrays.npz\": \"fecafbc3603fcaf1a6cbf0e1e942581377c788977ed81ce76ba5e6615455ce12\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        },
+        "replication__series_000_supported": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "dimensionless",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[8]",
+          "dtype": "bool",
+          "payload_sha256": "ea1003661b53c5804341c5d87f9dc90aa9aa8d437e373a32c6a776d1ba28ab43",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "replication__series_000_supported",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "PRODUCER_DECLARED",
+          "epoch_json": "{\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": {\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}, \"family\": \"inference\", \"figure_id\": \"native-posterior_predictive\", \"panels\": [{\"panel_id\": \"replication\", \"quality_status\": \"ORIGINAL_INFERENCE_SCOPE\", \"selection\": \"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.\", \"series\": [{\"kind\": \"scatter\", \"label\": \"Observed and replicated covariance-weighted discrepancies\", \"marker_size\": 8, \"source\": \"measurement\", \"x\": \"x_replication\", \"y\": \"y_replication\"}], \"title\": \"Observed and replicated covariance-weighted discrepancies\", \"x_units\": \"dimensionless\", \"xlabel\": \"x_replication [dimensionless]\", \"y_units\": \"dimensionless\", \"ylabel\": \"y_replication [dimensionless]\"}], \"science_status\": \"NOT_ACCEPTED\", \"title\": \"posterior predictive\", \"variant\": \"posterior_predictive\"}, \"sources\": {\"measurement\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json\": \"55fe2841edb82f8a7e681df81dd8120fec060b980e2ec4fb0d5306d53dde0f93\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json.data/arrays.npz\": \"fecafbc3603fcaf1a6cbf0e1e942581377c788977ed81ce76ba5e6615455ce12\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        }
+      }
+    },
+    "science_status": "NOT_ACCEPTED",
+    "epoch": {
+      "meaning": "Original source observation/training/heldout epochs and lineage"
+    }
+  },
+  "plot_data": "native-posterior_predictive.plotdata.npz",
+  "plot_data_contract": {
+    "schema": "darkmattersim-data-contract-v1",
+    "container": "pickle-free NPZ",
+    "path": "native-posterior_predictive.plotdata.npz",
+    "sha256": "9343669ebdacb12afa505e0b71a1e9c917a3f8277dd55d27f91b73f3e5e93c50",
+    "datasets": {
+      "axis_0_collection_0_offsets": {
+        "data_contract_schema": "darkmattersim-data-contract-v1",
+        "units": "mixed axis geometry; {'x': 'dimensionless', 'y': 'dimensionless', 'z': 'dimensionless', 'color': 'dimensionless'}",
+        "missing_policy": "Masked or nonfinite artist values are preserved without interpolation",
+        "shape_json": "[8, 2]",
+        "dtype": "float64",
+        "payload_sha256": "dd6bbdbebb66f5b1c542a4d4595e29cdda829d5d973745ad1cb5cc4f46a419b9",
+        "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+        "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+        "quantity_definition_status": "PRODUCER_DECLARED",
+        "quantity_definition": "drawn artist axis_0_collection_0_offsets",
+        "quality_status": "NOT_ACCEPTED",
+        "epoch_status": "PRODUCER_DECLARED",
+        "epoch_json": "{\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}",
+        "provenance_status": "PRODUCER_DECLARED",
+        "provenance_json": "{\"algorithm_sha256\": \"d9009f2f2b943ebabcd056fcd15364a2827010afd4a9a39cdf280d8197663485\", \"scientific_metadata\": {\"epoch\": {\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}, \"family\": \"inference\", \"physical_array_contract\": {\"container\": \"pickle-free NPZ\", \"datasets\": {\"replication__series_000_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_json\": \"{\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"ea1003661b53c5804341c5d87f9dc90aa9aa8d437e373a32c6a776d1ba28ab43\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}, \\\"family\\\": \\\"inference\\\", \\\"figure_id\\\": \\\"native-posterior_predictive\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"replication\\\", \\\"quality_status\\\": \\\"ORIGINAL_INFERENCE_SCOPE\\\", \\\"selection\\\": \\\"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Observed and replicated covariance-weighted discrepancies\\\", \\\"marker_size\\\": 8, \\\"source\\\": \\\"measurement\\\", \\\"x\\\": \\\"x_replication\\\", \\\"y\\\": \\\"y_replication\\\"}], \\\"title\\\": \\\"Observed and replicated covariance-weighted discrepancies\\\", \\\"x_units\\\": \\\"dimensionless\\\", \\\"xlabel\\\": \\\"x_replication [dimensionless]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"y_replication [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"posterior predictive\\\", \\\"variant\\\": \\\"posterior_predictive\\\"}, \\\"sources\\\": {\\\"measurement\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json\\\": \\\"55fe2841edb82f8a7e681df81dd8120fec060b980e2ec4fb0d5306d53dde0f93\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json.data/arrays.npz\\\": \\\"fecafbc3603fcaf1a6cbf0e1e942581377c788977ed81ce76ba5e6615455ce12\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"replication__series_000_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[8]\", \"units\": \"dimensionless\"}, \"replication__series_000_x\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_json\": \"{\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"a6937f8715cfa34c803fecb095b379f69dcb2167ece4db9f9483c4a9f4a1b098\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}, \\\"family\\\": \\\"inference\\\", \\\"figure_id\\\": \\\"native-posterior_predictive\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"replication\\\", \\\"quality_status\\\": \\\"ORIGINAL_INFERENCE_SCOPE\\\", \\\"selection\\\": \\\"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Observed and replicated covariance-weighted discrepancies\\\", \\\"marker_size\\\": 8, \\\"source\\\": \\\"measurement\\\", \\\"x\\\": \\\"x_replication\\\", \\\"y\\\": \\\"y_replication\\\"}], \\\"title\\\": \\\"Observed and replicated covariance-weighted discrepancies\\\", \\\"x_units\\\": \\\"dimensionless\\\", \\\"xlabel\\\": \\\"x_replication [dimensionless]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"y_replication [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"posterior predictive\\\", \\\"variant\\\": \\\"posterior_predictive\\\"}, \\\"sources\\\": {\\\"measurement\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json\\\": \\\"55fe2841edb82f8a7e681df81dd8120fec060b980e2ec4fb0d5306d53dde0f93\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json.data/arrays.npz\\\": \\\"fecafbc3603fcaf1a6cbf0e1e942581377c788977ed81ce76ba5e6615455ce12\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"replication__series_000_x\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[8]\", \"units\": \"dimensionless\"}, \"replication__series_000_y\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_json\": \"{\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"58fb9cf558fbeec1f381c1c2206817532e9e156c803057aa3132c5bbf2733d8a\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}, \\\"family\\\": \\\"inference\\\", \\\"figure_id\\\": \\\"native-posterior_predictive\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"replication\\\", \\\"quality_status\\\": \\\"ORIGINAL_INFERENCE_SCOPE\\\", \\\"selection\\\": \\\"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Observed and replicated covariance-weighted discrepancies\\\", \\\"marker_size\\\": 8, \\\"source\\\": \\\"measurement\\\", \\\"x\\\": \\\"x_replication\\\", \\\"y\\\": \\\"y_replication\\\"}], \\\"title\\\": \\\"Observed and replicated covariance-weighted discrepancies\\\", \\\"x_units\\\": \\\"dimensionless\\\", \\\"xlabel\\\": \\\"x_replication [dimensionless]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"y_replication [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"posterior predictive\\\", \\\"variant\\\": \\\"posterior_predictive\\\"}, \\\"sources\\\": {\\\"measurement\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json\\\": \\\"55fe2841edb82f8a7e681df81dd8120fec060b980e2ec4fb0d5306d53dde0f93\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json.data/arrays.npz\\\": \\\"fecafbc3603fcaf1a6cbf0e1e942581377c788977ed81ce76ba5e6615455ce12\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"replication__series_000_y\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[8]\", \"units\": \"dimensionless\"}}, \"path\": \"native-posterior_predictive.physical_arrays.npz\", \"schema\": \"darkmattersim-data-contract-v1\", \"sha256\": \"6e4c733b0162413b54a0d5646cfc94e2151917764ebe4fb57d84c7cf15450a49\"}, \"recipe\": {\"epoch\": {\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}, \"family\": \"inference\", \"figure_id\": \"native-posterior_predictive\", \"panels\": [{\"panel_id\": \"replication\", \"quality_status\": \"ORIGINAL_INFERENCE_SCOPE\", \"selection\": \"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.\", \"series\": [{\"kind\": \"scatter\", \"label\": \"Observed and replicated covariance-weighted discrepancies\", \"marker_size\": 8, \"source\": \"measurement\", \"x\": \"x_replication\", \"y\": \"y_replication\"}], \"title\": \"Observed and replicated covariance-weighted discrepancies\", \"x_units\": \"dimensionless\", \"xlabel\": \"x_replication [dimensionless]\", \"y_units\": \"dimensionless\", \"ylabel\": \"y_replication [dimensionless]\"}], \"science_status\": \"NOT_ACCEPTED\", \"title\": \"posterior predictive\", \"variant\": \"posterior_predictive\"}, \"science_status\": \"NOT_ACCEPTED\", \"selections\": [{\"counts\": [{\"label\": \"Observed and replicated covariance-weighted discrepancies\", \"masked\": 0, \"supported\": 8}], \"panel\": \"replication\", \"quality_status\": \"ORIGINAL_INFERENCE_SCOPE\", \"selection\": \"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.\"}], \"source_hashes\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json\": \"55fe2841edb82f8a7e681df81dd8120fec060b980e2ec4fb0d5306d53dde0f93\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json.data/arrays.npz\": \"fecafbc3603fcaf1a6cbf0e1e942581377c788977ed81ce76ba5e6615455ce12\"}, \"unit_source\": \"explicit physical source-array recipe\", \"variant\": \"posterior_predictive\"}}",
+        "ancestry_status": "UNDECLARED",
+        "coordinates_status": "UNDECLARED",
+        "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+        "annotations": {
+          "scope": "Display geometry; source measurement definitions remain in scientific_metadata"
+        }
+      },
+      "axis_0_collection_0_offsets_mask": {
+        "data_contract_schema": "darkmattersim-data-contract-v1",
+        "units": "dimensionless",
+        "missing_policy": "Masked or nonfinite artist values are preserved without interpolation",
+        "shape_json": "[8, 2]",
+        "dtype": "bool",
+        "payload_sha256": "84610d7fcca7bf2047b3fd78de488a7c3991d7fc2d48f13a43ab3f8a323ef1bf",
+        "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+        "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+        "quantity_definition_status": "PRODUCER_DECLARED",
+        "quantity_definition": "artist availability mask",
+        "quality_status": "NOT_ACCEPTED",
+        "epoch_status": "PRODUCER_DECLARED",
+        "epoch_json": "{\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}",
+        "provenance_status": "PRODUCER_DECLARED",
+        "provenance_json": "{\"algorithm_sha256\": \"d9009f2f2b943ebabcd056fcd15364a2827010afd4a9a39cdf280d8197663485\", \"scientific_metadata\": {\"epoch\": {\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}, \"family\": \"inference\", \"physical_array_contract\": {\"container\": \"pickle-free NPZ\", \"datasets\": {\"replication__series_000_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_json\": \"{\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"ea1003661b53c5804341c5d87f9dc90aa9aa8d437e373a32c6a776d1ba28ab43\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}, \\\"family\\\": \\\"inference\\\", \\\"figure_id\\\": \\\"native-posterior_predictive\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"replication\\\", \\\"quality_status\\\": \\\"ORIGINAL_INFERENCE_SCOPE\\\", \\\"selection\\\": \\\"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Observed and replicated covariance-weighted discrepancies\\\", \\\"marker_size\\\": 8, \\\"source\\\": \\\"measurement\\\", \\\"x\\\": \\\"x_replication\\\", \\\"y\\\": \\\"y_replication\\\"}], \\\"title\\\": \\\"Observed and replicated covariance-weighted discrepancies\\\", \\\"x_units\\\": \\\"dimensionless\\\", \\\"xlabel\\\": \\\"x_replication [dimensionless]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"y_replication [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"posterior predictive\\\", \\\"variant\\\": \\\"posterior_predictive\\\"}, \\\"sources\\\": {\\\"measurement\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json\\\": \\\"55fe2841edb82f8a7e681df81dd8120fec060b980e2ec4fb0d5306d53dde0f93\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json.data/arrays.npz\\\": \\\"fecafbc3603fcaf1a6cbf0e1e942581377c788977ed81ce76ba5e6615455ce12\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"replication__series_000_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[8]\", \"units\": \"dimensionless\"}, \"replication__series_000_x\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_json\": \"{\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"a6937f8715cfa34c803fecb095b379f69dcb2167ece4db9f9483c4a9f4a1b098\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}, \\\"family\\\": \\\"inference\\\", \\\"figure_id\\\": \\\"native-posterior_predictive\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"replication\\\", \\\"quality_status\\\": \\\"ORIGINAL_INFERENCE_SCOPE\\\", \\\"selection\\\": \\\"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Observed and replicated covariance-weighted discrepancies\\\", \\\"marker_size\\\": 8, \\\"source\\\": \\\"measurement\\\", \\\"x\\\": \\\"x_replication\\\", \\\"y\\\": \\\"y_replication\\\"}], \\\"title\\\": \\\"Observed and replicated covariance-weighted discrepancies\\\", \\\"x_units\\\": \\\"dimensionless\\\", \\\"xlabel\\\": \\\"x_replication [dimensionless]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"y_replication [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"posterior predictive\\\", \\\"variant\\\": \\\"posterior_predictive\\\"}, \\\"sources\\\": {\\\"measurement\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json\\\": \\\"55fe2841edb82f8a7e681df81dd8120fec060b980e2ec4fb0d5306d53dde0f93\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json.data/arrays.npz\\\": \\\"fecafbc3603fcaf1a6cbf0e1e942581377c788977ed81ce76ba5e6615455ce12\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"replication__series_000_x\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[8]\", \"units\": \"dimensionless\"}, \"replication__series_000_y\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_json\": \"{\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"58fb9cf558fbeec1f381c1c2206817532e9e156c803057aa3132c5bbf2733d8a\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}, \\\"family\\\": \\\"inference\\\", \\\"figure_id\\\": \\\"native-posterior_predictive\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"replication\\\", \\\"quality_status\\\": \\\"ORIGINAL_INFERENCE_SCOPE\\\", \\\"selection\\\": \\\"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Observed and replicated covariance-weighted discrepancies\\\", \\\"marker_size\\\": 8, \\\"source\\\": \\\"measurement\\\", \\\"x\\\": \\\"x_replication\\\", \\\"y\\\": \\\"y_replication\\\"}], \\\"title\\\": \\\"Observed and replicated covariance-weighted discrepancies\\\", \\\"x_units\\\": \\\"dimensionless\\\", \\\"xlabel\\\": \\\"x_replication [dimensionless]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"y_replication [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"posterior predictive\\\", \\\"variant\\\": \\\"posterior_predictive\\\"}, \\\"sources\\\": {\\\"measurement\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json\\\": \\\"55fe2841edb82f8a7e681df81dd8120fec060b980e2ec4fb0d5306d53dde0f93\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json.data/arrays.npz\\\": \\\"fecafbc3603fcaf1a6cbf0e1e942581377c788977ed81ce76ba5e6615455ce12\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"replication__series_000_y\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[8]\", \"units\": \"dimensionless\"}}, \"path\": \"native-posterior_predictive.physical_arrays.npz\", \"schema\": \"darkmattersim-data-contract-v1\", \"sha256\": \"6e4c733b0162413b54a0d5646cfc94e2151917764ebe4fb57d84c7cf15450a49\"}, \"recipe\": {\"epoch\": {\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}, \"family\": \"inference\", \"figure_id\": \"native-posterior_predictive\", \"panels\": [{\"panel_id\": \"replication\", \"quality_status\": \"ORIGINAL_INFERENCE_SCOPE\", \"selection\": \"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.\", \"series\": [{\"kind\": \"scatter\", \"label\": \"Observed and replicated covariance-weighted discrepancies\", \"marker_size\": 8, \"source\": \"measurement\", \"x\": \"x_replication\", \"y\": \"y_replication\"}], \"title\": \"Observed and replicated covariance-weighted discrepancies\", \"x_units\": \"dimensionless\", \"xlabel\": \"x_replication [dimensionless]\", \"y_units\": \"dimensionless\", \"ylabel\": \"y_replication [dimensionless]\"}], \"science_status\": \"NOT_ACCEPTED\", \"title\": \"posterior predictive\", \"variant\": \"posterior_predictive\"}, \"science_status\": \"NOT_ACCEPTED\", \"selections\": [{\"counts\": [{\"label\": \"Observed and replicated covariance-weighted discrepancies\", \"masked\": 0, \"supported\": 8}], \"panel\": \"replication\", \"quality_status\": \"ORIGINAL_INFERENCE_SCOPE\", \"selection\": \"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.\"}], \"source_hashes\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json\": \"55fe2841edb82f8a7e681df81dd8120fec060b980e2ec4fb0d5306d53dde0f93\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json.data/arrays.npz\": \"fecafbc3603fcaf1a6cbf0e1e942581377c788977ed81ce76ba5e6615455ce12\"}, \"unit_source\": \"explicit physical source-array recipe\", \"variant\": \"posterior_predictive\"}}",
+        "ancestry_status": "UNDECLARED",
+        "coordinates_status": "UNDECLARED",
+        "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+        "annotations": {
+          "scope": "Display geometry; source measurement definitions remain in scientific_metadata"
+        }
+      },
+      "axis_0_collection_0_path_0": {
+        "data_contract_schema": "darkmattersim-data-contract-v1",
+        "units": "display marker geometry; no physical units",
+        "missing_policy": "Masked or nonfinite artist values are preserved without interpolation",
+        "shape_json": "[26, 2]",
+        "dtype": "float64",
+        "payload_sha256": "1e959cc0556523bad1d124d60e04132547cf20cb2b7082914e4671313d5e6cba",
+        "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+        "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+        "quantity_definition_status": "PRODUCER_DECLARED",
+        "quantity_definition": "drawn artist axis_0_collection_0_path_0",
+        "quality_status": "NOT_ACCEPTED",
+        "epoch_status": "PRODUCER_DECLARED",
+        "epoch_json": "{\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}",
+        "provenance_status": "PRODUCER_DECLARED",
+        "provenance_json": "{\"algorithm_sha256\": \"d9009f2f2b943ebabcd056fcd15364a2827010afd4a9a39cdf280d8197663485\", \"scientific_metadata\": {\"epoch\": {\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}, \"family\": \"inference\", \"physical_array_contract\": {\"container\": \"pickle-free NPZ\", \"datasets\": {\"replication__series_000_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_json\": \"{\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"ea1003661b53c5804341c5d87f9dc90aa9aa8d437e373a32c6a776d1ba28ab43\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}, \\\"family\\\": \\\"inference\\\", \\\"figure_id\\\": \\\"native-posterior_predictive\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"replication\\\", \\\"quality_status\\\": \\\"ORIGINAL_INFERENCE_SCOPE\\\", \\\"selection\\\": \\\"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Observed and replicated covariance-weighted discrepancies\\\", \\\"marker_size\\\": 8, \\\"source\\\": \\\"measurement\\\", \\\"x\\\": \\\"x_replication\\\", \\\"y\\\": \\\"y_replication\\\"}], \\\"title\\\": \\\"Observed and replicated covariance-weighted discrepancies\\\", \\\"x_units\\\": \\\"dimensionless\\\", \\\"xlabel\\\": \\\"x_replication [dimensionless]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"y_replication [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"posterior predictive\\\", \\\"variant\\\": \\\"posterior_predictive\\\"}, \\\"sources\\\": {\\\"measurement\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json\\\": \\\"55fe2841edb82f8a7e681df81dd8120fec060b980e2ec4fb0d5306d53dde0f93\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json.data/arrays.npz\\\": \\\"fecafbc3603fcaf1a6cbf0e1e942581377c788977ed81ce76ba5e6615455ce12\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"replication__series_000_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[8]\", \"units\": \"dimensionless\"}, \"replication__series_000_x\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_json\": \"{\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"a6937f8715cfa34c803fecb095b379f69dcb2167ece4db9f9483c4a9f4a1b098\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}, \\\"family\\\": \\\"inference\\\", \\\"figure_id\\\": \\\"native-posterior_predictive\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"replication\\\", \\\"quality_status\\\": \\\"ORIGINAL_INFERENCE_SCOPE\\\", \\\"selection\\\": \\\"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Observed and replicated covariance-weighted discrepancies\\\", \\\"marker_size\\\": 8, \\\"source\\\": \\\"measurement\\\", \\\"x\\\": \\\"x_replication\\\", \\\"y\\\": \\\"y_replication\\\"}], \\\"title\\\": \\\"Observed and replicated covariance-weighted discrepancies\\\", \\\"x_units\\\": \\\"dimensionless\\\", \\\"xlabel\\\": \\\"x_replication [dimensionless]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"y_replication [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"posterior predictive\\\", \\\"variant\\\": \\\"posterior_predictive\\\"}, \\\"sources\\\": {\\\"measurement\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json\\\": \\\"55fe2841edb82f8a7e681df81dd8120fec060b980e2ec4fb0d5306d53dde0f93\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json.data/arrays.npz\\\": \\\"fecafbc3603fcaf1a6cbf0e1e942581377c788977ed81ce76ba5e6615455ce12\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"replication__series_000_x\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[8]\", \"units\": \"dimensionless\"}, \"replication__series_000_y\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_json\": \"{\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"58fb9cf558fbeec1f381c1c2206817532e9e156c803057aa3132c5bbf2733d8a\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}, \\\"family\\\": \\\"inference\\\", \\\"figure_id\\\": \\\"native-posterior_predictive\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"replication\\\", \\\"quality_status\\\": \\\"ORIGINAL_INFERENCE_SCOPE\\\", \\\"selection\\\": \\\"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Observed and replicated covariance-weighted discrepancies\\\", \\\"marker_size\\\": 8, \\\"source\\\": \\\"measurement\\\", \\\"x\\\": \\\"x_replication\\\", \\\"y\\\": \\\"y_replication\\\"}], \\\"title\\\": \\\"Observed and replicated covariance-weighted discrepancies\\\", \\\"x_units\\\": \\\"dimensionless\\\", \\\"xlabel\\\": \\\"x_replication [dimensionless]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"y_replication [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"posterior predictive\\\", \\\"variant\\\": \\\"posterior_predictive\\\"}, \\\"sources\\\": {\\\"measurement\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json\\\": \\\"55fe2841edb82f8a7e681df81dd8120fec060b980e2ec4fb0d5306d53dde0f93\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json.data/arrays.npz\\\": \\\"fecafbc3603fcaf1a6cbf0e1e942581377c788977ed81ce76ba5e6615455ce12\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"replication__series_000_y\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[8]\", \"units\": \"dimensionless\"}}, \"path\": \"native-posterior_predictive.physical_arrays.npz\", \"schema\": \"darkmattersim-data-contract-v1\", \"sha256\": \"6e4c733b0162413b54a0d5646cfc94e2151917764ebe4fb57d84c7cf15450a49\"}, \"recipe\": {\"epoch\": {\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}, \"family\": \"inference\", \"figure_id\": \"native-posterior_predictive\", \"panels\": [{\"panel_id\": \"replication\", \"quality_status\": \"ORIGINAL_INFERENCE_SCOPE\", \"selection\": \"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.\", \"series\": [{\"kind\": \"scatter\", \"label\": \"Observed and replicated covariance-weighted discrepancies\", \"marker_size\": 8, \"source\": \"measurement\", \"x\": \"x_replication\", \"y\": \"y_replication\"}], \"title\": \"Observed and replicated covariance-weighted discrepancies\", \"x_units\": \"dimensionless\", \"xlabel\": \"x_replication [dimensionless]\", \"y_units\": \"dimensionless\", \"ylabel\": \"y_replication [dimensionless]\"}], \"science_status\": \"NOT_ACCEPTED\", \"title\": \"posterior predictive\", \"variant\": \"posterior_predictive\"}, \"science_status\": \"NOT_ACCEPTED\", \"selections\": [{\"counts\": [{\"label\": \"Observed and replicated covariance-weighted discrepancies\", \"masked\": 0, \"supported\": 8}], \"panel\": \"replication\", \"quality_status\": \"ORIGINAL_INFERENCE_SCOPE\", \"selection\": \"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Plot displays discrepancies; original physical predictive means, replications and selected posterior sample rows remain in the source product.\"}], \"source_hashes\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json\": \"55fe2841edb82f8a7e681df81dd8120fec060b980e2ec4fb0d5306d53dde0f93\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-physical-stream-posterior_predictive/inference-measurements.json.data/arrays.npz\": \"fecafbc3603fcaf1a6cbf0e1e942581377c788977ed81ce76ba5e6615455ce12\"}, \"unit_source\": \"explicit physical source-array recipe\", \"variant\": \"posterior_predictive\"}}",
+        "ancestry_status": "UNDECLARED",
+        "coordinates_status": "UNDECLARED",
+        "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+        "annotations": {
+          "scope": "Display geometry; source measurement definitions remain in scientific_metadata"
+        }
+      }
+    }
+  },
+  "plot_data_scope": "Arrays actually drawn, including artist geometry and masks; physical measurement definitions remain in the source product",
+  "units_status": "Caller metadata only; axis labels are preserved, never interpreted as a verified unit contract",
+  "science_acceptance": "NOT_ACCEPTED",
+  "artifacts": [
+    {
+      "path": "native-posterior_predictive.pdf",
+      "sha256": "c43d38c83bec9b926f9ac2017f79284c0556226f8dea6aab84f98d39b363262a",
+      "size_bytes": 27001
+    },
+    {
+      "path": "native-posterior_predictive.plotdata.npz",
+      "sha256": "9343669ebdacb12afa505e0b71a1e9c917a3f8277dd55d27f91b73f3e5e93c50",
+      "size_bytes": 957
+    },
+    {
+      "path": "native-posterior_predictive.png",
+      "sha256": "299fb8dbd0fb60b24a5b0d1c9d674794573c011169a5e49c534bcf2c365a41dd",
+      "size_bytes": 58616
+    },
+    {
+      "path": "native-posterior_predictive.svg",
+      "sha256": "aa89c550d3257b151d9746e4cb7d57ba1dbc692555d34c647ea3dc03d14b5206",
+      "size_bytes": 24955
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "schema": "research2-standard-product-reference-examples-v1",
+  "examples": {
+    "sealed_numeric_product": {
+      "science_product": "membership_at_z2"
+    },
+    "owned_run_directory": {
+      "science_product": "native_evolution",
+      "as": "path"
+    },
+    "owned_native_event_chunk": {
+      "science_product": "native_evolution",
+      "as": "path",
+      "relative_path": "sidm-events/REPLACE_ACTUAL_DECLARED_EVENT_CHUNK.hdf5"
+    },
+    "original_native_stage_receipt": {
+      "science_product": "native_evolution",
+      "as": "receipt"
+    },
+    "measured_actual_elapsed_time": {
+      "science_product": "membership_at_z2",
+      "field": [
+        "elapsed_time_gyr"
+      ]
+    },
+    "exact_measured_product_payload": {
+      "science_product": "membership_at_z2",
+      "as": "json"
+    }
+  },
+  "semantics": "References create prerequisite closure and retain complete artifact/source binding; placeholders are explicit input requirements, not generated evidence."
+}

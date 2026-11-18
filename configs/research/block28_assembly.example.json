@@ -1,0 +1,68 @@
+{
+  "schema": "stream-campaign-v1",
+  "experiment_id": "choose-native-sources-and-science-controls",
+  "notice": "Authoring template; paths and numerical controls are illustrative, not verified native sources or accepted physics.",
+  "resources": {
+    "memory_gib": 4.0,
+    "maximum_particles": 4096,
+    "maximum_stages": 32
+  },
+  "stages": [
+    {
+      "stage_id": "assembly",
+      "kind": "assembly_history",
+      "depends_on": [],
+      "inputs": {
+        "native_graph_directory": "CHOOSE_NATIVE_GRAPH_DIRECTORY"
+      },
+      "parameters": {
+        "target": [
+          "CHOOSE_HALO_NAMESPACE",
+          1,
+          4
+        ],
+        "branch": {
+          "epoch_time_myr": {
+            "0": 100.0,
+            "1": 200.0,
+            "2": 300.0,
+            "3": 400.0,
+            "4": 500.0
+          },
+          "epoch_scale_factor": {
+            "0": 0.1,
+            "1": 0.2,
+            "2": 0.3,
+            "3": 0.4,
+            "4": 0.5
+          },
+          "maximum_interval_myr": 120.0,
+          "maximum_branch_epochs": 1024,
+          "main_branch_transfer_margin_msun": 0.0
+        },
+        "events": {
+          "formation_mass_reference": "final",
+          "minimum_spin_magnitude_kpc_kms": 1e-06,
+          "quenching_ssfr_year_inverse": 1e-11,
+          "stripping_peak_mass_fraction": 0.5,
+          "spin_flip_angle_rad": 1.5707963267948966
+        },
+        "accretion_fit": {
+          "minimum_epochs": 5,
+          "log_mass_error": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ],
+          "minimum_segment_epochs": 2,
+          "maximum_candidate_knots": 128,
+          "minimum_bic_improvement": 6.0,
+          "minimum_slope_drop": 0.5,
+          "maximum_reduced_chi2": 2.0
+        }
+      }
+    }
+  ]
+}

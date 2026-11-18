@@ -1,0 +1,16 @@
+# Independent homogeneous frequent-scattering reference; no gravity or gas physics.
+PERIODIC
+NOGRAVITY
+HAVE_HDF5
+LONGIDS
+DOUBLEPRECISION=1
+mSIDM
+fSIDM
+mSIDM_DIFFERENTIAL_CROSS_SECTION
+DCS_USE_ZSLICE
+
+# Bounded native pair-exchange node lists.
+NODELISTLENGTH_default=8
+NODELISTLENGTH_PXP=8
+INPUT_IN_DOUBLEPRECISION
+OUTPUT_IN_DOUBLEPRECISION

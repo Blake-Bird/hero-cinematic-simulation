@@ -1,0 +1,44 @@
+input:
+  dir: ./test                                                                   # input directory to use as prefix
+  data_fn: test_data.fits                                                       # data fits and hdf5 files are accepted
+  randoms_fn: test_randoms.fits                                                 # randoms fits and hdf5 files are accepted
+  rdz: [RA, DEC, Z_RSD]                                                         # data columns to get positions from
+  rdz_randoms: [ra, dec, z]                                                     # random columns to get positions from
+  position_type: rdz                                                            # column position type (rdz, xyz, pos), required
+  weights: ${WEIGHT}                                                            # formula to get weight
+  weights_randoms:                                                              # random columns to get weights from
+  mask: (${RA}>0.) & (${RA}<30.) & (${DEC}>0.) & (${DEC}<30.)                   # mask for row selection
+  mask_randoms: (${RA}>0.) & (${RA}<30.) & (${DEC}>0.) & (${DEC}<30.)           # same for randoms (defaults to mask)
+
+output:
+  dir: ./test                                                                   # output directory to use as prefix
+  data_fn: data_rec_split.fits                                                  # fits and hdf5 files are accepted
+  randoms_fn: rand_rec_split.fits                                               # fits and hdf5 files are accepted
+  rdz_rec: [RA_REC, DEC_REC, Z_RSD_REC]                                         # column names for reconstructed RA/DEC/Z
+  xyz_rec: POSITION_REC                                                         # column name for reconstructed cartesian position
+  xyz: POSITION                                                                 # column name for input cartesian position
+  columns: [NZ]                                                                 # from input to keep on output file (if null or unprovided, keep them all)
+  columns_randoms: [nz]                                                         # from input to keep on output file (if null or unprovided, keep them all) (defaults to columns)
+
+algorithm:
+  name: MultiGridReconstruction                                                 # name of reconstruction algorithm (Julian's IterativeFFTReconstruction, Martin's MultiGridReconstruction)
+  convention: RecSym                                                            # RecSym = data and randoms shifted by 'disp+rsd', RecIso = randoms shifted by 'disp' only, RSD = data shifted by 'rsd', no shift on randoms
+  los: 'local'                                                                  # line-of-sight can be 'local' (default) or an axis ('x', 'y', 'z') or a 3-vector.
+  # other algorithm-related parameters
+
+delta:
+  smoothing_radius: 15                                                          # smoothing radius for reconstruction
+  selection_function: 'randoms'                                                 # selection function, either from 'randoms', or 'uniform' (no input randoms required)
+
+cosmology:
+  bias: 1.4                                                                     # galaxy bias
+  f: 0.87                                                                       # growth rate
+  fiducial: DESI                                                                # fiducial cosmology for rdz <=> cartesian position conversion
+
+mesh:
+  nmesh: 512                                                                    # mesh size (int or list of 3 ints)
+  boxsize:                                                                      # box size (floot or list of 3 floats)
+  boxcenter:                                                                    # box center
+  wrap: False                                                                   # whether to wrap positions using periodic boundary conditions over the box
+  dtype: f4                                                                     # mesh data-type for f4 (float32) or f8 (float64)
+  fft_plan: 'estimate'                                                          # FFT planning for FFTW engine

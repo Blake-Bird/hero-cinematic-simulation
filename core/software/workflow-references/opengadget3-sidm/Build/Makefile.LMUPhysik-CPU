@@ -1,0 +1,4 @@
+FFTW_INCL= -I/software/opt/el_9/x86_64/spack/2024.07/spack/opt/spack/linux-almalinux9-x86_64_v2/gcc-13.2.0/fftw-3.3.10-cnydzjwriywksrqwint6yy7bysflqbxs/include
+
+OPTIMIZE = -std=c++23 -g -O3 -fopenmp
+MPICHLIB =

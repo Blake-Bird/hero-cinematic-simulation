@@ -1,0 +1,19 @@
+{
+  "model_id": "explicit-mock-indicators",
+  "revision": "user-prescription-v1",
+  "magnitude_system": "AB",
+  "cepheid_absolute_magnitude": -5.9,
+  "cepheid_period_slope": -3.3,
+  "cepheid_metallicity_slope": -0.2,
+  "cepheid_scatter_mag": 0.08,
+  "trgb_absolute_magnitude": -4.05,
+  "trgb_color_slope": 0.2,
+  "trgb_scatter_mag": 0.05,
+  "sn_absolute_magnitude": -19.25,
+  "sn_stretch_slope": 0.14,
+  "sn_color_slope": 3.1,
+  "sn_mass_step_mag": -0.04,
+  "sn_scatter_mag": 0.1,
+  "metallicity_pivot": 8.9,
+  "trgb_color_pivot": 1.6
+}

@@ -1,0 +1,45 @@
+{
+  "request": {
+    "schema": "native-dm-wake-resolution-contrast-request-v1",
+    "resolution_pairs": [
+      {
+        "perturbed": {
+          "path": "REPLACE_WITH_COARSE_PERTURBED_WAKE.json",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "background": {
+          "path": "REPLACE_WITH_COARSE_BACKGROUND_WAKE.json",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      {
+        "perturbed": {
+          "path": "REPLACE_WITH_FINE_PERTURBED_WAKE.json",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "background": {
+          "path": "REPLACE_WITH_FINE_BACKGROUND_WAKE.json",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      {
+        "perturbed": {
+          "path": "REPLACE_WITH_FINER_PERTURBED_WAKE.json",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "background": {
+          "path": "REPLACE_WITH_FINER_BACKGROUND_WAKE.json",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      }
+    ],
+    "memory_gib": 4.0,
+    "maximum_resolution_levels": 8,
+    "maximum_reference_residual_cm_s2": 1e-10,
+    "probe_relative_velocity_km_s": [
+      100.0,
+      0.0,
+      0.0
+    ]
+  }
+}

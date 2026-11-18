@@ -1,0 +1,60 @@
+name: Tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    name: "py${{ matrix.python-version }} / ${{ matrix.os }}${{ matrix.with-options && ' / options' || '' }}"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.14"]
+        os: [ubuntu-latest]
+        with-options: [false]
+        include:
+          - os: macos-14
+            python-version: "3.13"
+            with-options: false
+          - os: ubuntu-latest
+            python-version: "3.11"
+            with-options: true
+    steps:
+      - name: Clone the repo
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          submodules: recursive
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+      - name: Set up Linux
+        run: |
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo apt-get update
+          sudo apt-get install -y gcc g++ gfortran
+        if: ${{ runner.os == 'Linux' }}
+      - name: Set up macOS-14
+        run: echo "FC=gfortran-13" >> "$GITHUB_ENV"
+        if: ${{ matrix.os == 'macos-14' }}
+      - name: Run simple test
+        run: uv run --extra test --python ${{ matrix.python-version }} tests/simple.py
+        env:
+          SPS_HOME: ${{ github.workspace }}/src/fsps/libfsps
+        if: ${{ !matrix.with-options }}
+      - name: Run tests
+        run: uv run --extra test --python ${{ matrix.python-version }} pytest -n 2 --durations=0 tests/tests.py
+        env:
+          SPS_HOME: ${{ github.workspace }}/src/fsps/libfsps
+        if: ${{ !matrix.with-options }}
+      - name: Run tests
+        run: uv run --extra test --python ${{ matrix.python-version }} tests/options.py
+        env:
+          SPS_HOME: ${{ github.workspace }}/src/fsps/libfsps
+          FFLAGS: "-DMIST=0 -DPADOVA=1 -DC3K_LR=0 -DMILES=1"
+        if: ${{ matrix.with-options }}

@@ -1,0 +1,57 @@
+{
+  "schema": "physical-target-workflow-recipe-v1",
+  "runtime_execution": "NONE",
+  "source_only_delivery": true,
+  "stage_kinds": [
+    "physical_target_support",
+    "physical_target_model_control",
+    "physical_target_measurement",
+    "physical_target_budget",
+    "physical_target_convergence"
+  ],
+  "dependency_chains": {
+    "first_cloud": [
+      "completed native hydro with H2/HD and molecular EOS",
+      "native halo center",
+      "physical_target_support",
+      "physical_target_measurement across mass/softening/timestep refinements",
+      "physical_target_budget without convergence",
+      "physical_target_convergence",
+      "physical_target_budget with current convergence"
+    ],
+    "bh_cusp": [
+      "completed native BH trajectories",
+      "raw physical_target_support per actual epoch",
+      "physical_target_model_control",
+      "theory-scoped physical_target_support at final epoch",
+      "physical_target_measurement across numerical axes",
+      "physical_target_budget",
+      "physical_target_convergence",
+      "physical_target_budget with current convergence"
+    ]
+  },
+  "dynamic_reference_example": {
+    "path": {
+      "stage": "raw_profile",
+      "artifact": "profile.json"
+    },
+    "sha256": {
+      "stage": "raw_profile",
+      "artifact": "profile.json",
+      "load": "sha256"
+    }
+  },
+  "convergence_metadata": [
+    "exact target namespace/ID",
+    "actual native epochs and profile radial bins",
+    "original native snapshot hashes and current model controls",
+    "measured native macro mass, force class and timestep",
+    "failed bins retained"
+  ],
+  "exclusions": [
+    "individual primordial stars/IMF",
+    "relativistic BH captures",
+    "unobserved formation history",
+    "global science acceptance from a resolution decision"
+  ]
+}

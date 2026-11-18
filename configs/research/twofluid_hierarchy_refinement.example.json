@@ -1,0 +1,33 @@
+{
+  "request": {
+    "schema": "twofluid-projection-refinement-request-v2",
+    "refinement_axis": "hierarchy",
+    "levels": [
+      {
+        "path": "REPLACE_WITH_NESTED_HIERARCHY_0_PROJECTION.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "path": "REPLACE_WITH_NESTED_HIERARCHY_1_PROJECTION.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "path": "REPLACE_WITH_NESTED_HIERARCHY_2_PROJECTION.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    ],
+    "maximum_levels": 8,
+    "maximum_particles": 1000000,
+    "chunk_rows": 4096,
+    "memory_gib": 16.0,
+    "mass_floor_msun": 1e-12,
+    "velocity_floor_km_s": 1e-06,
+    "maximum_mass_relative_error": 0.01,
+    "maximum_species_mass_relative_error": 0.01,
+    "maximum_position_error_mpc_h": 0.001,
+    "maximum_velocity_error_km_s": 0.1,
+    "maximum_momentum_relative_error": 0.01,
+    "maximum_adjacent_error_ratio": 1.0,
+    "maximum_cell_matching_work": 100000000
+  }
+}

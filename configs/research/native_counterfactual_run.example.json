@@ -1,0 +1,23 @@
+{
+  "request": {
+    "schema": "native-counterfactual-run-request-v1",
+    "intervention_ic": {
+      "path": "REPLACE_WITH_COMPLETED_COUNTERFACTUAL_IC_LINEAGE.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "mpi_launcher": {
+      "path": "REPLACE_WITH_PINNED_EXECUTABLE_MPI_LAUNCHER",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "mpi_ranks": 1,
+    "omp_threads": 1,
+    "memory_gib": 4.0,
+    "disk_gib": 32.0,
+    "wall_hours": 1.0,
+    "maximum_snapshot_bytes": 10737418240
+  },
+  "request_base": ".",
+  "native_stage_receipt": "REPLACE_WITH_ACTUAL_COMPLETED_PARENT_NATIVE_STAGE_RECEIPT.json",
+  "native_run_directory": "REPLACE_WITH_ACTUAL_PARENT_NATIVE_RUN",
+  "destination": "REPLACE_WITH_NEW_OWNED_RUN_DIRECTORY"
+}

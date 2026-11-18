@@ -1,0 +1,2903 @@
+{
+  "schema": "scientific-graph-producers-v1",
+  "variant_count": 102,
+  "entries": [
+    {
+      "family": "cosmology",
+      "variant": "input_power",
+      "producer_route": [
+        {
+          "module": "core.power",
+          "function": "export_linear_power"
+        }
+      ],
+      "input_contract": "Validated schema2 linear bundle with hash-verified original power payload, normalization, physical units and solver epoch; no evolved native run or paired covariance required.",
+      "required_measurement": "Input species/total spectra and normalization",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "cosmology",
+      "variant": "evolved_power",
+      "producer_route": [
+        {
+          "module": "core.power",
+          "function": "export_evolved_power"
+        }
+      ],
+      "input_contract": "Verified native analysis bundle with complete saved power, mode-count, error and estimator-policy datasets; source run and per-dataset epoch/units verified; dedicated exporter converts h-scaled k/P to physical Mpc units.",
+      "required_measurement": "Saved-epoch species/total spectra with assignment correction",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "cosmology",
+      "variant": "power_ratios",
+      "producer_route": [
+        {
+          "module": "core.power",
+          "function": "export_power_ensemble"
+        }
+      ],
+      "input_contract": "native-paired-power-ensemble-v1 request binding evolved spectra from independent parent realizations; matching epochs/grids/estimator policy; measured within-pair IC phase agreement and independent generation-design evidence; full joint covariance measured from realizations.",
+      "required_measurement": "Matched epoch, cosmology and bin masks for spectrum ratios",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "cosmology",
+      "variant": "transfer_comparison",
+      "producer_route": [
+        {
+          "module": "core.power",
+          "function": "export_linear_power"
+        }
+      ],
+      "input_contract": "Validated schema2 linear bundle with hash-verified original signed density/velocity transfer payloads, N-body gauge, species definitions and solver epoch; no evolved native run or paired covariance required.",
+      "required_measurement": "Signed density and velocity transfer columns on identical k grid",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "cosmology",
+      "variant": "matched_residuals",
+      "producer_route": [
+        {
+          "module": "core.power",
+          "function": "export_power_ensemble"
+        }
+      ],
+      "input_contract": "native-paired-power-ensemble-v1 request binding evolved spectra from independent parent realizations; matching epochs/grids/estimator policy; measured within-pair IC phase agreement and independent generation-design evidence; full joint covariance measured from realizations.",
+      "required_measurement": "Matched phases, units and residual covariance",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "abundance",
+      "variant": "differential_hmf",
+      "producer_route": [
+        {
+          "module": "core.figures",
+          "function": "export_native_analysis_figures"
+        }
+      ],
+      "input_contract": "Sealed analysis_products.h5 with snap_*/pk, hmf, profiles or main_progenitor_histories/data/histories/*/track; dataset units/quantity/epoch/provenance declarations required",
+      "required_measurement": "Resolved halo counts, volume and log-mass bins",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "abundance",
+      "variant": "cumulative_hmf",
+      "producer_route": [
+        {
+          "module": "core.figures",
+          "function": "export_native_analysis_figures"
+        }
+      ],
+      "input_contract": "Sealed analysis_products.h5 with snap_*/pk, hmf, profiles or main_progenitor_histories/data/histories/*/track; dataset units/quantity/epoch/provenance declarations required",
+      "required_measurement": "Same catalogue, cumulative thresholds and volume",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "abundance",
+      "variant": "hmf_ratio",
+      "producer_route": [
+        {
+          "module": "core.flagship_abundance",
+          "function": "export_matched_host_abundance"
+        }
+      ],
+      "input_contract": "Two current native host census products; same physical epoch/h/volume/mass definition/cut, actual IC phase PASS, shared declared physical bins and existing paired jackknife",
+      "required_measurement": "Matched catalogues, common mass definition and completeness",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "abundance",
+      "variant": "reliability_limits",
+      "producer_route": [
+        {
+          "module": "core.flagship_abundance",
+          "function": "export_native_host_abundance"
+        }
+      ],
+      "input_contract": "Actual complete native group publication and configured mass/count selection, source-bound IC/periodic full-parent volume and actual saved epoch",
+      "required_measurement": "Particle-count, contamination and finder completeness cuts",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "abundance",
+      "variant": "stellar_mass_function",
+      "producer_route": [
+        {
+          "module": "core.flagship_abundance",
+          "function": "export_native_abundance"
+        }
+      ],
+      "input_contract": "Pinned native galaxy/SUBFIND exports with same actual epoch/namespace, original quality/count masks and verified full-parent volume",
+      "required_measurement": "Native stellar masses grouped by resolved galaxy",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "abundance",
+      "variant": "vmax_function",
+      "producer_route": [
+        {
+          "module": "core.flagship_abundance",
+          "function": "export_native_abundance"
+        }
+      ],
+      "input_contract": "Pinned native galaxy/SUBFIND exports with same actual epoch/namespace, original quality/count masks and verified full-parent volume",
+      "required_measurement": "Resolved Vmax catalogue and common completeness",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "abundance",
+      "variant": "rare_high_z_abundance",
+      "producer_route": [
+        {
+          "module": "core.flagship_abundance",
+          "function": "export_native_host_abundance"
+        }
+      ],
+      "input_contract": "Actual complete native group publication and configured mass/count selection, source-bound IC/periodic full-parent volume and actual saved epoch",
+      "required_measurement": "Actual high-redshift outputs, volume and counting uncertainty",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "structure",
+      "variant": "density_profile",
+      "producer_route": [
+        {
+          "module": "core.halo_products",
+          "function": "export_native_structure_figures"
+        }
+      ],
+      "input_contract": "Verified native-halo-structure-v1; original component profiles, density/equipotential shape grids, sampling masks and conditional NFW fit definitions",
+      "required_measurement": "Bound membership, center and radial density bins",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "structure",
+      "variant": "circular_velocity",
+      "producer_route": [
+        {
+          "module": "core.halo_products",
+          "function": "export_native_structure_figures"
+        }
+      ],
+      "input_contract": "Verified native-halo-structure-v1; original component profiles, density/equipotential shape grids, sampling masks and conditional NFW fit definitions",
+      "required_measurement": "Enclosed total/species mass and proper radii",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "structure",
+      "variant": "velocity_dispersion",
+      "producer_route": [
+        {
+          "module": "core.halo_products",
+          "function": "export_native_structure_figures"
+        }
+      ],
+      "input_contract": "Verified native-halo-structure-v1; original component profiles, density/equipotential shape grids, sampling masks and conditional NFW fit definitions",
+      "required_measurement": "Frame-subtracted radial velocity moments and support",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "structure",
+      "variant": "anisotropy",
+      "producer_route": [
+        {
+          "module": "core.halo_products",
+          "function": "export_native_structure_figures"
+        }
+      ],
+      "input_contract": "Verified native-halo-structure-v1; original component profiles, density/equipotential shape grids, sampling masks and conditional NFW fit definitions",
+      "required_measurement": "Radial/tangential velocity moments with finite-count errors",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "structure",
+      "variant": "concentration_mass",
+      "producer_route": [
+        {
+          "module": "core.halo_products",
+          "function": "export_native_structure_figures"
+        }
+      ],
+      "input_contract": "Verified native-halo-structure-v1; original component profiles, density/equipotential shape grids, sampling masks and conditional NFW fit definitions",
+      "required_measurement": "Resolved profile fits, mass definition and fit covariance",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "structure",
+      "variant": "radial_axis_ratios",
+      "producer_route": [
+        {
+          "module": "core.halo_products",
+          "function": "export_native_structure_figures"
+        }
+      ],
+      "input_contract": "Verified native-halo-structure-v1; original component profiles, density/equipotential shape grids, sampling masks and conditional NFW fit definitions",
+      "required_measurement": "Iterative radial inertia tensors and sampling errors",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "structure",
+      "variant": "triaxiality",
+      "producer_route": [
+        {
+          "module": "core.halo_products",
+          "function": "export_native_structure_figures"
+        }
+      ],
+      "input_contract": "Verified native-halo-structure-v1; original component profiles, density/equipotential shape grids, sampling masks and conditional NFW fit definitions",
+      "required_measurement": "Ordered shape eigenvalues and degeneracy masks",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "structure",
+      "variant": "axis_orientation_twist",
+      "producer_route": [
+        {
+          "module": "core.halo_products",
+          "function": "export_native_structure_figures"
+        }
+      ],
+      "input_contract": "Verified native-halo-structure-v1; original component profiles, density/equipotential shape grids, sampling masks and conditional NFW fit definitions",
+      "required_measurement": "Eigenvector continuity, sign convention and degeneracy masks",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "structure",
+      "variant": "density_potential_shape",
+      "producer_route": [
+        {
+          "module": "core.halo_products",
+          "function": "export_native_structure_figures"
+        }
+      ],
+      "input_contract": "Verified native-halo-structure-v1; original component profiles, density/equipotential shape grids, sampling masks and conditional NFW fit definitions",
+      "required_measurement": "Density shape and independently measured potential shape",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "structure",
+      "variant": "splashback_slope_radius_depth_width",
+      "producer_route": [
+        {
+          "module": "core.halo_products",
+          "function": "export_native_splashback_figures"
+        }
+      ],
+      "input_contract": "Verified native-environment-v1 plus exactly bound host structure, original slope covariance and feature status",
+      "required_measurement": "Resolved outer radial slopes, fit support and feature uncertainty",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "assembly",
+      "variant": "mass_scale_factor",
+      "producer_route": [
+        {
+          "module": "core.assembly",
+          "function": "export_native_assembly_figures"
+        }
+      ],
+      "input_contract": "Sealed halo-main-branch-v1 stage plus exact current identity graph; actual epoch and source binding, exact IDs, original quality and cadence masks",
+      "required_measurement": "Exact main-progenitor IDs, scale factor and consistent mass",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "assembly",
+      "variant": "log_mass_accretion",
+      "producer_route": [
+        {
+          "module": "core.assembly",
+          "function": "export_native_assembly_figures"
+        }
+      ],
+      "input_contract": "Sealed halo-main-branch-v1 stage plus exact current identity graph; actual epoch and source binding, exact IDs, original quality and cadence masks",
+      "required_measurement": "Time derivatives on supported mass histories",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "assembly",
+      "variant": "fast_slow_transition",
+      "producer_route": [
+        {
+          "module": "core.assembly",
+          "function": "export_native_assembly_figures"
+        }
+      ],
+      "input_contract": "Sealed halo-main-branch-v1 stage plus exact current identity graph; actual epoch and source binding, exact IDs, original quality and cadence masks",
+      "required_measurement": "Measured accretion transition and fit uncertainty",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "assembly",
+      "variant": "spin_history",
+      "producer_route": [
+        {
+          "module": "core.assembly",
+          "function": "export_native_assembly_figures"
+        }
+      ],
+      "input_contract": "Sealed halo-main-branch-v1 stage plus exact current identity graph; actual epoch and source binding, exact IDs, original quality and cadence masks",
+      "required_measurement": "Consistent spin definition along a verified tree",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "assembly",
+      "variant": "concentration_history",
+      "producer_route": [
+        {
+          "module": "core.assembly",
+          "function": "export_native_assembly_figures"
+        }
+      ],
+      "input_contract": "Sealed halo-main-branch-v1 stage plus exact current identity graph; actual epoch and source binding, exact IDs, original quality and cadence masks",
+      "required_measurement": "Supported profile fits along the same tree",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "assembly",
+      "variant": "shape_history",
+      "producer_route": [
+        {
+          "module": "core.assembly",
+          "function": "export_native_assembly_figures"
+        }
+      ],
+      "input_contract": "Sealed halo-main-branch-v1 stage plus exact current identity graph; actual epoch and source binding, exact IDs, original quality and cadence masks",
+      "required_measurement": "Shape tensors and orientation continuity along tree",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "assembly",
+      "variant": "pericenter_infall_merger_events",
+      "producer_route": [
+        {
+          "module": "core.flagship_orbits",
+          "function": "measure_native_assembly_orbits"
+        },
+        {
+          "module": "core.flagship_orbits",
+          "function": "export_native_assembly_event_figures"
+        }
+      ],
+      "input_contract": "Current exact native graph with original snapshot/catalogue sources and measured quality; bound actual clocks; hash-bound recorded images and original host radius definition; explicit cadence/support flags",
+      "required_measurement": "Worldline extrema, infall definitions and actual merger links",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "assembly",
+      "variant": "stellar_assembly",
+      "producer_route": [
+        {
+          "module": "core.assembly",
+          "function": "export_native_assembly_figures"
+        }
+      ],
+      "input_contract": "Sealed halo-main-branch-v1 stage plus exact current identity graph; actual epoch and source binding, exact IDs, original quality and cadence masks",
+      "required_measurement": "Star birth IDs, in-situ/ex-situ membership and birth times",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "assembly",
+      "variant": "quenching_morphology",
+      "producer_route": [
+        {
+          "module": "core.assembly",
+          "function": "export_native_assembly_figures"
+        }
+      ],
+      "input_contract": "Sealed halo-main-branch-v1 stage plus exact current identity graph; actual epoch and source binding, exact IDs, original quality and cadence masks",
+      "required_measurement": "SFR history, morphology estimator and frozen quenching definition",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "web",
+      "variant": "filament_map",
+      "producer_route": [
+        {
+          "module": "core.halo_products",
+          "function": "export_native_web_figures"
+        }
+      ],
+      "input_contract": "Verified native-environment-v1 original periodic T-web nodes/labels and native halo structure joins; optional sealed native graph arcs/recorded images and unique-assignment masks remain distinct from T-web",
+      "required_measurement": "Periodic density field, smoothing scale and web classifier",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "web",
+      "variant": "spin_alignment",
+      "producer_route": [
+        {
+          "module": "core.halo_products",
+          "function": "export_native_web_figures"
+        }
+      ],
+      "input_contract": "Verified native-environment-v1 original periodic T-web nodes/labels and native halo structure joins; optional sealed native graph arcs/recorded images and unique-assignment masks remain distinct from T-web",
+      "required_measurement": "Native spins and local filament axes with selection masks",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "web",
+      "variant": "shape_alignment",
+      "producer_route": [
+        {
+          "module": "core.halo_products",
+          "function": "export_native_web_figures"
+        }
+      ],
+      "input_contract": "Verified native-environment-v1 original periodic T-web nodes/labels and native halo structure joins; optional sealed native graph arcs/recorded images and unique-assignment masks remain distinct from T-web",
+      "required_measurement": "Native shape axes and web eigenvectors",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "web",
+      "variant": "web_evolution",
+      "producer_route": [
+        {
+          "module": "core.halo_products",
+          "function": "export_native_web_history"
+        }
+      ],
+      "input_contract": "Verified native-environment-history-v1 with original persistent host graph nodes, saved proper-time brackets, unoriented axis changes and clock-bounded accepted intervals",
+      "required_measurement": "Same web definition and smoothing across saved times",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "streams",
+      "variant": "stream_progenitor_3d",
+      "producer_route": [
+        {
+          "module": "core.stream.measurements",
+          "function": "export_stream_support_figures"
+        }
+      ],
+      "input_contract": "Native stellar IDs, progenitor membership and 3D samples; exact source epoch/namespace, physical quantities, original support and uncertainty must be declared in measured numeric product",
+      "required_measurement": "Native stellar IDs, progenitor membership and 3D samples",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "streams",
+      "variant": "intrinsic_track",
+      "producer_route": [
+        {
+          "module": "core.flagship_products",
+          "function": "export_registered_stream_figures"
+        }
+      ],
+      "input_contract": "stream-coordinates-v1; measured wraps and per-dataset numeric_data contracts; bootstrap and support arrays",
+      "required_measurement": "Supported intrinsic principal curve and arc length",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "streams",
+      "variant": "projected_track",
+      "producer_route": [
+        {
+          "module": "core.flagship_products",
+          "function": "derive_native_stream_product"
+        },
+        {
+          "module": "core.flagship_products",
+          "function": "export_registered_stream_projection_figures"
+        }
+      ],
+      "input_contract": "stream-coordinates-v1 \u2192 existing stream geometry/observer stage; explicit viewing basis, host center/covariance, local widths and support",
+      "required_measurement": "Declared observer, units and projection of native track",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "streams",
+      "variant": "curvature",
+      "producer_route": [
+        {
+          "module": "core.flagship_products",
+          "function": "derive_native_stream_product"
+        },
+        {
+          "module": "core.flagship_products",
+          "function": "export_registered_stream_projection_figures"
+        }
+      ],
+      "input_contract": "stream-coordinates-v1 \u2192 existing stream geometry/observer stage; explicit viewing basis, host center/covariance, local widths and support",
+      "required_measurement": "Track derivatives with curvature uncertainty",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "streams",
+      "variant": "convexity",
+      "producer_route": [
+        {
+          "module": "core.flagship_products",
+          "function": "derive_native_stream_product"
+        },
+        {
+          "module": "core.flagship_products",
+          "function": "export_registered_stream_projection_figures"
+        }
+      ],
+      "input_contract": "stream-coordinates-v1 \u2192 existing stream geometry/observer stage; explicit viewing basis, host center/covariance, local widths and support",
+      "required_measurement": "Track orientation and signed-convexity convention",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "streams",
+      "variant": "linear_density",
+      "producer_route": [
+        {
+          "module": "core.flagship_products",
+          "function": "export_registered_stream_figures"
+        }
+      ],
+      "input_contract": "stream-coordinates-v1; measured wraps and per-dataset numeric_data contracts; bootstrap and support arrays",
+      "required_measurement": "Selection-corrected counts/mass per arc-length bin",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "streams",
+      "variant": "width",
+      "producer_route": [
+        {
+          "module": "core.flagship_products",
+          "function": "export_registered_stream_figures"
+        }
+      ],
+      "input_contract": "stream-coordinates-v1; measured wraps and per-dataset numeric_data contracts; bootstrap and support arrays",
+      "required_measurement": "Transverse distribution, estimator and unresolved-width masks",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "streams",
+      "variant": "velocity",
+      "producer_route": [
+        {
+          "module": "core.flagship_products",
+          "function": "export_registered_stream_figures"
+        }
+      ],
+      "input_contract": "stream-coordinates-v1; measured wraps and per-dataset numeric_data contracts; bootstrap and support arrays",
+      "required_measurement": "Stream-frame velocity mean and component definitions",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "streams",
+      "variant": "dispersion",
+      "producer_route": [
+        {
+          "module": "core.flagship_products",
+          "function": "export_registered_stream_figures"
+        }
+      ],
+      "input_contract": "stream-coordinates-v1; measured wraps and per-dataset numeric_data contracts; bootstrap and support arrays",
+      "required_measurement": "Intrinsic velocity scatter, sampling uncertainty and masks",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "streams",
+      "variant": "gaps",
+      "producer_route": [
+        {
+          "module": "core.flagship_products",
+          "function": "export_registered_stream_figures"
+        }
+      ],
+      "input_contract": "stream-coordinates-v1; measured wraps and per-dataset numeric_data contracts; bootstrap and support arrays",
+      "required_measurement": "Matched reference density, gap definition and significance",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "streams",
+      "variant": "spurs",
+      "producer_route": [
+        {
+          "module": "core.flagship_products",
+          "function": "export_registered_stream_figures"
+        }
+      ],
+      "input_contract": "stream-coordinates-v1; measured wraps and per-dataset numeric_data contracts; bootstrap and support arrays",
+      "required_measurement": "Supported transverse residual peaks against matched track",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "streams",
+      "variant": "bifurcations",
+      "producer_route": [
+        {
+          "module": "core.stream.measurements",
+          "function": "measured_track_support_products"
+        },
+        {
+          "module": "core.flagship_products",
+          "function": "export_registered_stream_figures"
+        }
+      ],
+      "input_contract": "Original local two-mode fork proposals; persistent physical branches and causal encounters not established",
+      "required_measurement": "Separate wrap/branch membership and persistence evidence",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "streams",
+      "variant": "action_angle",
+      "producer_route": [
+        {
+          "module": "core.stream.measurements",
+          "function": "export_stream_support_figures"
+        }
+      ],
+      "input_contract": "Supported potential domain, action solver and error controls; exact source epoch/namespace, physical quantities, original support and uncertainty must be declared in measured numeric product",
+      "required_measurement": "Supported potential domain, action solver and error controls",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "streams",
+      "variant": "density_power",
+      "producer_route": [
+        {
+          "module": "core.flagship_products",
+          "function": "export_registered_stream_figures"
+        }
+      ],
+      "input_contract": "stream-coordinates-v1; measured wraps and per-dataset numeric_data contracts; bootstrap and support arrays",
+      "required_measurement": "Density spectrum with window/noise treatment",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "streams",
+      "variant": "track_power",
+      "producer_route": [
+        {
+          "module": "core.stream.measurements",
+          "function": "measured_track_support_products"
+        },
+        {
+          "module": "core.flagship_products",
+          "function": "export_registered_stream_figures"
+        }
+      ],
+      "input_contract": "Raw two-component transverse bin-centroid residual power around fitted curve, Hann/support window, separately published conditional noise from width covariance/effective count; properkpc^3. No noise/baseline fit or subtraction.",
+      "required_measurement": "Track residual spectrum with coordinate and window controls",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "encounters",
+      "variant": "worldlines_3d",
+      "producer_route": [
+        {
+          "module": "core.flagship_products",
+          "function": "native_encounter_frame"
+        },
+        {
+          "module": "core.flagship_products",
+          "function": "measure_native_encounters"
+        },
+        {
+          "module": "core.flagship_products",
+          "function": "export_native_encounter_figures"
+        }
+      ],
+      "input_contract": "native-encounter-frame-history-v1 with explicit interval flags and frame-definition hash; stream-encounters-v1 preserves refinement requests and unresolved intervals",
+      "required_measurement": "Persistent perturber IDs and stream worldlines in one frame",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "encounters",
+      "variant": "impact_velocity_geometry",
+      "producer_route": [
+        {
+          "module": "core.flagship_products",
+          "function": "native_encounter_frame"
+        },
+        {
+          "module": "core.flagship_products",
+          "function": "measure_native_encounters"
+        },
+        {
+          "module": "core.flagship_products",
+          "function": "export_native_encounter_figures"
+        }
+      ],
+      "input_contract": "native-encounter-frame-history-v1 with explicit interval flags and frame-definition hash; stream-encounters-v1 preserves refinement requests and unresolved intervals",
+      "required_measurement": "Certified closest approach, relative speed and orientation",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "encounters",
+      "variant": "perturber_mass_profile",
+      "producer_route": [
+        {
+          "module": "core.stream.perturbers",
+          "function": "native_perturber_history_runner"
+        }
+      ],
+      "input_contract": "Exact native descendant graph, bound memberships, actual gravitating census, recorded images and converted stream frame",
+      "required_measurement": "Time-dependent bound profile and mass-definition support",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "encounters",
+      "variant": "before_after_controls",
+      "producer_route": [
+        {
+          "module": "core.native_stream_responses",
+          "function": "native_response_runner"
+        }
+      ],
+      "input_contract": "Original native paired comparison replay, exact selected stellar cohort, same source-bound physical chart and optional measured host actions",
+      "required_measurement": "Same tracers, times and host with declared intervention",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "encounters",
+      "variant": "gap_growth",
+      "producer_route": [
+        {
+          "module": "core.native_stream_responses",
+          "function": "native_response_runner"
+        }
+      ],
+      "input_contract": "Original native paired comparison replay, exact selected stellar cohort, same source-bound physical chart and optional measured host actions",
+      "required_measurement": "Same gap definition through time and matched baseline",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "encounters",
+      "variant": "action_diffusion",
+      "producer_route": [
+        {
+          "module": "core.native_stream_responses",
+          "function": "native_response_runner"
+        }
+      ],
+      "input_contract": "Original native paired comparison replay, exact selected stellar cohort, same source-bound physical chart and optional measured host actions",
+      "required_measurement": "Supported action histories and matched stochastic/control variance",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "encounters",
+      "variant": "bh_extended_subhalo_comparison",
+      "producer_route": [
+        {
+          "module": "core.matched_perturber_figures",
+          "function": "matched_template_figures_runner"
+        }
+      ],
+      "input_contract": "Original executed matched imposed-field templates with exact common design/realization/initial cohort/geometry/bins",
+      "required_measurement": "Matched compact/extended perturber masses, orbits and force resolution",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "black_holes",
+      "variant": "bh_growth",
+      "producer_route": [
+        {
+          "module": "core.flagship_bh",
+          "function": "export_native_bh_figures"
+        }
+      ],
+      "input_contract": "Current source-bound native BH history with exact namespace/ID/epoch and original field-summary equality; merger timeline requires independently replayed native-hydro-history and complete committed BH journal",
+      "required_measurement": "Persistent native BH IDs, mass and saved times",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "black_holes",
+      "variant": "eddington_ratio",
+      "producer_route": [
+        {
+          "module": "core.flagship_bh",
+          "function": "export_native_bh_figures"
+        }
+      ],
+      "input_contract": "Current source-bound native BH history with exact namespace/ID/epoch and original field-summary equality; merger timeline requires independently replayed native-hydro-history and complete committed BH journal",
+      "required_measurement": "Native accretion rate and consistent Eddington convention",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "black_holes",
+      "variant": "pair_separation",
+      "producer_route": [
+        {
+          "module": "core.flagship_bh",
+          "function": "export_native_bh_pair_separation"
+        }
+      ],
+      "input_contract": "Current native BH history; exact two IDs/namespace; original saved proper coordinates/epochs and periodic build; missingness retained",
+      "required_measurement": "Actual BH pair identities and proper separation",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "black_holes",
+      "variant": "merger_timeline",
+      "producer_route": [
+        {
+          "module": "core.flagship_bh",
+          "function": "export_native_bh_merger_timeline"
+        }
+      ],
+      "input_contract": "Current source-bound native BH history with exact namespace/ID/epoch and original field-summary equality; merger timeline requires independently replayed native-hydro-history and complete committed BH journal",
+      "required_measurement": "Actual merger event records and ancestry",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "black_holes",
+      "variant": "recoil_trajectory",
+      "producer_route": [
+        {
+          "module": "core.flagship_bh",
+          "function": "export_native_bh_recoil_trajectory"
+        }
+      ],
+      "input_contract": "Current source-bound BH history, independently replayed complete native hydro journal with exact selected merger counter/survivor, hash-bound recorded images for original saved epochs, actual clock and later ancestry masks",
+      "required_measurement": "Implemented kick physics and native post-kick trajectory",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "black_holes",
+      "variant": "feedback_energy",
+      "producer_route": [
+        {
+          "module": "core.flagship_bh",
+          "function": "export_native_bh_figures"
+        }
+      ],
+      "input_contract": "Current source-bound native BH history with exact namespace/ID/epoch and original field-summary equality; merger timeline requires independently replayed native-hydro-history and complete committed BH journal",
+      "required_measurement": "Native accumulated feedback energy and time convention",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "black_holes",
+      "variant": "dm_density_response",
+      "producer_route": [
+        {
+          "module": "core.flagship_bh_response",
+          "function": "export_native_bh_dm_response"
+        }
+      ],
+      "input_contract": "Current verified native structures; replayed reciprocal unique membership counterparts; actual phase PASS; matching actual epochs/proper bins/species/estimator; BH-only config contrast; measured full joint covariance bound to exact source hashes",
+      "required_measurement": "Matched BH feedback intervention and DM profiles",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "black_holes",
+      "variant": "dm_shape_response",
+      "producer_route": [
+        {
+          "module": "core.flagship_bh_response",
+          "function": "export_native_bh_dm_response"
+        }
+      ],
+      "input_contract": "Current verified native structures; replayed reciprocal unique membership counterparts; actual phase PASS; matching actual epochs/proper bins/species/estimator; BH-only config contrast; measured full joint covariance bound to exact source hashes",
+      "required_measurement": "Matched feedback intervention and resolved DM shape tensors",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "baryons",
+      "variant": "gas_phase_diagram",
+      "producer_route": [
+        {
+          "module": "core.baryon_products",
+          "function": "export_native_gas_phase"
+        }
+      ],
+      "input_contract": "Hash-bound verified native hydro history and explicit positive physical bin edges; original availability masks and effective EOS exclusion",
+      "required_measurement": "Native gas density, temperature, mass and physical units",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "baryons",
+      "variant": "star_formation_history",
+      "producer_route": [
+        {
+          "module": "core.baryon_products",
+          "function": "export_native_sfr_history"
+        }
+      ],
+      "input_contract": "Verified native hydro history complete gas SFR census, matching original summary, actual cosmological saved clock; existing build_star_formation_history estimator; saved gaps and zero rates retained",
+      "required_measurement": "Complete native gas-SFR census, physical units and saved epochs",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "baryons",
+      "variant": "mass_return",
+      "producer_route": [
+        {
+          "module": "core.baryon_products",
+          "function": "export_native_mass_return"
+        }
+      ],
+      "input_contract": "Verified committed native stellar return journal and complete original snapshot counters; separate signed stellar-source loss and gas-recipient gain since first selected saved epoch; prompt bookkeeping excluded",
+      "required_measurement": "Verified delayed-return table and native deposited mass ledger",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "baryons",
+      "variant": "metals_history",
+      "producer_route": [
+        {
+          "module": "core.baryon_products",
+          "function": "export_native_metal_history"
+        }
+      ],
+      "input_contract": "Independently verified native-hydro-history-v1: original eleven-element gas mass fractions and completeness, SSP initial locked birth mass/metallicity, complete original source/recipient delayed-return rows; current stellar chemical mass explicitly unavailable for nonempty census",
+      "required_measurement": "Element-resolved stellar/gas metal ledgers and closure",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "baryons",
+      "variant": "luminosity_history",
+      "producer_route": [
+        {
+          "module": "core.baryon_products",
+          "function": "export_native_population_history"
+        }
+      ],
+      "input_contract": "native-population-history-request-v1 with current hash-bound native hydro history and original pinned FSPS synthesis configuration/filter assets; all native species-4 birth states, actual proper clock and exact namespace; incomplete SSP support masks whole-census totals; rest-frame intrinsic AB colors from summed band Lnu",
+      "required_measurement": "Pinned SPS model, native age/Z/mass and filter response",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "baryons",
+      "variant": "color_history",
+      "producer_route": [
+        {
+          "module": "core.baryon_products",
+          "function": "export_native_population_history"
+        }
+      ],
+      "input_contract": "native-population-history-request-v1 with current hash-bound native hydro history and original pinned FSPS synthesis configuration/filter assets; all native species-4 birth states, actual proper clock and exact namespace; incomplete SSP support masks whole-census totals; rest-frame intrinsic AB colors from summed band Lnu",
+      "required_measurement": "Same SPS assumptions and explicit passbands",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "baryons",
+      "variant": "first_cooling_birth",
+      "producer_route": [
+        {
+          "module": "core.first_stars",
+          "function": "export_native_first_star_figures"
+        }
+      ],
+      "input_contract": "Current source-bound original first-star-environments-v1; original cooling/birth numeric times match rows, exact namespace identities, saved interval and host ancestry brackets retained",
+      "required_measurement": "Saved cooling/birth events with sufficient time resolution",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "baryons",
+      "variant": "primordial_cloud_morphology",
+      "producer_route": [
+        {
+          "module": "core.first_stars",
+          "function": "export_native_cloud_figures"
+        }
+      ],
+      "input_contract": "Current source-bound primordial-cloud product; original measured proper Cartesian points/centroids and shape support, exact selected gas IDs/native namespace/epoch when available; empty unsupported physics retained",
+      "required_measurement": "Native cloud membership and resolved gas morphology",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "sidm",
+      "variant": "sidm_core_evolution",
+      "producer_route": [
+        {
+          "module": "core.sidm_products",
+          "function": "export_native_sidm_history"
+        }
+      ],
+      "input_contract": "Original source-bound native target/model/clock/identity products and unchanged dimensional support; no inferred detection from missing native support",
+      "required_measurement": "Native scattering-enabled resolved core history",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "sidm",
+      "variant": "collapse_phase",
+      "producer_route": [
+        {
+          "module": "core.sidm_products",
+          "function": "export_native_sidm_history"
+        }
+      ],
+      "input_contract": "Original source-bound native target/model/clock/identity products and unchanged dimensional support; no inferred detection from missing native support",
+      "required_measurement": "Resolved density/dispersion evolution and collapse criterion",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "sidm",
+      "variant": "scattering_rates",
+      "producer_route": [
+        {
+          "module": "core.sidm_products",
+          "function": "export_native_scattering_rates"
+        }
+      ],
+      "input_contract": "Original source-bound native target/model/clock/identity products and unchanged dimensional support; no inferred detection from missing native support",
+      "required_measurement": "Native event/rate ledger and physical cross-section model",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "sidm",
+      "variant": "sidm_cdm_controls",
+      "producer_route": [
+        {
+          "module": "core.sidm_products",
+          "function": "export_native_sidm_matched"
+        }
+      ],
+      "input_contract": "Original source-bound native target/model/clock/identity products and unchanged dimensional support; no inferred detection from missing native support",
+      "required_measurement": "Matched SIDM/CDM phases, settings and catalogue selection",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "sidm",
+      "variant": "sidm_density_dispersion_anisotropy",
+      "producer_route": [
+        {
+          "module": "core.sidm_products",
+          "function": "export_native_sidm_history"
+        }
+      ],
+      "input_contract": "Original source-bound native target/model/clock/identity products and unchanged dimensional support; no inferred detection from missing native support",
+      "required_measurement": "Resolved native SIDM profiles and velocity tensors",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "sidm",
+      "variant": "sidm_shape_baryon_misalignment",
+      "producer_route": [
+        {
+          "module": "core.sidm_products",
+          "function": "export_native_sidm_history"
+        }
+      ],
+      "input_contract": "Original source-bound native target/model/clock/identity products and unchanged dimensional support; no inferred detection from missing native support",
+      "required_measurement": "SIDM/baryon axes, angular degeneracy and shared frame",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "sidm",
+      "variant": "sidm_heat_flux",
+      "producer_route": [
+        {
+          "module": "core.sidm_products",
+          "function": "export_native_sidm_history"
+        }
+      ],
+      "input_contract": "Original source-bound native target/model/clock/identity products and unchanged dimensional support; no inferred detection from missing native support",
+      "required_measurement": "Measured energy flux with sign convention and conservation",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "sidm",
+      "variant": "sidm_kernel_support",
+      "producer_route": [
+        {
+          "module": "core.sidm_products",
+          "function": "export_native_sidm_history"
+        }
+      ],
+      "input_contract": "Original source-bound native target/model/clock/identity products and unchanged dimensional support; no inferred detection from missing native support",
+      "required_measurement": "Actual neighbor/kernel support and particle sampling",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "sidm",
+      "variant": "sidm_satellite_survival",
+      "producer_route": [
+        {
+          "module": "core.sidm_products",
+          "function": "export_native_sidm_extended"
+        }
+      ],
+      "input_contract": "Original source-bound native target/model/clock/identity products and unchanged dimensional support; no inferred detection from missing native support",
+      "required_measurement": "Persistent satellite IDs, disruption and completeness",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "sidm",
+      "variant": "sidm_merger_centroid_offsets",
+      "producer_route": [
+        {
+          "module": "core.sidm_products",
+          "function": "export_native_sidm_centroids"
+        }
+      ],
+      "input_contract": "Original source-bound native target/model/clock/identity products and unchanged dimensional support; no inferred detection from missing native support",
+      "required_measurement": "Matched merging components, native centroids and errors",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "sidm",
+      "variant": "sidm_stream_profile_response",
+      "producer_route": [
+        {
+          "module": "core.sidm_products",
+          "function": "export_native_sidm_extended"
+        }
+      ],
+      "input_contract": "Original source-bound native target/model/clock/identity products and unchanged dimensional support; no inferred detection from missing native support",
+      "required_measurement": "Matched native streams with resolved SIDM perturber profiles",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "sidm",
+      "variant": "sidm_lensing_h0_response",
+      "producer_route": [
+        {
+          "module": "core.sidm_products",
+          "function": "export_native_sidm_extended"
+        }
+      ],
+      "input_contract": "Original source-bound native target/model/clock/identity products and unchanged dimensional support; no inferred detection from missing native support",
+      "required_measurement": "Native mass/lightcone/lens products plus supported inference",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "sidm",
+      "variant": "sidm_baryonic_degeneracy",
+      "producer_route": [
+        {
+          "module": "core.sidm_products",
+          "function": "export_native_sidm_extended"
+        }
+      ],
+      "input_contract": "Original source-bound native target/model/clock/identity products and unchanged dimensional support; independently measured heldout calibration is mandatory",
+      "required_measurement": "Matched baryonic interventions and SIDM parameter support",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "hubble",
+      "variant": "hubble_method_comparison",
+      "producer_route": [
+        {
+          "module": "core.expansion_products",
+          "function": "export_hubble_figures"
+        }
+      ],
+      "input_contract": "Original completed source-bound cosmography/stream inference product, original physical prior/observable units, covariance, diagnostics, independent calibration and OOD support. See configs/research/analysis_branch_input_contracts.json.",
+      "required_measurement": "Actual method likelihoods/posteriors with common convention",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "hubble",
+      "variant": "distance_ladder",
+      "producer_route": [
+        {
+          "module": "core.expansion_products",
+          "function": "export_hubble_figures"
+        }
+      ],
+      "input_contract": "Original completed source-bound cosmography/stream inference product, original physical prior/observable units, covariance, diagnostics, independent calibration and OOD support. See configs/research/analysis_branch_input_contracts.json.",
+      "required_measurement": "Observed/calibrated distance-ladder data and likelihood",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "hubble",
+      "variant": "bao_cmb_background",
+      "producer_route": [
+        {
+          "module": "core.expansion_products",
+          "function": "export_hubble_figures"
+        }
+      ],
+      "input_contract": "Original completed source-bound cosmography/stream inference product, original physical prior/observable units, covariance, diagnostics, independent calibration and OOD support. See configs/research/analysis_branch_input_contracts.json.",
+      "required_measurement": "Pinned BAO/CMB likelihood and background model",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "hubble",
+      "variant": "time_delay_posteriors",
+      "producer_route": [
+        {
+          "module": "core.expansion_products",
+          "function": "export_hubble_figures"
+        }
+      ],
+      "input_contract": "Original completed source-bound cosmography/stream inference product, original physical prior/observable units, covariance, diagnostics, independent calibration and OOD support. See configs/research/analysis_branch_input_contracts.json.",
+      "required_measurement": "Actual time-delay lens likelihood, nuisance and posterior samples",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "inference",
+      "variant": "actual_posterior",
+      "producer_route": [
+        {
+          "module": "core.flagship_inference",
+          "function": "export_inference_figures"
+        }
+      ],
+      "input_contract": "Original completed source-bound cosmography/stream inference product, original physical prior/observable units, covariance, diagnostics, independent calibration and OOD support. See configs/research/analysis_branch_input_contracts.json.",
+      "required_measurement": "Actual validated likelihood/simulator posterior samples",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "inference",
+      "variant": "posterior_predictive",
+      "producer_route": [
+        {
+          "module": "core.flagship_inference",
+          "function": "export_inference_figures"
+        }
+      ],
+      "input_contract": "Original completed source-bound cosmography/stream inference product, original physical prior/observable units, covariance, diagnostics, independent calibration and OOD support. See configs/research/analysis_branch_input_contracts.json.",
+      "required_measurement": "Held-out forward predictions and observed-data contract",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "inference",
+      "variant": "sbc_ranks",
+      "producer_route": [
+        {
+          "module": "core.flagship_inference",
+          "function": "export_inference_figures"
+        }
+      ],
+      "input_contract": "Original completed source-bound cosmography/stream inference product, original physical prior/observable units, covariance, diagnostics, independent calibration and OOD support. See configs/research/analysis_branch_input_contracts.json.",
+      "required_measurement": "Independent calibration simulations, truths and ranks",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "inference",
+      "variant": "coverage",
+      "producer_route": [
+        {
+          "module": "core.flagship_inference",
+          "function": "export_inference_figures"
+        }
+      ],
+      "input_contract": "Original completed source-bound cosmography/stream inference product, original physical prior/observable units, covariance, diagnostics, independent calibration and OOD support. See configs/research/analysis_branch_input_contracts.json.",
+      "required_measurement": "Held-out truths, credible regions and sampling uncertainty",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "inference",
+      "variant": "ood_support",
+      "producer_route": [
+        {
+          "module": "core.flagship_inference",
+          "function": "export_inference_figures"
+        }
+      ],
+      "input_contract": "Original completed source-bound cosmography/stream inference product, original physical prior/observable units, covariance, diagnostics, independent calibration and OOD support. See configs/research/analysis_branch_input_contracts.json.",
+      "required_measurement": "Training/support domain and measured out-of-domain scores",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "inference",
+      "variant": "graph_baseline_gain",
+      "producer_route": [
+        {
+          "module": "core.flagship_inference",
+          "function": "export_inference_figures"
+        }
+      ],
+      "input_contract": "Original completed source-bound cosmography/stream inference product, original physical prior/observable units, covariance, diagnostics, independent calibration and OOD support. See configs/research/analysis_branch_input_contracts.json.",
+      "required_measurement": "Same held-out lineage split, baseline and graph-model metric",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "convergence",
+      "variant": "mass_resolution",
+      "producer_route": [
+        {
+          "module": "core.flagship_products",
+          "function": "export_convergence_figures"
+        }
+      ],
+      "input_contract": "comparison compare_campaign contract, hash-bound measurements, physical bin_coordinate",
+      "required_measurement": "Same physical targets across mass levels, matched epochs",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "convergence",
+      "variant": "softening",
+      "producer_route": [
+        {
+          "module": "core.flagship_products",
+          "function": "export_convergence_figures"
+        }
+      ],
+      "input_contract": "comparison compare_campaign contract, hash-bound measurements, physical bin_coordinate",
+      "required_measurement": "Resolved same-target softening ladder and observables",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "convergence",
+      "variant": "timestep",
+      "producer_route": [
+        {
+          "module": "core.flagship_products",
+          "function": "export_convergence_figures"
+        }
+      ],
+      "input_contract": "comparison compare_campaign contract, hash-bound measurements, physical bin_coordinate",
+      "required_measurement": "Resolved same-target integration-step ladder and observables",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "convergence",
+      "variant": "output_cadence",
+      "producer_route": [
+        {
+          "module": "core.flagship_products",
+          "function": "export_convergence_figures"
+        }
+      ],
+      "input_contract": "comparison compare_campaign contract, hash-bound measurements, physical bin_coordinate",
+      "required_measurement": "Dense saved outputs and measured thinning/interpolation error",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "convergence",
+      "variant": "start_redshift",
+      "producer_route": [
+        {
+          "module": "core.flagship_products",
+          "function": "export_convergence_figures"
+        }
+      ],
+      "input_contract": "comparison compare_campaign contract, hash-bound measurements, physical bin_coordinate",
+      "required_measurement": "Same phases and final observables across start epochs",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    },
+    {
+      "family": "convergence",
+      "variant": "finder_tree_variation",
+      "producer_route": [
+        {
+          "module": "core.flagship_products",
+          "function": "export_convergence_figures"
+        }
+      ],
+      "input_contract": "comparison compare_campaign contract, hash-bound measurements, physical bin_coordinate",
+      "required_measurement": "Same native snapshots through finder/tree alternatives",
+      "source_contract": "Original source-bound numerical product/receipt; exact IDs, native saved epoch, physical/statistical unit conventions and target/selection retained.",
+      "units": "Original producer per-dataset units; renderer rejects mismatching axes or undeclared conversion.",
+      "uncertainty_support": "Original measured covariance/uncertainty and boolean support; missing runtime measurements are explicit unresolved/pending and never invented.",
+      "renderer": {
+        "module": "core.research.display",
+        "function": "export_scientific_suite"
+      },
+      "artifacts": [
+        "PNG",
+        "SVG",
+        "PDF",
+        "physical_arrays.npz",
+        "figure.json",
+        "gallery.json"
+      ],
+      "recipe_contract": "Use producer-specific request or campaign constructor; commands.py flagship-products, export-hubble-figures, export-inference-figures and dedicated preparers retain original input contracts."
+    }
+  ],
+  "scope": "Executable callable producer routes and input/output contracts. Registry coverage is code connectivity, not measured runtime availability or scientific acceptance."
+}

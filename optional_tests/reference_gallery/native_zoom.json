@@ -1,0 +1,30 @@
+{
+  "source_sha256": "8acf62dc8390bdf694c98887aa4f583025863a8fa1fd710ee28bb017543ded21",
+  "scale_factor": 0.01000100010001,
+  "box_comoving_mpc_h": 10.0,
+  "coordinate_units": "comoving Mpc/h",
+  "counts": {
+    "PartType2": 5265,
+    "PartType0": 2744,
+    "PartType1": 2744
+  },
+  "views": [
+    [
+      0.0,
+      10.0
+    ],
+    [
+      3.5,
+      6.3
+    ],
+    [
+      4.4,
+      5.2
+    ]
+  ],
+  "artifacts_sha256": {
+    "native_zoom.png": "6db45a79b40921ea7818e51192b8dcb39871aade51514bedb355beca5f968a8f",
+    "native_zoom.npz": "fce2441b2ab457dc48342290abfab4a02cb508d186ce8436ca6ca6284d77d2d2"
+  },
+  "scope": "MUSIC zero-transfer normalization control evolved by native GADGET. The lattice shows refinement geometry."
+}

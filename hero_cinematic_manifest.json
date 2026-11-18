@@ -1,0 +1,103 @@
+{
+  "schema": "hero-cinematic-manifest-v1",
+  "title": "Powers of Ten: From Cosmic Web to Event Horizon",
+  "target_center_mpc_h": [
+    10.0,
+    10.0,
+    10.0
+  ],
+  "box_size_mpc_h": 20.0,
+  "total_frames": 1440,
+  "total_duration_seconds": 60.0,
+  "fps": 24,
+  "hero_particles_file": "/Users/bbird/research2/test_hero_run/results/hero_particles.npz",
+  "blender_render_script": "/Users/bbird/research2/test_hero_run/render_hero_blender.py",
+  "acts": [
+    {
+      "act": 1,
+      "title": "The Cosmic Web & Topological Skeleton",
+      "scale_name": "Macrocosm (50 Mpc)",
+      "spatial_extent_mpc": 50.0,
+      "camera_distance_mpc": 75.0,
+      "duration_seconds": 12.0,
+      "focus": "Volumetric dark matter filaments, cosmic voids, and DisPerSE 3D persistent homology skeleton splines",
+      "color_palette": [
+        "deep_void (#00030a)",
+        "filament_cyan (#33d1ff)",
+        "cluster_gold (#ffb703)"
+      ],
+      "shading": "Volumetric absorption and emissive persistent filament splines"
+    },
+    {
+      "act": 2,
+      "title": "The Virial Cauldron & Gravitational Lensing",
+      "scale_name": "Cluster / Halo Scale (1.5 Mpc)",
+      "spatial_extent_mpc": 1.5,
+      "camera_distance_mpc": 3.0,
+      "duration_seconds": 12.0,
+      "focus": "Cold cosmic streams colliding into shock-heated virial gas (10^7 K) with Lenstronomy Einstein ring and gravitational arcs",
+      "color_palette": [
+        "cold_stream_magenta (#c77dff)",
+        "cool_blue (#1f38ff)",
+        "shock_incandescent (#ffffff)",
+        "lens_ring_gold (#ff9e00)"
+      ],
+      "shading": "Thermal SPH gas temperature shaders binned by log10(T) + Lenstronomy caustic magnification map"
+    },
+    {
+      "act": 3,
+      "title": "Galaxy Genesis & Starburst",
+      "scale_name": "Galactic Scale (40 kpc)",
+      "spatial_extent_mpc": 0.04,
+      "camera_distance_mpc": 0.08,
+      "duration_seconds": 12.0,
+      "focus": "Centrifugal disk formation; brilliant bursts of young electric-blue O/B stars and aging golden bulge stars",
+      "color_palette": [
+        "young_stellar_blue (#38b6ff)",
+        "ionized_nebular_mint (#00f5d4)",
+        "old_stellar_amber (#ffb703)"
+      ],
+      "shading": "FSPS age & metallicity population synthesis with emission glow"
+    },
+    {
+      "act": 4,
+      "title": "The Ghostly Ribbons \u2014 Stellar Streams",
+      "scale_name": "Orbital Halo Scale (120 kpc)",
+      "spatial_extent_mpc": 0.12,
+      "camera_distance_mpc": 0.25,
+      "duration_seconds": 12.0,
+      "focus": "Tidal disruption of a dwarf satellite into ethereal leading and trailing stellar ribbons wrapping the host halo (Gala / StreaMAX)",
+      "color_palette": [
+        "trailing_arm_emerald (#06d6a0)",
+        "progenitor_core_white (#ffffff)",
+        "leading_arm_azure (#118ab2)"
+      ],
+      "shading": "Gala/StreaMAX orbital phase-space point trails with motion blur"
+    },
+    {
+      "act": 5,
+      "title": "The Event Horizon \u2014 Kerr Spacetime",
+      "scale_name": "Horizon Scale (10^-5 pc / 1 AU)",
+      "spatial_extent_mpc": 1e-11,
+      "camera_distance_mpc": 5e-11,
+      "duration_seconds": 12.0,
+      "focus": "General relativistic Kerr ray-tracing (Blacklight): pitch-black shadow, photon ring (r=3M), Doppler-boosted accretion disk",
+      "color_palette": [
+        "doppler_beamed_blue (#70d6ff)",
+        "gravitational_redshift_orange (#ff5400)",
+        "shadow_black (#000000)"
+      ],
+      "shading": "Blacklight null-geodesic relativistic ray-traced emission (a/M = 0.998)"
+    }
+  ],
+  "category_b_software_integration": {
+    "axiclass": "Early Dark Energy Boltzmann solver (H0=74.83, ns=1.003, f_ede=0.179)",
+    "monofonic": "3LPT multi-fluid dark matter + baryon initial conditions",
+    "disperse": "3D persistent homology cosmic filament skeleton curves",
+    "velociraptor": "6D phase-space halo and tidal substructure kinematics",
+    "gala": "Stellar stream tidal disruption wrapping around the dark matter halo with subhalo gaps",
+    "lenstronomy": "Strong gravitational lensing Einstein ring & multiple quasar images",
+    "sbi": "Neural simulation-based inference posterior estimation corner plots",
+    "blacklight": "General relativistic Kerr null geodesic ray tracing (a/M = 0.998)"
+  }
+}

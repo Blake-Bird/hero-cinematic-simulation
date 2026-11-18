@@ -1,0 +1,61 @@
+--- a/src/mg_interp.hh
++++ b/src/mg_interp.hh
+@@ -469,7 +469,7 @@
+ 			nz = u->size(2);
+ 		
+ 		//... set boundary condition for fine grid
+-		#pragma omp parallel for schedule(dynamic)
++		// Face corrections share edge/corner ghosts: preserve canonical serial order.
+ 		for( int ix=-1; ix<=nx; ++ix )
+ 			for( int iy=-1; iy<=ny; ++iy )
+ 				for( int iz=-1; iz<=nz; ++iz )
+@@ -677,7 +677,7 @@
+ 		nz = u->size(2);
+ 		
+ 		//... set boundary condition for fine grid
+-		#pragma omp parallel for schedule(dynamic)
++		// Face corrections share edge/corner ghosts: preserve canonical serial order.
+ 		for( int ix=-1; ix<=nx; ++ix )
+ 			for( int iy=-1; iy<=ny; ++iy )
+ 				for( int iz=-1; iz<=nz; ++iz )
+@@ -984,7 +984,7 @@
+ 		nz = u->size(2);
+ 		
+ 		//... set boundary condition for fine grid
+-#pragma omp parallel for schedule(dynamic)
++// Face corrections share edge/corner ghosts: preserve canonical serial order.
+ 		for( int ix=-1; ix<=nx; ++ix )
+ 			for( int iy=-1; iy<=ny; ++iy )
+ 				for( int iz=-1; iz<=nz; ++iz )
+--- a/src/main.cc
++++ b/src/main.cc
+@@ -433,7 +433,17 @@
+ 	//... init multi-threading
+ 	//------------------------------------------------------------------------------
+ 	CONFIG::FFTW_threads_ok = FFTW_API(init_threads)();
+-	CONFIG::num_threads = cf.get_value_safe<unsigned>("execution", "NumThreads",std::thread::hardware_concurrency());
++	#if defined(_OPENMP)
++    const unsigned thread_budget = static_cast<unsigned>(omp_get_max_threads());
++#else
++    const unsigned thread_budget = std::max(1u, std::thread::hardware_concurrency());
++#endif
++    CONFIG::num_threads = cf.get_value_safe<unsigned>("execution", "NumThreads",thread_budget);
++    if (CONFIG::num_threads == 0 || CONFIG::num_threads > thread_budget)
++        throw std::runtime_error("MUSIC execution/NumThreads exceeds the assigned thread budget");
++#if defined(_OPENMP)
++    omp_set_num_threads(CONFIG::num_threads);
++#endif
+ 
+ 	music::ilog << "-------------------------------------------------------------------------------" << std::endl;
+ 	output_system_info();
+--- a/src/mg_solver.hh
++++ b/src/mg_solver.hh
+@@ -180,7 +180,7 @@
+ 				if ((ix + iy + iz) % 2 == 0)
+ 					(*u)(ix, iy, iz) = ialpha * uold(ix, iy, iz) + alpha * (m_scheme.rhs(uold, ix, iy, iz) + h2 * (*f)(ix, iy, iz)) * c0;
+ 
+-#pragma omp parallel for
++// Higher-order odd cells share neighbors; update this dependent pass serially.
+ 	for (int ix = 0; ix < nx; ++ix)
+ 		for (int iy = 0; iy < ny; ++iy)
+ 			for (int iz = 0; iz < nz; ++iz)

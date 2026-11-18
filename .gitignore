@@ -1,0 +1,40 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments & caches
+.ruff_cache/
+.pytest_cache/
+.venv/
+env/
+venv/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor & IDE
+.vscode/
+.idea/
+
+# Simulation runtime, logs, and temporary test directories
+test_hero_run/
+optional_tests/output/
+runtime/
+*.log
+*.tmp
+
+# Third-party nested git repositories in core/software
+core/software/**/.git
+
+# Large third-party dataset tables and test files (>50MB)
+core/software/cosmography/Corrfunc/mocks/tests/data/
+core/software/cosmography/pycorr/pycorr/tests/reference_pip/
+core/software/sps/python-fsps/src/fsps/libfsps/ISOCHRONES/
+core/software/sps/python-fsps/src/fsps/libfsps/SPECTRA/
+*.pack
+*.idx
+*.bin

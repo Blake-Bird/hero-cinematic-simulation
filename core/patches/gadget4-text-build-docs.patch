@@ -1,0 +1,15 @@
+--- a/Makefile
++++ b/Makefile
+@@ -525,10 +525,10 @@
+ $(BUILD_DIR)/Makefile.check: Makefile Template-Config.sh defines_extra buildsystem/check.py
+ 	@$(PYTHON) buildsystem/check.py 3 $< $@ Template-Config.sh defines_extra
+ 
+-$(BUILD_DIR)/config.check: documentation/04_config-options.md Template-Config.sh buildsystem/check.py
++$(BUILD_DIR)/config.check: documentation/04_config-options.txt Template-Config.sh buildsystem/check.py
+ 	@$(PYTHON) buildsystem/check.py 4 Template-Config.sh $@  $<
+ 
+-$(BUILD_DIR)/param.check: documentation/05_parameterfile.md $(SRC_DIR)/io/parameters.cc buildsystem/check.py
++$(BUILD_DIR)/param.check: documentation/05_parameterfile.txt $(SRC_DIR)/io/parameters.cc buildsystem/check.py
+ 	@$(PYTHON) buildsystem/check.py 5 $(SRC_DIR)/data/allvars.cc $@  $<
+ 
+ .PHONY = all check build clean

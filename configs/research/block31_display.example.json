@@ -1,0 +1,40 @@
+{
+  "schema": "measured-display-v1",
+  "maximum_objects": 100000,
+  "coordinate_units": "proper kpc",
+  "frame_contract": {
+    "schema": "gadget-scientific-dataset-v1",
+    "position_units": "proper kpc",
+    "position_representation": "proper",
+    "position_h_scaled": false,
+    "origin": "Exact recorded native FOF centre; fill source-specific origin",
+    "periodic_wrapping": "minimum image relative to the recorded native centre",
+    "velocity_convention": "peculiar km/s",
+    "observer_frame": null
+  },
+  "assets": [],
+  "timeline": [
+    {
+      "frame": 1,
+      "snapshot": 0,
+      "epoch_contract": {
+        "canonical_time": "scale_factor",
+        "scale_factor": 0.5
+      },
+      "objects": [],
+      "lifecycle_events": []
+    },
+    {
+      "frame": 13,
+      "snapshot": 1,
+      "epoch_contract": {
+        "canonical_time": "scale_factor",
+        "scale_factor": 1.0
+      },
+      "objects": [],
+      "lifecycle_events": []
+    }
+  ],
+  "science_acceptance": "UNRESOLVED",
+  "maximum_geometry_vertices": 1000000
+}

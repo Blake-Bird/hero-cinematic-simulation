@@ -1,0 +1,12 @@
+{
+  "schema": "native-control-binding-reference-v1",
+  "mode": "json",
+  "bindings": {
+    "phase_seed": [{"native_path": ["seed"]}],
+    "mass_resolution": [{"native_path": ["particles_per_dimension"]}],
+    "softening": [{"native_path": ["softening_kpc_h"]}],
+    "timestep": [{"native_path": ["max_size_timestep_ln_a"]}]
+  },
+  "scope": "Public GADGET numerical answers; baseline answer files, assets and actual measurements must be supplied",
+  "sidm_scope": "SIDM bindings must name existing parameters in an actual supported native SIDM backend; this reference does not invent those backend fields"
+}

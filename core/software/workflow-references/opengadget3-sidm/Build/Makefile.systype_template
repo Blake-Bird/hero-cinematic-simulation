@@ -1,0 +1,13 @@
+# Select Target Computer if not set via environment variable
+# by uncommenting line e.g.:
+
+#SYSTYPE=SuperMUC-NG
+#SYSTYPE=SuperMUC-NG2
+#SYSTYPE=Leonardo-Booster
+#SYSTYPE=Leonardo-DCGP
+#SYSTYPE=LUMI-C
+#SYSTYPE=LUMI-G
+#SYSTYPE=Makefile.MeluXina-CPU
+#SYSTYPE=Makefile.MeluXina-GPU
+#SYSTYPE=Makefile.MareNostrumV-ACC
+#SYSTYPE=Makefile.MareNostrumV-GPP

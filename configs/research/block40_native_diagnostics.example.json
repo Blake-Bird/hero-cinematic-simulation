@@ -1,0 +1,30 @@
+{
+  "aperture_r200c_factor": 2.0,
+  "fine_dm_mass_msun": 100000.0,
+  "memory_gib": 8.0,
+  "maximum_coarse_mass_fraction": 0.01,
+  "sidm": true,
+  "native_sidm_support": {
+    "chunk_rows": 65536,
+    "maximum_native_particles": 10000000,
+    "maximum_selected_particles": 2000000,
+    "omitted_bound_scope": "cumulative_since_native_initialization"
+  },
+  "epoch_controls": {
+    "8": {
+      "force": {
+        "receipt": "inputs/measured-force/stage-receipt.json",
+        "product": "withheld_force",
+        "dimensional_floor_km2_s2_kpc": 1e-10
+      },
+      "observable": {
+        "receipt": "inputs/observable-convergence/stage-receipt.json",
+        "product": "matched_observable",
+        "dimensional_floor": 1e-10,
+        "residual_array": "observable_difference",
+        "reference_array": "reference_observable",
+        "support_array": "comparison_supported"
+      }
+    }
+  }
+}

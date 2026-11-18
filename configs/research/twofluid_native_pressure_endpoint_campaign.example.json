@@ -1,0 +1,115 @@
+{
+  "schema": "twofluid-native-comparison-campaign-request-v1",
+  "seed_parameters": {
+    "request": {
+      "schema": "twofluid-native-eulerian-seed-request-v1",
+      "snapshot": 0,
+      "particle_namespace": "REPLACE_WITH_ACTUAL_NATIVE_NAMESPACE",
+      "grid_size": 16,
+      "maximum_particles": 2000000,
+      "memory_gib": 4.0,
+      "chunk_rows": 65536,
+      "minimum_particles_per_species_cell": 4,
+      "maximum_cell_velocity_dispersion_km_s": 0.1,
+      "mass_relative_tolerance": 1e-08,
+      "measure_pressure_support": true
+    },
+    "native_stage_receipt": "REPLACE_WITH_ACTUAL_COMPLETED_NATIVE_STAGE_RECEIPT.json",
+    "native_run_directory": "REPLACE_WITH_ACTUAL_ORIGINAL_NATIVE_RUN"
+  },
+  "target_snapshots": [
+    1,
+    2
+  ],
+  "grid_sizes": [
+    8,
+    16,
+    32
+  ],
+  "maximum_grids": 3,
+  "maximum_targets": 2,
+  "reference_request": {
+    "schema": "twofluid-nonlinear-reference-request-v1",
+    "domain": "single_stream_before_shell_crossing",
+    "background_scale_factor": [
+      0.005,
+      0.01,
+      0.02,
+      0.04
+    ],
+    "background_hubble_km_s_mpc": [
+      104076.3,
+      36796.4,
+      13009.7,
+      4600.2
+    ],
+    "baryon_sound_speed_km_s": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "reference_scale_factor": 0.01,
+    "target_scale_factor": 0.02,
+    "hubble_parameter": 0.7,
+    "hubble0_km_s_mpc": 70.0,
+    "omega_m0": 0.3,
+    "baryon_fraction": 0.16,
+    "box_mpc_h": 1.0,
+    "pressure_model": "pressureless",
+    "maximum_grid_cells": 262144,
+    "memory_gib": 4.0,
+    "maximum_steps": 100000,
+    "maximum_rhs_evaluations": 1000000,
+    "maximum_step_rejections": 10000,
+    "cfl": 0.3,
+    "maximum_step_ln_a": 0.001,
+    "minimum_density_ratio": 0.01,
+    "maximum_density_ratio": 10.0,
+    "mass_relative_tolerance": 1e-10,
+    "material_chunk_rows": 16384,
+    "minimum_material_jacobian": 0.1,
+    "minimum_material_singular_value": 0.1,
+    "maximum_material_deformation_norm": 10.0,
+    "maximum_material_density_relative_error": 0.05,
+    "material_map_maximum_subboxes": 1000000,
+    "material_map_maximum_depth": 8,
+    "material_map_minimum_jacobian": 0.05,
+    "require_global_material_injectivity": true
+  },
+  "comparison_limits": {
+    "memory_gib": 8.0,
+    "maximum_grid_cells": 262144,
+    "maximum_density_difference": 0.01,
+    "maximum_momentum_difference_km_s": 0.1,
+    "maximum_velocity_difference_km_s": 0.1,
+    "maximum_relative_velocity_difference_km_s": 0.1,
+    "maximum_native_velocity_dispersion_km_s": 0.1,
+    "species_mass_relative_tolerance": 1e-08,
+    "pressure_limits": {
+      "maximum_pressure_ratio_difference_km2_s2": 0.01,
+      "maximum_pressure_ratio_spread_km2_s2": 0.01,
+      "maximum_pressure_acceleration_difference_cm_s2": 1e-10,
+      "include_initial_pressure_support": true
+    }
+  },
+  "resources": {
+    "mpi_ranks": 1,
+    "omp_threads": 1,
+    "memory_gib": 8.0,
+    "disk_gib": 16.0,
+    "maximum_stage_count": 32
+  },
+  "followup_limits": {
+    "maximum_children": 32,
+    "maximum_depth": 8
+  },
+  "family_limits": {
+    "maximum_levels": 3,
+    "maximum_grid_cells": 262144,
+    "memory_gib": 8.0,
+    "maximum_adjacent_error_ratio": 1.0,
+    "density_trend_floor": 1e-06,
+    "velocity_trend_floor_km_s": 0.0001
+  }
+}

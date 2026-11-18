@@ -1,0 +1,322 @@
+project:
+  name: DarkMatterSim
+  # Enter an output directory for each new run; do not use the source tree.
+  runs_dir: null
+
+hardware:
+  cpu_threads: auto
+  mpi_ranks: auto
+  omp_threads: auto
+  build_jobs: auto
+  memory_limit_gb: auto
+
+validation:
+  background:
+    max_relative_hubble_error: 1.0e-4
+    max_relative_growth_rate_error: 1.0e-3
+    max_relative_growth_error: 1.0e-4
+    max_relative_drift_kick_error: 1.0e-4
+  ic_power_spectrum:
+    min_modes_per_bin: 20
+    min_bins: 5
+    false_rejection_probability: 0.001
+    null_monte_carlo_trials: 100000
+  ic_phase:
+    max_mesh_size: 128
+    min_modes: 20
+    min_coherence: 0.99
+    max_weighted_rms_phase_rad: 0.05
+  ic_velocity_divergence:
+    max_mesh_size: 128
+    min_modes: 20
+    kmax_fraction_nyquist: 0.25
+    min_coherence: 0.99
+    max_response_error: 0.03
+    max_rms_fractional_residual: 0.05
+
+spectrum:
+  source: boltzmann
+  file: null
+  format: class_pk
+  k_unit: h/Mpc
+  p_unit: (Mpc/h)^3
+  redshift: null
+
+cosmology:
+  model: null
+  engine: null
+  H0: null
+  omega_b: null
+  omega_cdm: null
+  A_s: null
+  n_s: null
+  tau_reio: null
+  N_ur: null
+  T_cmb: null
+  N_ncdm: 0
+  m_ncdm_eV: null
+  T_ncdm: 0.71611
+  extra: {}
+
+ede:
+  # AxiCLASS scalar-field parameters only; GADGET never evolves EDE.
+  enabled: false
+  parameterization: axion
+  f_ede: null          # scalar/total density fraction at the critical epoch
+  z_c: null            # critical redshift, dimensionless; a_c = 1/(1+z_c)
+  theta_i: null        # initial field displacement / decay constant [radians]
+  n_axion: null        # exponent in V(phi) proportional to [1-cos(phi/f)]^n
+  extra_axiclass: {}
+
+wdm:
+  enabled: false
+  mode: class_ncdm
+  model: wdm_thermal_relic
+  thermal_relic_mass_keV: null
+  include_thermal_velocities: true
+  max_thermal_speed_fraction_c: 0.01
+  allow_underresolved_benchmark: false
+  minimum_particles_per_half_mode: 100
+  lcdm_reference_pk: null
+  lcdm_reference_redshift: null
+  extra_class: {}
+
+simulation:
+  box_mpc_h: null
+  particles_per_dimension: null
+  start_redshift: null
+  start_redshift_guess: null
+  auto_start_target_rms_displacement_fraction: 0.10
+  auto_start_min_fraction: 0.05
+  auto_start_max_fraction: 0.15
+  auto_start_min_redshift: 24.0
+  auto_start_max_redshift: 499.0
+  random_seed: null
+  lpt_order_dm: null
+  lpt_order_hydro: 3
+  ic_engine_dm: null
+  ic_engine_hydro: null
+  # native_music consumes an existing, reaudited native parent/zoom generation.
+  native_generation_report: null
+  pm_grid: null
+  asmth: null
+  multipole_order: null
+  softening_kpc_h: null
+  # Null sets GADGET's maximum physical softening equal to the comoving value.
+  softening_max_physical_kpc_h: null
+  # For delivered zoom ICs: sorted actual coarse type-2 mass / fine DM mass.
+  # Enables native mass-scaled coarse softening; requires convergence tests.
+  zoom_softening_mass_ratios: null
+  accuracy: null
+  # Null keeps the accuracy preset above. Positive overrides are passed
+  # directly to the matching GADGET-4 parameter and recorded in the run.
+  max_size_timestep_ln_a: null
+  # Safety threshold in ln(a). Zero disables it; smaller requested steps abort.
+  min_size_timestep_ln_a: 0.0
+  err_tol_force_acc: null
+  err_tol_int_accuracy: null
+  err_tol_theta: null
+  physics: null
+  # Display highlights do not change native snapshot times or movie coverage.
+  highlight_redshifts: []
+  snapshot_z_max: null
+  snapshot_z_min: null
+  snapshot_dz: null
+  end_redshift: null
+  synchronized_outputs: null
+  output_format: null
+  num_files_per_snapshot: null
+  restart_every_seconds: null
+  # GADGET checkpoints/stops at 85% of this elapsed wall-clock limit.
+  # A very large value keeps the normal run unrestricted while preserving periodic checkpoints.
+  time_limit_cpu_seconds: null
+
+hydro:
+  cooling: true
+  star_formation: true
+  # Springel-Hernquist model; time is in native GADGET time units,
+  # temperatures in K, density in hydrogen atoms/cm^3; remaining factors
+  # are dimensionless. Zero density requests the model-derived threshold.
+  max_sfr_timescale: 1.5
+  temp_clouds: 1000.0
+  temp_supernova: 100000000.0
+  factor_evp: 1000.0
+  factor_sn: 0.1
+  # Separate fixed uint64 seed for native SSP keyed stochastic opportunities.
+  # Recorded 0 preserves the legacy configuration adapter's explicit default.
+  stellar_random_seed: 0
+  crit_phys_density: 0.0
+  crit_overdensity: 57.7
+  uv_background: true
+  # Positive GADGET-4 SPH Courant coefficient; null uses 0.1.
+  courant_factor: null
+  desired_neighbors: 64
+  neighbor_deviation: 2
+  artificial_viscosity: 1.0
+  # Used only when the IC's specific internal energy is zero.
+  # Temperature at start, or at the optional reference scale factor. A reference
+  # applies T(a)=T_ref*(a_ref/a)^2 for homogeneous monatomic adiabatic gas.
+  initial_gas_temperature: 10000.0
+  initial_gas_temperature_reference_scale_factor: null
+  # null uses the pinned GADGET-4 data/TREECOOL table. A custom path is
+  # resolved relative to the project root and checked against GADGET's reader.
+  treecool_file: null
+  require_species_transfer_functions: true
+  allow_gadget_particle_split_approximation: false
+
+black_holes:
+  # Opt in with every accretion, feedback, kernel and seeding choice declared.
+  enabled: false
+
+blender:
+  particle_mode: sampled
+  max_memory_fraction: 0.70
+
+halos:
+  # Bound native client/network waits; this is a resource policy, not physics.
+  rockstar_wall_seconds: 3600
+  # Complete assigned particle dumps for exact finder comparisons (extra disk).
+  rockstar_exact_membership: false
+  fof: true
+  subfind: true
+  rockstar: true
+  consistent_trees: true
+  fof_linking_length: 0.20
+  min_particles: 100
+  rockstar_strict_so_masses: true
+  rockstar_overlap_length_mpc_h: 3.0
+
+analysis:
+  all: false
+  requested_outputs: []
+  deferred_outputs: []
+  # Supported: fof, m200c, m200b, mvir. SO definitions require SUBFIND;
+  # GADGET Group_M_TopHat200 is its redshift-dependent virial-overdensity mass.
+  hmf_mass_definition: null
+  hmf_min_particles: null
+  hmf_mass_range_msun_h: null
+  # HMF convergence is accepted only over a declared common interval where a
+  # matched-phase higher-resolution run has a 95% rate-ratio interval inside
+  # this tolerance, for the required number of populated adjacent bins.
+  hmf_resolution_relative_tolerance: 0.05
+  hmf_resolution_confidence: 0.95
+  hmf_resolution_min_halos_per_bin: 20
+  hmf_resolution_required_consecutive_bins: 3
+  # Periodic finder matches are accepted only within this many initial particle spacings.
+  finder_match_radius_particle_spacings: 0.5
+  max_accretion_histories: 12
+  cross_run_match_min_shared_particles: 10
+  cross_run_match_min_overlap_fraction: 0.10
+  cross_run_match_max_catalogue_ids: 30000000
+  mass_bins: null
+  # Set [minimum, maximum] in Msun/h before paired HMF comparisons for fixed bins.
+  # null retains the explicitly reported data-selected overlap behavior.
+  comparison_hmf_mass_range_msun_h: null
+  power_grid: 256
+  halo_bias_min_halos: 20
+  halo_bias_min_modes_per_bin: 20
+  halo_bias_nyquist_fraction: 0.25
+  halo_profile_max_halos: 8
+  halo_profile_max_particles: 4000000
+  halo_profile_radial_bins: 24
+  halo_shape_max_halos: 40
+  halo_shape_max_particles: 4000000
+  halo_shape_min_particles: 100
+  correlation_bins: 35
+  correlation_min_halos: 20
+  # null uses the catalog-size heuristic; set a resolved physical minimum in Mpc/h for science analysis.
+  correlation_min_separation_mpc_h: null
+  density_grid: null
+  rare_halo_thresholds_msun_h: [1.0e10, 1.0e11, 1.0e12]
+  stellar_age_bins: 32
+  # Optional GADGET-4 direct-force sampling fraction. Direct summation is O(N^2).
+  wdm_protohalo_shape_control_quantile: 0.10
+  wdm_protohalo_shape_min_control_halos: 20
+  # Explicit DM-particle resolution warning used by the WDM evidence classifier.
+  wdm_spurious_min_particles: 300
+
+galaxies:
+  enabled: true
+  # Keep all luminous SUBFIND rows in the raw catalogue and mark resolution
+  # separately using these explicit particle-count floors.
+  min_star_particles: 100
+  min_dm_particles: 300
+
+visualization:
+  structure_maps: true
+  comparison_maps: true
+  movie: true
+  interactive_3d: true
+  blender_export: true
+  # Fields and sight lines included by the default run pipeline.
+  map_fields: null
+  map_projections: null
+  structure_story_projections: null
+  # Shared export settings for paper figures; the 3-D UI keeps its own dark theme.
+  publication_style: journal
+  publication_font: STIX Two Text
+  figure_layout: double_column
+  figure_formats: [png, pdf, svg]
+  figure_dpi: 450
+  density_scale_mode: global
+  density_display_percentiles: [0.5, 99.95]
+  density_cmap: cividis
+  filament_color: "#b88045"
+  temperature_cmap: inferno
+  difference_cmap: coolwarm
+  # Add one latest-output, three-projection research figure when structure maps are rendered.
+  structure_story_figure: true
+  structure_map_overlays: [filaments]
+  map_window_mpc_h: null
+  max_matched_halo_overlays: 1000
+  max_points_3d: 3000000
+  max_catalogue_points_3d: 50000
+  blender_galaxy_overlays: true
+  blender_max_galaxies: 200
+  # null exports every measured SUBFIND row for individual Blender inspection.
+  # A positive display cap leaves the complete scientific CSV/HDF5 unchanged.
+  blender_subhalo_limit: null
+  density_volume_grid_size: 64
+  # Analysis exports a 3-D cosmic-web morphology plate and a 3x3 extraction sequence.
+  # The mesh adapts to the particle count and uses periodic CIC deposition.
+  cosmic_web_grid_size: 128
+  cosmic_web_smoothing_cells: 1.25
+  timeline_loop: true
+  hydro_map_grid: 256
+  r200_shell_max_count: 200
+  velocity_grid_size: 32
+  max_velocity_seeds_3d: 800
+  max_interpolation_points: 250000
+  structure_catalogue_overlays: true
+  # Periodic Gaussian-Hessian density-ridge proxy; sidecars record its settings.
+  filament_overlay: true
+  filament_grid_size: null
+  filament_density_percentile: null
+  filament_curvature_threshold_factor: null
+  # Persistent 3-D skeleton option; requires DisPerSE mse and skelconv.
+  # The 0.35 dex threshold is a starting display value; test/report threshold stability for science.
+  filament_method: null
+  disperse_persistence_cut: null
+  disperse_density_smoothing_cells: null
+  disperse_smoothing_cells: null
+  filament_smoothing_mpc_h: null
+  disperse_timeout_s: 3600
+  disperse_executable: null
+  # Declare the verified pinned skelconv convention; coordinate magnitudes never decide units.
+  disperse_output_coordinate_representation: null
+  skelconv_executable: null
+  # Export the Blender scene by default; enable rendering explicitly for a movie.
+  blender_render: false
+  blender_executable: null
+  # Blender playback follows exact ParticleID matches between saved outputs.
+  blender_timeline: true
+  blender_interpolate_motion: true
+  # Keep timeline movies in a fixed scientific frame unless a cinematic orbit is requested.
+  blender_timeline_camera_orbit: false
+  blender_sequence_max_points: 800000
+  blender_frames_per_snapshot: 12
+  blender_render_quality: preview
+  movie_fps: 24
+  slice_thickness_mpc_h: null
+  slice_center_mpc_h: null
+  slice_mode: null

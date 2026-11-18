@@ -1,0 +1,11 @@
+OPTIMIZE  = -std=c++20 -g -O3 -fopenmp
+CC=mpiicpc #mpiicc
+CXX=mpiicpc
+
+MPICHLIB  =
+FFTW_INCL = -I/public/software/mathlib/fftw/intelmpi/3.3.9_double/include
+FFTW_LIBS = -I/public/software/mathlib/fftw/intelmpi/3.3.9_double/lib
+HDF5_INCL = -I/public/software/mathlib/hdf5/intel/1.12.0/include
+HDF5_LIBS = -L/public/software/mathlib/hdf5/intel/1.12.0/lib
+GSL_INCL  = -I/public/software/mathlib/gsl/intel/2.6/include
+GSL_LIBS  = -L/public/software/mathlib/gsl/intel/2.6/lib

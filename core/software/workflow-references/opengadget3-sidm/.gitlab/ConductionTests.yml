@@ -1,0 +1,17 @@
+Conduction tempstep 1a:
+  stage: Conduction_tests
+  extends: .job_settings
+  script:
+    - ./tests/TemperatureStep/run_tempstep_1a.sh
+
+Conduction tempstep 1a bicg:
+  stage: Conduction_tests
+  extends: .job_settings
+  script:
+    - ./tests/TemperatureStep/run_tempstep_1a_bicg.sh
+
+Conduction tempstep 1b bicg:
+  stage: Conduction_tests
+  extends: .job_settings
+  script:
+    - ./tests/TemperatureStep/run_tempstep_1b_bicg.sh

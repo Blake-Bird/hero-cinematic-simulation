@@ -1,0 +1,23 @@
+{
+  "request": {
+    "schema": "sidm-paired-control-ensemble-request-v1",
+    "comparisons": [
+      {
+        "path": "completed/comparison_0.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "path": "completed/comparison_1.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "path": "completed/comparison_2.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    ],
+    "minimum_realizations": 3,
+    "maximum_realizations": 3,
+    "maximum_observables": 2048,
+    "memory_gib": 8.0
+  }
+}

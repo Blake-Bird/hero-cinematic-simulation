@@ -1,0 +1,331 @@
+{
+  "schema": "algorithm-records-v1",
+  "records": [
+    {
+      "requirement_ids": [
+        "13",
+        "03.06",
+        "10.10"
+      ],
+      "owning_functions": [
+        "stars.validate_ssp_birth_arrays",
+        "stars.audit_native_ssp_birth_state",
+        "stars.verify_native_ssp_birth_audit",
+        "evolution.hydro_star_formation_parameters",
+        "stars.read_native_ssp_birth_journal",
+        "stars.audit_native_ssp_birth_events",
+        "stars.verify_native_ssp_birth_events",
+        "stars.read_native_hydro_census",
+        "stars.reconcile_native_hydro_species",
+        "stars.audit_native_hydro_history",
+        "stars.verify_native_hydro_history",
+        "stars.measure_hydro_comparison",
+        "stars.sod_riemann_reference",
+        "stars.sh03_equilibrium_reference",
+        "halos.add_native_hydro_source_history",
+        "stellar_returns.read_stellar_return_state",
+        "stellar_returns.reconcile_stellar_return_state"
+      ],
+      "primary_sources": [
+        "https://arxiv.org/abs/astro-ph/0206393",
+        "https://github.com/DEShawResearch/random123"
+      ],
+      "equation_identifiers": [
+        "SH03 retained rate (1-beta) cloudmass/tstar; effective gross formation mass = retained birth mass/(1-beta)",
+        "Philox4x32-10 published known-answer vector",
+        "Cumulative native returned mass/elements/energy increments equal the sum of committed per-source operations between actual saved epochs",
+        "Exact uint64 source counter difference equals committed consecutive source-operation census; bound native model CRC and nonregressing source clocks",
+        "Initial locked SSP mass equals current retained SSP mass plus cumulative delayed returned mass; SH03 prompt return is outside this retained reservoir"
+      ],
+      "physical_assumptions": [
+        "Pinned instantaneous SH03 prompt recycling; birth gross mass is bookkeeping associated with net retained mass, not an extra native gas transfer",
+        "Birth metallicity is a mass fraction frozen at conversion; subsequent enrichment cannot change it",
+        "Version zero is unavailable legacy birth state; no ID or epoch reconstructed from row order"
+      ],
+      "numerical_domain": [
+        "Native IDS_64BIT, comoving snapshots with explicit UnitMass_in_g/HubbleParam/FactorSN",
+        "Declared memory limit, complete native snapshot publication, exact uint64 parents/counters",
+        "StellarRandomSeed defaults to the recorded legacy-compatible integer 0 when not provided; full uint64 user seeds are supported",
+        "Event journal: standard GADGET-4 HDF5 header, exact snapshot cumulative counters, immutable per-rank TSV chunks, CRC and commit census, canonical native velocity conversion; inherited counter prefixes supported; source-eventful steps remain limited by the upstream int creation allocator"
+      ],
+      "upstream_revision_or_asset_hash": {
+        "native_sources": {
+          "core/software/gadget4/src/data/research_source_state.h": "a502aec009597dc2ee3ebfc0d4865b213bc06b43c77ad7e98c0e104a03d9b4b8",
+          "core/software/gadget4/src/data/allvars.h": "69c97de0b43b3fbd1e5dc4f711a23c96912b69a1495e279fd9f2708a497eefa9",
+          "core/software/gadget4/src/data/allvars.cc": "d25776a5cc0e6f82ad8f05e233ef4165a419004986bad731a79126bb15c073d6",
+          "core/software/gadget4/src/cooling_sfr/starformation.cc": "0f11b50f5176ee823309b2db7574c88b8ee5d061cc098de1a2a48a9592a0549f",
+          "core/software/gadget4/src/io/snap_io.cc": "8a6f6f107d03253318101108698d90cf878f0c8cfc51012f14a2e95d43c7960b",
+          "core/software/gadget4/src/data/research_stellar_birth.h": "f0d09811f7566d0906dca155c93b37b0ff54784333b68fcec4e6a055ed063693",
+          "core/software/gadget4/src/io/snap_io.h": "78e594446256e1637a8db3920676c96c571c2b66aacee832973b9a4c3ae1b6c1"
+        },
+        "patch_sha256": "bc9c6ab65ce5efe172557617af4995aeba6349ab5dbb55beee2a1c893fea8a24",
+        "independent_philox_reference": {
+          "repository": "https://github.com/DEShawResearch/random123",
+          "revision": "726a093cd9a73f3ec3c8d7a70ff10ed8efec8d13",
+          "tag": "v1.14.0",
+          "asset": "configs/random123_v114_kat_vectors.txt",
+          "url": "https://raw.githubusercontent.com/DEShawResearch/random123/726a093cd9a73f3ec3c8d7a70ff10ed8efec8d13/tests/kat_vectors",
+          "sha256": "aab5ebabf40003f63d6d87b24cbd2c8a02652e00cf8bad64226fd50586929183",
+          "scope": "Published known-answer vectors for independent algorithm verification; library not installed",
+          "license_asset": "configs/random123_v114_REFERENCE_LICENSE.txt",
+          "license_sha256": "5fd0885ab205878bd90c19144677286252eb9b988c1545a3a910edfe1e27b6df"
+        },
+        "journal_patch_sha256": "f3dd4903d78386a8418ce6981fa2a3182258c25a975db8bfad9f7a3be86e1b50",
+        "native_source_binding_history": [
+          {
+            "prior_hashes": {
+              "core/software/gadget4/src/data/research_source_state.h": "b08b4f6bd7243c66142418d5fe746e9709468e5e1eba71c77f231af55e650862",
+              "core/software/gadget4/src/data/allvars.h": "6a842103b50592dd9d296d075e433d51fb72ee72eb333dbeafec33219d5a5320",
+              "core/software/gadget4/src/data/allvars.cc": "32a11cbb3df779bb77aab8b493d09d831c6db43870c1df54738fc3283f910d9f",
+              "core/software/gadget4/src/cooling_sfr/starformation.cc": "6198ad98c5cfa66baef2132f4e074a5eb57b109fe64cab517415331216c10f23",
+              "core/software/gadget4/src/io/snap_io.cc": "1028e562e51230fc2ff170f0567563f6ee039a7166101d967e016ab9b983f9b1",
+              "core/software/gadget4/src/data/research_stellar_birth.h": "263f56be387fe078d4e019a2fca6509b04893d6ffb3de81d86de81b2e506059c",
+              "core/software/gadget4/src/io/snap_io.h": "dbde09179c2219d750d48380c9ac350e4b38f186334535c8dc98c2b1992a4b5c"
+            },
+            "updated_utc": "2026-10-05T17:38:39.317220+00:00",
+            "reason": "Blocks13\u201315 native physical source integration; current source has not been built or tested"
+          }
+        ]
+      },
+      "license": "Original Research2 bookkeeping; GADGET-4 integration retains upstream GPL; scalar Philox implementation independently written from published algorithm, not linked Random123",
+      "independent_controls": [
+        "Native published Philox KAT",
+        "SH03 gross/locked/prompt mass oracle",
+        "Native production starformation.cc syntax compilation",
+        "Native source-state binary restart transport",
+        "Native-format public snapshot audit/CLI and corruption rejection"
+      ],
+      "physical_acceptance": "NOT_ACCEPTED; evolved SF, shock/cooling/equilibrium and resolution controls remain required",
+      "native_source_history": [
+        {
+          "prior_hashes": {
+            "core/software/gadget4/src/cooling_sfr/starformation.cc": "237ea0ef5b9ec7247ee1ec41fcab0add3118fa38790d1fe2d363b11c4b58b82b"
+          },
+          "reason": "Native Block13 SSP birth-state, keyed draw and snapshot wiring",
+          "updated_utc": "2026-10-05T13:22:08.598098+00:00"
+        }
+      ],
+      "current_validation_state": "NOT_RUN_AFTER_BLOCKS13_15_IMPLEMENTATION"
+    },
+    {
+      "validation_state": "NOT_RUN_FOR_CURRENT_SOURCE",
+      "physical_acceptance": "NOT_ACCEPTED",
+      "native_full_file_overlay": {
+        "manifest": "core/patches/gadget4-source/native-source.json",
+        "manifest_sha256": "b0ca1880ee73440a5f965f8e6eb4bce839a6c3a93c7494f22930ad453ebc6ee4",
+        "archive_sha256": "72cf455e3353661a1bbac267434cb1c7d1757278ecf2a0adaf0b560d602ac06e"
+      },
+      "native_sources": {
+        "core/software/gadget4/LICENSE": "8b1ba204bb69a0ade2bfcf65ef294a920f6bb361b317dba43c7ef29d96332b9b",
+        "core/software/gadget4/Makefile": "994b618f5c2c21a1a99bba7565a9609453ee29dadeceeef3c4bc9fecad82200e",
+        "core/software/gadget4/Template-Config.sh": "51a5c7a3bfc705a7eace40a1f4dc2ca55df5bf951c41bc577a80800b8dd73d95",
+        "core/software/gadget4/buildsystem/Makefile.config": "5cba8a40fac31b1841d4f6ed062332374fceb781f000212409274bf14847f70f",
+        "core/software/gadget4/buildsystem/config.py": "b977de056a00bdcfe00f71d54b9de45779d27e380f514bd6fad93e5aa9624b8b",
+        "core/software/gadget4/defines_extra": "97e0452aaa0933d22bf4d5670ac771a71cdc7d438ba9702cf886bca6ab29be29",
+        "core/software/gadget4/src/black_holes/black_holes.cc": "e3dbf9a2f624d75a1b7e77406da43206bf7f3292df8c4b4ca8a3d38d51716cb4",
+        "core/software/gadget4/src/black_holes/research_bh_dynamics.cc": "cdff9d161ed13854b20b1cb7c5916b6a683f93b28540f3e111f669a05b7ebc8e",
+        "core/software/gadget4/src/black_holes/research_bh_dynamics.h": "6611519d4024cfe6a95dba303e9bd31e8a059e1b85f515fbaeaf46b8a572aef9",
+        "core/software/gadget4/src/cooling_sfr/cooling.cc": "4ee6d140f1162ce59ec23447c102239e3757386a8212b27ea6ceead382499f7a",
+        "core/software/gadget4/src/cooling_sfr/cooling.h": "777d8986b12257000f3df0917fc9d8ec08b6b3befe9e52ad0a21e4f5c66b1aec",
+        "core/software/gadget4/src/cooling_sfr/research_grackle.cc": "b9c6782e98da911d04ab5d085b2c492ac5ad0a9c83230d4f45f09d9b38e8fbd4",
+        "core/software/gadget4/src/cooling_sfr/research_stellar_returns.cc": "2651f436ae977a2ccb1851b19f36a99acde58802c07509ce15de11fe10c34c38",
+        "core/software/gadget4/src/cooling_sfr/research_stellar_returns.h": "b242985bbba6f889c3f195ac423282bb80da3d154fb8c368db0f3175417c9e18",
+        "core/software/gadget4/src/cooling_sfr/sfr_eos.cc": "031565a7f4f22c2f32c7771413bdd2006e2607c5c67af07110cbc88993f33dbd",
+        "core/software/gadget4/src/cooling_sfr/starformation.cc": "0f11b50f5176ee823309b2db7574c88b8ee5d061cc098de1a2a48a9592a0549f",
+        "core/software/gadget4/src/data/allvars.cc": "d25776a5cc0e6f82ad8f05e233ef4165a419004986bad731a79126bb15c073d6",
+        "core/software/gadget4/src/data/allvars.h": "69c97de0b43b3fbd1e5dc4f711a23c96912b69a1495e279fd9f2708a497eefa9",
+        "core/software/gadget4/src/data/particle_data.h": "87222659a5e37dd3acf1ad6aea4ef7149982f6de74f2f63755544f695b7a0910",
+        "core/software/gadget4/src/data/research_source_state.h": "a502aec009597dc2ee3ebfc0d4865b213bc06b43c77ad7e98c0e104a03d9b4b8",
+        "core/software/gadget4/src/data/research_stellar_birth.h": "f0d09811f7566d0906dca155c93b37b0ff54784333b68fcec4e6a055ed063693",
+        "core/software/gadget4/src/data/sph_particle_data.h": "4ff23304c0bbf1d3d0c86e4fcb8c4569ed7b080d44a97732f40a0450ee1cb354",
+        "core/software/gadget4/src/io/checkpoint_epoch.h": "5829eaedad8f9394824f22d349b2d1bf1423722d7408f33bde7a65516de59f5a",
+        "core/software/gadget4/src/io/checkpoint_layout.h": "bd0dac2f74f8ae2dea54c8fa72cba6efeab4a97742e584709853facf80e5f356",
+        "core/software/gadget4/src/io/checkpoint_receipt.h": "0d19bfc826e094785735a8c010476474324d61b4cab7a1f4c26cf9ac454cb6ed",
+        "core/software/gadget4/src/io/hdf5_util.cc": "f06c832a1a8486ab38df2719ffbeb5d3600f8de685a91ae5f645da89776c13d0",
+        "core/software/gadget4/src/io/hdf5_util.h": "c62fda7f393cbf492f893ce81cb765eb95a7a01955ecbecdfd5ea111ce79d1d9",
+        "core/software/gadget4/src/io/io.cc": "de1b205f76f234e40b22fd83e0e3a31474d93956261e411fd0752dfcd50b809a",
+        "core/software/gadget4/src/io/io.h": "7ff2f15789afd08f950383be48a72eaeda8d1fb853644ddd26847decf53adea7",
+        "core/software/gadget4/src/io/restart.cc": "9763a97f7f55bb3f684f69094757c435260be49a30dddb17509d1b055b14179f",
+        "core/software/gadget4/src/io/restart.h": "910dd3b1da26ed6a493d7057d081391a16558ab70f2eeec7e26ab9bbb923dcf0",
+        "core/software/gadget4/src/io/snap_io.cc": "8a6f6f107d03253318101108698d90cf878f0c8cfc51012f14a2e95d43c7960b",
+        "core/software/gadget4/src/io/snap_io.h": "78e594446256e1637a8db3920676c96c571c2b66aacee832973b9a4c3ae1b6c1",
+        "core/software/gadget4/src/main/run.cc": "0d951d1c77e373b13d1af30f201fa596fc03d1706823314824f547d2deeba111",
+        "core/software/gadget4/src/main/simulation.h": "b4b25ffabe37e98c9aac24280e004d33b3076f36526b74abb8d4d744609d66cf"
+      },
+      "requirement_ids": [
+        "block-14",
+        "03.06",
+        "10.10"
+      ],
+      "owning_functions": [
+        "stars.load_stellar_yield_library",
+        "stars.stellar_imf_density",
+        "stars.compile_stellar_return_model",
+        "stars.read_stellar_return_model",
+        "stars.stellar_return_interval",
+        "stars.stellar_population_partition",
+        "stars.deposit_stellar_ejecta",
+        "stars.stellar_evolution_native_parameters",
+        "stars.grackle_native_parameters",
+        "stars.read_native_stellar_return_journal",
+        "sim::stellar_source_step",
+        "research_grackle_cool_particle"
+      ],
+      "callers": [
+        "commands.compile_stellar_model_main",
+        "evolution.build_gadget",
+        "evolution.prepare_and_run",
+        "sim::calculate_non_standard_physics_end_of_step",
+        "stars.audit_native_hydro_history"
+      ],
+      "outputs": [
+        "Sealed compiled population/cumulative return model JSON and native .dat",
+        "Native current/live/remnant SSP masses, elemental/species state, source clocks and counters",
+        "Committed rank stellar-return journals with CRC/counter chains",
+        "Source-certified multi-epoch six-species hydro report and numeric archive"
+      ],
+      "upstream_assets": "configs/stellar_chemistry.upstream.json",
+      "primary_sources": [
+        "https://arxiv.org/abs/0902.1535",
+        "https://github.com/NuGrid/NuPyCEE",
+        "https://github.com/grackle-project/grackle"
+      ],
+      "license": "Original native coupling under GADGET-4 GPL; NuPyCEE/Grackle code-license assets and original data attributions retained",
+      "physical_assumptions": [
+        "Mass-normalized selected IMF; total isotope ejecta projected onto eleven supported elements",
+        "Linear finite-grid lifetime/yield interpolation with explicit metallicity policy",
+        "SH03 prompt return mass subtracted once; SH03 CCSN thermal energy not deposited twice",
+        "Population/live/remnant partition uses applied source age, delaying incomplete unsupported recipient transfers",
+        "Single-phase native Grackle C network0 equilibrium or network1 atomic H/He; effective SH03 EOS retains its native model"
+      ],
+      "numerical_domain": [
+        "Synchronized density-entropy SPH with exact uint64 IDs and bounded replicated source records",
+        "Declared finite proper age and metallicity grid; primordial zero-metallicity yields are not invented",
+        "No H2/deuterium chemistry or individual stellar death/fragmentation claims"
+      ],
+      "independent_controls": [
+        "Closed SSP source intervals and conservative deposition oracle",
+        "Zero-Z reject/explicit-edge approximation controls",
+        "Shock/cooling/SH03 equilibrium source inputs",
+        "Raw/snapshot restart, rank reorder and journal/source integrity controls; all execution deferred"
+      ]
+    },
+    {
+      "validation_state": "NOT_RUN_FOR_CURRENT_SOURCE",
+      "physical_acceptance": "NOT_ACCEPTED",
+      "native_full_file_overlay": {
+        "manifest": "core/patches/gadget4-source/native-source.json",
+        "manifest_sha256": "b0ca1880ee73440a5f965f8e6eb4bce839a6c3a93c7494f22930ad453ebc6ee4",
+        "archive_sha256": "72cf455e3353661a1bbac267434cb1c7d1757278ecf2a0adaf0b560d602ac06e"
+      },
+      "native_sources": {
+        "core/software/gadget4/LICENSE": "8b1ba204bb69a0ade2bfcf65ef294a920f6bb361b317dba43c7ef29d96332b9b",
+        "core/software/gadget4/Makefile": "994b618f5c2c21a1a99bba7565a9609453ee29dadeceeef3c4bc9fecad82200e",
+        "core/software/gadget4/Template-Config.sh": "51a5c7a3bfc705a7eace40a1f4dc2ca55df5bf951c41bc577a80800b8dd73d95",
+        "core/software/gadget4/buildsystem/Makefile.config": "5cba8a40fac31b1841d4f6ed062332374fceb781f000212409274bf14847f70f",
+        "core/software/gadget4/buildsystem/config.py": "b977de056a00bdcfe00f71d54b9de45779d27e380f514bd6fad93e5aa9624b8b",
+        "core/software/gadget4/defines_extra": "97e0452aaa0933d22bf4d5670ac771a71cdc7d438ba9702cf886bca6ab29be29",
+        "core/software/gadget4/src/black_holes/black_holes.cc": "e3dbf9a2f624d75a1b7e77406da43206bf7f3292df8c4b4ca8a3d38d51716cb4",
+        "core/software/gadget4/src/black_holes/research_bh_dynamics.cc": "cdff9d161ed13854b20b1cb7c5916b6a683f93b28540f3e111f669a05b7ebc8e",
+        "core/software/gadget4/src/black_holes/research_bh_dynamics.h": "6611519d4024cfe6a95dba303e9bd31e8a059e1b85f515fbaeaf46b8a572aef9",
+        "core/software/gadget4/src/cooling_sfr/cooling.cc": "4ee6d140f1162ce59ec23447c102239e3757386a8212b27ea6ceead382499f7a",
+        "core/software/gadget4/src/cooling_sfr/cooling.h": "777d8986b12257000f3df0917fc9d8ec08b6b3befe9e52ad0a21e4f5c66b1aec",
+        "core/software/gadget4/src/cooling_sfr/research_grackle.cc": "b9c6782e98da911d04ab5d085b2c492ac5ad0a9c83230d4f45f09d9b38e8fbd4",
+        "core/software/gadget4/src/cooling_sfr/research_stellar_returns.cc": "2651f436ae977a2ccb1851b19f36a99acde58802c07509ce15de11fe10c34c38",
+        "core/software/gadget4/src/cooling_sfr/research_stellar_returns.h": "b242985bbba6f889c3f195ac423282bb80da3d154fb8c368db0f3175417c9e18",
+        "core/software/gadget4/src/cooling_sfr/sfr_eos.cc": "031565a7f4f22c2f32c7771413bdd2006e2607c5c67af07110cbc88993f33dbd",
+        "core/software/gadget4/src/cooling_sfr/starformation.cc": "0f11b50f5176ee823309b2db7574c88b8ee5d061cc098de1a2a48a9592a0549f",
+        "core/software/gadget4/src/data/allvars.cc": "d25776a5cc0e6f82ad8f05e233ef4165a419004986bad731a79126bb15c073d6",
+        "core/software/gadget4/src/data/allvars.h": "69c97de0b43b3fbd1e5dc4f711a23c96912b69a1495e279fd9f2708a497eefa9",
+        "core/software/gadget4/src/data/particle_data.h": "87222659a5e37dd3acf1ad6aea4ef7149982f6de74f2f63755544f695b7a0910",
+        "core/software/gadget4/src/data/research_source_state.h": "a502aec009597dc2ee3ebfc0d4865b213bc06b43c77ad7e98c0e104a03d9b4b8",
+        "core/software/gadget4/src/data/research_stellar_birth.h": "f0d09811f7566d0906dca155c93b37b0ff54784333b68fcec4e6a055ed063693",
+        "core/software/gadget4/src/data/sph_particle_data.h": "4ff23304c0bbf1d3d0c86e4fcb8c4569ed7b080d44a97732f40a0450ee1cb354",
+        "core/software/gadget4/src/io/checkpoint_epoch.h": "5829eaedad8f9394824f22d349b2d1bf1423722d7408f33bde7a65516de59f5a",
+        "core/software/gadget4/src/io/checkpoint_layout.h": "bd0dac2f74f8ae2dea54c8fa72cba6efeab4a97742e584709853facf80e5f356",
+        "core/software/gadget4/src/io/checkpoint_receipt.h": "0d19bfc826e094785735a8c010476474324d61b4cab7a1f4c26cf9ac454cb6ed",
+        "core/software/gadget4/src/io/hdf5_util.cc": "f06c832a1a8486ab38df2719ffbeb5d3600f8de685a91ae5f645da89776c13d0",
+        "core/software/gadget4/src/io/hdf5_util.h": "c62fda7f393cbf492f893ce81cb765eb95a7a01955ecbecdfd5ea111ce79d1d9",
+        "core/software/gadget4/src/io/io.cc": "de1b205f76f234e40b22fd83e0e3a31474d93956261e411fd0752dfcd50b809a",
+        "core/software/gadget4/src/io/io.h": "7ff2f15789afd08f950383be48a72eaeda8d1fb853644ddd26847decf53adea7",
+        "core/software/gadget4/src/io/restart.cc": "9763a97f7f55bb3f684f69094757c435260be49a30dddb17509d1b055b14179f",
+        "core/software/gadget4/src/io/restart.h": "910dd3b1da26ed6a493d7057d081391a16558ab70f2eeec7e26ab9bbb923dcf0",
+        "core/software/gadget4/src/io/snap_io.cc": "8a6f6f107d03253318101108698d90cf878f0c8cfc51012f14a2e95d43c7960b",
+        "core/software/gadget4/src/io/snap_io.h": "78e594446256e1637a8db3920676c96c571c2b66aacee832973b9a4c3ae1b6c1",
+        "core/software/gadget4/src/main/run.cc": "0d951d1c77e373b13d1af30f201fa596fc03d1706823314824f547d2deeba111",
+        "core/software/gadget4/src/main/simulation.h": "b4b25ffabe37e98c9aac24280e004d33b3076f36526b74abb8d4d744609d66cf"
+      },
+      "requirement_ids": [
+        "block-15",
+        "03.06",
+        "08.02",
+        "10.10"
+      ],
+      "owning_functions": [
+        "black_holes.native_parameters",
+        "black_holes.dynamics_native_parameters",
+        "black_holes.accretion_feedback_native_parameters",
+        "black_holes.accretion_rates",
+        "black_holes.angular_momentum_suppression",
+        "black_holes.unresolved_friction_acceleration",
+        "black_holes.bound_binary_elements",
+        "black_holes.peters_binary_rates",
+        "black_holes.integrate_peters_reference",
+        "black_holes.black_hole_remnant_fit",
+        "black_holes.read_native_black_hole_journal",
+        "black_holes.black_hole_merger_lineage",
+        "black_holes.publish_black_hole_environment_history",
+        "sim::black_hole_source_step",
+        "sim::black_hole_dynamics_step",
+        "evolution.publish_native_source_events"
+      ],
+      "callers": [
+        "sim::calculate_non_standard_physics_end_of_step",
+        "evolution.prepare_and_run",
+        "stars.audit_native_hydro_history",
+        "commands.black_hole_environment_main",
+        "commands.native_source_events_main",
+        "halos.add_native_hydro_source_history"
+      ],
+      "outputs": [
+        "Native BH physical/composite masses, accretion diagnostics, spin, binary clocks/orbit/reservoirs and ancestry",
+        "Committed native BH source JSONL and rank/CRC counter commits",
+        "Versioned two-parent merger lineage",
+        "Host-binding/wandering/unbound availability masks and DM aperture histories",
+        "Source-event cadence/checkpoint candidate windows retaining actual native timing uncertainty"
+      ],
+      "upstream_assets": "configs/black_hole_dynamics.upstream.json",
+      "primary_sources": [
+        "https://github.com/dgerosa/precession",
+        "https://arxiv.org/abs/1501.07609",
+        "https://arxiv.org/abs/1108.2009",
+        "https://academic.oup.com/mnras/article/454/1/1038/1143767",
+        "https://arxiv.org/abs/astro-ph/9601092"
+      ],
+      "license": "Original GADGET-4 coupling; PRECESSION analytic coefficients carry full retained MIT attribution",
+      "physical_assumptions": [
+        "Declared comoving collisionless background and true force-softening support",
+        "Physical BH mass drives rates; composite carrier responds to conservative momentum kicks",
+        "Measured slow collisionless particles receive opposite friction momentum plus relative kinetic work",
+        "Bound/hard quasi-circular pairs have private COM-carrier dynamics; closeness alone does not merge",
+        "Peters losses and PN spin transport end at a physical 10GM/c\u00b2 gate before the fit",
+        "Fit mass deficit includes inspiral; post-gate radiation removes private binding/kinetic work without duplicate radiation",
+        "Spin magnitude from the pinned fit; vector direction uses the declared total-angular-momentum direction approximation",
+        "Kinetic feedback has zero net gas impulse and an exact extensive kinetic energy increment",
+        "Finite host binding excludes all type5 self potential and never uses periodic peculiar escape energy"
+      ],
+      "numerical_domain": [
+        "Capture eccentricity <=0.05, fit q>=0.05, progenitor spin magnitude <=0.99, synchronized density-entropy source steps",
+        "Unsupported SIDM backgrounds require Block47 and a measured calibration; eccentric plunge/native numerical relativity outside this profile",
+        "COM projection stores private energy/angular reservoirs; external-host potential-work errors require later softening/timestep/resolution convergence"
+      ],
+      "independent_controls": [
+        "Bondi/Eddington and rotation suppression references",
+        "Thermal/kinetic extensive budget references",
+        "Bound/unbound osculating orbital invariants",
+        "Adaptive Peters reference plus independent circular a^4 law",
+        "Pinned remnant/recoil symmetry, native journal completeness, ancestry/restart and timestep controls; execution deferred"
+      ]
+    }
+  ]
+}

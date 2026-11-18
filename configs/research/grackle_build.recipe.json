@@ -1,0 +1,33 @@
+{
+  "schema": "pinned-grackle-source-build-v1",
+  "source_directory": "core/software/chemistry/grackle",
+  "source_revision": "af7939494ce65007887ada7b98d1813df6843346",
+  "configure_arguments": [
+    "cmake",
+    "-S",
+    "{source}",
+    "-B",
+    "{owned_build}",
+    "-DGRACKLE_USE_DOUBLE=ON",
+    "-DGRACKLE_BUILD_TESTS=OFF",
+    "-DGRACKLE_EXAMPLES=OFF",
+    "-DGRACKLE_DEFINE_INSTALL_RULES=ON",
+    "-DBUILD_SHARED_LIBS=ON",
+    "-DGRACKLE_USE_OPENMP=OFF",
+    "-DCMAKE_INSTALL_PREFIX={owned_prefix}"
+  ],
+  "build_arguments": [
+    "cmake",
+    "--build",
+    "{owned_build}",
+    "--parallel",
+    "{build_jobs}"
+  ],
+  "install_arguments": [
+    "cmake",
+    "--install",
+    "{owned_build}"
+  ],
+  "execution_status": "NOT_EXECUTED",
+  "model_binding": "After actual build, pin the installed shared library SHA256 in native chemistry configuration; no assumed binary ABI or successful build receipt."
+}

@@ -1,0 +1,11 @@
+CC = mpiicpx
+CXX = mpiicpx
+GSL_INCL = $(GSL_INC)
+GSL_LIBS = $(GSL_SHLIB)
+FFTW_INCL= $(FFTW_INC)
+FFTW_LIBS= $(FFTW_SHLIB) $(FFTW_MPI_LIB) $(FFTW_OPENMP_SHLIB)
+MPICHLIB =
+HDF5_INCL = $(HDF5_INC)
+HDF5_LIBS  = $(HDF5_SHLIB)
+FFTW_LIBNAMES=
+OPTIMIZE = -std=c++17 -Wall -g -O2 -qopenmp # -qopt-report=5 -simd -qopt-report-phase=ipo,openmp,vec -DH5_USE_16_APII

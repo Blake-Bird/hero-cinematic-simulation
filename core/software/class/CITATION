@@ -1,0 +1,11 @@
+CLASS: Cosmic Linear Anisotropy Solving System
+Authors listed upstream: Julien Lesgourgues, Thomas Tram, Nils Schoeneberg,
+with contributions from the additional authors listed in the upstream README.
+Pinned source: 64bbab707faf4de4779a9e04edd180fef18d98fa
+
+The upstream README permits free use of CLASS and asks publications to cite
+CLASS II: Approximation schemes, https://arxiv.org/abs/1104.2933.
+This is a citation notice, not a newly assigned software license.
+Read the original notice and author list at:
+https://github.com/lesgourg/class_public/blob/64bbab707faf4de4779a9e04edd180fef18d98fa/README.md
+Local build changes are recorded under core/patches.

@@ -1,0 +1,58 @@
+{
+  "schema": "stream-campaign-v1",
+  "experiment_id": "live-stream-edit-before-running",
+  "resources": {
+    "memory_gib": 8.0,
+    "maximum_particles": 4096,
+    "maximum_stages": 16
+  },
+  "stages": [
+    {
+      "stage_id": "live",
+      "kind": "live",
+      "inputs": {
+        "host": "block17_host_history.example.json",
+        "progenitor": "../../outputs/CHOOSE_CATALOGUE/product.json"
+      },
+      "parameters": {
+        "tracer_namespace": "resimulation:CHOOSE_RUN:progenitor-0:seed-4271",
+        "candidate_id": 0,
+        "seed": 4271,
+        "initialization": {
+          "kind": "measured",
+          "parameters": {
+            "center_kpc": [
+              20.0,
+              0.0,
+              0.0
+            ],
+            "center_velocity_kms": [
+              0.0,
+              150.0,
+              0.0
+            ],
+            "parent_progenitor_reference": "CHOOSE_NATIVE_GRAPH_PROGENITOR_KEY"
+          }
+        },
+        "output_times_myr": [
+          0.0,
+          10.0,
+          20.0,
+          30.0,
+          40.0,
+          50.0
+        ],
+        "checkpoint_directory": "../../outputs/CHOOSE_CHECKPOINT_DIRECTORY",
+        "controls": {
+          "softening_kpc": 0.005,
+          "force_chunk_rows": 64,
+          "maximum_step_myr": 0.05,
+          "minimum_step_myr": 1e-06,
+          "dynamical_step_fraction": 0.02,
+          "maximum_steps": 2000000,
+          "binding_iterations": 32
+        }
+      }
+    }
+  ]
+}

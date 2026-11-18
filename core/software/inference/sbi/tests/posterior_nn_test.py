@@ -1,0 +1,616 @@
+# This file is part of sbi, a toolkit for simulation-based inference. sbi is licensed
+# under the Apache License Version 2.0, see <https://www.apache.org/licenses/>
+
+from __future__ import annotations
+
+import pytest
+import torch
+from torch import eye, nn, ones, zeros
+from torch.distributions import Independent, MultivariateNormal, Uniform
+
+from sbi.inference import (
+    FMPE,
+    NLE_A,
+    NPE_A,
+    NPE_C,
+    NPSE,
+    NRE,
+    NRE_A,
+    NRE_B,
+    NRE_C,
+    DirectPosterior,
+)
+from sbi.inference.posteriors.posterior_parameters import (
+    MCMCPosteriorParameters,
+)
+from sbi.inference.potentials.posterior_based_potential import (
+    posterior_estimator_based_potential,
+)
+from sbi.neural_nets import posterior_flow_nn
+from sbi.neural_nets.embedding_nets import CNNEmbedding
+from sbi.simulators.linear_gaussian import (
+    diagonal_linear_gaussian,
+    linear_gaussian,
+    true_posterior_linear_gaussian_mvn_prior,
+)
+from sbi.utils.diagnostics_utils import get_posterior_samples_on_batch
+from sbi.utils.metrics import check_c2st
+from sbi.utils.torchutils import BoxUniform
+
+
+@pytest.mark.parametrize("snpe_method", [NPE_A, NPE_C])
+@pytest.mark.parametrize(
+    "x_o_batch_dim",
+    (
+        0,
+        1,
+        pytest.param(
+            2,
+            marks=pytest.mark.xfail(
+                raises=ValueError,
+                reason=".log_prob() supports only batch size 1 for x_o.",
+            ),
+        ),
+    ),
+)
+def test_log_prob_with_different_x(snpe_method: type, x_o_batch_dim: bool):
+    num_dim = 2
+    num_simulations = 1000
+
+    prior = MultivariateNormal(loc=zeros(num_dim), covariance_matrix=eye(num_dim))
+    simulator = diagonal_linear_gaussian
+
+    inference = snpe_method(prior=prior)
+    theta = prior.sample((num_simulations,))
+    x = simulator(theta)
+    posterior_estimator = inference.append_simulations(theta, x).train(max_num_epochs=3)
+
+    if x_o_batch_dim == 0:
+        x_o = ones(num_dim)
+    elif x_o_batch_dim == 1:
+        x_o = ones(1, num_dim)
+    elif x_o_batch_dim == 2:
+        x_o = ones(2, num_dim)
+    else:
+        raise NotImplementedError
+
+    posterior = DirectPosterior(
+        posterior_estimator=posterior_estimator, prior=prior
+    ).set_default_x(x_o)
+    samples = posterior.sample((10,))
+    _ = posterior.log_prob(samples)
+
+
+@pytest.mark.parametrize("snplre_method", [NPE_C, NLE_A, NRE_A, NRE_B, NRE_C])
+def test_importance_posterior_sample_log_prob(snplre_method: type):
+    num_dim = 2
+    num_simulations = 1000
+
+    prior = MultivariateNormal(loc=zeros(num_dim), covariance_matrix=eye(num_dim))
+    simulator = diagonal_linear_gaussian
+
+    inference = snplre_method(prior=prior)
+    theta = prior.sample((num_simulations,))
+    x = simulator(theta)
+    _ = inference.append_simulations(theta, x).train(max_num_epochs=3)
+
+    posterior = inference.build_posterior(sample_with="importance")
+
+    x_o = ones(num_dim)
+    samples = posterior.sample((10,), x=x_o)
+    samples2, weights = posterior.sample((10,), x=x_o, method="importance")
+    assert samples.shape == (10, num_dim), "Sample shape of sample is wrong"
+    assert samples2.shape == (10, num_dim), "Sample of sample_with_weights shape wrong"
+    assert weights.shape == (10,), "Weights shape wrong"
+
+    log_prob = posterior.log_prob(samples, x=x_o)
+
+    assert log_prob.shape == (10,), "logprob shape wrong"
+
+
+@pytest.mark.parametrize("snpe_method", [NPE_A, NPE_C])
+@pytest.mark.parametrize("x_o_batch_dim", (0, 1, 2))
+@pytest.mark.parametrize("prior_type", ("mvn", "uniform"))
+def test_batched_sample_log_prob_with_different_x(
+    snpe_method: type,
+    x_o_batch_dim: bool,
+    prior_type: str,
+):
+    num_dim = 2
+    num_simulations = 1000
+
+    # We also want to test on bounded support! Which will invoke leakage correction.
+    if prior_type == "mvn":
+        prior = MultivariateNormal(loc=zeros(num_dim), covariance_matrix=eye(num_dim))
+    elif prior_type == "uniform":
+        prior = Independent(Uniform(-1.0 * ones(num_dim), 1.0 * ones(num_dim)), 1)
+    simulator = diagonal_linear_gaussian
+
+    inference = snpe_method(prior=prior)
+    theta = prior.sample((num_simulations,))
+    x = simulator(theta)
+    posterior_estimator = inference.append_simulations(theta, x).train(max_num_epochs=3)
+
+    x_o = ones(num_dim) if x_o_batch_dim == 0 else ones(x_o_batch_dim, num_dim)
+
+    posterior = DirectPosterior(posterior_estimator=posterior_estimator, prior=prior)
+
+    torch.manual_seed(0)
+    samples = posterior.sample_batched((10,), x_o)
+    batched_log_probs = posterior.log_prob_batched(samples, x_o)
+
+    # Test large max_sampling_batch_size to test capping warning.
+    with pytest.warns(UserWarning, match="Capping max_sampling_batch_size"):
+        posterior.sample_batched(
+            (10,), ones(3, num_dim), max_sampling_batch_size=40_000
+        )
+
+    assert (
+        samples.shape == (10, x_o_batch_dim, num_dim)
+        if x_o_batch_dim > 0
+        else (10, num_dim)
+    ), "Sample shape wrong"
+    assert batched_log_probs.shape == (10, max(x_o_batch_dim, 1)), "logprob shape wrong"
+
+    # Test with 2D theta (batch, event) — no explicit sample dim.
+    if x_o_batch_dim > 0:
+        theta_2d = samples[0]  # (batch, event)
+        log_probs_2d = posterior.log_prob_batched(theta_2d, x_o)
+        assert log_probs_2d.shape == (1, x_o_batch_dim), "2D theta logprob shape wrong"
+        assert torch.allclose(log_probs_2d[0], batched_log_probs[0], atol=1e-1)
+
+    # Test consistency with non-batched log_prob
+    # NOTE: Leakage factor is a MC estimate, so we need to relax the tolerance here.
+    if x_o_batch_dim == 0:
+        # sample_batched returns (sample_dim, batch_dim, input_dim), squeeze batch dim
+        log_probs = posterior.log_prob(samples.squeeze(1), x=x_o)
+        assert torch.allclose(
+            log_probs, batched_log_probs[:, 0], atol=1e-1, rtol=1e-1
+        ), "Batched log probs different from non-batched log probs"
+    else:
+        for idx in range(x_o_batch_dim):
+            log_probs = posterior.log_prob(samples[:, idx], x=x_o[idx])
+            assert torch.allclose(
+                log_probs, batched_log_probs[:, idx], atol=1e-1, rtol=1e-1
+            ), "Batched log probs different from non-batched log probs"
+
+
+@pytest.mark.parametrize("snpe_method", [NPE_A, NPE_C])
+def test_direct_posterior_multidimensional_sample_shape(snpe_method: type):
+    """DirectPosterior keeps every sample dimension, like the other posteriors."""
+    num_dim, num_xs, sample_shape = 2, 4, (2, 3)
+    prior = MultivariateNormal(loc=zeros(num_dim), covariance_matrix=eye(num_dim))
+    theta = prior.sample((100,))
+    inference = snpe_method(prior=prior)
+    inference.append_simulations(theta, diagonal_linear_gaussian(theta)).train(
+        max_num_epochs=1
+    )
+    posterior = inference.build_posterior()
+
+    samples = posterior.sample(sample_shape, x=ones(num_dim))
+    batched_samples = posterior.sample_batched(sample_shape, x=ones(num_xs, num_dim))
+
+    assert samples.shape == (*sample_shape, num_dim)
+    assert batched_samples.shape == (*sample_shape, num_xs, num_dim)
+    # The default empty shape gives one sample without a leading dimension.
+    assert posterior.sample(x=ones(num_dim)).shape == (num_dim,)
+    assert posterior.sample_batched((), x=ones(num_xs, num_dim)).shape == (
+        num_xs,
+        num_dim,
+    )
+
+
+@pytest.mark.mcmc
+@pytest.mark.parametrize("snlre_method", [NRE_C])  # it's independent of the method
+@pytest.mark.parametrize("x_o_batch_dim", (0, 1, 2))
+@pytest.mark.parametrize("init_strategy", ["proposal", "resample"])
+@pytest.mark.parametrize(
+    "sample_shape",
+    (
+        (5,),  # less than num_chains
+        (4, 2),  # 2D batch
+        (15,),  # not divisible by num_chains
+    ),
+)
+def test_batched_mcmc_sample_log_prob_with_different_x(
+    snlre_method: type,
+    x_o_batch_dim: bool,
+    mcmc_params_fast: MCMCPosteriorParameters,
+    init_strategy: str,
+    sample_shape: torch.Size,
+):
+    num_dim = 2
+    num_simulations = 100
+    num_chains = 10
+
+    prior = MultivariateNormal(loc=zeros(num_dim), covariance_matrix=eye(num_dim))
+    simulator = diagonal_linear_gaussian
+
+    inference = snlre_method(prior=prior)
+    theta = prior.sample((num_simulations,))
+    x = simulator(theta)
+    inference.append_simulations(theta, x).train(max_num_epochs=1)
+
+    x_o = ones(num_dim) if x_o_batch_dim == 0 else ones(x_o_batch_dim, num_dim)
+
+    posterior = inference.build_posterior(posterior_parameters=mcmc_params_fast)
+
+    samples = posterior.sample_batched(
+        sample_shape,
+        x_o,
+        init_strategy=init_strategy,
+        num_chains=num_chains,
+    )
+
+    assert (
+        samples.shape == (*sample_shape, x_o_batch_dim, num_dim)
+        if x_o_batch_dim > 0
+        else (*sample_shape, num_dim)
+    ), "Sample shape wrong"
+
+    # test only for 1 sample_shape case to avoid repeating this test.
+    if x_o_batch_dim > 1 and sample_shape == (5,):
+        assert samples.shape[1] == x_o_batch_dim, "Batch dimension wrong"
+        inference = snlre_method(prior=prior)
+        _ = inference.append_simulations(theta, x).train()
+        posterior = inference.build_posterior(posterior_parameters=mcmc_params_fast)
+
+        x_o = torch.stack([0.5 * ones(num_dim), -0.5 * ones(num_dim)], dim=0)
+        # test with multiple chains to test whether correct chains are
+        # concatenated.
+        sample_shape = (1000,)  # use enough samples for accuracy comparison
+        samples = posterior.sample_batched(
+            sample_shape, x_o, num_chains=num_chains, warmup_steps=500
+        )
+
+        samples_separate1 = posterior.sample(
+            sample_shape, x_o[0], num_chains=num_chains, warmup_steps=500
+        )
+        samples_separate2 = posterior.sample(
+            sample_shape, x_o[1], num_chains=num_chains, warmup_steps=500
+        )
+
+        # Check if means are approx. same
+        samples_m = torch.mean(samples, dim=0, dtype=torch.float32)
+        samples_separate1_m = torch.mean(samples_separate1, dim=0, dtype=torch.float32)
+        samples_separate2_m = torch.mean(samples_separate2, dim=0, dtype=torch.float32)
+        samples_sep_m = torch.stack([samples_separate1_m, samples_separate2_m], dim=0)
+
+        assert torch.allclose(samples_m, samples_sep_m, atol=0.2, rtol=0.2), (
+            "Batched sampling is not consistent with separate sampling."
+        )
+
+
+@pytest.mark.slow
+@pytest.mark.parametrize("vector_field_method", [NPSE, FMPE])
+@pytest.mark.parametrize("x_o_batch_dim", (0, 1, 2))
+@pytest.mark.parametrize("sampling_method", ["sde", "ode"])
+@pytest.mark.parametrize(
+    "sample_shape",
+    (
+        (5,),  # less than num_chains
+        (4, 2),  # 2D batch
+    ),
+)
+def test_batched_score_sample_with_different_x(
+    vector_field_method: type,
+    x_o_batch_dim: bool,
+    sampling_method: str,
+    sample_shape: torch.Size,
+):
+    num_dim = 2
+    num_simulations = 100
+
+    prior = MultivariateNormal(loc=zeros(num_dim), covariance_matrix=eye(num_dim))
+    simulator = diagonal_linear_gaussian
+
+    inference = vector_field_method(prior=prior)
+    theta = prior.sample((num_simulations,))
+    x = simulator(theta)
+    inference.append_simulations(theta, x).train(max_num_epochs=2)
+
+    x_o = ones(num_dim) if x_o_batch_dim == 0 else ones(x_o_batch_dim, num_dim)
+
+    posterior = inference.build_posterior(sample_with=sampling_method)
+
+    samples = posterior.sample_batched(
+        sample_shape,
+        x_o,
+    )
+
+    assert (
+        samples.shape == (*sample_shape, x_o_batch_dim, num_dim)
+        if x_o_batch_dim > 0
+        else (*sample_shape, num_dim)
+    ), "Sample shape wrong"
+
+    # test only for 1 sample_shape case to avoid repeating this test.
+    if x_o_batch_dim > 1 and sample_shape == (5,):
+        assert samples.shape[1] == x_o_batch_dim, "Batch dimension wrong"
+        inference = vector_field_method(prior=prior)
+        _ = inference.append_simulations(theta, x).train()
+        posterior = inference.build_posterior(sample_with=sampling_method)
+
+        x_o = torch.stack([0.5 * ones(num_dim), -0.5 * ones(num_dim)], dim=0)
+        # test with multiple chains to test whether correct chains are
+        # concatenated.
+        sample_shape = torch.Size([1000])  # use enough samples for accuracy comparison
+        samples = posterior.sample_batched(sample_shape, x_o)
+
+        samples_separate1 = posterior.sample(sample_shape, x_o[0])
+        samples_separate2 = posterior.sample(sample_shape, x_o[1])
+
+        # Check if means are approx. same
+        samples_m = torch.mean(samples, dim=0, dtype=torch.float32)
+        samples_separate1_m = torch.mean(samples_separate1, dim=0, dtype=torch.float32)
+        samples_separate2_m = torch.mean(samples_separate2, dim=0, dtype=torch.float32)
+        samples_sep_m = torch.stack([samples_separate1_m, samples_separate2_m], dim=0)
+
+        assert torch.allclose(samples_m, samples_sep_m, atol=0.2, rtol=0.2), (
+            "Batched sampling is not consistent with separate sampling."
+        )
+
+
+@pytest.mark.slow
+@pytest.mark.parametrize("vector_field_method", [NPSE, FMPE])
+@pytest.mark.parametrize("x_o_batch_dim", (0, 1, 2))
+@pytest.mark.parametrize("sampling_method", ["sde", "ode"])
+@pytest.mark.parametrize(
+    "sample_shape",
+    (
+        (5,),  # less than num_chains
+        (4, 2),  # 2D batch
+    ),
+)
+def test_batched_vector_field_sample_with_multidim_x(
+    vector_field_method: type,
+    x_o_batch_dim: bool,
+    sampling_method: str,
+    sample_shape: torch.Size,
+):
+    num_dim = 5
+    num_simulations = 100
+
+    prior = BoxUniform(low=torch.Tensor([-1.0]), high=torch.Tensor([1.0]))
+    simulator, embedding_net = get_multidim_simulator_embedding(
+        num_dim=num_dim, embedding_dim=10
+    )
+
+    flow_estimator = posterior_flow_nn(
+        model='mlp',
+        embedding_net=embedding_net,
+    )
+
+    inference = vector_field_method(prior=prior, vf_estimator=flow_estimator)
+    theta = prior.sample((num_simulations,))
+    x = simulator(theta)
+    inference.append_simulations(theta, x).train(max_num_epochs=2)
+
+    x_o = (
+        ones(num_dim, num_dim)
+        if x_o_batch_dim == 0
+        else ones(x_o_batch_dim, num_dim, num_dim)
+    )
+
+    posterior = inference.build_posterior(sample_with=sampling_method)
+
+    samples = posterior.sample_batched(
+        sample_shape,
+        x_o,
+    )
+    assert (
+        samples.shape == (*sample_shape, x_o_batch_dim, 1)
+        if x_o_batch_dim > 0
+        else (*sample_shape, 1)
+    ), "Sample shape wrong"
+    assert not torch.isnan(samples).any(), "Samples contain NaN values"
+    assert not torch.isinf(samples).any(), "Samples contain Inf values"
+
+
+@pytest.mark.slow
+@pytest.mark.parametrize("density_estimator", ["mdn", "maf", "zuko_nsf"])
+def test_batched_sampling_and_logprob_accuracy(density_estimator: str):
+    """Test with two different observations and compare to sequential methods."""
+    num_dim = 2
+    num_simulations = 2000
+    num_samples = 1000
+    sample_shape = (num_samples,)
+    xos = torch.stack((-1.0 * ones(num_dim), 1.0 * ones(num_dim)))
+    num_xos = xos.shape[0]
+
+    prior = MultivariateNormal(loc=zeros(num_dim), covariance_matrix=eye(num_dim))
+    likelihood_shift = -1.0 * ones(num_dim)
+    likelihood_cov = 0.3 * eye(num_dim)
+    prior_mean = zeros(num_dim)
+    prior_cov = eye(num_dim)
+    prior = MultivariateNormal(loc=prior_mean, covariance_matrix=prior_cov)
+
+    def simulator(theta):
+        return linear_gaussian(theta, likelihood_shift, likelihood_cov)
+
+    inference = NPE_C(
+        prior=prior, show_progress_bars=False, density_estimator=density_estimator
+    )
+    theta = prior.sample((num_simulations,))
+    x = simulator(theta)
+    posterior_estimator = inference.append_simulations(theta, x).train()
+
+    posterior = DirectPosterior(posterior_estimator=posterior_estimator, prior=prior)
+
+    samples_batched = get_posterior_samples_on_batch(
+        xos, posterior, sample_shape, use_batched_sampling=True
+    )
+    log_probs_batched = posterior.log_prob_batched(samples_batched, xos)
+
+    # check c2st for each xos
+    for idx in range(0, num_xos):
+        gt_posterior = true_posterior_linear_gaussian_mvn_prior(
+            xos[idx], likelihood_shift, likelihood_cov, prior_mean, prior_cov
+        )
+        target_samples = gt_posterior.sample((num_samples,))
+        check_c2st(
+            target_samples,
+            samples_batched[:, idx],
+            alg=f"c2st-batch-vs-non-batch-{density_estimator}-x-idx{idx}",
+        )
+
+        target_log_probs = gt_posterior.log_prob(samples_batched[:, idx])
+        log_probs = posterior.log_prob(samples_batched[:, idx], xos[idx])
+        assert torch.allclose(log_probs, log_probs_batched[:, idx])
+        assert torch.allclose(
+            target_log_probs.exp(), log_probs.exp(), atol=0.4, rtol=0.4
+        ), "Batched log probs are not consistent with non-batched log probs."
+
+
+@pytest.mark.xfail(
+    raises=TypeError,
+    reason="Invalid density_estimator type passed to build_posterior",
+)
+def test_build_posterior_raises_with_invalid_estimator():
+    def simulator(theta):
+        return 1.0 + theta + torch.randn(theta.shape, device=theta.device) * 0.1
+
+    num_dim = 3
+    prior = BoxUniform(low=-2 * torch.ones(num_dim), high=2 * torch.ones(num_dim))
+    theta = prior.sample((300,))
+    x = simulator(theta)
+
+    inference = NRE(prior=prior)
+    inference.append_simulations(theta, x)
+
+    inference.train(max_num_epochs=1)
+    inference.build_posterior(density_estimator=nn.Module())
+
+
+def get_multidim_simulator_embedding(num_dim: int = 5, embedding_dim: int = 10):
+    """Returns a simulator producing 2D matrix observations and a CNN embedding net."""
+
+    def simulator(theta):
+        if theta.dim() == 1:
+            theta = theta.unsqueeze(0)
+        mean = torch.ones(num_dim, num_dim)
+        mean = mean.unsqueeze(0).expand(theta.shape[0], -1, -1)
+
+        # mean is a (num_dim x num_dim) matrix with all elements equal to theta
+        mean = mean + theta.unsqueeze(-1)
+
+        x = mean + 0.1 * torch.randn_like(mean)
+        return x
+
+    embedding_net = CNNEmbedding(
+        input_shape=(num_dim, num_dim),
+        in_channels=1,
+        output_dim=embedding_dim,
+        kernel_size=num_dim // 2 + 1,
+    )
+
+    return simulator, embedding_net
+
+
+@pytest.mark.slow
+@pytest.mark.parametrize("iid_batch_size", [1, 2, 5])
+def test_posterior_based_potential_iid_log_prob(iid_batch_size: int):
+    """Test IID log-prob computation for posterior-based potential."""
+
+    num_dim = 2
+    num_simulations = 5000
+    num_posterior_samples = 500
+
+    likelihood_shift = -1.0 * ones(num_dim)
+    likelihood_cov = 0.3 * eye(num_dim)
+    prior_mean = zeros(num_dim)
+    prior_cov = eye(num_dim)
+    prior = MultivariateNormal(loc=prior_mean, covariance_matrix=prior_cov)
+
+    inference = NPE_C(prior=prior, show_progress_bars=False)
+    theta = prior.sample((num_simulations,))
+    x = linear_gaussian(theta, likelihood_shift, likelihood_cov)
+    posterior_estimator = inference.append_simulations(theta, x).train()
+
+    theta_o = zeros(num_dim)
+    x_o = linear_gaussian(
+        theta_o.repeat(iid_batch_size, 1),
+        likelihood_shift=likelihood_shift,
+        likelihood_cov=likelihood_cov,
+    )
+
+    true_posterior = true_posterior_linear_gaussian_mvn_prior(
+        x_o, likelihood_shift, likelihood_cov, prior_mean, prior_cov
+    )
+
+    potential_fn, _ = posterior_estimator_based_potential(
+        posterior_estimator, prior, x_o=None
+    )
+    potential_fn = potential_fn.bind(x_o, x_is_iid=True)
+
+    posterior_samples = true_posterior.sample((num_posterior_samples,))
+    true_prob = true_posterior.log_prob(posterior_samples)
+    approx_prob = potential_fn(posterior_samples, track_gradients=False)
+
+    assert approx_prob.shape == true_prob.shape
+    diff = torch.abs(true_prob - approx_prob)
+    assert diff.mean() < 0.5 * iid_batch_size, (
+        f"Mean log-prob diff {diff.mean():.4f} too large for "
+        f"iid_batch_size={iid_batch_size}"
+    )
+
+
+def test_direct_posterior_raises_on_iid_x():
+    """Direct posterior sampling should raise for multi-observation x."""
+    num_dim = 2
+    num_simulations = 500
+
+    prior = MultivariateNormal(loc=zeros(num_dim), covariance_matrix=eye(num_dim))
+    inference = NPE_C(prior=prior, show_progress_bars=False)
+    theta = prior.sample((num_simulations,))
+    x = diagonal_linear_gaussian(theta)
+    inference.append_simulations(theta, x).train(max_num_epochs=3)
+
+    posterior = inference.build_posterior(sample_with="direct")
+
+    x_o_iid = ones(3, num_dim)
+    with pytest.raises(ValueError, match="batchsize == 1"):
+        posterior.sample((10,), x=x_o_iid)
+
+
+@pytest.mark.slow
+@pytest.mark.parametrize("iid_batch_size", [2, 5])
+def test_posterior_mcmc_iid_sampling(iid_batch_size: int, mcmc_params_fast):
+    """Test that MCMC sampling with IID x produces correct posterior samples."""
+    num_dim = 2
+    num_simulations = 5000
+
+    likelihood_shift = -1.0 * ones(num_dim)
+    likelihood_cov = 0.3 * eye(num_dim)
+    prior_mean = zeros(num_dim)
+    prior_cov = eye(num_dim)
+    prior = MultivariateNormal(loc=prior_mean, covariance_matrix=prior_cov)
+
+    inference = NPE_C(prior=prior, show_progress_bars=False)
+    theta = prior.sample((num_simulations,))
+    x = linear_gaussian(theta, likelihood_shift, likelihood_cov)
+    inference.append_simulations(theta, x).train()
+
+    posterior = inference.build_posterior(
+        sample_with="mcmc", posterior_parameters=mcmc_params_fast
+    )
+
+    theta_o = zeros(num_dim)
+    x_o = linear_gaussian(
+        theta_o.repeat(iid_batch_size, 1),
+        likelihood_shift=likelihood_shift,
+        likelihood_cov=likelihood_cov,
+    )
+
+    samples = posterior.sample((500,), x=x_o)
+
+    true_posterior = true_posterior_linear_gaussian_mvn_prior(
+        x_o, likelihood_shift, likelihood_cov, prior_mean, prior_cov
+    )
+    true_mean = true_posterior.mean
+
+    # Check that the sample mean is close to the true posterior mean.
+    sample_mean = samples.mean(dim=0)
+    assert torch.allclose(sample_mean, true_mean, atol=0.5), (
+        f"MCMC sample mean {sample_mean} too far from true mean {true_mean}"
+    )

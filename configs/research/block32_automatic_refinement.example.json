@@ -1,0 +1,86 @@
+{
+  "schema": "research-workflow-v1",
+  "resources": {
+    "mpi_ranks": 1,
+    "omp_threads": 1,
+    "memory_gib": 8.0,
+    "disk_gib": 64.0,
+    "maximum_stage_count": 16
+  },
+  "followup_limits": {
+    "maximum_children": 4,
+    "maximum_depth": 2
+  },
+  "physics_spec": {
+    "physics": "dm"
+  },
+  "capabilities": [],
+  "requested_products": [
+    "measured_error_budget"
+  ],
+  "stages": [
+    {
+      "stage_id": "density_budget",
+      "kind": "error_budget",
+      "parameters": {
+        "request": {
+          "json_input": "inputs/frozen-density-requirement.json"
+        },
+        "measurements": {
+          "json_input": "inputs/measured-density-error-components.json"
+        },
+        "joint_covariance": {
+          "json_input": "inputs/measured-density-joint-covariance.json"
+        },
+        "refinement_limits": {
+          "maximum_children": 4,
+          "maximum_controls_per_bin": 2
+        },
+        "refinement_routes": {
+          "mass_resolution": {
+            "kind": "public_command",
+            "parameters": {
+              "command": "convergence-campaign",
+              "arguments": [
+                "--campaign",
+                {
+                  "input": "inputs/mass-refinement-campaign.json"
+                },
+                "--output",
+                "{generation}/campaign"
+              ],
+              "wall_seconds": 86400.0
+            },
+            "outputs": {
+              "density_mass_refinement": "campaign/convergence-family.json"
+            }
+          },
+          "sidm_stochastic_realization": {
+            "kind": "public_command",
+            "capabilities": [
+              "gadget4_sidm"
+            ],
+            "parameters": {
+              "command": "convergence-campaign",
+              "arguments": [
+                "--campaign",
+                {
+                  "input": "inputs/sidm-seed-campaign.json"
+                },
+                "--output",
+                "{generation}/campaign"
+              ],
+              "wall_seconds": 86400.0
+            },
+            "outputs": {
+              "density_sidm_realizations": "campaign/convergence-family.json"
+            }
+          }
+        }
+      },
+      "outputs": {
+        "measured_error_budget": "error-budget.json"
+      }
+    }
+  ]
+}

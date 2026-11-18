@@ -1,0 +1,36 @@
+{
+  "request": {
+    "schema": "sidm-control-expectation-request-v1",
+    "history": {
+      "path": "REPLACE_WITH_NATIVE_CONTROL_HISTORY.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "physical_model": {
+      "path": "/Users/bbird/research2/configs/research/sidm_homogeneous_isotropic.model.json",
+      "sha256": "3cee078aa0c15c1b03407b388d0527b392384785a8551ab1336cb66e2c14a10f"
+    },
+    "native_differential_table": null,
+    "experiments": [
+      "beam_rate",
+      "relaxation"
+    ],
+    "maximum_particles": 8000,
+    "maximum_pair_visits": 32000000,
+    "pair_chunk_rows": 512,
+    "memory_gib": 2.0,
+    "maximum_thin_optical_depth": 0.05,
+    "relaxation_fraction": 0.5,
+    "minimum_consecutive_outputs": 1,
+    "limits": {
+      "mass_relative": 1e-10,
+      "momentum_absolute_msun_kms": 1.0,
+      "energy_relative": 1e-08,
+      "mean_velocity_absolute_kms": 0.1,
+      "covariance_absolute_kms2": 0.1,
+      "cdf_absolute": 0.05,
+      "rare_exposure_relative": 0.2,
+      "participation_floor": 100.0
+    }
+  },
+  "request_base": "/Users/bbird/research2/configs/research"
+}

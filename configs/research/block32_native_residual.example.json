@@ -1,0 +1,41 @@
+{
+  "schema": "native-control-residual-v1",
+  "measurement_origin": "retained_native_control_products",
+  "requirement_hash": "FILL_FROZEN_REQUIREMENT_SHA256",
+  "observable": "central_density",
+  "units": "Msun/kpc^3",
+  "components": [
+    "sidm_stochastic_realization"
+  ],
+  "bins": [
+    {
+      "radius_kpc": [
+        0.1,
+        0.2
+      ],
+      "scale_factor": 1.0
+    }
+  ],
+  "realization_id": "FILL_UNIQUE_NATIVE_REALIZATION_ID",
+  "independence": {
+    "sidm_operator_seed": null
+  },
+  "paired_control_family_hash": "FILL_EXACT_FROZEN_CONTROL_FAMILY_SHA256",
+  "native_realization_generation": "FILL_ORIGINAL_NATIVE_STAGE_GENERATION",
+  "native_realization_receipt": "FILL_ORIGINAL_NATIVE_STAGE_RECEIPT",
+  "residual_definition": "signed_variant_minus_reference",
+  "residuals": [
+    [
+      null
+    ]
+  ],
+  "supported": [
+    [
+      false
+    ]
+  ],
+  "source_hashes": {
+    "FILL_ABSOLUTE_NATIVE_STAGE_RECEIPT_PATH": "FILL_CURRENT_NATIVE_RECEIPT_SHA256",
+    "FILL_ACTUAL_MEASURED_NATIVE_CONTROL_PRODUCT": "FILL_CURRENT_PRODUCT_SHA256"
+  }
+}

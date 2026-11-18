@@ -1,0 +1,81 @@
+{
+  "schema": "pinned-stellar-chemistry-upstream-v1",
+  "assets": [
+    {
+      "path": "configs/nupycee_wiersma_yields.txt",
+      "sha256": "6112494fa032e4e3de3486798e585860ce2ad15489ef37eb93808113ba71793b",
+      "url": "https://raw.githubusercontent.com/NuGrid/NuPyCEE/1ef398beb9a26c1b53459449794ba5bfff65a3c4/yield_tables/other/isotope_yield_table_portinari98_marigo01_gce_totalyields.txt",
+      "revision": "1ef398beb9a26c1b53459449794ba5bfff65a3c4",
+      "license_asset": "configs/nupycee_REFERENCE_LICENSE.txt",
+      "license_sha256": "1ef5f600c55dc71d774028185104339473ddecebdaeccb7e513ddc2d9d49a3b5",
+      "license_scope": "NuPyCEE repository BSD-3-Clause code terms retained; original stellar table attribution remains required"
+    },
+    {
+      "path": "configs/nupycee_snia_w7_yields.txt",
+      "sha256": "470038d16d3bb86f4bc852f97a473d34278635c425e626126f4ea78cdaa054f8",
+      "url": "https://raw.githubusercontent.com/NuGrid/NuPyCEE/1ef398beb9a26c1b53459449794ba5bfff65a3c4/yield_tables/sn1a_t03.txt",
+      "revision": "1ef398beb9a26c1b53459449794ba5bfff65a3c4",
+      "license_asset": "configs/nupycee_REFERENCE_LICENSE.txt",
+      "license_sha256": "1ef5f600c55dc71d774028185104339473ddecebdaeccb7e513ddc2d9d49a3b5",
+      "license_scope": "NuPyCEE repository BSD-3-Clause code terms retained; original stellar table attribution remains required"
+    },
+    {
+      "path": "configs/nupycee_REFERENCE_LICENSE.txt",
+      "sha256": "1ef5f600c55dc71d774028185104339473ddecebdaeccb7e513ddc2d9d49a3b5",
+      "url": "https://raw.githubusercontent.com/NuGrid/NuPyCEE/1ef398beb9a26c1b53459449794ba5bfff65a3c4/LICENSE",
+      "revision": "1ef398beb9a26c1b53459449794ba5bfff65a3c4"
+    },
+    {
+      "path": "configs/nupycee_yield_reader_REFERENCE.txt",
+      "sha256": "e7a849618b27ce76589a4bf5526ccb9706ef6a3812a5e26b94feb877ae92ecb4",
+      "url": "https://raw.githubusercontent.com/NuGrid/NuPyCEE/1ef398beb9a26c1b53459449794ba5bfff65a3c4/read_yields.py",
+      "revision": "1ef398beb9a26c1b53459449794ba5bfff65a3c4",
+      "license_asset": "configs/nupycee_REFERENCE_LICENSE.txt",
+      "license_sha256": "1ef5f600c55dc71d774028185104339473ddecebdaeccb7e513ddc2d9d49a3b5",
+      "license_scope": "NuPyCEE repository BSD-3-Clause code terms retained; original stellar table attribution remains required"
+    },
+    {
+      "path": "configs/grackle_3.4.1_REFERENCE_LICENSE.txt",
+      "sha256": "a085c6b50d804f73ee99e5ede3dd4390a49a0ff261d1c7cc145d6c029e6f80bb",
+      "url": "https://raw.githubusercontent.com/grackle-project/grackle/af7939494ce65007887ada7b98d1813df6843346/LICENSE",
+      "revision": "af7939494ce65007887ada7b98d1813df6843346"
+    },
+    {
+      "path": "configs/grackle_3.4.1_api_REFERENCE.h",
+      "sha256": "094bb77b6674be1f0086b68ff5e500a5752ab0f70ecdb6cec5232f7f8a65fed8",
+      "url": "https://raw.githubusercontent.com/grackle-project/grackle/af7939494ce65007887ada7b98d1813df6843346/src/include/grackle.h",
+      "revision": "af7939494ce65007887ada7b98d1813df6843346",
+      "license_asset": "configs/grackle_3.4.1_REFERENCE_LICENSE.txt",
+      "license_sha256": "a085c6b50d804f73ee99e5ede3dd4390a49a0ff261d1c7cc145d6c029e6f80bb",
+      "license_scope": "Grackle source Enzo/BSD-like license retained; separate data repository has no standalone license declaration at the pinned tree"
+    },
+    {
+      "path": "configs/grackle_HM2012_cooling.h5",
+      "url": "https://raw.githubusercontent.com/grackle-project/grackle_data_files/6c86687be54162e911dd990494c13196ccb4175d/input/CloudyData_UVB=HM2012.h5",
+      "revision": "6c86687be54162e911dd990494c13196ccb4175d",
+      "sha256": "65d29f32cb646ceef3f274b570829a8c186c91a749d56a3891ad72d1db4c532a",
+      "license_asset": "configs/grackle_3.4.1_REFERENCE_LICENSE.txt",
+      "license_sha256": "a085c6b50d804f73ee99e5ede3dd4390a49a0ff261d1c7cc145d6c029e6f80bb",
+      "license_scope": "Grackle source Enzo/BSD-like license retained; separate data repository has no standalone license declaration at the pinned tree"
+    },
+    {
+      "path": "configs/grackle_noUVB_cooling.h5",
+      "url": "https://raw.githubusercontent.com/grackle-project/grackle_data_files/6c86687be54162e911dd990494c13196ccb4175d/input/CloudyData_noUVB.h5",
+      "revision": "6c86687be54162e911dd990494c13196ccb4175d",
+      "sha256": "0abe25cceeb5c0825381c5f17059982a9a2cdd27ce369a475c559fba6a8fa106",
+      "license_asset": "configs/grackle_3.4.1_REFERENCE_LICENSE.txt",
+      "license_sha256": "a085c6b50d804f73ee99e5ede3dd4390a49a0ff261d1c7cc145d6c029e6f80bb",
+      "license_scope": "Grackle source Enzo/BSD-like license retained; separate data repository has no standalone license declaration at the pinned tree"
+    }
+  ],
+  "execution_status": "NOT_BUILT_OR_TESTED",
+  "updated_utc": "2026-10-05T17:34:45.149139+00:00",
+  "build_status": "NOT_RUN",
+  "test_status": "NOT_RUN",
+  "data_publications": [
+    "Portinari et al. 1998; Marigo 2001 total isotope tables as packaged in NuPyCEE",
+    "Thielemann et al. 2003 W7 SNIa table as packaged in NuPyCEE",
+    "Wiersma et al. 2009 enrichment methodology",
+    "Grackle HM2012/no-UVB Cloudy cooling data at the pinned data revision"
+  ]
+}

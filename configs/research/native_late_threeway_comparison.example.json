@@ -1,0 +1,34 @@
+{
+  "request": {
+    "schema": "native-late-threeway-comparison-request-v1",
+    "restart_comparison": {
+      "path": "REPLACE_WITH_ACTUAL_RESTART_COMPARISON.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "intervention_comparison": {
+      "path": "REPLACE_WITH_ACTUAL_INTERVENTION_COMPARISON.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "total_comparison": {
+      "path": "REPLACE_WITH_ACTUAL_TOTAL_COMPARISON.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "control_run": {
+      "path": "REPLACE_WITH_ACTUAL_CONTROL_RUN.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "intervention_run": {
+      "path": "REPLACE_WITH_ACTUAL_INTERVENTION_RUN.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "frame": "inertial",
+    "memory_gib": 8.0,
+    "maximum_snapshots": 64,
+    "maximum_selected_particles": 16384,
+    "maximum_restart_position_error_kpc": 0.001,
+    "maximum_restart_velocity_error_kms": 0.1,
+    "maximum_restart_signal_fraction": 0.1,
+    "position_signal_floor_kpc": 0.001,
+    "velocity_signal_floor_kms": 0.1
+  }
+}

@@ -1,0 +1,14 @@
+export CXX=$(MPI_CXX)
+export CC=$(MPI_CXX)
+
+export CXX=$(MPI_CXX)
+export CC=$(MPI_CXX)
+GSL_INCL = $(GSL_INC)
+GSL_LIBS = $(GSL_SHLIB)
+FFTW_INCL= $(FFTW_INC)
+FFTW_LIBS= $(FFTW_SHLIB) $(FFTW_MPI_LIB) $(FFTW_OPENMP_SHLIB)
+MPICHLIB =
+HDF5_INCL = $(HDF5_INC)
+HDF5_LIBS  = $(HDF5_SHLIB)
+FFTW_LIBNAMES=
+OPTIMIZE = -std=c++17 -g -O2 -fopenmp # -fsanitize=leak -fsanitize=undefined -fsanitize-address-use-after-scope -fbounds-check -Wall

@@ -1,0 +1,22 @@
+{
+  "stellar_evolution": {
+    "enabled": true,
+    "model_manifest": "USER_COMPILED_STELLAR_MODEL.json",
+    "model_sha256": "USER_COMPILED_MANIFEST_SHA256",
+    "kernel_radius_proper_kpc": 0.1,
+    "source_fraction": 0.05,
+    "maximum_count": 100000,
+    "maximum_subcycles": 100000
+  },
+  "chemistry": {
+    "enabled": true,
+    "primordial_network": 1,
+    "metal_cooling": true,
+    "uv_background": true,
+    "data_file": "configs/grackle_HM2012_cooling.h5",
+    "data_sha256": "65d29f32cb646ceef3f274b570829a8c186c91a749d56a3891ad72d1db4c532a",
+    "library_file": "USER_BUILT_PRECISION64_LIBGRACKLE",
+    "library_sha256": "USER_BUILT_LIBRARY_SHA256",
+    "upstream_revision": "af7939494ce65007887ada7b98d1813df6843346"
+  }
+}

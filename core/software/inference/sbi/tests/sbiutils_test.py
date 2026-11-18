@@ -1,0 +1,793 @@
+# This file is part of sbi, a toolkit for simulation-based inference. sbi is licensed
+# under the Apache License Version 2.0, see <https://www.apache.org/licenses/>
+
+import warnings
+from typing import Tuple
+
+import matplotlib.pyplot as plt
+import pytest
+import torch
+from torch import Tensor, ones, zeros
+from torch.distributions import MultivariateNormal
+from torch.distributions.transforms import IndependentTransform, identity_transform
+
+from sbi.analysis import (
+    conditional_corrcoeff,
+    conditional_pairplot,
+    eval_conditional_density,
+    sensitivity_analysis,
+)
+from sbi.inference import NPE
+from sbi.neural_nets import classifier_nn, likelihood_nn, posterior_nn
+from sbi.utils import BoxUniform, get_kde
+from sbi.utils.sbiutils import (
+    warn_if_invalid_for_zscoring,
+    z_score_parser,
+)
+
+
+def test_conditional_density_1d():
+    """
+    Test whether the conditional density matches analytical results for MVN.
+
+    This uses a 3D joint and conditions on the last two values to generate a 1D
+    conditional.
+    """
+    joint_mean = torch.zeros(3)
+    joint_cov = torch.tensor([[1.0, 0.0, 0.7], [0.0, 1.0, 0.7], [0.7, 0.7, 1.0]])
+    joint_dist = MultivariateNormal(joint_mean, joint_cov)
+
+    condition_dim2 = torch.ones(2)
+    full_condition = torch.ones(3)
+
+    resolution = 100
+    vals_to_eval_at = torch.linspace(-3, 3, resolution).unsqueeze(1)
+
+    # Solution with sbi.
+    probs = eval_conditional_density(
+        density=joint_dist,
+        condition=full_condition,
+        limits=torch.tensor([[-3, 3], [-3, 3], [-3, 3]]),
+        dim1=0,
+        dim2=0,
+        resolution=resolution,
+    )
+    probs_sbi = probs / torch.sum(probs)
+
+    # Analytical solution.
+    conditional_mean, conditional_cov = conditional_of_mvn(
+        joint_mean, joint_cov, condition_dim2
+    )
+    conditional_dist = torch.distributions.MultivariateNormal(
+        conditional_mean, conditional_cov
+    )
+
+    probs = torch.exp(conditional_dist.log_prob(vals_to_eval_at))
+    probs_analytical = probs / torch.sum(probs)
+
+    assert torch.all(torch.abs(probs_analytical - probs_sbi) < 1e-5)
+
+
+def test_conditional_density_2d():
+    """
+    Test whether the conditional density matches analytical results for MVN.
+
+    This uses a 3D joint and conditions on the last value to generate a 2D conditional.
+    """
+    joint_mean = torch.zeros(3)
+    joint_cov = torch.tensor([[1.0, 0.0, 0.7], [0.0, 1.0, 0.7], [0.7, 0.7, 1.0]])
+    joint_dist = MultivariateNormal(joint_mean, joint_cov)
+
+    condition_dim2 = torch.ones(1)
+    full_condition = torch.ones(3)
+
+    resolution = 100
+    vals_to_eval_at_dim1 = (
+        torch.linspace(-3, 3, resolution).repeat(resolution).unsqueeze(1)
+    )
+    vals_to_eval_at_dim2 = torch.repeat_interleave(
+        torch.linspace(-3, 3, resolution), resolution
+    ).unsqueeze(1)
+    vals_to_eval_at = torch.cat((vals_to_eval_at_dim1, vals_to_eval_at_dim2), axis=1)
+
+    # Solution with sbi.
+    probs = eval_conditional_density(
+        density=joint_dist,
+        condition=full_condition,
+        limits=torch.tensor([[-3, 3], [-3, 3], [-3, 3]]),
+        dim1=0,
+        dim2=1,
+        resolution=resolution,
+    )
+    probs_sbi = probs / torch.sum(probs)
+
+    # Analytical solution.
+    conditional_mean, conditional_cov = conditional_of_mvn(
+        joint_mean, joint_cov, condition_dim2
+    )
+    conditional_dist = torch.distributions.MultivariateNormal(
+        conditional_mean, conditional_cov
+    )
+
+    probs = torch.exp(conditional_dist.log_prob(vals_to_eval_at))
+    probs = torch.reshape(probs, (resolution, resolution))
+    probs_analytical = probs / torch.sum(probs)
+
+    assert torch.all(torch.abs(probs_analytical - probs_sbi) < 1e-5)
+
+
+def test_conditional_pairplot():
+    """
+    This only tests whether `conditional.pairplot()` runs without errors. If does not
+    test its correctness. See `test_conditional_density_2d` for a test on
+    `eval_conditional_density`, which is the core building block of
+    `conditional.pairplot()`
+    """
+    d = MultivariateNormal(
+        torch.tensor([0.6, 5.0]), torch.tensor([[0.1, 0.99], [0.99, 10.0]])
+    )
+    _ = conditional_pairplot(
+        density=d,
+        condition=torch.ones(1, 2),
+        limits=torch.tensor([[-1.0, 1.0], [-30, 30]]),
+    )
+
+
+def conditional_of_mvn(
+    loc: Tensor, cov: Tensor, condition: Tensor
+) -> Tuple[Tensor, Tensor]:
+    """
+    Return the mean and cov of a conditional Gaussian.
+
+    We assume that we always condition on the last variables.
+
+    Args:
+        loc: Mean of the joint distribution.
+        cov: Covariance matrix of the joint distribution.
+        condition: Condition. Should have less entries than `loc`.
+    """
+
+    num_of_condition_dims = loc.shape[0] - condition.shape[0]
+
+    mean_1 = loc[:num_of_condition_dims]
+    mean_2 = loc[num_of_condition_dims:]
+    cov_11 = cov[:num_of_condition_dims, :num_of_condition_dims]
+    cov_12 = cov[:num_of_condition_dims, num_of_condition_dims:]
+    cov_22 = cov[num_of_condition_dims:, num_of_condition_dims:]
+
+    precision_observed = torch.inverse(cov_22)
+    residual = condition - mean_2
+    precision_weighted_residual = torch.einsum(
+        "ij, i -> j", precision_observed, residual
+    )
+    mean_shift = torch.mv(cov_12, precision_weighted_residual)
+    conditional_mean = mean_1 + mean_shift
+
+    prec_cov = torch.einsum("ji, kj -> ik", precision_observed, cov_12)
+    cov_prec_cov = torch.einsum("ij, jk -> ik", cov_12, prec_cov)
+    conditional_cov = cov_11 - cov_prec_cov
+
+    return conditional_mean, conditional_cov
+
+
+@pytest.mark.parametrize("corr", (0.99, 0.95, 0.0))
+def test_conditional_corrcoeff(corr):
+    """
+    Test whether the conditional correlation coefficient is computed correctly.
+    """
+    d = MultivariateNormal(
+        torch.tensor([0.6, 5.0]), torch.tensor([[0.1, corr], [corr, 10.0]])
+    )
+    estimated_corr = conditional_corrcoeff(
+        density=d,
+        condition=torch.ones(1, 2),
+        limits=torch.tensor([[-2.0, 3.0], [-70, 90]]),
+        resolution=500,
+    )[0, 1]
+
+    assert torch.abs(corr - estimated_corr) < 1e-3
+
+
+def test_average_cond_coeff_matrix():
+    d = MultivariateNormal(
+        torch.tensor([10.0, 5, 1]),
+        torch.tensor([[100.0, 30.0, 0], [30.0, 10.0, 0], [0, 0, 1.0]]),
+    )
+    cond_mat = conditional_corrcoeff(
+        density=d,
+        condition=torch.zeros(1, 3),
+        limits=torch.tensor([[-60.0, 60.0], [-20, 20], [-7, 7]]),
+        resolution=500,
+    )
+    corr_dim12 = torch.sqrt(torch.tensor(30.0**2 / 100.0 / 10.0))
+    gt_matrix = torch.tensor([
+        [1.0, corr_dim12, 0.0],
+        [corr_dim12, 1.0, 0.0],
+        [0.0, 0.0, 1.0],
+    ])
+
+    assert (torch.abs(gt_matrix - cond_mat) < 1e-3).all()
+
+
+@pytest.mark.parametrize("snpe_method", ("snpe_c",))
+def test_gaussian_transforms(snpe_method: str, plot_results: bool = False):
+    """
+    Tests whether the product between proposal and posterior is computed correctly.
+
+    This test initializes two MoGs with two components each. It then evaluates
+    their product by simply multiplying the probabilities of the two. The result is
+    compared to the product of two MoGs as implemented in NPE-C (APT).
+
+    Args:
+        snpe_method: String indicating method to test.
+        plot_results: Whether to plot the products of the distributions.
+    """
+
+    class MoG:
+        def __init__(self, means, preds, logits):
+            self._means = means
+            self._preds = preds
+            self._logits = logits
+
+        def log_prob(self, theta):
+            probs = zeros(theta.shape[0])
+            for m, p, logit in zip(
+                self._means, self._preds, self._logits, strict=False
+            ):
+                mvn = MultivariateNormal(m, p)
+                weighted_prob = torch.exp(mvn.log_prob(theta)) * logit
+                probs += weighted_prob
+            return probs
+
+    # Build a grid on which to evaluate the densities.
+    bound = 5.0
+    theta_range = torch.linspace(-bound, bound, 100)
+    theta1_grid, theta2_grid = torch.meshgrid(theta_range, theta_range)
+    theta_grid = torch.stack([theta1_grid, theta2_grid])
+    theta_grid_flat = torch.reshape(theta_grid, (2, 100**2))
+
+    # Generate two MoGs.
+    means1 = torch.tensor([[2.0, 2.0], [-2.0, -2.0]])
+    covs1 = torch.stack([0.5 * torch.eye(2), torch.eye(2)])
+    weights1 = torch.tensor([0.3, 0.7])
+
+    means2 = torch.tensor([[2.0, -2.2], [-2.0, 1.9]])
+    covs2 = torch.stack([0.6 * torch.eye(2), 0.9 * torch.eye(2)])
+    weights2 = torch.tensor([0.6, 0.4])
+
+    mog1 = MoG(means1, covs1, weights1)
+    mog2 = MoG(means2, covs2, weights2)
+
+    # Evaluate the product of their pdfs by evaluating them separately and multiplying.
+    probs1_raw = mog1.log_prob(theta_grid_flat.T)
+    probs1 = torch.reshape(probs1_raw, (100, 100))
+
+    probs2_raw = mog2.log_prob(theta_grid_flat.T)
+    probs2 = torch.reshape(probs2_raw, (100, 100))
+
+    probs_mult = probs1 * probs2
+
+    # Set up a NPE object in order to use the
+    # `_automatic_posterior_transformation()`.
+    prior = BoxUniform(-5 * ones(2), 5 * ones(2))
+    # Testing new z-score arg options.
+    density_estimator = posterior_nn("mdn", z_score_theta=None, z_score_x=None)
+    inference = NPE(prior=prior, density_estimator=density_estimator)
+    theta_ = torch.rand(100, 2)
+    x_ = torch.rand(100, 2)
+    _ = inference.append_simulations(theta_, x_).train(max_num_epochs=1)
+    inference._set_state_for_mog_proposal()
+
+    precs1 = torch.inverse(covs1)
+    precs2 = torch.inverse(covs2)
+
+    # `.unsqueeze(0)` is needed because the method requires a batch dimension.
+    logits_pp, means_pp, _, covs_pp = inference._automatic_posterior_transformation(
+        torch.log(weights1.unsqueeze(0)),
+        means1.unsqueeze(0),
+        precs1.unsqueeze(0),
+        torch.log(weights2.unsqueeze(0)),
+        means2.unsqueeze(0),
+        precs2.unsqueeze(0),
+    )
+
+    # Normalize weights.
+    logits_pp_norm = logits_pp - torch.logsumexp(logits_pp, dim=-1, keepdim=True)
+    weights_pp = torch.exp(logits_pp_norm)
+
+    # Evaluate the product of the two distributions.
+    mog_apt = MoG(means_pp[0], covs_pp[0], weights_pp[0])
+
+    probs_apt_raw = mog_apt.log_prob(theta_grid_flat.T)
+    probs_apt = torch.reshape(probs_apt_raw, (100, 100))
+
+    # Compute the error between the two methods.
+    norm_probs_mult = probs_mult / torch.max(probs_mult)
+    norm_probs3_ = probs_apt / torch.max(probs_apt)
+    error = torch.abs(norm_probs_mult - norm_probs3_)
+
+    assert torch.max(error) < 1e-5
+
+    if plot_results:
+        _, ax = plt.subplots(1, 4, figsize=(16, 4))
+
+        ax[0].imshow(probs1, extent=[-bound, bound, -bound, bound])
+        ax[0].set_title("p_1")
+        ax[1].imshow(probs2, extent=[-bound, bound, -bound, bound])
+        ax[1].set_title("p_2")
+        ax[2].imshow(probs_mult, extent=[-bound, bound, -bound, bound])
+        ax[3].imshow(probs_apt, extent=[-bound, bound, -bound, bound])
+        if snpe_method == "snpe_c":
+            ax[2].set_title("p_1 * p_2")
+            ax[3].set_title("APT")
+        elif snpe_method == "snpe_a":
+            ax[2].set_title("p_1 / p_2")
+            ax[3].set_title("NPE-A")
+
+        plt.show()
+
+
+@pytest.mark.parametrize(
+    "transform",
+    (
+        None,
+        identity_transform,
+        IndependentTransform(identity_transform, reinterpreted_batch_ndims=1),
+    ),
+)
+@pytest.mark.parametrize(
+    "sample_weights",
+    (True, False),
+)
+@pytest.mark.parametrize(
+    "bandwidth",
+    ("cv", "scott"),
+)
+def test_kde(bandwidth, transform, sample_weights):
+    num_dim = 3
+    num_samples = 100
+    num_draws = 10
+    dist = torch.distributions.MultivariateNormal(
+        torch.zeros(num_dim), torch.eye(num_dim)
+    )
+    samples = dist.sample((num_samples,))
+
+    kde = get_kde(
+        samples,
+        bandwidth=bandwidth,
+        transform=transform,
+        sample_weights=torch.rand(num_samples) if sample_weights else None,
+    )
+
+    kde_samples = kde.sample((num_draws,))
+    kde_vals = kde.log_prob(kde_samples)
+
+    assert kde_samples.shape == torch.Size((num_draws, num_dim))
+    assert kde_vals.shape == torch.Size((num_draws,))
+
+
+@pytest.mark.parametrize(
+    "z_x",
+    [
+        None,
+        "none",
+        "independent",
+        "structured",
+        "transform_to_unconstrained",
+        pytest.param(
+            "invalid_value",
+            marks=pytest.mark.xfail(
+                raises=ValueError,
+                reason="Invalid z-scoring option should raise ValueError.",
+            ),
+        ),
+    ],
+)
+@pytest.mark.parametrize(
+    "z_theta",
+    [
+        None,
+        "none",
+        "independent",
+        "structured",
+        "transform_to_unconstrained",
+        pytest.param(
+            "invalid_value",
+            marks=pytest.mark.xfail(
+                raises=ValueError,
+                reason="Invalid z-scoring option should raise ValueError.",
+            ),
+        ),
+    ],
+)
+def test_z_score_parser(z_x, z_theta):
+    """Test the z_score_parser function."""
+    result_x = z_score_parser(z_x)
+    result_theta = z_score_parser(z_theta)
+
+    assert result_x is not None, f"z_score_parser({z_x}) returned None"
+    assert result_theta is not None, f"z_score_parser({z_theta}) returned None"
+
+
+@pytest.mark.parametrize("z_score_flag", (True, False))
+def test_z_score_parser_rejects_bool(z_score_flag):
+    """Booleans were deprecated in v0.18.0 and are no longer accepted."""
+    with pytest.raises(ValueError, match="Invalid z-scoring option"):
+        z_score_parser(z_score_flag)
+
+
+@pytest.mark.parametrize(
+    "z_x",
+    [
+        None,
+        "none",
+        "independent",
+        "structured",
+        "transform_to_unconstrained",
+    ],
+)
+@pytest.mark.parametrize(
+    "z_theta",
+    [
+        None,
+        "none",
+        "independent",
+        "structured",
+        "transform_to_unconstrained",
+    ],
+)
+@pytest.mark.parametrize("build_fn", [likelihood_nn, posterior_nn, classifier_nn])
+def test_z_scoring_structured(z_x, z_theta, build_fn):
+    """Test z-scoring args across architectures and ensure correct input shapes."""
+    batch_dim, num_dim = 10, 3
+    dist = BoxUniform(low=-2 * torch.ones(num_dim), high=2 * torch.ones(num_dim))
+    theta = dist.sample((batch_dim,))
+    x = dist.sample((batch_dim,))
+
+    models = [
+        "mdn",
+        "made",
+        "maf",
+        "nsf",
+        "zuko_nice",
+        "zuko_nsf",
+        "zuko_maf",
+        "zuko_ncsf",
+        "zuko_bpf",
+        "maf_rqs",
+        "zuko_sospf",
+        "zuko_naf",
+        "zuko_unaf",
+        "zuko_gf",
+    ]
+
+    if build_fn == likelihood_nn:
+        models.append("mnle")
+    elif build_fn == classifier_nn:
+        models = ["linear", "mlp", "resnet"]
+
+    # `transform_to_unconstrained` is only implemented on the modeled side of
+    # the conditional Zuko builders and the MDN. The factories build a per-model
+    # config, which offers the option only there and raises everywhere else,
+    # rather than letting `z_score_parser` turn it into a silent no-op. The
+    # factories map the *modeled* variable's z-scoring to the builder's
+    # z_score_x: theta for posterior_nn and classifier_nn, x for likelihood_nn.
+    modeled_z = z_x if build_fn == likelihood_nn else z_theta
+    condition_z = z_theta if build_fn == likelihood_nn else z_x
+
+    for model in models:
+        if model == "mnle":
+            x_cont, x_disc = x[:, :-1], torch.randint(0, 2, (batch_dim, 1)).float()
+            model_x = torch.cat([x_cont, x_disc], dim=1)
+        else:
+            model_x = x
+
+        implements_transform = model.startswith("zuko") or model == "mdn"
+
+        # The factories reject a setting the chosen model does not use, so only
+        # the ones this model has are passed.
+        kwargs = {
+            "model": model,
+            "z_score_theta": z_theta,
+            "z_score_x": z_x,
+        }
+        if model != "linear":
+            kwargs["hidden_features"] = 8
+        if build_fn in [likelihood_nn, posterior_nn]:
+            if model not in ("mdn", "made"):
+                kwargs["num_transforms"] = 1
+            # `x_dist` is read only by the unconstrained transform.
+            if modeled_z == "transform_to_unconstrained" and implements_transform:
+                kwargs["x_dist"] = dist
+
+        unsupported = (
+            modeled_z == "transform_to_unconstrained" and not implements_transform
+        ) or condition_z == "transform_to_unconstrained"
+        if unsupported:
+            with pytest.raises(ValueError, match="transform_to_unconstrained"):
+                build_fun = build_fn(**kwargs)
+                build_fun(theta, model_x)
+            continue
+
+        build_fun = build_fn(**kwargs)
+        estimator = build_fun(theta, model_x)
+
+        if build_fn == posterior_nn:
+            assert estimator.log_prob(theta.unsqueeze(0), model_x).shape == (
+                1,
+                batch_dim,
+            )
+        elif build_fn == likelihood_nn:
+            assert estimator.log_prob(model_x.unsqueeze(0), theta).shape == (
+                1,
+                batch_dim,
+            )
+        else:
+            assert estimator(theta, model_x).shape[0] == batch_dim
+
+    assert sensitivity_analysis.Destandardize(0, 1)
+
+    # # Uncomment to plot the generated signal.
+    # import matplotlib.pyplot as plt
+    # plt.figure(figsize=(12,4))
+    # plt.subplot(1,3,1)
+    # plt.plot(x.T)
+    # plt.title('original')
+
+    # z_net = utils.standardizing_net(t_batch, structured_dims=False)
+    # x_zindep = z_net(t_batch)
+    # plt.subplot(1,3,2)
+    # plt.plot(x_zindep.T);
+    # plt.title('z-scored: independent dims')
+
+    # z_net = utils.standardizing_net(t_batch, structured_dims=True)
+    # x_zstructured = z_net(t_batch)
+    # plt.subplot(1,3,3)
+    # plt.plot(x_zstructured.T)
+    # plt.title('z-scored: structured dims');
+    # plt.show()
+
+
+@pytest.mark.parametrize(
+    "builder_name",
+    [
+        "build_made",
+        "build_maf",
+        "build_maf_rqs",
+        "build_nsf",
+        "build_linear_classifier",
+        "build_mlp_classifier",
+        "build_resnet_classifier",
+    ],
+)
+def test_transform_to_unconstrained_raises_for_unsupported_builders(builder_name):
+    """nflows and ratio-classifier builders raise a clear error for
+    `transform_to_unconstrained` instead of silently building a model without the
+    reparametrization. MDN supports it and is excluded."""
+    from sbi.neural_nets.net_builders import flow as flow_builders
+    from sbi.neural_nets.net_builders.classifier import (
+        build_linear_classifier,
+        build_mlp_classifier,
+        build_resnet_classifier,
+    )
+
+    builders = {
+        "build_made": flow_builders.build_made,
+        "build_maf": flow_builders.build_maf,
+        "build_maf_rqs": flow_builders.build_maf_rqs,
+        "build_nsf": flow_builders.build_nsf,
+        "build_linear_classifier": build_linear_classifier,
+        "build_mlp_classifier": build_mlp_classifier,
+        "build_resnet_classifier": build_resnet_classifier,
+    }
+    theta, x = torch.rand(20, 3), torch.rand(20, 2)
+    with pytest.raises(ValueError, match="transform_to_unconstrained"):
+        builders[builder_name](theta, x, z_score_x="transform_to_unconstrained")
+
+
+def test_transform_to_unconstrained_raises_for_zuko_unconditional():
+    """The unconditional Zuko builder also raises rather than silently no-op-ing
+    (it has no prior to derive the bijection from)."""
+    from sbi.neural_nets.net_builders.flow import build_zuko_unconditional_flow
+
+    x = torch.rand(20, 3)
+    with pytest.raises(ValueError, match="unconditional"):
+        build_zuko_unconditional_flow("MAF", x, z_score_x="transform_to_unconstrained")
+
+
+@pytest.mark.parametrize("estimator_type", ["flow", "score"])
+def test_transform_to_unconstrained_raises_for_vector_field(estimator_type):
+    """Vector-field configs reject unsupported input transforms."""
+    from sbi.neural_nets import FlowMatchingConfig, VEScoreConfig
+
+    config_cls = FlowMatchingConfig if estimator_type == "flow" else VEScoreConfig
+    with pytest.raises(ValueError, match="transform_to_unconstrained"):
+        config_cls(z_score_input="transform_to_unconstrained")
+
+
+class TestWarnIfInvalidForZscoring:
+    """Test warn_if_invalid_for_zscoring function."""
+
+    def test_normal_data_no_warning(self):
+        """Test that normal data produces no warning."""
+        x = torch.randn(1000, 3)
+        # Should not warn
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            warn_if_invalid_for_zscoring(x)
+            assert len(w) == 0, f"Unexpected warning: {w[0].message if w else ''}"
+
+    def test_constant_feature_warns(self):
+        """Test that constant features produce a warning."""
+        x = torch.randn(100, 2)
+        x[:, 1] = 5.0  # Make second dimension constant
+
+        with pytest.warns(UserWarning, match="constant values"):
+            warn_if_invalid_for_zscoring(x)
+
+    def test_extreme_outlier_warns(self):
+        """Test that extreme outliers produce a warning."""
+        x = torch.randn(1000, 2)
+        x[0, 0] = 10000.0  # Add extreme outlier to first dimension
+
+        with pytest.warns(UserWarning, match="extreme outliers"):
+            warn_if_invalid_for_zscoring(x)
+
+    def test_single_sample_warns(self):
+        """Test that single sample produces a warning."""
+        x = torch.randn(1, 3)
+
+        with pytest.warns(UserWarning, match="Only one data sample"):
+            warn_if_invalid_for_zscoring(x)
+
+    def test_custom_iqr_factor(self):
+        """Test that custom IQR factor works."""
+        x = torch.randn(1000, 2)
+        x[0, 0] = 20.0  # Moderate outlier (~20 std from mean for N(0,1))
+
+        # Should not warn with very high factor
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            warn_if_invalid_for_zscoring(x, outlier_iqr_factor=50.0)
+            outlier_warnings = [wi for wi in w if "extreme outliers" in str(wi.message)]
+            assert len(outlier_warnings) == 0
+
+        # Should warn with low factor
+        with pytest.warns(UserWarning, match="extreme outliers"):
+            warn_if_invalid_for_zscoring(x, outlier_iqr_factor=5.0)
+
+    def test_identifies_correct_dimensions(self):
+        """Test that the warning identifies the correct problematic dimensions."""
+        x = torch.randn(1000, 4)
+        x[0, 1] = 10000.0  # Outlier in dim 1
+        x[0, 3] = 10000.0  # Outlier in dim 3
+
+        with pytest.warns(UserWarning, match=r"\[1, 3\]"):
+            warn_if_invalid_for_zscoring(x)
+
+    def test_higher_dimensional_tensor(self):
+        """Test that >2D tensors are handled correctly (flattened)."""
+        # 3D tensor: (batch, height, width) - e.g., 1D images
+        x_3d = torch.randn(100, 4, 4)  # 100 samples, 4x4 features
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            warn_if_invalid_for_zscoring(x_3d)
+            assert len(w) == 0, f"Unexpected warning: {w[0].message if w else ''}"
+
+        # 3D tensor with constant feature
+        x_3d_const = torch.randn(100, 4, 4)
+        x_3d_const[:, 0, 0] = 5.0  # Make one feature constant
+        with pytest.warns(UserWarning, match="constant values"):
+            warn_if_invalid_for_zscoring(x_3d_const)
+
+        # 3D tensor with outlier
+        x_3d_outlier = torch.randn(100, 4, 4)
+        x_3d_outlier[0, 2, 3] = 10000.0  # Extreme outlier at position [2,3]
+        with pytest.warns(UserWarning, match="extreme outliers"):
+            warn_if_invalid_for_zscoring(x_3d_outlier)
+
+
+def test_mdn_transform_to_unconstrained():
+    """MDN with transform_to_unconstrained produces valid log_probs and samples."""
+    from sbi.neural_nets.net_builders.mdn import build_mdn
+
+    prior = BoxUniform(-2 * torch.ones(2), 2 * torch.ones(2))
+    bx, by = prior.sample((512,)), torch.randn(512, 3)
+    est = build_mdn(bx, by, z_score_x="transform_to_unconstrained", x_dist=prior)
+    theta, cond = prior.sample((5,)), torch.randn(1, 3)
+    lp = est.log_prob(theta.unsqueeze(1), cond)
+    assert lp.shape == (5, 1)
+    z = est._prior_transform(theta.unsqueeze(1))
+    mog = est.get_uncorrected_mog(cond)
+    ldj = est._prior_transform.log_abs_det_jacobian(theta.unsqueeze(1), z)
+    assert torch.allclose(lp, mog.log_prob(z) + ldj, atol=1e-5)
+    s = est.sample((10,), cond)
+    assert s.shape[0] == 10 and torch.isfinite(s).all()
+
+
+def test_inverse_transform_survives_pickle():
+    """Inverse transforms keep their wrapped transform through pickling (#1952)."""
+    import pickle
+
+    import torch.distributions.transforms as torch_tf
+
+    # Mirrors `mcmc_transform` output: IndependentTransform does not override `.inv`,
+    # so this is a true inverse wrapper (unlike `ComposeTransform.inv`).
+    transform = torch_tf.IndependentTransform(
+        torch_tf.ComposeTransform([
+            torch_tf.SigmoidTransform(),
+            torch_tf.AffineTransform(-3 * torch.ones(1), 6 * torch.ones(1)),
+        ]),
+        1,
+    ).inv
+    assert isinstance(transform, torch_tf._InverseTransform)
+    x = torch.tensor([[0.5]])
+
+    reloaded = pickle.loads(pickle.dumps(transform))
+
+    assert reloaded._inv is not None
+    assert torch.allclose(reloaded(x), transform(x))
+    assert torch.allclose(reloaded.inv(reloaded(x)), x, atol=1e-5)
+    assert torch.isfinite(reloaded.log_abs_det_jacobian(x, reloaded(x))).all()
+
+
+def test_mcmc_transform_survives_pickle():
+    """`mcmc_transform` output stays usable after pickling (#1952)."""
+    import pickle
+
+    from sbi.utils.sbiutils import mcmc_transform
+
+    prior = BoxUniform(-3 * torch.ones(2), 3 * torch.ones(2))
+    transform = mcmc_transform(prior)
+    theta = prior.sample((4,))
+
+    reloaded = pickle.loads(pickle.dumps(transform))
+
+    assert torch.allclose(reloaded(theta), transform(theta))
+    assert torch.allclose(reloaded.inv(reloaded(theta)), theta, atol=1e-4)
+
+
+def test_mdn_prior_transform_is_read_only():
+    """Assigning `_prior_transform` fails loudly instead of shadowing the module.
+
+    `nn.Module.__setattr__` must not absorb the assignment, and pyright cannot catch
+    it here because `reportAttributeAccessIssue` is disabled repo-wide.
+    """
+    from sbi.neural_nets.net_builders.mdn import build_mdn
+
+    prior = BoxUniform(-2 * torch.ones(2), 2 * torch.ones(2))
+    bx, by = prior.sample((256,)), torch.randn(256, 3)
+    est = build_mdn(bx, by, z_score_x="transform_to_unconstrained", x_dist=prior)
+
+    # No `match`: the wording differs across Python versions ("can't set attribute"
+    # before 3.11, "has no setter" after).
+    with pytest.raises(AttributeError):
+        est._prior_transform = None
+
+    assert est._prior_transform is not None
+
+
+@pytest.mark.parametrize("orientation", ["concrete", "inverse", "composed_inverse"])
+def test_callable_transform_preserves_orientation_and_dtype(orientation):
+    """CallableTransform safely owns concrete and inverse transforms."""
+    import pickle
+
+    from torch.distributions.transforms import AffineTransform, ComposeTransform
+
+    from sbi.utils.sbiutils import CallableTransform
+
+    transform = AffineTransform(torch.zeros(2), 2 * torch.ones(2))
+    if orientation == "inverse":
+        transform = transform.inv
+    elif orientation == "composed_inverse":
+        transform = ComposeTransform([
+            transform,
+            AffineTransform(torch.ones(2), 3 * torch.ones(2)),
+        ]).inv
+
+    wrapped = pickle.loads(pickle.dumps(CallableTransform(transform)))
+    x = torch.ones(2)
+    assert torch.allclose(wrapped.transform(x), transform(x))
+
+    wrapped.double()
+    assert wrapped.transform(x.double()).dtype == torch.float64

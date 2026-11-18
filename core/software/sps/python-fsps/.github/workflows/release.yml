@@ -1,0 +1,80 @@
+name: Release
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "*"
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      prerelease:
+        description: "Run a pre-release, testing the build"
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_wheels:
+    name: Build wheel for ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - "ubuntu-latest"
+          - "macos-14"
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: true
+          fetch-depth: 0
+      - name: Set up macOS
+        run: echo "FC=gfortran-13" >> "$GITHUB_ENV"
+        if: ${{ matrix.os == 'macos-14' }}
+      - uses: pypa/cibuildwheel@v4.2.0
+        env:
+          MACOSX_DEPLOYMENT_TARGET: "14.0"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: binary-${{ matrix.os }}
+          path: ./wheelhouse/*.whl
+
+  build_sdist:
+    name: Build source distribution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: true
+          fetch-depth: 0
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+      - name: Build sdist
+        run: uv build --sdist
+      - name: Check the sdist
+        run: uv run --with twine twine check dist/*.tar.gz
+      - uses: actions/upload-artifact@v7
+        with:
+          name: sdist
+          path: dist/*.tar.gz
+
+  publish:
+    environment:
+      name: pypi
+      url: https://pypi.org/p/fsps
+    permissions:
+      id-token: write
+    needs: [build_wheels, build_sdist]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          path: dist
+          merge-multiple: true
+      - uses: pypa/gh-action-pypi-publish@v1.14.2

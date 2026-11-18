@@ -1,0 +1,39 @@
+{
+  "usage": "Raw resolved DM profile; change claim_scope and supply source-bound model_assumption_controls for theoretical cusp claims. These numerical limits are illustrative.",
+  "native_run_directory": "REPLACE_WITH_OWNED_NATIVE_RUN",
+  "native_stage_receipt": "REPLACE_WITH_COMPLETED_NATIVE_RECEIPT",
+  "request_base": ".",
+  "request": {
+    "schema": "physical-target-support-request-v1",
+    "snapshot": 0,
+    "particle_namespace": "native-particles:run-identity",
+    "target_identity": {
+      "namespace": "native-particles:run-identity",
+      "object_id": 1
+    },
+    "center_product": {
+      "path": "REPLACE_WITH_COMPLETED_NATIVE_PRODUCT.json",
+      "sha256": "REPLACE_WITH_EXACT_SHA256"
+    },
+    "radial_edges_proper_kpc": [
+      0.0,
+      0.001,
+      0.002,
+      0.004,
+      0.008
+    ],
+    "memory_gib": 4.0,
+    "maximum_particles": 1000000,
+    "maximum_neighbor_links": 128000000,
+    "maximum_pair_evaluations": 10000000,
+    "minimum_effective_particles": 128,
+    "kind": "bh_spike",
+    "claim_scope": "resolved_dm_profile",
+    "limits": {
+      "maximum_softening_radius_fraction": 0.1,
+      "maximum_influence_radius_fraction": 0.5,
+      "maximum_schwarzschild_radius_fraction": 0.001,
+      "maximum_coarse_mass_fraction": 0.001
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "stage_id": "display_actual_measured_outputs",
+  "kind": "display_products",
+  "parameters": {
+    "memory_gib": 2.0,
+    "request_base": "{request_base}",
+    "destination": "{generation}/display",
+    "request": {
+      "schema": "measured-display-build-v1",
+      "memory_gib": 2.0,
+      "maximum_objects": 10000,
+      "maximum_measurement_records": 20000,
+      "maximum_geometry_objects": 10000,
+      "maximum_geometry_vertices": 1000000,
+      "maximum_lifecycle_events": 1000,
+      "frame_contract": {
+        "schema": "gadget-scientific-dataset-v1",
+        "position_units": "proper kpc",
+        "position_representation": "proper",
+        "position_h_scaled": false,
+        "origin": "Copy the exact measured native host origin contract",
+        "periodic_wrapping": "Copy the exact measured native periodic wrapping contract",
+        "velocity_convention": "Copy the exact measured native velocity convention"
+      },
+      "timeline": [
+        {
+          "frame": 1,
+          "snapshot": 0,
+          "epoch_contract": {"canonical_time": "scale_factor", "scale_factor": null},
+          "products": [
+            {
+              "kind": "shape",
+              "measurement": {
+                "receipt": {"stage": "measure_actual_zoom_shapes_0", "artifact": "stage-receipt.json"},
+                "product": "native_shape_measurement"
+              },
+              "fields": {
+                "object_id": "object_ids",
+                "position": "center_proper_kpc",
+                "geometry_supported": "shape_supported",
+                "semiaxes": "semiaxes_proper_kpc",
+                "orientation": "orientation"
+              },
+              "display_radius": 0.01,
+              "display_line_width": 0.001
+            }
+          ]
+        },
+        {
+          "frame": 13,
+          "snapshot": 1,
+          "epoch_contract": {"canonical_time": "scale_factor", "scale_factor": null},
+          "products": [
+            {
+              "kind": "shape",
+              "measurement": {
+                "receipt": {"stage": "measure_actual_zoom_shapes_1", "artifact": "stage-receipt.json"},
+                "product": "native_shape_measurement"
+              },
+              "fields": {
+                "object_id": "object_ids",
+                "position": "center_proper_kpc",
+                "geometry_supported": "shape_supported",
+                "semiaxes": "semiaxes_proper_kpc",
+                "orientation": "orientation"
+              },
+              "display_radius": 0.01,
+              "display_line_width": 0.001
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "outputs": {"measured_display": "display/display.json"}
+}

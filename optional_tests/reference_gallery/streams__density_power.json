@@ -1,0 +1,270 @@
+{
+  "schema": "darkmattersim-figure-v1",
+  "created_utc": "2026-11-04T17:35:03.563655+00:00",
+  "title": "Saved native stream measurements \u2014 PENDING CONVERGENCE",
+  "axes": [
+    {
+      "title": "Saved native stream measurements \u2014 PENDING CONVERGENCE",
+      "x_label": "wavenumber_kpc_inverse [1 / proper kpc]",
+      "y_label": "density_power_kpc [proper kpc]",
+      "role": "plot",
+      "has_data": true
+    }
+  ],
+  "font_family": "STIXGeneral",
+  "style": "journal",
+  "layout": "double_column",
+  "formats": [
+    "png",
+    "pdf",
+    "svg"
+  ],
+  "png_dpi": 160,
+  "figure_size_inches": [
+    7.2,
+    2.88
+  ],
+  "figure_facecolor_rgba": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "layout_diagnostics": {
+    "canvas_inches": [
+      7.2,
+      2.88
+    ],
+    "export_bbox_inches": [
+      0.00666999999999994,
+      0.006669999999999995,
+      7.193330000000001,
+      2.8733299999999997
+    ],
+    "export_padding_inches": 0.035,
+    "tolerance_inches": 0.015,
+    "visible_text_outside_canvas_count": 0,
+    "visible_text_outside_canvas": []
+  },
+  "scientific_metadata": {
+    "family": "streams",
+    "variant": "density_power",
+    "recipe": {
+      "figure_id": "wrap-0000-density_power",
+      "family": "streams",
+      "variant": "density_power",
+      "title": "density power",
+      "science_status": "SYNTHETIC_CONTROL_NOT_ACCEPTED",
+      "epoch": null,
+      "panels": [
+        {
+          "panel_id": "measured",
+          "title": "Saved native stream measurements",
+          "quality_status": "PENDING_CONVERGENCE",
+          "selection": "explicit selected wrap; exported support mask",
+          "xlabel": "wavenumber_kpc_inverse [1 / proper kpc]",
+          "ylabel": "density_power_kpc [proper kpc]",
+          "x_units": "1 / proper kpc",
+          "y_units": "proper kpc",
+          "series": [
+            {
+              "source": "wrap-0000",
+              "kind": "line",
+              "label": "measured",
+              "x": "wavenumber_kpc_inverse",
+              "y": "density_power_kpc",
+              "support": "power_supported"
+            }
+          ]
+        }
+      ]
+    },
+    "selections": [
+      {
+        "panel": "measured",
+        "counts": [
+          {
+            "label": "measured",
+            "supported": 9,
+            "masked": 0
+          }
+        ],
+        "selection": "explicit selected wrap; exported support mask",
+        "quality_status": "PENDING_CONVERGENCE"
+      }
+    ],
+    "unit_source": "explicit physical source-array recipe",
+    "source_hashes": {
+      "/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json": "3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e",
+      "/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz": "a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0"
+    },
+    "physical_array_contract": {
+      "schema": "darkmattersim-data-contract-v1",
+      "container": "pickle-free NPZ",
+      "path": "wrap-0000-density_power.physical_arrays.npz",
+      "sha256": "0e544e3e5f7acac781a4b1bc551f489c58df03d9d5013bf82fc2e77f93b4907b",
+      "datasets": {
+        "measured__series_000_source_supported": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "dimensionless",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[9]",
+          "dtype": "bool",
+          "payload_sha256": "64fc565a8a238640a3c574880887ed08069fd1e19347fff2d124bffc5a13aa4d",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "measured__series_000_source_supported",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "UNDECLARED",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": null, \"family\": \"streams\", \"figure_id\": \"wrap-0000-density_power\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"explicit selected wrap; exported support mask\", \"series\": [{\"kind\": \"line\", \"label\": \"measured\", \"source\": \"wrap-0000\", \"support\": \"power_supported\", \"x\": \"wavenumber_kpc_inverse\", \"y\": \"density_power_kpc\"}], \"title\": \"Saved native stream measurements\", \"x_units\": \"1 / proper kpc\", \"xlabel\": \"wavenumber_kpc_inverse [1 / proper kpc]\", \"y_units\": \"proper kpc\", \"ylabel\": \"density_power_kpc [proper kpc]\"}], \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"title\": \"density power\", \"variant\": \"density_power\"}, \"sources\": {\"wrap-0000\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\": \"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\": \"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        },
+        "measured__series_000_x": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "1 / proper kpc",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[9]",
+          "dtype": "float64",
+          "payload_sha256": "d6224d5957728b61bfd9a020ddca6a91f29dd67061ea31b18efb3fd6d1ac008f",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "measured__series_000_x",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "UNDECLARED",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": null, \"family\": \"streams\", \"figure_id\": \"wrap-0000-density_power\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"explicit selected wrap; exported support mask\", \"series\": [{\"kind\": \"line\", \"label\": \"measured\", \"source\": \"wrap-0000\", \"support\": \"power_supported\", \"x\": \"wavenumber_kpc_inverse\", \"y\": \"density_power_kpc\"}], \"title\": \"Saved native stream measurements\", \"x_units\": \"1 / proper kpc\", \"xlabel\": \"wavenumber_kpc_inverse [1 / proper kpc]\", \"y_units\": \"proper kpc\", \"ylabel\": \"density_power_kpc [proper kpc]\"}], \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"title\": \"density power\", \"variant\": \"density_power\"}, \"sources\": {\"wrap-0000\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\": \"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\": \"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        },
+        "measured__series_000_y": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "proper kpc",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[9]",
+          "dtype": "float64",
+          "payload_sha256": "3254b8e2364c35eac2b499089e284bc78845a142823d010b8e72b86fc7c9fcee",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "measured__series_000_y",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "UNDECLARED",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": null, \"family\": \"streams\", \"figure_id\": \"wrap-0000-density_power\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"explicit selected wrap; exported support mask\", \"series\": [{\"kind\": \"line\", \"label\": \"measured\", \"source\": \"wrap-0000\", \"support\": \"power_supported\", \"x\": \"wavenumber_kpc_inverse\", \"y\": \"density_power_kpc\"}], \"title\": \"Saved native stream measurements\", \"x_units\": \"1 / proper kpc\", \"xlabel\": \"wavenumber_kpc_inverse [1 / proper kpc]\", \"y_units\": \"proper kpc\", \"ylabel\": \"density_power_kpc [proper kpc]\"}], \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"title\": \"density power\", \"variant\": \"density_power\"}, \"sources\": {\"wrap-0000\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\": \"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\": \"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        },
+        "measured__series_000_supported": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "dimensionless",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[9]",
+          "dtype": "bool",
+          "payload_sha256": "64fc565a8a238640a3c574880887ed08069fd1e19347fff2d124bffc5a13aa4d",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "measured__series_000_supported",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "UNDECLARED",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": null, \"family\": \"streams\", \"figure_id\": \"wrap-0000-density_power\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"explicit selected wrap; exported support mask\", \"series\": [{\"kind\": \"line\", \"label\": \"measured\", \"source\": \"wrap-0000\", \"support\": \"power_supported\", \"x\": \"wavenumber_kpc_inverse\", \"y\": \"density_power_kpc\"}], \"title\": \"Saved native stream measurements\", \"x_units\": \"1 / proper kpc\", \"xlabel\": \"wavenumber_kpc_inverse [1 / proper kpc]\", \"y_units\": \"proper kpc\", \"ylabel\": \"density_power_kpc [proper kpc]\"}], \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"title\": \"density power\", \"variant\": \"density_power\"}, \"sources\": {\"wrap-0000\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\": \"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\": \"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        }
+      }
+    },
+    "science_status": "SYNTHETIC_CONTROL_NOT_ACCEPTED",
+    "epoch": null
+  },
+  "plot_data": "wrap-0000-density_power.plotdata.npz",
+  "plot_data_contract": {
+    "schema": "darkmattersim-data-contract-v1",
+    "container": "pickle-free NPZ",
+    "path": "wrap-0000-density_power.plotdata.npz",
+    "sha256": "ec73abd2ee429028cec85afeb692176596ff75d87f1ebf352297532311a58944",
+    "datasets": {
+      "axis_0_line_0_x": {
+        "data_contract_schema": "darkmattersim-data-contract-v1",
+        "units": "1 / proper kpc",
+        "missing_policy": "Masked or nonfinite artist values are preserved without interpolation",
+        "shape_json": "[9]",
+        "dtype": "float64",
+        "payload_sha256": "d6224d5957728b61bfd9a020ddca6a91f29dd67061ea31b18efb3fd6d1ac008f",
+        "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+        "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+        "quantity_definition_status": "PRODUCER_DECLARED",
+        "quantity_definition": "drawn artist axis_0_line_0_x",
+        "quality_status": "NOT_ACCEPTED",
+        "epoch_status": "UNDECLARED",
+        "provenance_status": "PRODUCER_DECLARED",
+        "provenance_json": "{\"algorithm_sha256\": \"d9009f2f2b943ebabcd056fcd15364a2827010afd4a9a39cdf280d8197663485\", \"scientific_metadata\": {\"epoch\": null, \"family\": \"streams\", \"physical_array_contract\": {\"container\": \"pickle-free NPZ\", \"datasets\": {\"measured__series_000_source_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"64fc565a8a238640a3c574880887ed08069fd1e19347fff2d124bffc5a13aa4d\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"wrap-0000-density_power\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"explicit selected wrap; exported support mask\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured\\\", \\\"source\\\": \\\"wrap-0000\\\", \\\"support\\\": \\\"power_supported\\\", \\\"x\\\": \\\"wavenumber_kpc_inverse\\\", \\\"y\\\": \\\"density_power_kpc\\\"}], \\\"title\\\": \\\"Saved native stream measurements\\\", \\\"x_units\\\": \\\"1 / proper kpc\\\", \\\"xlabel\\\": \\\"wavenumber_kpc_inverse [1 / proper kpc]\\\", \\\"y_units\\\": \\\"proper kpc\\\", \\\"ylabel\\\": \\\"density_power_kpc [proper kpc]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"density power\\\", \\\"variant\\\": \\\"density_power\\\"}, \\\"sources\\\": {\\\"wrap-0000\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\\\": \\\"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\\\": \\\"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_source_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[9]\", \"units\": \"dimensionless\"}, \"measured__series_000_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"64fc565a8a238640a3c574880887ed08069fd1e19347fff2d124bffc5a13aa4d\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"wrap-0000-density_power\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"explicit selected wrap; exported support mask\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured\\\", \\\"source\\\": \\\"wrap-0000\\\", \\\"support\\\": \\\"power_supported\\\", \\\"x\\\": \\\"wavenumber_kpc_inverse\\\", \\\"y\\\": \\\"density_power_kpc\\\"}], \\\"title\\\": \\\"Saved native stream measurements\\\", \\\"x_units\\\": \\\"1 / proper kpc\\\", \\\"xlabel\\\": \\\"wavenumber_kpc_inverse [1 / proper kpc]\\\", \\\"y_units\\\": \\\"proper kpc\\\", \\\"ylabel\\\": \\\"density_power_kpc [proper kpc]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"density power\\\", \\\"variant\\\": \\\"density_power\\\"}, \\\"sources\\\": {\\\"wrap-0000\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\\\": \\\"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\\\": \\\"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[9]\", \"units\": \"dimensionless\"}, \"measured__series_000_x\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"d6224d5957728b61bfd9a020ddca6a91f29dd67061ea31b18efb3fd6d1ac008f\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"wrap-0000-density_power\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"explicit selected wrap; exported support mask\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured\\\", \\\"source\\\": \\\"wrap-0000\\\", \\\"support\\\": \\\"power_supported\\\", \\\"x\\\": \\\"wavenumber_kpc_inverse\\\", \\\"y\\\": \\\"density_power_kpc\\\"}], \\\"title\\\": \\\"Saved native stream measurements\\\", \\\"x_units\\\": \\\"1 / proper kpc\\\", \\\"xlabel\\\": \\\"wavenumber_kpc_inverse [1 / proper kpc]\\\", \\\"y_units\\\": \\\"proper kpc\\\", \\\"ylabel\\\": \\\"density_power_kpc [proper kpc]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"density power\\\", \\\"variant\\\": \\\"density_power\\\"}, \\\"sources\\\": {\\\"wrap-0000\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\\\": \\\"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\\\": \\\"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_x\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[9]\", \"units\": \"1 / proper kpc\"}, \"measured__series_000_y\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"3254b8e2364c35eac2b499089e284bc78845a142823d010b8e72b86fc7c9fcee\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"wrap-0000-density_power\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"explicit selected wrap; exported support mask\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured\\\", \\\"source\\\": \\\"wrap-0000\\\", \\\"support\\\": \\\"power_supported\\\", \\\"x\\\": \\\"wavenumber_kpc_inverse\\\", \\\"y\\\": \\\"density_power_kpc\\\"}], \\\"title\\\": \\\"Saved native stream measurements\\\", \\\"x_units\\\": \\\"1 / proper kpc\\\", \\\"xlabel\\\": \\\"wavenumber_kpc_inverse [1 / proper kpc]\\\", \\\"y_units\\\": \\\"proper kpc\\\", \\\"ylabel\\\": \\\"density_power_kpc [proper kpc]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"density power\\\", \\\"variant\\\": \\\"density_power\\\"}, \\\"sources\\\": {\\\"wrap-0000\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\\\": \\\"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\\\": \\\"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_y\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[9]\", \"units\": \"proper kpc\"}}, \"path\": \"wrap-0000-density_power.physical_arrays.npz\", \"schema\": \"darkmattersim-data-contract-v1\", \"sha256\": \"0e544e3e5f7acac781a4b1bc551f489c58df03d9d5013bf82fc2e77f93b4907b\"}, \"recipe\": {\"epoch\": null, \"family\": \"streams\", \"figure_id\": \"wrap-0000-density_power\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"explicit selected wrap; exported support mask\", \"series\": [{\"kind\": \"line\", \"label\": \"measured\", \"source\": \"wrap-0000\", \"support\": \"power_supported\", \"x\": \"wavenumber_kpc_inverse\", \"y\": \"density_power_kpc\"}], \"title\": \"Saved native stream measurements\", \"x_units\": \"1 / proper kpc\", \"xlabel\": \"wavenumber_kpc_inverse [1 / proper kpc]\", \"y_units\": \"proper kpc\", \"ylabel\": \"density_power_kpc [proper kpc]\"}], \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"title\": \"density power\", \"variant\": \"density_power\"}, \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"selections\": [{\"counts\": [{\"label\": \"measured\", \"masked\": 0, \"supported\": 9}], \"panel\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"explicit selected wrap; exported support mask\"}], \"source_hashes\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\": \"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\": \"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\"}, \"unit_source\": \"explicit physical source-array recipe\", \"variant\": \"density_power\"}}",
+        "ancestry_status": "UNDECLARED",
+        "coordinates_status": "UNDECLARED",
+        "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+        "annotations": {
+          "scope": "Display geometry; source measurement definitions remain in scientific_metadata"
+        }
+      },
+      "axis_0_line_0_y": {
+        "data_contract_schema": "darkmattersim-data-contract-v1",
+        "units": "proper kpc",
+        "missing_policy": "Masked or nonfinite artist values are preserved without interpolation",
+        "shape_json": "[9]",
+        "dtype": "float64",
+        "payload_sha256": "3254b8e2364c35eac2b499089e284bc78845a142823d010b8e72b86fc7c9fcee",
+        "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+        "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+        "quantity_definition_status": "PRODUCER_DECLARED",
+        "quantity_definition": "drawn artist axis_0_line_0_y",
+        "quality_status": "NOT_ACCEPTED",
+        "epoch_status": "UNDECLARED",
+        "provenance_status": "PRODUCER_DECLARED",
+        "provenance_json": "{\"algorithm_sha256\": \"d9009f2f2b943ebabcd056fcd15364a2827010afd4a9a39cdf280d8197663485\", \"scientific_metadata\": {\"epoch\": null, \"family\": \"streams\", \"physical_array_contract\": {\"container\": \"pickle-free NPZ\", \"datasets\": {\"measured__series_000_source_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"64fc565a8a238640a3c574880887ed08069fd1e19347fff2d124bffc5a13aa4d\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"wrap-0000-density_power\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"explicit selected wrap; exported support mask\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured\\\", \\\"source\\\": \\\"wrap-0000\\\", \\\"support\\\": \\\"power_supported\\\", \\\"x\\\": \\\"wavenumber_kpc_inverse\\\", \\\"y\\\": \\\"density_power_kpc\\\"}], \\\"title\\\": \\\"Saved native stream measurements\\\", \\\"x_units\\\": \\\"1 / proper kpc\\\", \\\"xlabel\\\": \\\"wavenumber_kpc_inverse [1 / proper kpc]\\\", \\\"y_units\\\": \\\"proper kpc\\\", \\\"ylabel\\\": \\\"density_power_kpc [proper kpc]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"density power\\\", \\\"variant\\\": \\\"density_power\\\"}, \\\"sources\\\": {\\\"wrap-0000\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\\\": \\\"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\\\": \\\"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_source_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[9]\", \"units\": \"dimensionless\"}, \"measured__series_000_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"64fc565a8a238640a3c574880887ed08069fd1e19347fff2d124bffc5a13aa4d\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"wrap-0000-density_power\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"explicit selected wrap; exported support mask\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured\\\", \\\"source\\\": \\\"wrap-0000\\\", \\\"support\\\": \\\"power_supported\\\", \\\"x\\\": \\\"wavenumber_kpc_inverse\\\", \\\"y\\\": \\\"density_power_kpc\\\"}], \\\"title\\\": \\\"Saved native stream measurements\\\", \\\"x_units\\\": \\\"1 / proper kpc\\\", \\\"xlabel\\\": \\\"wavenumber_kpc_inverse [1 / proper kpc]\\\", \\\"y_units\\\": \\\"proper kpc\\\", \\\"ylabel\\\": \\\"density_power_kpc [proper kpc]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"density power\\\", \\\"variant\\\": \\\"density_power\\\"}, \\\"sources\\\": {\\\"wrap-0000\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\\\": \\\"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\\\": \\\"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[9]\", \"units\": \"dimensionless\"}, \"measured__series_000_x\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"d6224d5957728b61bfd9a020ddca6a91f29dd67061ea31b18efb3fd6d1ac008f\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"wrap-0000-density_power\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"explicit selected wrap; exported support mask\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured\\\", \\\"source\\\": \\\"wrap-0000\\\", \\\"support\\\": \\\"power_supported\\\", \\\"x\\\": \\\"wavenumber_kpc_inverse\\\", \\\"y\\\": \\\"density_power_kpc\\\"}], \\\"title\\\": \\\"Saved native stream measurements\\\", \\\"x_units\\\": \\\"1 / proper kpc\\\", \\\"xlabel\\\": \\\"wavenumber_kpc_inverse [1 / proper kpc]\\\", \\\"y_units\\\": \\\"proper kpc\\\", \\\"ylabel\\\": \\\"density_power_kpc [proper kpc]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"density power\\\", \\\"variant\\\": \\\"density_power\\\"}, \\\"sources\\\": {\\\"wrap-0000\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\\\": \\\"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\\\": \\\"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_x\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[9]\", \"units\": \"1 / proper kpc\"}, \"measured__series_000_y\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"3254b8e2364c35eac2b499089e284bc78845a142823d010b8e72b86fc7c9fcee\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"wrap-0000-density_power\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"explicit selected wrap; exported support mask\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured\\\", \\\"source\\\": \\\"wrap-0000\\\", \\\"support\\\": \\\"power_supported\\\", \\\"x\\\": \\\"wavenumber_kpc_inverse\\\", \\\"y\\\": \\\"density_power_kpc\\\"}], \\\"title\\\": \\\"Saved native stream measurements\\\", \\\"x_units\\\": \\\"1 / proper kpc\\\", \\\"xlabel\\\": \\\"wavenumber_kpc_inverse [1 / proper kpc]\\\", \\\"y_units\\\": \\\"proper kpc\\\", \\\"ylabel\\\": \\\"density_power_kpc [proper kpc]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"density power\\\", \\\"variant\\\": \\\"density_power\\\"}, \\\"sources\\\": {\\\"wrap-0000\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\\\": \\\"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\\\": \\\"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_y\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[9]\", \"units\": \"proper kpc\"}}, \"path\": \"wrap-0000-density_power.physical_arrays.npz\", \"schema\": \"darkmattersim-data-contract-v1\", \"sha256\": \"0e544e3e5f7acac781a4b1bc551f489c58df03d9d5013bf82fc2e77f93b4907b\"}, \"recipe\": {\"epoch\": null, \"family\": \"streams\", \"figure_id\": \"wrap-0000-density_power\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"explicit selected wrap; exported support mask\", \"series\": [{\"kind\": \"line\", \"label\": \"measured\", \"source\": \"wrap-0000\", \"support\": \"power_supported\", \"x\": \"wavenumber_kpc_inverse\", \"y\": \"density_power_kpc\"}], \"title\": \"Saved native stream measurements\", \"x_units\": \"1 / proper kpc\", \"xlabel\": \"wavenumber_kpc_inverse [1 / proper kpc]\", \"y_units\": \"proper kpc\", \"ylabel\": \"density_power_kpc [proper kpc]\"}], \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"title\": \"density power\", \"variant\": \"density_power\"}, \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"selections\": [{\"counts\": [{\"label\": \"measured\", \"masked\": 0, \"supported\": 9}], \"panel\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"explicit selected wrap; exported support mask\"}], \"source_hashes\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\": \"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\": \"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\"}, \"unit_source\": \"explicit physical source-array recipe\", \"variant\": \"density_power\"}}",
+        "ancestry_status": "UNDECLARED",
+        "coordinates_status": "UNDECLARED",
+        "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+        "annotations": {
+          "scope": "Display geometry; source measurement definitions remain in scientific_metadata"
+        }
+      }
+    }
+  },
+  "plot_data_scope": "Arrays actually drawn, including artist geometry and masks; physical measurement definitions remain in the source product",
+  "units_status": "Caller metadata only; axis labels are preserved, never interpreted as a verified unit contract",
+  "science_acceptance": "NOT_ACCEPTED",
+  "artifacts": [
+    {
+      "path": "wrap-0000-density_power.pdf",
+      "sha256": "c2413193811f612664c528aa490c079cb0733880816c544ec9fab9c6bd0b4048",
+      "size_bytes": 25333
+    },
+    {
+      "path": "wrap-0000-density_power.plotdata.npz",
+      "sha256": "ec73abd2ee429028cec85afeb692176596ff75d87f1ebf352297532311a58944",
+      "size_bytes": 549
+    },
+    {
+      "path": "wrap-0000-density_power.png",
+      "sha256": "b53c92c63f46633e99963c5676dee5f7d06c1db9cf5566698fe2278441a4d916",
+      "size_bytes": 76366
+    },
+    {
+      "path": "wrap-0000-density_power.svg",
+      "sha256": "4b8fb32b291272b2a7218b4d09820e5fba4aba192db1b3bdcba2db4fc4b920e3",
+      "size_bytes": 25137
+    }
+  ]
+}

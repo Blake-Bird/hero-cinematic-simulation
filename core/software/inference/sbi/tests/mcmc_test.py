@@ -1,0 +1,350 @@
+# This file is part of sbi, a toolkit for simulation-based inference. sbi is licensed
+# under the Apache License Version 2.0, see <https://www.apache.org/licenses/>
+
+from __future__ import annotations
+
+import numpy as np
+import pytest
+import torch
+from torch import eye, ones, zeros
+
+from sbi.inference.posteriors.mcmc_posterior import build_from_potential
+from sbi.inference.posteriors.posterior_parameters import MCMCPosteriorParameters
+from sbi.samplers.mcmc.slice_numpy import (
+    SliceSampler,
+    SliceSamplerSerial,
+    SliceSamplerVectorized,
+)
+from sbi.simulators.linear_gaussian import true_posterior_linear_gaussian_mvn_prior
+from sbi.utils import BoxUniform
+from sbi.utils.metrics import check_c2st
+
+
+@pytest.mark.mcmc
+@pytest.mark.parametrize("num_dim", (1, 2))
+def test_c2st_slice_np_on_Gaussian(
+    num_dim: int, warmup: int = 100, num_samples: int = 500
+):
+    """Test MCMC on Gaussian, comparing to ground truth target via c2st.
+
+    Args:
+        num_dim: parameter dimension of the gaussian model
+    """
+    likelihood_shift = -1.0 * ones(num_dim)
+    likelihood_cov = 0.3 * eye(num_dim)
+    prior_mean = zeros(num_dim)
+    prior_cov = eye(num_dim)
+    x_o = zeros((1, num_dim))
+    target_distribution = true_posterior_linear_gaussian_mvn_prior(
+        x_o[0], likelihood_shift, likelihood_cov, prior_mean, prior_cov
+    )
+    target_samples = target_distribution.sample((num_samples,))
+
+    def lp_f(x):
+        return target_distribution.log_prob(torch.as_tensor(x, dtype=torch.float32))
+
+    sampler = SliceSampler(
+        lp_f=lp_f,
+        x=np.zeros((num_dim,)).astype(np.float32),
+        tuning=warmup,
+    )
+    warmup_samples = sampler.gen(warmup)
+    assert warmup_samples.shape == (warmup, num_dim)
+
+    samples = sampler.gen(num_samples)
+    assert samples.shape == (num_samples, num_dim)
+
+    samples = torch.as_tensor(samples, dtype=torch.float32)
+
+    check_c2st(samples, target_samples, alg="slice_np")
+
+
+@pytest.mark.mcmc
+@pytest.mark.parametrize("num_dim", (1, 2))
+@pytest.mark.parametrize("slice_sampler", (SliceSamplerVectorized, SliceSamplerSerial))
+@pytest.mark.parametrize("num_workers", (1, 2))
+def test_c2st_slice_np_vectorized_parallelized_on_Gaussian(
+    num_dim: int,
+    slice_sampler,
+    num_workers: int,
+    mcmc_params_accurate: MCMCPosteriorParameters,
+):
+    """Test MCMC on Gaussian, comparing to ground truth target via c2st.
+
+    Args:
+        num_dim: parameter dimension of the gaussian model
+    """
+    num_samples = 1000
+    warmup = mcmc_params_accurate.warmup_steps
+    num_chains = (
+        mcmc_params_accurate.num_chains
+        if slice_sampler is SliceSamplerVectorized
+        else 1
+    )
+    thin = mcmc_params_accurate.thin
+
+    likelihood_shift = -5.0 * ones(num_dim)
+    likelihood_cov = 0.3 * eye(num_dim)
+    prior_mean = zeros(num_dim)
+    prior_cov = eye(num_dim)
+    x_o = zeros((1, num_dim))
+    target_distribution = true_posterior_linear_gaussian_mvn_prior(
+        x_o[0], likelihood_shift, likelihood_cov, prior_mean, prior_cov
+    )
+    target_samples = target_distribution.sample((num_samples,))
+
+    def lp_f(x):
+        return target_distribution.log_prob(torch.as_tensor(x, dtype=torch.float32))
+
+    sampler = slice_sampler(
+        log_prob_fn=lp_f,
+        init_params=np.zeros((num_chains, num_dim)).astype(np.float32),
+        tuning=warmup,
+        thin=thin,
+        num_chains=num_chains,
+        num_workers=num_workers,
+    )
+    samples = sampler.run(thin * (warmup + int(num_samples / num_chains)))
+    assert samples.shape == (
+        num_chains,
+        warmup + int(num_samples / num_chains),
+        num_dim,
+    )
+    samples = samples[:, warmup:, :]
+    samples = samples.reshape(-1, num_dim)
+
+    samples = torch.as_tensor(samples, dtype=torch.float32)
+
+    alg = {
+        SliceSamplerVectorized: "slice_np_vectorized",
+        SliceSamplerSerial: "slice_np",
+    }[slice_sampler]
+
+    check_c2st(samples, target_samples, alg=alg)
+
+
+@pytest.mark.mcmc
+@pytest.mark.slow
+@pytest.mark.parametrize("step", ("nuts", "hmc", "slice"))
+@pytest.mark.parametrize("num_chains", (1, 3))
+def test_c2st_pymc_sampler_on_Gaussian(
+    step: str,
+    num_chains: int,
+    num_dim: int = 2,
+    num_samples: int = 1100,  # Had to change from 1000 to 1100 in #1247.
+    warmup: int = 100,
+):
+    """Test PyMC on Gaussian, comparing to ground truth target via c2st."""
+    likelihood_shift = -5.0 * ones(num_dim)
+    likelihood_cov = 0.3 * eye(num_dim)
+    prior_mean = zeros(num_dim)
+    prior_cov = eye(num_dim)
+    x_o = zeros((1, num_dim))
+    target_distribution = true_posterior_linear_gaussian_mvn_prior(
+        x_o[0], likelihood_shift, likelihood_cov, prior_mean, prior_cov
+    )
+    target_samples = target_distribution.sample((num_samples,))
+
+    def lp_f(x, track_gradients=True):
+        with torch.set_grad_enabled(track_gradients):
+            return target_distribution.log_prob(x)
+
+    from sbi.samplers.mcmc.pymc_wrapper import PyMCSampler
+
+    sampler = PyMCSampler(
+        potential_fn=lp_f,
+        initvals=np.zeros((num_chains, num_dim)).astype(np.float32),
+        step=step,
+        draws=(int(num_samples / num_chains)),  # PyMC does not use thinning
+        tune=warmup,
+        chains=num_chains,
+        seed=0,  # reproducible sampling; PyMC is not covered by the global seed
+    )
+    samples = sampler.run()
+    assert samples.shape == (
+        num_chains,
+        int(num_samples / num_chains),
+        num_dim,
+    )
+    samples = samples.reshape(-1, num_dim)
+
+    samples = torch.as_tensor(samples, dtype=torch.float32)
+    alg = f"pymc_{step}"
+
+    check_c2st(samples, target_samples, alg=alg)
+
+
+@pytest.mark.mcmc
+@pytest.mark.parametrize(
+    ("step", "target_accept", "expected"),
+    [
+        # 0.9 is spelled out rather than imported from `_DEFAULT_HMC_TARGET_ACCEPT` so
+        # that changing the documented default has to be a deliberate test update.
+        ("hmc", None, 0.9),
+        ("hmc", 0.99, 0.99),
+        ("nuts", None, None),
+    ],
+)
+def test_pymc_target_accept_default_and_override(step, target_accept, expected):
+    """PyMC HMC uses sbi's default and explicit user values take precedence."""
+    from sbi.samplers.mcmc.pymc_wrapper import PyMCSampler
+
+    theta_dim = 2
+
+    def potential_fn(theta):
+        return -0.5 * (theta**2).sum(axis=-1)
+
+    sampler = PyMCSampler(
+        potential_fn=potential_fn,
+        initvals=np.zeros((1, theta_dim)),
+        step=step,
+        target_accept=target_accept,
+        draws=1,
+        tune=1,
+        chains=1,
+    )
+    assert sampler._target_accept == expected
+
+
+@pytest.mark.mcmc
+def test_mcmc_posterior_rejects_invalid_target_accept():
+    """Per-call overrides validate target_accept at the public API boundary."""
+    theta_dim = 2
+    prior = BoxUniform(low=-2 * ones(theta_dim), high=2 * ones(theta_dim))
+
+    def potential_fn(theta):
+        return -0.5 * (theta**2).sum(axis=-1)
+
+    with pytest.warns(UserWarning, match="unconditional potential"):
+        posterior = build_from_potential(potential_fn, prior)
+    with pytest.raises(ValueError, match="target_accept"):
+        posterior.sample((1,), method="hmc_pymc", target_accept=0.0)
+
+
+def _gaussian_potential_posterior():
+    prior = BoxUniform(low=-2 * ones(2), high=2 * ones(2))
+
+    def potential_fn(theta):
+        return -0.5 * (theta**2).sum(axis=-1)
+
+    with pytest.warns(UserWarning, match="unconditional potential"):
+        return build_from_potential(potential_fn, prior)
+
+
+@pytest.mark.mcmc
+def test_latest_sample_raises_before_any_sampling_run():
+    """`latest_sample` continues stored chains; without a run there are none."""
+    posterior = _gaussian_potential_posterior()
+
+    with pytest.raises(ValueError, match="no chain states"):
+        posterior.sample((1,), init_strategy="latest_sample", show_progress_bars=False)
+
+
+@pytest.mark.mcmc
+def test_latest_sample_raises_when_more_chains_than_stored():
+    """The last run stored one state per chain; a bigger run must not start."""
+    posterior = _gaussian_potential_posterior()
+    posterior.sample((10,), num_chains=2, show_progress_bars=False)
+
+    with pytest.raises(ValueError, match="chain state"):
+        posterior.sample(
+            (10,),
+            num_chains=5,
+            init_strategy="latest_sample",
+            show_progress_bars=False,
+        )
+
+    # The happy path: the same chain count continues the stored chains.
+    posterior.sample(
+        (10,), num_chains=2, init_strategy="latest_sample", show_progress_bars=False
+    )
+
+
+@pytest.mark.mcmc
+def test_direct_mcmc_unconditional():
+    "Test MCMCPosterior from user defined potential (unconditional)"
+    num_samples = 100
+    theta_dim = 2
+
+    prior = BoxUniform(low=-2 * torch.ones(theta_dim), high=2 * torch.ones(theta_dim))
+
+    def potential_fn(theta: np.ndarray) -> np.ndarray:
+        # Example: a 2D Gaussian with mean=[0,0], identity covariance
+        return -0.5 * (theta**2).sum(axis=-1)
+
+    mcmc_posterior = build_from_potential(potential_fn, prior)
+
+    # test sampling
+    samples = mcmc_posterior.sample(
+        (num_samples,), num_chains=10, warmup_steps=50, thin=10
+    )
+
+    assert samples.shape == (num_samples, theta_dim), (
+        f"MCMC samples have incorrect shape (n_samples, n_dims). "
+        f"Expected {(num_samples, theta_dim)}, got {samples.shape}"
+    )
+
+    # test potential evaluation
+    dist = torch.distributions.MultivariateNormal(
+        torch.zeros(theta_dim), torch.eye(theta_dim)
+    )
+    samples = dist.sample((num_samples,))
+    log_p = mcmc_posterior.potential(samples)
+
+    assert log_p.shape == (num_samples,), (
+        f"Potential evals have incorrect shape. "
+        f"Expected ({num_samples}), got {log_p.shape}"
+    )
+
+
+@pytest.mark.mcmc
+def test_direct_mcmc_conditional():
+    "Test MCMCPosterior from user defined potential (conditional)"
+    theta_dim = 2
+    num_samples = 100
+    num_batches = 5
+    num_samples_batch = num_samples // num_batches
+
+    prior = BoxUniform(low=-2 * torch.ones(theta_dim), high=2 * torch.ones(theta_dim))
+
+    def potential_fn(theta: np.ndarray, x: np.ndarray) -> np.ndarray:
+        # Example: a 2D Gaussian with mean=[0,0], variance conditioned on x
+        return -x * (theta**2).sum(axis=-1)
+
+    # test sampling
+    x = torch.tensor([0.5])
+    mcmc_posterior = build_from_potential(potential_fn, prior, x=x)
+    samples = mcmc_posterior.sample(
+        (num_samples,), num_chains=10, warmup_steps=50, thin=10
+    )
+
+    assert samples.shape == (num_samples, theta_dim), (
+        f"MCMC samples have incorrect shape (n_chains, n_samples, n_dims). "
+        f"Expected {(num_samples, theta_dim)}, got {samples.shape}"
+    )
+
+    # test batched sampling
+    x_batch = torch.linspace(0.1, 0.9, num_batches).unsqueeze(1)
+    samples_batched = mcmc_posterior.sample_batched(
+        (num_samples_batch,), x=x_batch, num_chains=10, warmup_steps=50, thin=10
+    )
+    assert samples_batched.shape == (num_samples_batch, num_batches, theta_dim), (
+        f"MCMC samples have incorrect shape (n_samples, n_batches, n_dims). "
+        f"Expected {(num_samples, num_batches, theta_dim)}, got {samples.shape}"
+    )
+
+    # test potential evaluation
+    dist = torch.distributions.MultivariateNormal(
+        torch.zeros(theta_dim), torch.eye(theta_dim)
+    )
+    theta_samples = dist.sample((num_samples,))
+    x_samples = torch.rand((num_samples,))
+    log_p = mcmc_posterior.potential(theta_samples, x_samples)
+
+    assert log_p.shape == (
+        1,
+        num_samples,
+    ), (
+        f"Potential evals have incorrect shape. "
+        f"Expected (1, {num_samples}), got {log_p.shape}"
+    )

@@ -1,0 +1,54 @@
+--- a/src/io/hdf5_util.cc
++++ b/src/io/hdf5_util.cc
+@@ -200,7 +200,50 @@
+  */
+ hid_t my_H5Dcreate(hid_t loc_id, const char *datasetname, hid_t type_id, hid_t space_id, hid_t dcpl_id)
+ {
+-  hid_t dataset_id = H5Dcreate(loc_id, datasetname, type_id, space_id, H5P_DEFAULT, dcpl_id, H5P_DEFAULT);
++  /* Research2: checksum every nonempty numeric payload, including uncompressed
++   * snapshots/catalogues. Keep caller filters; never mutate its property list.
++   * Scalar/empty metadata have no chunks and remain covered by file manifests. */
++  hid_t owned_dcpl = -1;
++  hid_t creation = dcpl_id;
++  H5T_class_t type_class = H5Tget_class(type_id);
++  int rank = H5Sget_simple_extent_ndims(space_id);
++  hssize_t points = H5Sget_simple_extent_npoints(space_id);
++  if((type_class == H5T_INTEGER || type_class == H5T_FLOAT) && rank > 0 && points > 0)
++    {
++      owned_dcpl = dcpl_id == H5P_DEFAULT ? H5Pcreate(H5P_DATASET_CREATE) : H5Pcopy(dcpl_id);
++      if(owned_dcpl < 0) Terminate("HDF5: cannot copy checksum properties for %s", datasetname);
++      if(H5Pget_layout(owned_dcpl) != H5D_CHUNKED)
++        {
++          hsize_t chunks[H5S_MAX_RANK];
++          if(rank > H5S_MAX_RANK || H5Sget_simple_extent_dims(space_id, chunks, NULL) < 0)
++            Terminate("HDF5: cannot obtain checksum dimensions for %s", datasetname);
++          /* Bounded chunks avoid huge allocations and the HDF5 4 GiB limit. */
++          for(;;)
++            {
++              long double bytes = H5Tget_size(type_id);
++              int largest = 0;
++              for(int k = 0; k < rank; k++)
++                { bytes *= chunks[k]; if(chunks[k] > chunks[largest]) largest = k; }
++              if(bytes <= 1024 * 1024 || chunks[largest] <= 1) break;
++              chunks[largest] = (chunks[largest] + 1) / 2;
++            }
++          if(H5Pset_chunk(owned_dcpl, rank, chunks) < 0)
++            Terminate("HDF5: cannot enable checksum chunks for %s", datasetname);
++        }
++      unsigned int flags = 0;
++      size_t count = 0;
++      if(H5Pget_filter_by_id2(owned_dcpl, H5Z_FILTER_FLETCHER32, &flags, &count, NULL, 0, NULL, NULL) < 0)
++        {
++          /* The absent-filter lookup is expected, not a scientific I/O failure. */
++          H5Eclear2(H5E_DEFAULT);
++          if(H5Pset_fletcher32(owned_dcpl) < 0)
++            Terminate("HDF5: cannot enable Fletcher32 for %s", datasetname);
++        }
++      creation = owned_dcpl;
++    }
++  hid_t dataset_id = H5Dcreate(loc_id, datasetname, type_id, space_id, H5P_DEFAULT, creation, H5P_DEFAULT);
++  if(owned_dcpl >= 0 && H5Pclose(owned_dcpl) < 0)
++    Terminate("HDF5: cannot close checksum properties for %s", datasetname);
+ 
+   if(dataset_id < 0)
+     {

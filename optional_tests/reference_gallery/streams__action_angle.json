@@ -1,0 +1,307 @@
+{
+  "schema": "darkmattersim-figure-v1",
+  "created_utc": "2026-11-04T17:35:53.772066+00:00",
+  "title": "Supported action estimator; independent orbit/convergence acceptance\nrequired \u2014 PENDING INDEPENDENT ACTION VALIDATION",
+  "axes": [
+    {
+      "title": "Supported action estimator; independent orbit/convergence acceptance\nrequired \u2014 PENDING INDEPENDENT ACTION VALIDATION",
+      "x_label": "angle [radian]",
+      "y_label": "action [proper kpc km/s]",
+      "role": "plot",
+      "has_data": true
+    }
+  ],
+  "font_family": "STIXGeneral",
+  "style": "journal",
+  "layout": "double_column",
+  "formats": [
+    "png",
+    "pdf",
+    "svg"
+  ],
+  "png_dpi": 160,
+  "figure_size_inches": [
+    7.2,
+    2.88
+  ],
+  "figure_facecolor_rgba": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "layout_diagnostics": {
+    "canvas_inches": [
+      7.2,
+      2.88
+    ],
+    "export_bbox_inches": [
+      0.00667000000000003,
+      0.006669999999999995,
+      7.19333,
+      2.8733299999999997
+    ],
+    "export_padding_inches": 0.035,
+    "tolerance_inches": 0.015,
+    "visible_text_outside_canvas_count": 0,
+    "visible_text_outside_canvas": []
+  },
+  "scientific_metadata": {
+    "family": "streams",
+    "variant": "action_angle",
+    "recipe": {
+      "figure_id": "native-action-angle-Jphi",
+      "family": "streams",
+      "variant": "action_angle",
+      "title": "Jphi and its measured angle",
+      "science_status": "SYNTHETIC_CONTROL_NOT_ACCEPTED",
+      "epoch": {
+        "clock": "analytic control",
+        "time_myr": 0.0
+      },
+      "panels": [
+        {
+          "panel_id": "measured",
+          "title": "Supported action estimator; independent orbit/convergence acceptance required",
+          "quality_status": "PENDING_INDEPENDENT_ACTION_VALIDATION",
+          "selection": "36 simulated Gala spray tracers",
+          "xlabel": "angle [radian]",
+          "ylabel": "action [proper kpc km/s]",
+          "x_units": "radian",
+          "y_units": "proper kpc km/s",
+          "series": [
+            {
+              "source": "native",
+              "kind": "scatter",
+              "label": "Jphi",
+              "x": "angles_rad",
+              "y": "actions_kpc_kms",
+              "x_column": 2,
+              "y_column": 2,
+              "support": "action_supported"
+            }
+          ]
+        }
+      ]
+    },
+    "selections": [
+      {
+        "panel": "measured",
+        "counts": [
+          {
+            "label": "Jphi",
+            "supported": 27,
+            "masked": 9
+          }
+        ],
+        "selection": "36 simulated Gala spray tracers",
+        "quality_status": "PENDING_INDEPENDENT_ACTION_VALIDATION"
+      }
+    ],
+    "unit_source": "explicit physical source-array recipe",
+    "source_hashes": {
+      "/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json": "15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8",
+      "/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz": "8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7"
+    },
+    "physical_array_contract": {
+      "schema": "darkmattersim-data-contract-v1",
+      "container": "pickle-free NPZ",
+      "path": "native-action-angle-Jphi.physical_arrays.npz",
+      "sha256": "40d4df11ef75a0611c1f2d237080f11b4692d739a6fe10e86c08ec08a2632207",
+      "datasets": {
+        "measured__series_000_source_supported": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "dimensionless",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[36]",
+          "dtype": "bool",
+          "payload_sha256": "9a36ce4e40db3a40ab09f0aa4258fa75812805338618e2a7c4535d51d5fab5aa",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "measured__series_000_source_supported",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "PRODUCER_DECLARED",
+          "epoch_json": "{\"clock\": \"analytic control\", \"time_myr\": 0.0}",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": {\"clock\": \"analytic control\", \"time_myr\": 0.0}, \"family\": \"streams\", \"figure_id\": \"native-action-angle-Jphi\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_INDEPENDENT_ACTION_VALIDATION\", \"selection\": \"36 simulated Gala spray tracers\", \"series\": [{\"kind\": \"scatter\", \"label\": \"Jphi\", \"source\": \"native\", \"support\": \"action_supported\", \"x\": \"angles_rad\", \"x_column\": 2, \"y\": \"actions_kpc_kms\", \"y_column\": 2}], \"title\": \"Supported action estimator; independent orbit/convergence acceptance required\", \"x_units\": \"radian\", \"xlabel\": \"angle [radian]\", \"y_units\": \"proper kpc km/s\", \"ylabel\": \"action [proper kpc km/s]\"}], \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"title\": \"Jphi and its measured angle\", \"variant\": \"action_angle\"}, \"sources\": {\"native\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json\": \"15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz\": \"8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        },
+        "measured__series_000_x": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "radian",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[36]",
+          "dtype": "float64",
+          "payload_sha256": "06cb61deff0ebb9164e8aa0f2fcab13dcf53e78905c6ade448d4f45c67fddf2f",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "measured__series_000_x",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "PRODUCER_DECLARED",
+          "epoch_json": "{\"clock\": \"analytic control\", \"time_myr\": 0.0}",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": {\"clock\": \"analytic control\", \"time_myr\": 0.0}, \"family\": \"streams\", \"figure_id\": \"native-action-angle-Jphi\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_INDEPENDENT_ACTION_VALIDATION\", \"selection\": \"36 simulated Gala spray tracers\", \"series\": [{\"kind\": \"scatter\", \"label\": \"Jphi\", \"source\": \"native\", \"support\": \"action_supported\", \"x\": \"angles_rad\", \"x_column\": 2, \"y\": \"actions_kpc_kms\", \"y_column\": 2}], \"title\": \"Supported action estimator; independent orbit/convergence acceptance required\", \"x_units\": \"radian\", \"xlabel\": \"angle [radian]\", \"y_units\": \"proper kpc km/s\", \"ylabel\": \"action [proper kpc km/s]\"}], \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"title\": \"Jphi and its measured angle\", \"variant\": \"action_angle\"}, \"sources\": {\"native\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json\": \"15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz\": \"8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        },
+        "measured__series_000_y": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "proper kpc km/s",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[36]",
+          "dtype": "float64",
+          "payload_sha256": "58d850a54d38c1fc141e62f25f4336f6cedefd1084433a3315d0d5471831b477",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "measured__series_000_y",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "PRODUCER_DECLARED",
+          "epoch_json": "{\"clock\": \"analytic control\", \"time_myr\": 0.0}",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": {\"clock\": \"analytic control\", \"time_myr\": 0.0}, \"family\": \"streams\", \"figure_id\": \"native-action-angle-Jphi\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_INDEPENDENT_ACTION_VALIDATION\", \"selection\": \"36 simulated Gala spray tracers\", \"series\": [{\"kind\": \"scatter\", \"label\": \"Jphi\", \"source\": \"native\", \"support\": \"action_supported\", \"x\": \"angles_rad\", \"x_column\": 2, \"y\": \"actions_kpc_kms\", \"y_column\": 2}], \"title\": \"Supported action estimator; independent orbit/convergence acceptance required\", \"x_units\": \"radian\", \"xlabel\": \"angle [radian]\", \"y_units\": \"proper kpc km/s\", \"ylabel\": \"action [proper kpc km/s]\"}], \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"title\": \"Jphi and its measured angle\", \"variant\": \"action_angle\"}, \"sources\": {\"native\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json\": \"15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz\": \"8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        },
+        "measured__series_000_supported": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "dimensionless",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[36]",
+          "dtype": "bool",
+          "payload_sha256": "9a36ce4e40db3a40ab09f0aa4258fa75812805338618e2a7c4535d51d5fab5aa",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "measured__series_000_supported",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "PRODUCER_DECLARED",
+          "epoch_json": "{\"clock\": \"analytic control\", \"time_myr\": 0.0}",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": {\"clock\": \"analytic control\", \"time_myr\": 0.0}, \"family\": \"streams\", \"figure_id\": \"native-action-angle-Jphi\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_INDEPENDENT_ACTION_VALIDATION\", \"selection\": \"36 simulated Gala spray tracers\", \"series\": [{\"kind\": \"scatter\", \"label\": \"Jphi\", \"source\": \"native\", \"support\": \"action_supported\", \"x\": \"angles_rad\", \"x_column\": 2, \"y\": \"actions_kpc_kms\", \"y_column\": 2}], \"title\": \"Supported action estimator; independent orbit/convergence acceptance required\", \"x_units\": \"radian\", \"xlabel\": \"angle [radian]\", \"y_units\": \"proper kpc km/s\", \"ylabel\": \"action [proper kpc km/s]\"}], \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"title\": \"Jphi and its measured angle\", \"variant\": \"action_angle\"}, \"sources\": {\"native\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json\": \"15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz\": \"8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        }
+      }
+    },
+    "science_status": "SYNTHETIC_CONTROL_NOT_ACCEPTED",
+    "epoch": {
+      "clock": "analytic control",
+      "time_myr": 0.0
+    }
+  },
+  "plot_data": "native-action-angle-Jphi.plotdata.npz",
+  "plot_data_contract": {
+    "schema": "darkmattersim-data-contract-v1",
+    "container": "pickle-free NPZ",
+    "path": "native-action-angle-Jphi.plotdata.npz",
+    "sha256": "201b15c89ea40d39fd7702c42f7dabf7aea073d0d166a33c76f22168ce3f6242",
+    "datasets": {
+      "axis_0_collection_0_offsets": {
+        "data_contract_schema": "darkmattersim-data-contract-v1",
+        "units": "mixed axis geometry; {'x': 'radian', 'y': 'proper kpc km/s', 'z': 'dimensionless', 'color': 'dimensionless'}",
+        "missing_policy": "Masked or nonfinite artist values are preserved without interpolation",
+        "shape_json": "[27, 2]",
+        "dtype": "float64",
+        "payload_sha256": "c72fc642d2dc33f1390a4bea165d225789098c4788907fe0efd9ba9941a63cac",
+        "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+        "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+        "quantity_definition_status": "PRODUCER_DECLARED",
+        "quantity_definition": "drawn artist axis_0_collection_0_offsets",
+        "quality_status": "NOT_ACCEPTED",
+        "epoch_status": "PRODUCER_DECLARED",
+        "epoch_json": "{\"clock\": \"analytic control\", \"time_myr\": 0.0}",
+        "provenance_status": "PRODUCER_DECLARED",
+        "provenance_json": "{\"algorithm_sha256\": \"d9009f2f2b943ebabcd056fcd15364a2827010afd4a9a39cdf280d8197663485\", \"scientific_metadata\": {\"epoch\": {\"clock\": \"analytic control\", \"time_myr\": 0.0}, \"family\": \"streams\", \"physical_array_contract\": {\"container\": \"pickle-free NPZ\", \"datasets\": {\"measured__series_000_source_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_json\": \"{\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"9a36ce4e40db3a40ab09f0aa4258fa75812805338618e2a7c4535d51d5fab5aa\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"native-action-angle-Jphi\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_INDEPENDENT_ACTION_VALIDATION\\\", \\\"selection\\\": \\\"36 simulated Gala spray tracers\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Jphi\\\", \\\"source\\\": \\\"native\\\", \\\"support\\\": \\\"action_supported\\\", \\\"x\\\": \\\"angles_rad\\\", \\\"x_column\\\": 2, \\\"y\\\": \\\"actions_kpc_kms\\\", \\\"y_column\\\": 2}], \\\"title\\\": \\\"Supported action estimator; independent orbit/convergence acceptance required\\\", \\\"x_units\\\": \\\"radian\\\", \\\"xlabel\\\": \\\"angle [radian]\\\", \\\"y_units\\\": \\\"proper kpc km/s\\\", \\\"ylabel\\\": \\\"action [proper kpc km/s]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Jphi and its measured angle\\\", \\\"variant\\\": \\\"action_angle\\\"}, \\\"sources\\\": {\\\"native\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json\\\": \\\"15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz\\\": \\\"8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_source_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[36]\", \"units\": \"dimensionless\"}, \"measured__series_000_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_json\": \"{\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"9a36ce4e40db3a40ab09f0aa4258fa75812805338618e2a7c4535d51d5fab5aa\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"native-action-angle-Jphi\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_INDEPENDENT_ACTION_VALIDATION\\\", \\\"selection\\\": \\\"36 simulated Gala spray tracers\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Jphi\\\", \\\"source\\\": \\\"native\\\", \\\"support\\\": \\\"action_supported\\\", \\\"x\\\": \\\"angles_rad\\\", \\\"x_column\\\": 2, \\\"y\\\": \\\"actions_kpc_kms\\\", \\\"y_column\\\": 2}], \\\"title\\\": \\\"Supported action estimator; independent orbit/convergence acceptance required\\\", \\\"x_units\\\": \\\"radian\\\", \\\"xlabel\\\": \\\"angle [radian]\\\", \\\"y_units\\\": \\\"proper kpc km/s\\\", \\\"ylabel\\\": \\\"action [proper kpc km/s]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Jphi and its measured angle\\\", \\\"variant\\\": \\\"action_angle\\\"}, \\\"sources\\\": {\\\"native\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json\\\": \\\"15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz\\\": \\\"8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[36]\", \"units\": \"dimensionless\"}, \"measured__series_000_x\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_json\": \"{\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"06cb61deff0ebb9164e8aa0f2fcab13dcf53e78905c6ade448d4f45c67fddf2f\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"native-action-angle-Jphi\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_INDEPENDENT_ACTION_VALIDATION\\\", \\\"selection\\\": \\\"36 simulated Gala spray tracers\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Jphi\\\", \\\"source\\\": \\\"native\\\", \\\"support\\\": \\\"action_supported\\\", \\\"x\\\": \\\"angles_rad\\\", \\\"x_column\\\": 2, \\\"y\\\": \\\"actions_kpc_kms\\\", \\\"y_column\\\": 2}], \\\"title\\\": \\\"Supported action estimator; independent orbit/convergence acceptance required\\\", \\\"x_units\\\": \\\"radian\\\", \\\"xlabel\\\": \\\"angle [radian]\\\", \\\"y_units\\\": \\\"proper kpc km/s\\\", \\\"ylabel\\\": \\\"action [proper kpc km/s]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Jphi and its measured angle\\\", \\\"variant\\\": \\\"action_angle\\\"}, \\\"sources\\\": {\\\"native\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json\\\": \\\"15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz\\\": \\\"8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_x\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[36]\", \"units\": \"radian\"}, \"measured__series_000_y\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_json\": \"{\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"58d850a54d38c1fc141e62f25f4336f6cedefd1084433a3315d0d5471831b477\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"native-action-angle-Jphi\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_INDEPENDENT_ACTION_VALIDATION\\\", \\\"selection\\\": \\\"36 simulated Gala spray tracers\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Jphi\\\", \\\"source\\\": \\\"native\\\", \\\"support\\\": \\\"action_supported\\\", \\\"x\\\": \\\"angles_rad\\\", \\\"x_column\\\": 2, \\\"y\\\": \\\"actions_kpc_kms\\\", \\\"y_column\\\": 2}], \\\"title\\\": \\\"Supported action estimator; independent orbit/convergence acceptance required\\\", \\\"x_units\\\": \\\"radian\\\", \\\"xlabel\\\": \\\"angle [radian]\\\", \\\"y_units\\\": \\\"proper kpc km/s\\\", \\\"ylabel\\\": \\\"action [proper kpc km/s]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Jphi and its measured angle\\\", \\\"variant\\\": \\\"action_angle\\\"}, \\\"sources\\\": {\\\"native\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json\\\": \\\"15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz\\\": \\\"8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_y\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[36]\", \"units\": \"proper kpc km/s\"}}, \"path\": \"native-action-angle-Jphi.physical_arrays.npz\", \"schema\": \"darkmattersim-data-contract-v1\", \"sha256\": \"40d4df11ef75a0611c1f2d237080f11b4692d739a6fe10e86c08ec08a2632207\"}, \"recipe\": {\"epoch\": {\"clock\": \"analytic control\", \"time_myr\": 0.0}, \"family\": \"streams\", \"figure_id\": \"native-action-angle-Jphi\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_INDEPENDENT_ACTION_VALIDATION\", \"selection\": \"36 simulated Gala spray tracers\", \"series\": [{\"kind\": \"scatter\", \"label\": \"Jphi\", \"source\": \"native\", \"support\": \"action_supported\", \"x\": \"angles_rad\", \"x_column\": 2, \"y\": \"actions_kpc_kms\", \"y_column\": 2}], \"title\": \"Supported action estimator; independent orbit/convergence acceptance required\", \"x_units\": \"radian\", \"xlabel\": \"angle [radian]\", \"y_units\": \"proper kpc km/s\", \"ylabel\": \"action [proper kpc km/s]\"}], \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"title\": \"Jphi and its measured angle\", \"variant\": \"action_angle\"}, \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"selections\": [{\"counts\": [{\"label\": \"Jphi\", \"masked\": 9, \"supported\": 27}], \"panel\": \"measured\", \"quality_status\": \"PENDING_INDEPENDENT_ACTION_VALIDATION\", \"selection\": \"36 simulated Gala spray tracers\"}], \"source_hashes\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json\": \"15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz\": \"8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7\"}, \"unit_source\": \"explicit physical source-array recipe\", \"variant\": \"action_angle\"}}",
+        "ancestry_status": "UNDECLARED",
+        "coordinates_status": "UNDECLARED",
+        "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+        "annotations": {
+          "scope": "Display geometry; source measurement definitions remain in scientific_metadata"
+        }
+      },
+      "axis_0_collection_0_offsets_mask": {
+        "data_contract_schema": "darkmattersim-data-contract-v1",
+        "units": "dimensionless",
+        "missing_policy": "Masked or nonfinite artist values are preserved without interpolation",
+        "shape_json": "[27, 2]",
+        "dtype": "bool",
+        "payload_sha256": "23b404716b7871e53c300d4ff278c9c7c29449f78c8005148415983ac69531f4",
+        "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+        "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+        "quantity_definition_status": "PRODUCER_DECLARED",
+        "quantity_definition": "artist availability mask",
+        "quality_status": "NOT_ACCEPTED",
+        "epoch_status": "PRODUCER_DECLARED",
+        "epoch_json": "{\"clock\": \"analytic control\", \"time_myr\": 0.0}",
+        "provenance_status": "PRODUCER_DECLARED",
+        "provenance_json": "{\"algorithm_sha256\": \"d9009f2f2b943ebabcd056fcd15364a2827010afd4a9a39cdf280d8197663485\", \"scientific_metadata\": {\"epoch\": {\"clock\": \"analytic control\", \"time_myr\": 0.0}, \"family\": \"streams\", \"physical_array_contract\": {\"container\": \"pickle-free NPZ\", \"datasets\": {\"measured__series_000_source_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_json\": \"{\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"9a36ce4e40db3a40ab09f0aa4258fa75812805338618e2a7c4535d51d5fab5aa\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"native-action-angle-Jphi\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_INDEPENDENT_ACTION_VALIDATION\\\", \\\"selection\\\": \\\"36 simulated Gala spray tracers\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Jphi\\\", \\\"source\\\": \\\"native\\\", \\\"support\\\": \\\"action_supported\\\", \\\"x\\\": \\\"angles_rad\\\", \\\"x_column\\\": 2, \\\"y\\\": \\\"actions_kpc_kms\\\", \\\"y_column\\\": 2}], \\\"title\\\": \\\"Supported action estimator; independent orbit/convergence acceptance required\\\", \\\"x_units\\\": \\\"radian\\\", \\\"xlabel\\\": \\\"angle [radian]\\\", \\\"y_units\\\": \\\"proper kpc km/s\\\", \\\"ylabel\\\": \\\"action [proper kpc km/s]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Jphi and its measured angle\\\", \\\"variant\\\": \\\"action_angle\\\"}, \\\"sources\\\": {\\\"native\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json\\\": \\\"15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz\\\": \\\"8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_source_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[36]\", \"units\": \"dimensionless\"}, \"measured__series_000_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_json\": \"{\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"9a36ce4e40db3a40ab09f0aa4258fa75812805338618e2a7c4535d51d5fab5aa\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"native-action-angle-Jphi\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_INDEPENDENT_ACTION_VALIDATION\\\", \\\"selection\\\": \\\"36 simulated Gala spray tracers\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Jphi\\\", \\\"source\\\": \\\"native\\\", \\\"support\\\": \\\"action_supported\\\", \\\"x\\\": \\\"angles_rad\\\", \\\"x_column\\\": 2, \\\"y\\\": \\\"actions_kpc_kms\\\", \\\"y_column\\\": 2}], \\\"title\\\": \\\"Supported action estimator; independent orbit/convergence acceptance required\\\", \\\"x_units\\\": \\\"radian\\\", \\\"xlabel\\\": \\\"angle [radian]\\\", \\\"y_units\\\": \\\"proper kpc km/s\\\", \\\"ylabel\\\": \\\"action [proper kpc km/s]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Jphi and its measured angle\\\", \\\"variant\\\": \\\"action_angle\\\"}, \\\"sources\\\": {\\\"native\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json\\\": \\\"15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz\\\": \\\"8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[36]\", \"units\": \"dimensionless\"}, \"measured__series_000_x\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_json\": \"{\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"06cb61deff0ebb9164e8aa0f2fcab13dcf53e78905c6ade448d4f45c67fddf2f\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"native-action-angle-Jphi\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_INDEPENDENT_ACTION_VALIDATION\\\", \\\"selection\\\": \\\"36 simulated Gala spray tracers\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Jphi\\\", \\\"source\\\": \\\"native\\\", \\\"support\\\": \\\"action_supported\\\", \\\"x\\\": \\\"angles_rad\\\", \\\"x_column\\\": 2, \\\"y\\\": \\\"actions_kpc_kms\\\", \\\"y_column\\\": 2}], \\\"title\\\": \\\"Supported action estimator; independent orbit/convergence acceptance required\\\", \\\"x_units\\\": \\\"radian\\\", \\\"xlabel\\\": \\\"angle [radian]\\\", \\\"y_units\\\": \\\"proper kpc km/s\\\", \\\"ylabel\\\": \\\"action [proper kpc km/s]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Jphi and its measured angle\\\", \\\"variant\\\": \\\"action_angle\\\"}, \\\"sources\\\": {\\\"native\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json\\\": \\\"15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz\\\": \\\"8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_x\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[36]\", \"units\": \"radian\"}, \"measured__series_000_y\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_json\": \"{\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"58d850a54d38c1fc141e62f25f4336f6cedefd1084433a3315d0d5471831b477\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"native-action-angle-Jphi\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_INDEPENDENT_ACTION_VALIDATION\\\", \\\"selection\\\": \\\"36 simulated Gala spray tracers\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Jphi\\\", \\\"source\\\": \\\"native\\\", \\\"support\\\": \\\"action_supported\\\", \\\"x\\\": \\\"angles_rad\\\", \\\"x_column\\\": 2, \\\"y\\\": \\\"actions_kpc_kms\\\", \\\"y_column\\\": 2}], \\\"title\\\": \\\"Supported action estimator; independent orbit/convergence acceptance required\\\", \\\"x_units\\\": \\\"radian\\\", \\\"xlabel\\\": \\\"angle [radian]\\\", \\\"y_units\\\": \\\"proper kpc km/s\\\", \\\"ylabel\\\": \\\"action [proper kpc km/s]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Jphi and its measured angle\\\", \\\"variant\\\": \\\"action_angle\\\"}, \\\"sources\\\": {\\\"native\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json\\\": \\\"15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz\\\": \\\"8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_y\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[36]\", \"units\": \"proper kpc km/s\"}}, \"path\": \"native-action-angle-Jphi.physical_arrays.npz\", \"schema\": \"darkmattersim-data-contract-v1\", \"sha256\": \"40d4df11ef75a0611c1f2d237080f11b4692d739a6fe10e86c08ec08a2632207\"}, \"recipe\": {\"epoch\": {\"clock\": \"analytic control\", \"time_myr\": 0.0}, \"family\": \"streams\", \"figure_id\": \"native-action-angle-Jphi\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_INDEPENDENT_ACTION_VALIDATION\", \"selection\": \"36 simulated Gala spray tracers\", \"series\": [{\"kind\": \"scatter\", \"label\": \"Jphi\", \"source\": \"native\", \"support\": \"action_supported\", \"x\": \"angles_rad\", \"x_column\": 2, \"y\": \"actions_kpc_kms\", \"y_column\": 2}], \"title\": \"Supported action estimator; independent orbit/convergence acceptance required\", \"x_units\": \"radian\", \"xlabel\": \"angle [radian]\", \"y_units\": \"proper kpc km/s\", \"ylabel\": \"action [proper kpc km/s]\"}], \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"title\": \"Jphi and its measured angle\", \"variant\": \"action_angle\"}, \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"selections\": [{\"counts\": [{\"label\": \"Jphi\", \"masked\": 9, \"supported\": 27}], \"panel\": \"measured\", \"quality_status\": \"PENDING_INDEPENDENT_ACTION_VALIDATION\", \"selection\": \"36 simulated Gala spray tracers\"}], \"source_hashes\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json\": \"15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz\": \"8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7\"}, \"unit_source\": \"explicit physical source-array recipe\", \"variant\": \"action_angle\"}}",
+        "ancestry_status": "UNDECLARED",
+        "coordinates_status": "UNDECLARED",
+        "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+        "annotations": {
+          "scope": "Display geometry; source measurement definitions remain in scientific_metadata"
+        }
+      },
+      "axis_0_collection_0_path_0": {
+        "data_contract_schema": "darkmattersim-data-contract-v1",
+        "units": "display marker geometry; no physical units",
+        "missing_policy": "Masked or nonfinite artist values are preserved without interpolation",
+        "shape_json": "[26, 2]",
+        "dtype": "float64",
+        "payload_sha256": "1e959cc0556523bad1d124d60e04132547cf20cb2b7082914e4671313d5e6cba",
+        "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+        "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+        "quantity_definition_status": "PRODUCER_DECLARED",
+        "quantity_definition": "drawn artist axis_0_collection_0_path_0",
+        "quality_status": "NOT_ACCEPTED",
+        "epoch_status": "PRODUCER_DECLARED",
+        "epoch_json": "{\"clock\": \"analytic control\", \"time_myr\": 0.0}",
+        "provenance_status": "PRODUCER_DECLARED",
+        "provenance_json": "{\"algorithm_sha256\": \"d9009f2f2b943ebabcd056fcd15364a2827010afd4a9a39cdf280d8197663485\", \"scientific_metadata\": {\"epoch\": {\"clock\": \"analytic control\", \"time_myr\": 0.0}, \"family\": \"streams\", \"physical_array_contract\": {\"container\": \"pickle-free NPZ\", \"datasets\": {\"measured__series_000_source_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_json\": \"{\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"9a36ce4e40db3a40ab09f0aa4258fa75812805338618e2a7c4535d51d5fab5aa\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"native-action-angle-Jphi\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_INDEPENDENT_ACTION_VALIDATION\\\", \\\"selection\\\": \\\"36 simulated Gala spray tracers\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Jphi\\\", \\\"source\\\": \\\"native\\\", \\\"support\\\": \\\"action_supported\\\", \\\"x\\\": \\\"angles_rad\\\", \\\"x_column\\\": 2, \\\"y\\\": \\\"actions_kpc_kms\\\", \\\"y_column\\\": 2}], \\\"title\\\": \\\"Supported action estimator; independent orbit/convergence acceptance required\\\", \\\"x_units\\\": \\\"radian\\\", \\\"xlabel\\\": \\\"angle [radian]\\\", \\\"y_units\\\": \\\"proper kpc km/s\\\", \\\"ylabel\\\": \\\"action [proper kpc km/s]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Jphi and its measured angle\\\", \\\"variant\\\": \\\"action_angle\\\"}, \\\"sources\\\": {\\\"native\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json\\\": \\\"15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz\\\": \\\"8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_source_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[36]\", \"units\": \"dimensionless\"}, \"measured__series_000_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_json\": \"{\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"9a36ce4e40db3a40ab09f0aa4258fa75812805338618e2a7c4535d51d5fab5aa\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"native-action-angle-Jphi\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_INDEPENDENT_ACTION_VALIDATION\\\", \\\"selection\\\": \\\"36 simulated Gala spray tracers\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Jphi\\\", \\\"source\\\": \\\"native\\\", \\\"support\\\": \\\"action_supported\\\", \\\"x\\\": \\\"angles_rad\\\", \\\"x_column\\\": 2, \\\"y\\\": \\\"actions_kpc_kms\\\", \\\"y_column\\\": 2}], \\\"title\\\": \\\"Supported action estimator; independent orbit/convergence acceptance required\\\", \\\"x_units\\\": \\\"radian\\\", \\\"xlabel\\\": \\\"angle [radian]\\\", \\\"y_units\\\": \\\"proper kpc km/s\\\", \\\"ylabel\\\": \\\"action [proper kpc km/s]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Jphi and its measured angle\\\", \\\"variant\\\": \\\"action_angle\\\"}, \\\"sources\\\": {\\\"native\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json\\\": \\\"15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz\\\": \\\"8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[36]\", \"units\": \"dimensionless\"}, \"measured__series_000_x\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_json\": \"{\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"06cb61deff0ebb9164e8aa0f2fcab13dcf53e78905c6ade448d4f45c67fddf2f\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"native-action-angle-Jphi\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_INDEPENDENT_ACTION_VALIDATION\\\", \\\"selection\\\": \\\"36 simulated Gala spray tracers\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Jphi\\\", \\\"source\\\": \\\"native\\\", \\\"support\\\": \\\"action_supported\\\", \\\"x\\\": \\\"angles_rad\\\", \\\"x_column\\\": 2, \\\"y\\\": \\\"actions_kpc_kms\\\", \\\"y_column\\\": 2}], \\\"title\\\": \\\"Supported action estimator; independent orbit/convergence acceptance required\\\", \\\"x_units\\\": \\\"radian\\\", \\\"xlabel\\\": \\\"angle [radian]\\\", \\\"y_units\\\": \\\"proper kpc km/s\\\", \\\"ylabel\\\": \\\"action [proper kpc km/s]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Jphi and its measured angle\\\", \\\"variant\\\": \\\"action_angle\\\"}, \\\"sources\\\": {\\\"native\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json\\\": \\\"15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz\\\": \\\"8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_x\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[36]\", \"units\": \"radian\"}, \"measured__series_000_y\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_json\": \"{\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"58d850a54d38c1fc141e62f25f4336f6cedefd1084433a3315d0d5471831b477\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"clock\\\": \\\"analytic control\\\", \\\"time_myr\\\": 0.0}, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"native-action-angle-Jphi\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_INDEPENDENT_ACTION_VALIDATION\\\", \\\"selection\\\": \\\"36 simulated Gala spray tracers\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Jphi\\\", \\\"source\\\": \\\"native\\\", \\\"support\\\": \\\"action_supported\\\", \\\"x\\\": \\\"angles_rad\\\", \\\"x_column\\\": 2, \\\"y\\\": \\\"actions_kpc_kms\\\", \\\"y_column\\\": 2}], \\\"title\\\": \\\"Supported action estimator; independent orbit/convergence acceptance required\\\", \\\"x_units\\\": \\\"radian\\\", \\\"xlabel\\\": \\\"angle [radian]\\\", \\\"y_units\\\": \\\"proper kpc km/s\\\", \\\"ylabel\\\": \\\"action [proper kpc km/s]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Jphi and its measured angle\\\", \\\"variant\\\": \\\"action_angle\\\"}, \\\"sources\\\": {\\\"native\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json\\\": \\\"15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz\\\": \\\"8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_y\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[36]\", \"units\": \"proper kpc km/s\"}}, \"path\": \"native-action-angle-Jphi.physical_arrays.npz\", \"schema\": \"darkmattersim-data-contract-v1\", \"sha256\": \"40d4df11ef75a0611c1f2d237080f11b4692d739a6fe10e86c08ec08a2632207\"}, \"recipe\": {\"epoch\": {\"clock\": \"analytic control\", \"time_myr\": 0.0}, \"family\": \"streams\", \"figure_id\": \"native-action-angle-Jphi\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_INDEPENDENT_ACTION_VALIDATION\", \"selection\": \"36 simulated Gala spray tracers\", \"series\": [{\"kind\": \"scatter\", \"label\": \"Jphi\", \"source\": \"native\", \"support\": \"action_supported\", \"x\": \"angles_rad\", \"x_column\": 2, \"y\": \"actions_kpc_kms\", \"y_column\": 2}], \"title\": \"Supported action estimator; independent orbit/convergence acceptance required\", \"x_units\": \"radian\", \"xlabel\": \"angle [radian]\", \"y_units\": \"proper kpc km/s\", \"ylabel\": \"action [proper kpc km/s]\"}], \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"title\": \"Jphi and its measured angle\", \"variant\": \"action_angle\"}, \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"selections\": [{\"counts\": [{\"label\": \"Jphi\", \"masked\": 9, \"supported\": 27}], \"panel\": \"measured\", \"quality_status\": \"PENDING_INDEPENDENT_ACTION_VALIDATION\", \"selection\": \"36 simulated Gala spray tracers\"}], \"source_hashes\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json\": \"15903dff9c67092f81b2f8ae7bc0dcd0c83bbafb5202f0c5d70aaafa0ed934c8\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-isochrone-action-retry-input/actions.json.data/arrays.npz\": \"8204cb051fc607a6d1a2946b8efaddc74508806d9d5e32f591507035f08d83e7\"}, \"unit_source\": \"explicit physical source-array recipe\", \"variant\": \"action_angle\"}}",
+        "ancestry_status": "UNDECLARED",
+        "coordinates_status": "UNDECLARED",
+        "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+        "annotations": {
+          "scope": "Display geometry; source measurement definitions remain in scientific_metadata"
+        }
+      }
+    }
+  },
+  "plot_data_scope": "Arrays actually drawn, including artist geometry and masks; physical measurement definitions remain in the source product",
+  "units_status": "Caller metadata only; axis labels are preserved, never interpreted as a verified unit contract",
+  "science_acceptance": "NOT_ACCEPTED",
+  "artifacts": [
+    {
+      "path": "native-action-angle-Jphi.pdf",
+      "sha256": "990ea9341582b6add67349d710245a7b9f23b78f49cf90ca8445bbcd2ddd4d1d",
+      "size_bytes": 28260
+    },
+    {
+      "path": "native-action-angle-Jphi.plotdata.npz",
+      "sha256": "201b15c89ea40d39fd7702c42f7dabf7aea073d0d166a33c76f22168ce3f6242",
+      "size_bytes": 1252
+    },
+    {
+      "path": "native-action-angle-Jphi.png",
+      "sha256": "75a0fed0adde24f419c3c4b84511591c6f9b3fbb9097b24f0814017a5b42b26e",
+      "size_bytes": 54370
+    },
+    {
+      "path": "native-action-angle-Jphi.svg",
+      "sha256": "a021c1d0b0ce7ecf25603060d6dd7e05f7d2aef577ebab814ca5fe8938d7401d",
+      "size_bytes": 25948
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "request": {
+    "schema": "sidm-refinement-measurement-request-v1",
+    "parameter_path": [
+      "maximum_timestep_native"
+    ],
+    "levels": [
+      1e-05,
+      5e-06,
+      2.5e-06
+    ],
+    "ensembles": [
+      {
+        "path": "REPLACE_WITH_ACTUAL_ADJACENT_ENSEMBLE_0.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "path": "REPLACE_WITH_ACTUAL_ADJACENT_ENSEMBLE_1.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    ],
+    "maximum_levels": 8,
+    "maximum_observables": 10000,
+    "memory_gib": 8.0,
+    "mean_error_multiplier": 2.0,
+    "maximum_sampling_error_fraction": 0.25
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "request": {
+    "schema": "native-stream-worldline-request-v1",
+    "snapshots": [
+      0,
+      1,
+      2
+    ],
+    "species": 4,
+    "particle_ids": [
+      1,
+      2,
+      3
+    ],
+    "particle_namespace": "REPLACE_WITH_ACTUAL_NATIVE_NAMESPACE",
+    "maximum_snapshots": 64,
+    "maximum_selected_particles": 100000,
+    "maximum_census_particles": 2000000,
+    "memory_gib": 4.0
+  },
+  "native_stage_receipt": "REPLACE_WITH_ACTUAL_COMPLETED_NATIVE_STAGE_RECEIPT.json",
+  "native_run_directory": "REPLACE_WITH_ACTUAL_ORIGINAL_NATIVE_RUN"
+}

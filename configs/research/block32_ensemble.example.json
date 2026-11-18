@@ -1,0 +1,55 @@
+{
+  "request": {
+    "schema": "observable-error-requirement-v1",
+    "observable": "central_density",
+    "units": "Msun/kpc^3",
+    "reference_value": [
+      10000000.0
+    ],
+    "dimensional_floor": 1.0,
+    "absolute_tolerance": 10000.0,
+    "relative_tolerance": 0.01,
+    "sigma_multiplier": 2.0,
+    "covariance_tolerance": 1e-06,
+    "required_components": [
+      "integration",
+      "mass_resolution",
+      "force_resolution",
+      "sidm_kernel",
+      "sidm_timestep",
+      "sidm_angular_cdf",
+      "sidm_frequent_approximation",
+      "sidm_split_angle",
+      "sidm_stochastic_realization"
+    ],
+    "bins": [
+      {
+        "radius_kpc": [
+          0.1,
+          0.2
+        ],
+        "scale_factor": 1.0
+      }
+    ],
+    "independent_components": false
+  },
+  "independence_key": "sidm_operator_seed",
+  "maximum_realizations": 16,
+  "memory_bytes": 1073741824,
+  "realizations": [
+    {
+      "receipt": "FILL_REALIZATION_ANALYSIS_STAGE_RECEIPT_0",
+      "product": "native_control_residual"
+    },
+    {
+      "receipt": "FILL_REALIZATION_ANALYSIS_STAGE_RECEIPT_1",
+      "product": "native_control_residual"
+    }
+  ],
+  "systematic_controls": [
+    {
+      "receipt": "FILL_MEASURED_SYSTEMATIC_CONTROL_RECEIPT",
+      "product": "error_component"
+    }
+  ]
+}

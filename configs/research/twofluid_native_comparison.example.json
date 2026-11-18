@@ -1,0 +1,25 @@
+{
+  "request": {
+    "schema": "twofluid-native-evolution-comparison-request-v1",
+    "memory_gib": 8.0,
+    "maximum_grid_cells": 262144,
+    "maximum_density_difference": 0.01,
+    "maximum_momentum_difference_km_s": 0.1,
+    "maximum_velocity_difference_km_s": 0.1,
+    "maximum_relative_velocity_difference_km_s": 0.1,
+    "maximum_native_velocity_dispersion_km_s": 0.1,
+    "species_mass_relative_tolerance": 1e-08,
+    "initial_seed": {
+      "path": "REPLACE_WITH_ACTUAL_INITIAL_SEED.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "reference": {
+      "path": "REPLACE_WITH_ACTUAL_REFERENCE.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "native_measurement": {
+      "path": "REPLACE_WITH_ACTUAL_NATIVE_MEASUREMENT.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  }
+}

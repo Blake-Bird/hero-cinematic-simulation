@@ -1,0 +1,59 @@
+{
+  "schema": "algorithm-records-v1",
+  "requirement_ids": [
+    "48"
+  ],
+  "records": [
+    {
+      "requirement_ids": [
+        "48"
+      ],
+      "owning_functions": [
+        "core.sidm_analysis.measure_sidm_shells",
+        "core.sidm_analysis.measure_core_definitions",
+        "core.sidm_analysis.classify_sidm_history",
+        "core.sidm_analysis.component_centroids_and_misalignment",
+        "core.sidm_analysis.satellite_survival_and_transport",
+        "core.sidm_analysis.forward_model_degeneracy",
+        "core.sidm_analysis.publish_sidm_history",
+        "core.sidm_analysis.publish_sidm_matched",
+        "core.sidm_analysis.publish_sidm_observations",
+        "core.sidm_analysis.publish_sidm_derived"
+      ],
+      "primary_sources": [
+        "https://arxiv.org/abs/1208.3026",
+        "https://arxiv.org/abs/2204.12502",
+        "https://arxiv.org/abs/2306.01830",
+        "https://arxiv.org/abs/2403.00739",
+        "https://github.com/ymzhong/gravothermal",
+        "https://github.com/DanengYang/parametricSIDM"
+      ],
+      "equation_identifiers": [
+        "rho=sum(m)/V",
+        "q_r=(1/2V) sum(m |v-vbar_shell|^2 (v-vbar_shell).rhat)",
+        "beta=1-(sigma_theta^2+sigma_phi^2)/(2 sigma_r^2)",
+        "shell S_ij=sum(m x_i x_j)/sum(m)",
+        "conditional rho= rho0/[1+(r/rc)^2]",
+        "calibrated whitened response SVD"
+      ],
+      "physical_assumptions": [
+        "Complete exact native census and measured halo center/clock",
+        "Peculiar velocity central moments in proper radial apertures",
+        "No total collision transport inferred from event counters",
+        "Unreduced shell tensor shape definition is explicit",
+        "Conditional shot-noise/fit uncertainty is distinct from native convergence",
+        "Matched baryonic controls and independent calibration required for inference"
+      ],
+      "numerical_domain": "explicit radial/epoch/pipeline resource/support limits; retain unsupported bins and saved crossing brackets",
+      "upstream_revision_or_asset_hash": "core/software/workflow-references/sidm-science/sources.json",
+      "license": "original implementation; downloaded upstream files retained as reference only",
+      "independent_controls": [
+        "matched CDM/SIDM and baryonic variants",
+        "native/operator/IC realization ensembles",
+        "kernel/mass/force/time/angular convergence",
+        "independent forward coverage"
+      ],
+      "execution_status": "NOT_EXECUTED"
+    }
+  ]
+}

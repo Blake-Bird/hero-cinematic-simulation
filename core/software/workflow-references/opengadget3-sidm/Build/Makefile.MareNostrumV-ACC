@@ -1,0 +1,16 @@
+CC=mpic++
+CXX=mpic++
+
+CC_ACC_FLAGS = -acc=gpu -gpu=cc90,mem:separate:pinnedalloc -mp=multicore -Minfo=accel -Wl,-z,noexecstack \
+-Wall -Wextra  -v -mavx -mavx2   -march=native  -mtune=native
+
+CC_OPT ?= -O3
+CXX += $(CC_ACC_FLAGS)
+CC += $(CC_ACC_FLAGS)
+
+OPTIMIZE = -std=c++17 $(CC_OPT)
+
+MPICHLIB=
+FFTW_INCL =
+FFTW_LIBS =  -lpthread  -lfftw3_omp
+GSL_LIBS = -L/apps/ACC/GSL/2.8/GCC/lib -lgsl -lgslcblas -lm

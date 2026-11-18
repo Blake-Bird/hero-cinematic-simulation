@@ -1,0 +1,42 @@
+{
+  "schema": "pilot-science-artifact-inspection-request-v1",
+  "memory_gib": 1.0,
+  "maximum_science_checks": 16,
+  "maximum_figures": 8,
+  "maximum_scenes": 4,
+  "maximum_image_pixels": 16000000,
+  "science_checks": [
+    {
+      "measurement": {"product": "measured_profile"},
+      "product_schema": "replace_with_actual_profile_producer_schema",
+      "conditions": [
+        {"path": ["measured_particle_count"], "operator": "minimum", "value": 1000}
+      ]
+    }
+  ],
+  "figures": [
+    {
+      "image": {"product": "science_figures", "artifact": "figures/profile.png"},
+      "sidecar": {"product": "science_figures", "artifact": "figures/profile.figure.json"},
+      "minimum_width_pixels": 800,
+      "minimum_height_pixels": 600,
+      "minimum_rgb_standard_deviation": 1.0,
+      "required_plotted_arrays": [
+        {
+          "name": "axis_0_line_0_y",
+          "units": "replace_with_exact_measured_quantity_unit",
+          "minimum_supported_values": 4,
+          "maximum_invalid_fraction": 0.0
+        }
+      ]
+    }
+  ],
+  "scenes": [
+    {
+      "scene": {"product": "measured_scene", "artifact": "scene/measured.blend"},
+      "fresh_load": {"product": "fresh_scene_control", "artifact": "fresh-load.json"},
+      "minimum_saved_epochs": 2
+    }
+  ],
+  "example_scope": "Compiler inspection shorthand only; bind actual product schemas, array names, units and scientific support thresholds for each pilot"
+}

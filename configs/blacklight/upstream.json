@@ -1,0 +1,9 @@
+{
+  "name": "Blacklight",
+  "repository": "https://github.com/c-white/blacklight.git",
+  "revision": "a7c721529d45a767ae51b9b965ebb93483fd1995",
+  "license": "Unlicense",
+  "license_file": "configs/blacklight/LICENSE",
+  "reference": "https://doi.org/10.3847/1538-4365/ac77ef",
+  "role": "Optional externally built Kerr general-relativistic radiative transfer; see docs/blacklight.md"
+}

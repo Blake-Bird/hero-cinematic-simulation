@@ -1,0 +1,92 @@
+--- a/src/ic_generator.cc
++++ b/src/ic_generator.cc
+@@ -19,9 +19,7 @@
+ #include <grid_fft.hh>
+ #include <operators.hh>
+ #include <convolution.hh>
+-#include <testing.hh>
+-
+-#include <ic_analytical.hh>
++
+ #include <ic_generator.hh>
+ #include <particle_generator.hh>
+ #include <particle_plt.hh>
+@@ -303,7 +301,6 @@
+     // temporary storage of additional data
+     Grid_FFT<real_t> tmp({ngrid, ngrid, ngrid}, {boxlen, boxlen, boxlen});
+ 
+-    analytical::PlaneWaveState plane_wave_state;
+ 
+     //--------------------------------------------------------------------
+     // Use externally specified large scale modes from constraints in case
+@@ -500,7 +497,6 @@
+     }
+     phi.zero_DC_mode();
+ 
+-    analytical::configure_plane_wave(the_config, boxlen, g1, phi, plane_wave_state);
+ 
+     music::ilog << std::setw(70) << std::setfill(' ') << std::right << "took : " << std::setw(8) << get_wtime() - wtime << "s" << std::endl;
+ 
+@@ -613,42 +609,11 @@
+         }
+     }
+ 
+-    if (plane_wave_state.context.enabled && CONFIG::MPI_task_rank == 0)
+-    {
+-        music::ilog << "Plane-wave growth factors: "
+-                    << "g1=" << g1
+-                    << ", g2=" << g2
+-                    << ", g3a=" << g3a
+-                    << ", g3b=" << g3b
+-                    << ", g3c=" << g3c << std::endl;
+-    }
+-
+     music::ilog << music::HRULE << std::endl;
+ 
+     ///////////////////////////////////////////////////////////////////////
+     // we store the densities here if we compute them
+     //======================================================================
+-
+-    // Testing
+-    // const std::string testing = the_config.get_value_safe<std::string>("testing", "test", "none");
+-
+-    // if (testing != "none")
+-    // {
+-    //     music::wlog << "you are running in testing mode. No ICs, only diagnostic output will be written out!" << std::endl;
+-    //     if (testing == "potentials_and_densities"){
+-    //         testing::output_potentials_and_densities(the_config, ngrid, boxlen, phi, phi2, phi3a, phi3b, A3);
+-    //     }
+-    //     else if (testing == "velocity_displacement_symmetries"){
+-    //         testing::output_velocity_displacement_symmetries(the_config, ngrid, boxlen, vfac, Dplus0, phi, phi2, phi3, A3);
+-    //     }
+-    //     else if (testing == "convergence"){
+-    //         testing::output_convergence(the_config, the_cosmo_calc.get(), ngrid, boxlen, vfac, Dplus0, phi, phi2, phi3, A3);
+-    //     }
+-    //     else{
+-    //         music::flog << "unknown test '" << testing << "'" << std::endl;
+-    //         std::abort();
+-    //     }
+-    // }
+ 
+     //==============================================================//
+     // main output loop, loop over all species that are enabled
+@@ -865,19 +830,6 @@
+                     A3[2]->FourierTransformForward();
+                 }
+                 wnoise.FourierTransformForward();
+-                analytical::dump_plane_wave_gradients(
+-                    the_config,
+-                    plane_wave_state,
+-                    LPTorder,
+-                    phi,
+-                    phi2,
+-                    phi3a,
+-                    phi3b,
+-                    A3,
+-                    tmp,
+-                    [&](int grad_dim, const std::array<size_t,3>& ijk) {
+-                        return lg.gradient(grad_dim, ijk);
+-                    });
+             
+                 // write out positions
+                 for( int idim=0; idim<3; ++idim ){

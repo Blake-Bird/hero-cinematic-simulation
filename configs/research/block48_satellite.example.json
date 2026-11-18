@@ -1,0 +1,25 @@
+{
+  "schema": "sidm-native-satellite-request-v1",
+  "snapshot": 0,
+  "subhalo_row": 0,
+  "maximum_particles": 4000000,
+  "maximum_bound_particles": 100000,
+  "maximum_pair_evaluations": 100000000,
+  "potential_chunk_rows": 128,
+  "memory_gib": 8,
+  "potential_softening_proper_kpc": 0.1,
+  "potential_gauge": "instantaneous_satellite_escape_zero",
+  "species": [
+    1
+  ],
+  "particle_namespace": "REPLACE_NATIVE_DM_NAMESPACE",
+  "satellite_identity": {
+    "namespace": "REPLACE_SOURCE_BOUND_ANCESTRY_NAMESPACE",
+    "object_id": "REPLACE_NATIVE_ANCESTRY_ID"
+  },
+  "require_sidm_diagnostics": true,
+  "original_membership": {
+    "path": "REPLACE_INITIAL_NATIVE_MEMBERSHIP.json",
+    "sha256": "REPLACE_SHA256"
+  }
+}

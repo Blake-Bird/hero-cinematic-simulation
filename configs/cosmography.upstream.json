@@ -1,0 +1,50 @@
+{
+  "schema": "cosmography-upstream-pins-v1",
+  "repositories": {
+    "lenstronomy": {
+      "repository": "https://github.com/lenstronomy/lenstronomy.git",
+      "commit": "8006019d43dd9d41748edf00623d1d4572d82c80",
+      "source_directory": "core/software/cosmography/lenstronomy",
+      "license_files": {
+        "LICENSE": "52d129cbc053c9e844cc202fea527a8a6a5c43f869feb330b88b38f2c5de4abe"
+      },
+      "integration": "pinned runtime backend",
+      "fetch_command": "git clone https://github.com/lenstronomy/lenstronomy.git core/software/cosmography/lenstronomy; git -C core/software/cosmography/lenstronomy checkout --detach 8006019d43dd9d41748edf00623d1d4572d82c80",
+      "build_status": "NOT_BUILT_OR_TESTED"
+    },
+    "pycorr": {
+      "repository": "https://github.com/cosmodesi/pycorr.git",
+      "commit": "eaac8808c0866422b09bfa7351a39eb79607afd4",
+      "source_directory": "core/software/cosmography/pycorr",
+      "license_files": {
+        "LICENSE": "00540e52b55b29569c34259394cb4d45bfd7ebe6a164c5f3bb15a839dee0db10"
+      },
+      "integration": "pinned runtime backend",
+      "fetch_command": "git clone https://github.com/cosmodesi/pycorr.git core/software/cosmography/pycorr; git -C core/software/cosmography/pycorr checkout --detach eaac8808c0866422b09bfa7351a39eb79607afd4",
+      "build_status": "NOT_BUILT_OR_TESTED"
+    },
+    "pyrecon": {
+      "repository": "https://github.com/cosmodesi/pyrecon.git",
+      "commit": "c9b60a631fec39828da2cbed2ce2de5e98eb10ac",
+      "source_directory": "core/software/cosmography/pyrecon",
+      "license_files": {
+        "LICENSE": "00540e52b55b29569c34259394cb4d45bfd7ebe6a164c5f3bb15a839dee0db10"
+      },
+      "integration": "pinned runtime backend",
+      "fetch_command": "git clone https://github.com/cosmodesi/pyrecon.git core/software/cosmography/pyrecon; git -C core/software/cosmography/pyrecon checkout --detach c9b60a631fec39828da2cbed2ce2de5e98eb10ac",
+      "build_status": "NOT_BUILT_OR_TESTED"
+    },
+    "Corrfunc": {
+      "repository": "https://github.com/cosmodesi/Corrfunc.git",
+      "commit": "b4adabb2673b2e95161d2bd594df492062c65277",
+      "source_directory": "core/software/cosmography/Corrfunc",
+      "license_files": {
+        "LICENSE": "96a465c0bd458f1b693ea5625524e2525a1bea481be03fdad02fbeff9be1146f"
+      },
+      "integration": "pycorr counting dependency",
+      "fetch_command": "git clone https://github.com/cosmodesi/Corrfunc.git core/software/cosmography/Corrfunc; git -C core/software/cosmography/Corrfunc checkout --detach b4adabb2673b2e95161d2bd594df492062c65277",
+      "build_status": "NOT_BUILT_OR_TESTED"
+    }
+  },
+  "policy": "Exact bundled revisions; upstream licenses retained; no acceptance inferred"
+}

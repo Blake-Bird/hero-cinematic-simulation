@@ -1,0 +1,73 @@
+{
+  "schema": "research-workflow-v1",
+  "resources": {
+    "mpi_ranks": 1,
+    "omp_threads": 1,
+    "memory_gib": 8.0,
+    "disk_gib": 64.0,
+    "maximum_stage_count": 32
+  },
+  "followup_limits": {
+    "maximum_children": 4,
+    "maximum_depth": 2
+  },
+  "physics_spec": {
+    "physics": "dm",
+    "dark_matter": {
+      "linear_model": "cdm",
+      "interactions": {
+        "kind": "elastic_sidm"
+      }
+    }
+  },
+  "capabilities": [],
+  "requested_products": [
+    "zoom_evolution"
+  ],
+  "stages": [
+    {
+      "stage_id": "parent",
+      "kind": "public_command",
+      "parameters": {
+        "command": "gadget",
+        "arguments": [
+          "--answers",
+          {
+            "input": "inputs/sidm-parent.answers.json"
+          },
+          "--run-dir",
+          "{generation}/run"
+        ],
+        "wall_seconds": 86400.0
+      },
+      "outputs": {
+        "parent_evolution": "run"
+      },
+      "depends_on": [],
+      "species": [],
+      "capabilities": [
+        "gadget4_sidm"
+      ]
+    },
+    {
+      "stage_id": "zoom",
+      "kind": "zoom_campaign",
+      "parameters": {
+        "request": {
+          "json_input": "inputs/sidm-zoom-campaign.json"
+        },
+        "destination": "{generation}/zooms",
+        "request_base": "{request_base}"
+      },
+      "outputs": {
+        "zoom_evolution": "zooms/zoom-campaign.json"
+      },
+      "depends_on": [
+        "parent"
+      ],
+      "capabilities": [
+        "gadget4_sidm"
+      ]
+    }
+  ]
+}

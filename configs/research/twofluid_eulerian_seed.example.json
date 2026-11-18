@@ -1,0 +1,16 @@
+{
+  "request": {
+    "schema": "twofluid-native-eulerian-seed-request-v1",
+    "snapshot": 0,
+    "particle_namespace": "REPLACE_WITH_ACTUAL_NATIVE_NAMESPACE",
+    "grid_size": 16,
+    "maximum_particles": 2000000,
+    "memory_gib": 4.0,
+    "chunk_rows": 65536,
+    "minimum_particles_per_species_cell": 4,
+    "maximum_cell_velocity_dispersion_km_s": 0.1,
+    "mass_relative_tolerance": 1e-08
+  },
+  "native_stage_receipt": "REPLACE_WITH_ACTUAL_COMPLETED_NATIVE_STAGE_RECEIPT.json",
+  "native_run_directory": "REPLACE_WITH_ACTUAL_ORIGINAL_NATIVE_RUN"
+}

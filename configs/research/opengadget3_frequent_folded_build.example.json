@@ -1,0 +1,54 @@
+{
+  "request": {
+    "schema": "opengadget3-reference-build-request-v1",
+    "source_root": "/Users/bbird/research2/core/software/workflow-references/opengadget3-sidm",
+    "source_manifest": {
+      "path": "/Users/bbird/research2/configs/research/opengadget3_retained_source.manifest.json",
+      "sha256": "4fa443fb8f311dd88a4111dc5063c9892fefa9c4367eb2f79f0a708c61664049"
+    },
+    "configuration": {
+      "path": "/Users/bbird/research2/configs/research/opengadget3_frequent_folded.Config.sh",
+      "sha256": "ec9cb0d15b3511612894916d32d4d0ab50ddfbca47aa5f8cbbb650a9a178a5a4"
+    },
+    "system_makefile": {
+      "path": "/Users/bbird/research2/configs/research/opengadget3_reference.Makefile.Linux",
+      "sha256": "6c8303ce4e78bb7f8c506f448589dee99ab5e6efbe7c32f895cfa9ac5f3a86d2"
+    },
+    "dependency_manifest": {
+      "path": "REPLACE_WITH_LINUX_MPI_HDF5_GSL_TOOLCHAIN_MANIFEST.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "tools": {
+      "make": {
+        "path": "REPLACE_WITH_LINUX_GNU_MAKE",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "mpi_cxx": {
+        "path": "REPLACE_WITH_LINUX_MPI_CXX_WRAPPER",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "perl": {
+        "path": "REPLACE_WITH_LINUX_PERL",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "python3": {
+        "path": "REPLACE_WITH_LINUX_PYTHON3",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    "scheme": "frequent",
+    "particle_convention": "folded_identical",
+    "jobs": 1,
+    "omp_threads": 1,
+    "memory_gib": 8.0,
+    "disk_gib": 16.0,
+    "wall_seconds": 3600.0,
+    "maximum_source_files": 32768,
+    "maximum_source_bytes": 536870912,
+    "maximum_build_bytes": 8589934592,
+    "toolchain_environment": {
+      "PATH": "/usr/bin:/bin"
+    }
+  },
+  "request_base": "/Users/bbird/research2/configs/research"
+}

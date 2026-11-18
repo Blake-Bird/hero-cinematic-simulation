@@ -1,0 +1,36 @@
+{
+  "request": {
+    "schema": "twofluid-nonlinear-refinement-request-v3",
+    "levels": [
+      {
+        "path": "REPLACE_WITH_GRID_8_NONLINEAR.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "path": "REPLACE_WITH_GRID_16_NONLINEAR.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "path": "REPLACE_WITH_GRID_32_NONLINEAR.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    ],
+    "maximum_levels": 8,
+    "maximum_grid_cells": 262144,
+    "memory_gib": 4.0,
+    "density_ratio_floor": 1e-12,
+    "momentum_floor_km_s": 1e-06,
+    "maximum_initial_density_error": 1e-10,
+    "maximum_initial_momentum_error": 1e-10,
+    "maximum_density_error": 0.01,
+    "maximum_momentum_error": 0.01,
+    "maximum_relative_velocity_error_km_s": 0.01,
+    "maximum_adjacent_error_ratio": 1.0,
+    "material_chunk_rows": 4096,
+    "maximum_material_displacement_error_mpc_h": 0.001,
+    "maximum_material_velocity_error_km_s": 0.01,
+    "maximum_material_deformation_error": 0.01,
+    "maximum_material_jacobian_error": 0.01,
+    "refinement_axis": "grid"
+  }
+}

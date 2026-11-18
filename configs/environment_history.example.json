@@ -1,0 +1,26 @@
+{
+  "schema": "native-environment-history-v1",
+  "identity_graph_directory": "USER_SELECTED_NATIVE_IDENTITY_GRAPH",
+  "observations": [
+    {
+      "environment_product": "USER_SELECTED_ENVIRONMENT_0.json",
+      "halo_structure_product": "USER_SELECTED_STRUCTURE_0.json",
+      "graph_node": [
+        "USER_SELECTED_HALO_NAMESPACE",
+        0,
+        0
+      ]
+    },
+    {
+      "environment_product": "USER_SELECTED_ENVIRONMENT_1.json",
+      "halo_structure_product": "USER_SELECTED_STRUCTURE_1.json",
+      "graph_node": [
+        "USER_SELECTED_HALO_NAMESPACE",
+        1,
+        1
+      ]
+    }
+  ],
+  "maximum_interval_myr": 15.0,
+  "memory_gib": 1.0
+}

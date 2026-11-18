@@ -1,0 +1,40 @@
+{
+  "schema": "radial-shape-batch-v1",
+  "selections": [
+    {
+      "snapshot": 0,
+      "host_row": 0,
+      "scale_factor": 0.5
+    },
+    {
+      "snapshot": 1,
+      "host_row": 0,
+      "scale_factor": 1.0
+    }
+  ],
+  "shape_controls": {
+    "radial_edges_kpc": [
+      0.0,
+      0.5,
+      1.0,
+      2.0,
+      3.0
+    ],
+    "support_radius_kpc": 6.0,
+    "window": "iterative_ellipsoidal_shell",
+    "estimator": "mass_quadrupole",
+    "minimum_particles": 30,
+    "tolerance": 1e-05,
+    "maximum_iterations": 150,
+    "minimum_axis_ratio": 0.1,
+    "bootstrap_realizations": 32,
+    "seed": 991,
+    "minimum_bootstrap_success_fraction": 0.9,
+    "minimum_eigenvalue_gap": 0.02,
+    "maximum_orientation_error_deg": 20.0,
+    "parent_selection": "fof_members"
+  },
+  "output_directory": "results/radial_shapes_batch",
+  "memory_gib": 1.0,
+  "maximum_targets": 2
+}

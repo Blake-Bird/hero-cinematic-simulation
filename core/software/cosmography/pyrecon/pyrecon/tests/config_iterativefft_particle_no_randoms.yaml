@@ -1,0 +1,30 @@
+input:
+  dir: ./_catalogs
+  pos: RSDPosition
+  #rdz: [RA, DEC, Z]
+  data_fn: box_data.fits
+
+output:
+  dir: ./_catalogs
+  data_fn: script_box_data_rec.fits
+  pos_rec: Position_rec
+  columns: [RSDPosition]
+
+algorithm:
+  name: IterativeFFTParticleReconstruction
+  convention: RecSym
+  los: x
+
+delta:
+  smoothing_radius: 15
+
+cosmology:
+  bias: 2.0
+  f: 0.8
+
+mesh:
+  boxsize: 800.
+  boxcenter: 400.
+  nmesh: 128
+  dtype: f8
+  fft_plan: 'estimate'

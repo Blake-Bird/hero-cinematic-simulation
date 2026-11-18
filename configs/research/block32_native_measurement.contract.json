@@ -1,0 +1,31 @@
+{
+  "schema": "native-convergence-measurement-request-v1",
+  "mode": "spherical_profile",
+  "snapshot": 1,
+  "namespace": "convergence-control-native-particles",
+  "maximum_bins": 256,
+  "maximum_particles": 1000000,
+  "memory_gib": 4.0,
+  "covariance_tolerance": 1e-10,
+  "comparison_epoch": {"coordinate": "actual_scale_factor", "value": 1.0, "absolute_tolerance": 1e-10},
+  "native_parameter_bindings": {
+    "mass_resolution": {"manifest_path": ["particles_per_dimension"]},
+    "softening": {"manifest_path": ["softening_kpc_h"]},
+    "timestep": {"manifest_path": ["simulation_parameters", "max_size_timestep_ln_a"]}
+  },
+  "observable_definition": {
+    "observable": "native_dark_matter_density_profile",
+    "estimator": "density",
+    "units": "Msun / proper kpc^3",
+    "species": [1],
+    "center_proper_kpc": [0.0, 0.0, 0.0],
+    "bulk_velocity_peculiar_kms": [0.0, 0.0, 0.0],
+    "radius_edges_proper_kpc": [0.0, 1.0, 2.0, 4.0, 8.0],
+    "bins": [{"radius_proper_kpc": [0.0, 1.0]}, {"radius_proper_kpc": [1.0, 2.0]}, {"radius_proper_kpc": [2.0, 4.0]}, {"radius_proper_kpc": [4.0, 8.0]}],
+    "minimum_particles_per_bin": 32,
+    "minimum_effective_particles": 32,
+    "minimum_particles_per_jackknife_group": 32,
+    "jackknife_partition": "fixed_center_octants",
+    "periodic_box_proper_kpc": null
+  }
+}

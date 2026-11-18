@@ -1,0 +1,767 @@
+diff --git a/documentation/05_parameterfile.md b/documentation/05_parameterfile.md
+index f68bfdc..4fdc419 100644
+--- a/documentation/05_parameterfile.md
++++ b/documentation/05_parameterfile.md
+@@ -338,12 +338,43 @@ at `z=0`.  Relevant only for comoving integration.
+ 
+ Cosmological vacuum energy density (cosmological constant) in units of
+ the critical density at `z=0`. For a geometrically flat universe, one
+-has `Omega0 + OmegaLambda = 1`. Important: For simulations in
++has `Omega0 + OmegaLambda + OmegaRadiation = 1`. Important: For simulations in
+ Newtonian space that do not account for cosmological expansion, this
+ parameter has to be set to zero.
+ 
+ -------
+ 
++**OmegaRadiation**  0.0000921
++
++Present-day density of photons and relativistic species, in units of
++the critical density. It contributes to the homogeneous expansion rate
++as `a^-4`; for a flat model, include it in the closure relation above.
++This parameter is used by the DarkMatterSim radiation-aware patch. The
++particle simulation does not evolve radiation perturbations.
++
++-------
++
++**CosmologyTableFile**  `background_table.txt`
++
++Optional four-column table of scale factor, `H(a)/H0`, linear growth factor
++`D(a)/D(1)`, and linear growth rate `f(a)`. When supplied, GADGET uses the
++tabulated expansion history for drift and kick integration and the tabulated
++growth for N-GenIC and power-spectrum diagnostics. The table must cover from
++`min(TimeBegin, 0.001)` through `a=1`, be strictly ordered in scale factor,
++and contain finite positive values. This is intended for backgrounds such as
++radiation-consistent LCDM/WDM histories not represented by `Omega0`, `OmegaLambda`, and
++`OmegaRadiation` alone.
++
++-------
++
++**CosmologyTableValidationTolerance**  0.0001
++
++Maximum allowed relative error when GADGET validates the tabulated drift and
++gravitational/hydrodynamical kick integrals against direct integration of the
++piecewise log-linear expansion history. Must lie in `(0, 0.01]`.
++
++-------
++
+ **OmegaBaryon**  0.04
+ 
+ Baryon density in units of the critical density at `z=0`. This is not
+@@ -1248,4 +1279,3 @@ in internal length units.
+ This parameter is only active when `EXTERNALGRAVITY_STATICHQ` is
+ enabled, and then gives the total mass (in internal units) of the
+ halos that is added as a static potential to the force computation.
+-
+diff --git a/src/cooling_sfr/sfr_eos.cc b/src/cooling_sfr/sfr_eos.cc
+index 176667d..5bae59a 100644
+--- a/src/cooling_sfr/sfr_eos.cc
++++ b/src/cooling_sfr/sfr_eos.cc
+@@ -163,6 +163,18 @@ void coolsfr::cooling_and_starformation(simparticles *Sp)
+         }
+     } /* end of main loop over active particles */
+ 
++  // Record the full gas-field SFR after cooling has updated the active
++  // particles. This is the state serialized by a snapshot at this sync point;
++  // sfr.txt is written before this update and sums active time bins.
++  double local_sfr_snapshot_aligned = 0;
++  for(int i = 0; i < Sp->NumPart; i++)
++    if(Sp->P[i].getType() == 0)
++      local_sfr_snapshot_aligned += Sp->SphP[i].Sfr;
++
++  double total_sfr_snapshot_aligned = 0;
++  MPI_Allreduce(&local_sfr_snapshot_aligned, &total_sfr_snapshot_aligned, 1, MPI_DOUBLE, MPI_SUM, Communicator);
++  Logs.write_snapshot_aligned_sfr(total_sfr_snapshot_aligned);
++
+   TIMER_STOP(CPU_COOLING_SFR);
+ }
+ 
+diff --git a/src/data/allvars.cc b/src/data/allvars.cc
+index 37123ba..013b86b 100644
+--- a/src/data/allvars.cc
++++ b/src/data/allvars.cc
+@@ -13,6 +13,8 @@
+ #include "gadgetconfig.h"
+ // clang-format on
+ 
++#include <cmath>
++
+ #include "../data/allvars.h"
+ 
+ #include "../data/constants.h"
+@@ -67,6 +69,9 @@ void global_data_all_processes::register_parameters(void)
+   add_param("Omega0", &Omega0, PARAM_DOUBLE, PARAM_FIXED);
+   add_param("OmegaBaryon", &OmegaBaryon, PARAM_DOUBLE, PARAM_FIXED);
+   add_param("OmegaLambda", &OmegaLambda, PARAM_DOUBLE, PARAM_FIXED);
++  add_param("OmegaRadiation", &OmegaRadiation, PARAM_DOUBLE, PARAM_FIXED);
++  add_param("CosmologyTableFile", CosmologyTableFile, PARAM_STRING, PARAM_FIXED);
++  add_param("CosmologyTableValidationTolerance", &CosmologyTableValidationTolerance, PARAM_DOUBLE, PARAM_FIXED);
+   add_param("Hubble", &Hubble, PARAM_DOUBLE, PARAM_FIXED);
+   add_param("HubbleParam", &HubbleParam, PARAM_DOUBLE, PARAM_FIXED);
+   add_param("BoxSize", &BoxSize, PARAM_DOUBLE, PARAM_FIXED);
+@@ -301,6 +306,10 @@ void global_data_all_processes::some_parameter_checks(void)
+   if(SnapFormat < 1 || SnapFormat > 3)
+     Terminate("Unsupported File-Format: SnapFormat = %d\n", SnapFormat);
+ 
++  if(!std::isfinite(CosmologyTableValidationTolerance) || CosmologyTableValidationTolerance <= 0 ||
++     CosmologyTableValidationTolerance > 0.01)
++    Terminate("CosmologyTableValidationTolerance must be finite and in (0, 0.01]\n");
++
+   if(NTask < NumFilesPerSnapshot)
+     {
+       mpi_printf("WARNING: Number of processors less than 'NumFilesPerSnapshot=%d' - reducing this to NumFilesPerSnapshot=%d\n",
+diff --git a/src/data/allvars.h b/src/data/allvars.h
+index c2edb12..6d4743b 100644
+--- a/src/data/allvars.h
++++ b/src/data/allvars.h
+@@ -135,6 +135,8 @@ struct global_data_all_processes : public parameters
+   double Hubble;         /**< Hubble-constant in internal units */
+   double Omega0;         /**< matter density in units of the critical density (at z=0) */
+   double OmegaLambda;    /**< vaccum energy density relative to crictical density (at z=0) */
++  double OmegaRadiation; /**< relativistic radiation density relative to critical density (at z=0) */
++  double CosmologyTableValidationTolerance; /**< allowed relative interpolation/integration error for a tabulated background */
+   double OmegaBaryon;    /**< baryon density in units of the critical density (at z=0) */
+   double OmegaCurvature; /**< curvature relative to crictical density (at z=0) */
+   double HubbleParam; /**< little `h', i.e. can be used to scale unit system to absorb uncertain value of Hubble constant.  Only needed
+@@ -270,6 +272,7 @@ struct global_data_all_processes : public parameters
+ 
+   /* some filenames */
+   char InitCondFile[MAXLEN_PATH], OutputDir[MAXLEN_PATH], SnapshotFileBase[MAXLEN_PATH], OutputListFilename[MAXLEN_PATH];
++  char CosmologyTableFile[MAXLEN_PATH]; /**< optional CLASS/AxiCLASS table for E(a), D(a), and f(a) */
+ 
+   /** table with desired output times */
+   double OutputListTimes[MAXLEN_OUTPUTLIST];
+diff --git a/src/gravity/second_order_ics.cc b/src/gravity/second_order_ics.cc
+index e35ba83..fb2bb35 100644
+--- a/src/gravity/second_order_ics.cc
++++ b/src/gravity/second_order_ics.cc
+@@ -30,14 +30,12 @@
+ 
+ double sim::F1_Omega(double a)
+ {
+-  double omega_a = All.Omega0 / (All.Omega0 + a * (1 - All.Omega0 - All.OmegaLambda) + a * a * a * All.OmegaLambda);
+-
+-  return pow(omega_a, 5.0 / 9);
++  return Driftfac.linear_growth_rate(a);
+ }
+ 
+ double sim::F2_Omega(double a)
+ {
+-  double omega_a = All.Omega0 / (All.Omega0 + a * (1 - All.Omega0 - All.OmegaLambda) + a * a * a * All.OmegaLambda);
++  double omega_a = Driftfac.get_OmegaMatter_a(a);
+ 
+   return 2.0 * pow(omega_a, 6.0 / 11);
+ }
+diff --git a/src/io/snap_io.cc b/src/io/snap_io.cc
+index a59c6b1..646f254 100644
+--- a/src/io/snap_io.cc
++++ b/src/io/snap_io.cc
+@@ -906,6 +906,11 @@ void snap_io::write_header_fields(hid_t handle)
+   write_scalar_attribute(handle, "Time", &header.time, H5T_NATIVE_DOUBLE);
+   write_scalar_attribute(handle, "Redshift", &header.redshift, H5T_NATIVE_DOUBLE);
+   write_scalar_attribute(handle, "BoxSize", &header.BoxSize, H5T_NATIVE_DOUBLE);
++  write_scalar_attribute(handle, "Omega0", &All.Omega0, H5T_NATIVE_DOUBLE);
++  write_scalar_attribute(handle, "OmegaBaryon", &All.OmegaBaryon, H5T_NATIVE_DOUBLE);
++  write_scalar_attribute(handle, "OmegaLambda", &All.OmegaLambda, H5T_NATIVE_DOUBLE);
++  write_scalar_attribute(handle, "OmegaRadiation", &All.OmegaRadiation, H5T_NATIVE_DOUBLE);
++  write_scalar_attribute(handle, "HubbleParam", &All.HubbleParam, H5T_NATIVE_DOUBLE);
+   write_scalar_attribute(handle, "NumFilesPerSnapshot", &header.num_files, H5T_NATIVE_INT);
+   write_string_attribute(handle, "Git_commit", GIT_COMMIT);
+   write_string_attribute(handle, "Git_date", GIT_DATE);
+diff --git a/src/logs/logs.cc b/src/logs/logs.cc
+index a6a7754..49264fa 100644
+--- a/src/logs/logs.cc
++++ b/src/logs/logs.cc
+@@ -123,6 +123,12 @@ void logs::open_logfiles(void)
+   snprintf(buf, MAXLEN_PATH_EXTRA, "%s%s", All.OutputDir, "sfr.txt");
+   if(!(FdSfr = fopen(buf, mode)))
+     Terminate("error in opening file '%s'\n", buf);
++
++  snprintf(buf, MAXLEN_PATH_EXTRA, "%s%s", All.OutputDir, "sfr_snapshot_aligned.txt");
++  if(!(FdSfrSnapshotAligned = fopen(buf, mode)))
++    Terminate("error in opening file '%s'\n", buf);
++  if(All.RestartFlag == RST_BEGIN)
++    fprintf(FdSfrSnapshotAligned, "# a sum_StarFormationRate_snapshot_code_units\n");
+ #endif
+ }
+ 
+@@ -161,11 +167,23 @@ int logs::flush_everything(void)
+ 
+ #ifdef STARFORMATION
+   fflush(FdSfr);
++  fflush(FdSfrSnapshotAligned);
+ #endif
+ 
+   return 1;
+ }
+ 
++#ifdef STARFORMATION
++void logs::write_snapshot_aligned_sfr(double total_sfr)
++{
++  if(ThisTask == 0)
++    {
++      fprintf(FdSfrSnapshotAligned, "%.16e %.16e\n", All.Time, total_sfr);
++      fflush(FdSfrSnapshotAligned);
++    }
++}
++#endif
++
+ /*! \brief Write the FdInfo and FdTimeBin files.
+  *
+  * At each time step this function writes on to two log-files.
+diff --git a/src/logs/logs.h b/src/logs/logs.h
+index 13c9389..5798283 100644
+--- a/src/logs/logs.h
++++ b/src/logs/logs.h
+@@ -62,6 +62,7 @@ class logs : public setcomm
+ 
+ #ifdef STARFORMATION
+   FILE *FdSfr; /**< file handle for sfr.txt log-file. */
++  FILE *FdSfrSnapshotAligned; /**< file handle for the post-cooling snapshot-aligned SFR log. */
+ #endif
+ 
+ #ifdef DEBUG_MD5
+@@ -77,6 +78,9 @@ class logs : public setcomm
+   void write_cpu_log(void);
+   void output_log_messages(void);
+   void compute_statistics(void);
++#ifdef STARFORMATION
++  void write_snapshot_aligned_sfr(double total_sfr);
++#endif
+   void print_particle_info_from_ID(MyIDType ID);
+   void print_particle_info(int i);
+   void log_debug_md5(const char *msg);
+diff --git a/src/main/begrun.cc b/src/main/begrun.cc
+index 30e0421..7e18016 100644
+--- a/src/main/begrun.cc
++++ b/src/main/begrun.cc
+@@ -208,6 +208,9 @@ void sim::begrun1(const char *parameterFile)
+ 
+   set_units();
+ 
++  if(All.ComovingIntegrationOn && All.CosmologyTableFile[0] && strcmp(All.CosmologyTableFile, "none") != 0)
++    Driftfac.load_cosmology_table();
++
+   my_create_HDF5_halfprec_handler();
+   my_create_HDF5_special_integer_types();
+ 
+@@ -377,7 +380,7 @@ void sim::set_units(void)
+ 
+   if(All.ComovingIntegrationOn)
+     {
+-      All.OmegaCurvature = 1.0 - (All.Omega0 + All.OmegaLambda);
++      All.OmegaCurvature = 1.0 - (All.Omega0 + All.OmegaLambda + All.OmegaRadiation);
+ 
+       /* check whether the supplied value of All.Hubble makes sense */
+       if(All.HubbleParam != 1.0)
+diff --git a/src/main/init.cc b/src/main/init.cc
+index d8323e5..46166a1 100644
+--- a/src/main/init.cc
++++ b/src/main/init.cc
+@@ -40,6 +40,7 @@
+ #include "../sort/parallel_sort.h"
+ #include "../subfind/subfind_readid_io.h"
+ #include "../system/system.h"
++#include "../time_integration/driftfac.h"
+ #include "../time_integration/timestep.h"
+ 
+ using namespace std;
+@@ -53,6 +54,9 @@ using namespace std;
+  */
+ void sim::init(int RestartSnapNum)
+ {
++  if(All.ComovingIntegrationOn && All.CosmologyTableFile[0] && strcmp(All.CosmologyTableFile, "none") != 0)
++    Driftfac.load_cosmology_table();
++
+ #ifdef NGENIC
+   if(All.RestartFlag == RST_CREATEICS || All.RestartFlag == RST_BEGIN)
+     {
+diff --git a/src/ngenic/ngenic.cc b/src/ngenic/ngenic.cc
+index 3737760..19c8842 100644
+--- a/src/ngenic/ngenic.cc
++++ b/src/ngenic/ngenic.cc
+@@ -1198,6 +1198,10 @@ void ngenic::print_spec(void)
+           snprintf(buf, MAXLEN_PATH_EXTRA, "%s/growthfac.txt", All.OutputDir);
+ 
+           FILE *fd = fopen(buf, "w");
++          snprintf(buf, MAXLEN_PATH_EXTRA, "%s/growthrate.txt", All.OutputDir);
++          FILE *fd_rate = fopen(buf, "w");
++          if(!fd || !fd_rate)
++            Terminate("Could not write N-GenIC growth validation tables\n");
+ 
+           const int NSTEPS = 100;
+ 
+@@ -1206,10 +1210,13 @@ void ngenic::print_spec(void)
+               double a = exp(log(All.cf_atime) + ((log(1.0) - log(All.cf_atime)) / NSTEPS) * i);
+ 
+               double d = Driftfac.linear_growth_factor(a, 1.0);
++              double f = Driftfac.linear_growth_rate(a);
+ 
+-              fprintf(fd, "%12g %12g\n", a, 1.0 / d);
++              fprintf(fd, "%.16e %.16e\n", a, 1.0 / d);
++              fprintf(fd_rate, "%.16e %.16e\n", a, f);
+             }
+           fclose(fd);
++          fclose(fd_rate);
+         }
+     }
+ 
+diff --git a/src/ngenic/power.cc b/src/ngenic/power.cc
+index e5a714c..8fcfe89 100644
+--- a/src/ngenic/power.cc
++++ b/src/ngenic/power.cc
+@@ -297,11 +297,9 @@ double ngenic::ngenic_tophat_sigma2(double R)
+ 
+ double ngenic::ngenic_f1_omega(double a)
+ {
+-  double omega_a;
+-
+-  omega_a = Driftfac.get_OmegaMatter_a(a);
+-
+-  return pow(omega_a, 5.0 / 9);
++  // Use the derivative of GADGET's radiation-aware linear growth ODE instead
++  // of a matter-only fitting formula.
++  return Driftfac.linear_growth_rate(a);
+ }
+ 
+ double ngenic::ngenic_f2_omega(double a)
+diff --git a/src/pm/pm_periodic.cc b/src/pm/pm_periodic.cc
+index ac02ccb..6c0159f 100644
+--- a/src/pm/pm_periodic.cc
++++ b/src/pm/pm_periodic.cc
+@@ -34,8 +34,14 @@
+ #include "../pm/pm_periodic.h"
+ #include "../sort/cxxsort.h"
+ #include "../system/system.h"
++#include "../time_integration/driftfac.h"
+ #include "../time_integration/timestep.h"
+ 
++double pm_periodic::linear_growth_factor(double astart, double aend)
++{
++  return Driftfac.linear_growth_factor(astart, aend);
++}
++
+ /*!
+  * These routines support two different strategies for doing the particle data exchange to assemble the density field
+  * and to read out the forces and potentials:
+diff --git a/src/pm/pm_periodic.h b/src/pm/pm_periodic.h
+index 6510c89..b53a3aa 100644
+--- a/src/pm/pm_periodic.h
++++ b/src/pm/pm_periodic.h
+@@ -14,11 +14,8 @@
+ 
+ #include "gadgetconfig.h"
+ 
+-#include <gsl/gsl_integration.h>
+-
+ #if defined(PMGRID) || defined(NGENIC)
+ 
+-#include <gsl/gsl_integration.h>
+ #include <gsl/gsl_rng.h>
+ #include <math.h>
+ 
+@@ -207,31 +204,7 @@ class pm_periodic : public pm_mpi_fft
+ 
+   void calculate_power_spectra(int num);
+ 
+-  static double growthfactor_integrand(double a, void *param)
+-  {
+-    return pow(a / (All.Omega0 + (1 - All.Omega0 - All.OmegaLambda) * a + All.OmegaLambda * a * a * a), 1.5);
+-  }
+-
+-  double linear_growth_factor(double astart, double aend) { return linear_growth(aend) / linear_growth(astart); }
+-
+-  double linear_growth(double a)
+-  {
+-    double hubble_a = sqrt(All.Omega0 / (a * a * a) + (1 - All.Omega0 - All.OmegaLambda) / (a * a) + All.OmegaLambda);
+-
+-    const int worksize = 100000;
+-
+-    double result, abserr;
+-    gsl_function F;
+-
+-    gsl_integration_workspace *workspace = gsl_integration_workspace_alloc(worksize);
+-    F.function                           = &growthfactor_integrand;
+-
+-    gsl_integration_qag(&F, 0, a, 0, 1.0e-8, worksize, GSL_INTEG_GAUSS41, workspace, &result, &abserr);
+-
+-    gsl_integration_workspace_free(workspace);
+-
+-    return hubble_a * result;
+-  }
++  double linear_growth_factor(double astart, double aend);
+ #endif
+ };
+ 
+diff --git a/src/subfind/subfind_so.cc b/src/subfind/subfind_so.cc
+index 71da26b..ab4a3b5 100644
+--- a/src/subfind/subfind_so.cc
++++ b/src/subfind/subfind_so.cc
+@@ -31,6 +31,7 @@
+ #include "../mpi_utils/generic_comm.h"
+ #include "../subfind/subfind.h"
+ #include "../system/system.h"
++#include "../time_integration/driftfac.h"
+ 
+ static double *R200, *M200;
+ 
+@@ -238,9 +239,7 @@ class sodata_comm : public generic_comm<sodata_in, sodata_out, T_tree, T_domain,
+ template <typename partset>
+ double fof<partset>::subfind_get_overdensity_value(int type, double ascale)
+ {
+-  double z = 1 / ascale - 1;
+-  double omegaz =
+-      All.Omega0 * pow(1 + z, 3) / (All.Omega0 * pow(1 + z, 3) + (1 - All.Omega0 - All.OmegaLambda) * pow(1 + z, 2) + All.OmegaLambda);
++  double omegaz = Driftfac.get_Omega0_a(ascale);
+   double x = omegaz - 1;
+ 
+   if(type == 0)
+diff --git a/src/time_integration/driftfac.cc b/src/time_integration/driftfac.cc
+index dab37b4..98ee72e 100644
+--- a/src/time_integration/driftfac.cc
++++ b/src/time_integration/driftfac.cc
+@@ -14,20 +14,163 @@
+ #include <gsl/gsl_integration.h>
+ #include <gsl/gsl_math.h>
+ #include <gsl/gsl_odeiv2.h>
++#include <algorithm>
++#include <cmath>
++#include <fstream>
+ #include <math.h>
+ #include <mpi.h>
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <sstream>
+ #include <string.h>
++#include <string>
++#include <vector>
+ 
+ #include "../data/allvars.h"
+ #include "../data/dtypes.h"
++#include "../mpi_utils/mpi_utils.h"
+ #include "../time_integration/driftfac.h"
+ 
++namespace
++{
++std::vector<double> CosmologyTableA;
++std::vector<double> CosmologyTableE;
++std::vector<double> CosmologyTableD;
++std::vector<double> CosmologyTableF;
++bool CosmologyTableLoaded = false;
++
++bool cosmology_table_requested()
++{
++  return All.CosmologyTableFile[0] && strcmp(All.CosmologyTableFile, "none") != 0;
++}
++
++double interpolate_log_positive(const std::vector<double> &values, double a)
++{
++  if(!CosmologyTableLoaded || a < CosmologyTableA.front() || a > CosmologyTableA.back())
++    Terminate("Cosmology table interpolation requested outside its scale-factor range: a=%g, range=[%g,%g]\n", a,
++             CosmologyTableA.empty() ? 0.0 : CosmologyTableA.front(), CosmologyTableA.empty() ? 0.0 : CosmologyTableA.back());
++
++  auto upper = std::lower_bound(CosmologyTableA.begin(), CosmologyTableA.end(), a);
++  if(upper == CosmologyTableA.begin())
++    return values.front();
++  if(upper == CosmologyTableA.end())
++    return values.back();
++  const size_t hi = static_cast<size_t>(upper - CosmologyTableA.begin());
++  if(*upper == a)
++    return values[hi];
++  const size_t lo = hi - 1;
++  const double fraction = (log(a) - log(CosmologyTableA[lo])) / (log(CosmologyTableA[hi]) - log(CosmologyTableA[lo]));
++  return exp(log(values[lo]) + fraction * (log(values[hi]) - log(values[lo])));
++}
++
++double interpolate_linear_log_a(const std::vector<double> &values, double a)
++{
++  if(!CosmologyTableLoaded || a < CosmologyTableA.front() || a > CosmologyTableA.back())
++    Terminate("Cosmology table interpolation requested outside its scale-factor range: a=%g, range=[%g,%g]\n", a,
++             CosmologyTableA.empty() ? 0.0 : CosmologyTableA.front(), CosmologyTableA.empty() ? 0.0 : CosmologyTableA.back());
++
++  auto upper = std::lower_bound(CosmologyTableA.begin(), CosmologyTableA.end(), a);
++  if(upper == CosmologyTableA.begin())
++    return values.front();
++  if(upper == CosmologyTableA.end())
++    return values.back();
++  const size_t hi = static_cast<size_t>(upper - CosmologyTableA.begin());
++  if(*upper == a)
++    return values[hi];
++  const size_t lo = hi - 1;
++  const double fraction = (log(a) - log(CosmologyTableA[lo])) / (log(CosmologyTableA[hi]) - log(CosmologyTableA[lo]));
++  return values[lo] + fraction * (values[hi] - values[lo]);
++}
++
++double integrate_tabulated_factor(double a0, double a1, double power)
++{
++  if(a1 < a0 || a0 < CosmologyTableA.front() || a1 > CosmologyTableA.back() || All.Hubble <= 0)
++    Terminate("Invalid interval for direct cosmology-table integral: [%g,%g]\n", a0, a1);
++
++  double integral = 0.0;
++  double a = a0;
++  while(a < a1)
++    {
++      auto upper = std::upper_bound(CosmologyTableA.begin(), CosmologyTableA.end(), a);
++      if(upper == CosmologyTableA.end())
++        break;
++      const size_t hi = static_cast<size_t>(upper - CosmologyTableA.begin());
++      const size_t lo = hi - 1;
++      const double b = std::min(a1, CosmologyTableA[hi]);
++      const double x0 = log(a);
++      const double x1 = log(b);
++      const double slope = (log(CosmologyTableE[hi]) - log(CosmologyTableE[lo])) /
++                           (log(CosmologyTableA[hi]) - log(CosmologyTableA[lo]));
++      const double e_at_a = exp(log(CosmologyTableE[lo]) + slope * (x0 - log(CosmologyTableA[lo])));
++      const double exponent = 1.0 - power - slope;
++      const double dx = x1 - x0;
++      const double scaled_interval = fabs(exponent * dx) < 1.0e-8 ? dx : expm1(exponent * dx) / exponent;
++      integral += exp((1.0 - power) * x0 - log(All.Hubble) - log(e_at_a)) * scaled_interval;
++      a = b;
++    }
++  return integral;
++}
++}
++
++double driftfac::E_of_a(double a)
++{
++  if(cosmology_table_requested())
++    return interpolate_log_positive(CosmologyTableE, a);
++  return sqrt(All.Omega0 / pow(a, 3) + All.OmegaCurvature / pow(a, 2) + All.OmegaRadiation / pow(a, 4) + All.OmegaLambda);
++}
++
++double driftfac::E_of_a_diff(double a)
++{
++  if(cosmology_table_requested())
++    {
++      const double da = 1.0e-5 * a;
++      const double lo = std::max(CosmologyTableA.front(), a - da);
++      const double hi = std::min(CosmologyTableA.back(), a + da);
++      return (E_of_a(hi) - E_of_a(lo)) / (hi - lo);
++    }
++  return (-3 * All.Omega0 / pow(a, 4) - 2 * All.OmegaCurvature / pow(a, 3) - 4 * All.OmegaRadiation / pow(a, 5)) / (2 * E_of_a(a));
++}
++
++void driftfac::load_cosmology_table(void)
++{
++  if(!cosmology_table_requested() || CosmologyTableLoaded)
++    return;
++
++  std::ifstream input(All.CosmologyTableFile);
++  if(!input)
++    Terminate("Could not open CosmologyTableFile '%s'\n", All.CosmologyTableFile);
++
++  std::string line;
++  int line_number = 0;
++  while(std::getline(input, line))
++    {
++      line_number++;
++      const size_t first = line.find_first_not_of(" \t\r");
++      if(first == std::string::npos || line[first] == '#')
++        continue;
++      std::istringstream row(line);
++      double a, e, d, f;
++      if(!(row >> a >> e >> d >> f) || !std::isfinite(a) || !std::isfinite(e) || !std::isfinite(d) || !std::isfinite(f) ||
++         a <= 0 || e <= 0 || d <= 0 || f <= 0 || (!CosmologyTableA.empty() && a <= CosmologyTableA.back()))
++        Terminate("Invalid or unordered row %d in cosmology table '%s'\n", line_number, All.CosmologyTableFile);
++      CosmologyTableA.push_back(a);
++      CosmologyTableE.push_back(e);
++      CosmologyTableD.push_back(d);
++      CosmologyTableF.push_back(f);
++    }
++
++  if(CosmologyTableA.size() < 2 || CosmologyTableA.front() > std::min(All.TimeBegin, 1.0e-3) || CosmologyTableA.back() < 1.0)
++    Terminate("CosmologyTableFile '%s' must cover from a<=min(TimeBegin,0.001) through a=1\n", All.CosmologyTableFile);
++
++  CosmologyTableLoaded = true;
++}
++
+ void driftfac::init_drift_table(void)
+ {
+ #define WORKSIZE 100000
+ 
++  load_cosmology_table();
++
+   gsl_function F;
+   gsl_integration_workspace *workspace;
+ 
+@@ -56,6 +199,71 @@ void driftfac::init_drift_table(void)
+       HydroKickTable[i] = result;
+     }
+ 
++  if(cosmology_table_requested())
++    {
++      double max_drift_quadrature_error = 0.0;
++      double max_gravkick_quadrature_error = 0.0;
++      double max_hydrokick_quadrature_error = 0.0;
++      double max_drift_lookup_error = 0.0;
++      double max_gravkick_lookup_error = 0.0;
++      double max_hydrokick_lookup_error = 0.0;
++      const double log_step = (logTimeMax - logTimeBegin) / DRIFT_TABLE_LENGTH;
++      const double hydro_power = 1.0 + 3.0 * GAMMA_MINUS1;
++
++      for(int i = 0; i < DRIFT_TABLE_LENGTH; i += 10)
++        {
++          const double a_end = exp(logTimeBegin + log_step * (i + 1));
++          const double drift_exact = integrate_tabulated_factor(All.TimeBegin, a_end, 3.0);
++          const double gravkick_exact = integrate_tabulated_factor(All.TimeBegin, a_end, 2.0);
++          const double hydrokick_exact = integrate_tabulated_factor(All.TimeBegin, a_end, hydro_power);
++          max_drift_quadrature_error = std::max(max_drift_quadrature_error, fabs(DriftTable[i] / drift_exact - 1.0));
++          max_gravkick_quadrature_error = std::max(max_gravkick_quadrature_error, fabs(GravKickTable[i] / gravkick_exact - 1.0));
++          max_hydrokick_quadrature_error = std::max(max_hydrokick_quadrature_error, fabs(HydroKickTable[i] / hydrokick_exact - 1.0));
++        }
++
++      for(int i = 2; i < DRIFT_TABLE_LENGTH - 1; i += 10)
++        {
++          const double a_mid = exp(logTimeBegin + log_step * (i + 0.5));
++          const double drift_exact = integrate_tabulated_factor(All.TimeBegin, a_mid, 3.0);
++          const double gravkick_exact = integrate_tabulated_factor(All.TimeBegin, a_mid, 2.0);
++          const double hydrokick_exact = integrate_tabulated_factor(All.TimeBegin, a_mid, hydro_power);
++          const double drift_lookup = 0.5 * (DriftTable[i - 1] + DriftTable[i]);
++          const double gravkick_lookup = 0.5 * (GravKickTable[i - 1] + GravKickTable[i]);
++          const double hydrokick_lookup = 0.5 * (HydroKickTable[i - 1] + HydroKickTable[i]);
++          max_drift_lookup_error = std::max(max_drift_lookup_error, fabs(drift_lookup / drift_exact - 1.0));
++          max_gravkick_lookup_error = std::max(max_gravkick_lookup_error, fabs(gravkick_lookup / gravkick_exact - 1.0));
++          max_hydrokick_lookup_error = std::max(max_hydrokick_lookup_error, fabs(hydrokick_lookup / hydrokick_exact - 1.0));
++        }
++
++      const double tolerance = All.CosmologyTableValidationTolerance;
++      const double max_error = std::max(
++          std::max(std::max(max_drift_quadrature_error, max_gravkick_quadrature_error), max_hydrokick_quadrature_error),
++          std::max(std::max(max_drift_lookup_error, max_gravkick_lookup_error), max_hydrokick_lookup_error));
++      if(max_error > tolerance)
++        Terminate("CLASS/AxiCLASS drift/kick table validation failed: max relative error=%g, tolerance=%g\n", max_error, tolerance);
++
++      int rank = 0;
++      MPI_Comm_rank(MPI_COMM_WORLD, &rank);
++      if(rank == 0)
++        {
++          char fname[MAXLEN_PATH_EXTRA];
++          snprintf(fname, MAXLEN_PATH_EXTRA, "%scosmology_table_validation.txt", All.OutputDir);
++          FILE *fd = fopen(fname, "w");
++          if(!fd)
++            Terminate("Could not write cosmology-table validation report '%s'\n", fname);
++          fprintf(fd, "status PASS\n");
++          fprintf(fd, "interval %.17g %.17g\n", All.TimeBegin, All.TimeMax);
++          fprintf(fd, "tolerance %.17g\n", tolerance);
++          fprintf(fd, "max_relative_drift_quadrature_error %.17g\n", max_drift_quadrature_error);
++          fprintf(fd, "max_relative_gravkick_quadrature_error %.17g\n", max_gravkick_quadrature_error);
++          fprintf(fd, "max_relative_hydrokick_quadrature_error %.17g\n", max_hydrokick_quadrature_error);
++          fprintf(fd, "max_relative_drift_lookup_error %.17g\n", max_drift_lookup_error);
++          fprintf(fd, "max_relative_gravkick_lookup_error %.17g\n", max_gravkick_lookup_error);
++          fprintf(fd, "max_relative_hydrokick_lookup_error %.17g\n", max_hydrokick_lookup_error);
++          fclose(fd);
++        }
++    }
++
+   gsl_integration_workspace_free(workspace);
+ }
+ 
+@@ -270,6 +478,11 @@ integertime driftfac::get_gravkick_factor_inverse(double fac)
+ 
+ double driftfac::linear_growth_factor(const double astart, const double aend)
+ {
++  if(cosmology_table_requested())
++    {
++      load_cosmology_table();
++      return interpolate_log_positive(CosmologyTableD, aend) / interpolate_log_positive(CosmologyTableD, astart);
++    }
+   // if we have a simple cosmology without radiation, with matter, a cosmological constant, and flat space,
+   // we can apply the simple integral solution:
+ 
+@@ -281,19 +494,45 @@ double driftfac::linear_growth_factor(const double astart, const double aend)
+   return linear_growth_ode(aend) / linear_growth_ode(astart);
+ }
+ 
+-double driftfac::linear_growth_ode(const double a)
++double driftfac::linear_growth_rate(const double a)
++{
++  if(cosmology_table_requested())
++    {
++      load_cosmology_table();
++      return interpolate_linear_log_a(CosmologyTableF, a);
++    }
++  double rate;
++  linear_growth_ode(a, &rate);
++  return rate;
++}
++
++double driftfac::linear_growth_ode(const double a, double *growth_rate)
+ {
+   gsl_odeiv2_system sys = {growth_ode_int, NULL, 2, NULL};
+   gsl_odeiv2_driver *d  = gsl_odeiv2_driver_alloc_y_new(&sys, gsl_odeiv2_step_rk8pd, 1e-6, 1e-6, 0.0);
+ 
+   double amin = 0.00001;  // start time
+ 
+-  double epsilon = 3 + 2 * amin * E_of_a_diff(amin) / E_of_a(amin);
+-  double w       = 1 - get_OmegaMatter_a(amin);
+-  double n       = 0.25 * (-1 - epsilon + sqrt(pow(1 + epsilon, 2) + 24 * (1 - w)));
++  // In a matter+radiation background, initialize with the regular growing
++  // Meszaros solution while radiation perturbations are smooth.  The old
++  // matter-only initial condition gives an incorrect early growth rate.
++  double D[2];
++  if(All.OmegaRadiation > 0)
++    {
++      const double a_eq = All.OmegaRadiation / All.Omega0;
++      const double y    = amin / a_eq;
++      D[0]              = 1.0 + 1.5 * y;
++      D[1]              = 1.5 / a_eq;
++    }
++  else
++    {
++      double epsilon = 3 + 2 * amin * E_of_a_diff(amin) / E_of_a(amin);
++      double w       = 1 - get_OmegaMatter_a(amin);
++      double n       = 0.25 * (-1 - epsilon + sqrt(pow(1 + epsilon, 2) + 24 * (1 - w)));
++      D[0]            = 1.0;
++      D[1]            = n / amin;
++    }
+ 
+-  // ICs
+-  double D[2]     = {1.0, n / amin};
+   double acurrent = amin;
+ 
+   int status = gsl_odeiv2_driver_apply(d, &acurrent, a, D);
+@@ -301,6 +540,9 @@ double driftfac::linear_growth_ode(const double a)
+   if(status != GSL_SUCCESS)
+     Terminate("error, ODE return value=%d\n", status);
+ 
++  if(growth_rate)
++    *growth_rate = a * D[1] / D[0];
++
+   gsl_odeiv2_driver_free(d);
+ 
+   return D[0];
+diff --git a/src/time_integration/driftfac.h b/src/time_integration/driftfac.h
+index e1fa365..959ceed 100644
+--- a/src/time_integration/driftfac.h
++++ b/src/time_integration/driftfac.h
+@@ -29,6 +29,7 @@ class driftfac
+ {
+  public:
+   void init_drift_table(void);
++  void load_cosmology_table(void);
+   double get_drift_factor(integertime time0, integertime time1);
+   double get_gravkick_factor(integertime time0, integertime time1);
+   double get_hydrokick_factor(integertime time0, integertime time1);
+@@ -37,11 +38,11 @@ class driftfac
+   double get_scalefactor_for_comoving_distance(double dist);
+   integertime get_gravkick_factor_inverse(double fac);
+ 
+-  static double E_of_a(double a) { return sqrt(All.Omega0 / pow(a, 3) + All.OmegaCurvature / pow(a, 2) + All.OmegaLambda); }
+-
+-  static double E_of_a_diff(double a) { return (-3 * All.Omega0 / pow(a, 4) + -2 * All.OmegaCurvature / pow(a, 3)) / (2 * E_of_a(a)); }
++  static double E_of_a(double a);
++  static double E_of_a_diff(double a);
+ 
+   double linear_growth_factor(double astart, double aend);
++  double linear_growth_rate(double a);
+ 
+   static double get_Omega0_a(double a) { return All.Omega0 / pow(a, 3) * pow(All.Hubble / hubble_function(a), 2); }
+   static double get_OmegaLambda_a(double a) { return All.OmegaLambda * pow(All.Hubble / hubble_function(a), 2); }
+@@ -66,7 +67,7 @@ class driftfac
+   double logTimeMax;
+ 
+   double linear_growth_simple(double a);
+-  double linear_growth_ode(double a);
++  double linear_growth_ode(double a, double *growth_rate = NULL);
+ 
+   static double drift_integ(double a, void *param)
+   {

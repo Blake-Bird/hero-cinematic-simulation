@@ -1,0 +1,137 @@
+{
+  "schema": "scientific-figure-registry-v1",
+  "families": {
+    "cosmology": [
+      "input_power",
+      "evolved_power",
+      "power_ratios",
+      "transfer_comparison",
+      "matched_residuals"
+    ],
+    "abundance": [
+      "differential_hmf",
+      "cumulative_hmf",
+      "hmf_ratio",
+      "reliability_limits",
+      "stellar_mass_function",
+      "vmax_function",
+      "rare_high_z_abundance"
+    ],
+    "structure": [
+      "density_profile",
+      "circular_velocity",
+      "velocity_dispersion",
+      "anisotropy",
+      "concentration_mass",
+      "radial_axis_ratios",
+      "triaxiality",
+      "axis_orientation_twist",
+      "density_potential_shape",
+      "splashback_slope_radius_depth_width"
+    ],
+    "assembly": [
+      "mass_scale_factor",
+      "log_mass_accretion",
+      "fast_slow_transition",
+      "spin_history",
+      "concentration_history",
+      "shape_history",
+      "pericenter_infall_merger_events",
+      "stellar_assembly",
+      "quenching_morphology"
+    ],
+    "web": [
+      "filament_map",
+      "spin_alignment",
+      "shape_alignment",
+      "web_evolution"
+    ],
+    "streams": [
+      "stream_progenitor_3d",
+      "intrinsic_track",
+      "projected_track",
+      "curvature",
+      "convexity",
+      "linear_density",
+      "width",
+      "velocity",
+      "dispersion",
+      "gaps",
+      "spurs",
+      "bifurcations",
+      "action_angle",
+      "density_power",
+      "track_power"
+    ],
+    "encounters": [
+      "worldlines_3d",
+      "impact_velocity_geometry",
+      "perturber_mass_profile",
+      "before_after_controls",
+      "gap_growth",
+      "action_diffusion",
+      "bh_extended_subhalo_comparison"
+    ],
+    "black_holes": [
+      "bh_growth",
+      "eddington_ratio",
+      "pair_separation",
+      "merger_timeline",
+      "recoil_trajectory",
+      "feedback_energy",
+      "dm_density_response",
+      "dm_shape_response"
+    ],
+    "baryons": [
+      "gas_phase_diagram",
+      "star_formation_history",
+      "mass_return",
+      "metals_history",
+      "luminosity_history",
+      "color_history",
+      "first_cooling_birth",
+      "primordial_cloud_morphology"
+    ],
+    "sidm": [
+      "sidm_core_evolution",
+      "collapse_phase",
+      "scattering_rates",
+      "sidm_cdm_controls",
+      "sidm_density_dispersion_anisotropy",
+      "sidm_shape_baryon_misalignment",
+      "sidm_heat_flux",
+      "sidm_kernel_support",
+      "sidm_satellite_survival",
+      "sidm_merger_centroid_offsets",
+      "sidm_stream_profile_response",
+      "sidm_lensing_h0_response",
+      "sidm_baryonic_degeneracy"
+    ],
+    "hubble": [
+      "hubble_method_comparison",
+      "distance_ladder",
+      "bao_cmb_background",
+      "time_delay_posteriors"
+    ],
+    "inference": [
+      "actual_posterior",
+      "posterior_predictive",
+      "sbc_ranks",
+      "coverage",
+      "ood_support",
+      "graph_baseline_gain"
+    ],
+    "convergence": [
+      "mass_resolution",
+      "softening",
+      "timestep",
+      "output_cadence",
+      "start_redshift",
+      "finder_tree_variation"
+    ]
+  },
+  "variant_count": 102,
+  "missing_inputs": "PENDING_MEASURED_INPUT",
+  "producer": "core.research.display.export_scientific_suite",
+  "scope": "Registered rendering variants; producer connectivity and scientific acceptance require separate evidence"
+}

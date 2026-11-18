@@ -1,0 +1,83 @@
+{
+  "request": {
+    "schema": "twofluid-native-ic-request-v1",
+    "particle_projection": {
+      "path": "projected-particles.json",
+      "sha256": "REPLACE_WITH_ACTUAL_SEALED_PARTICLE_PROJECTION_SHA256"
+    },
+    "base_native_generation": {
+      "path": "original-native/generation.json",
+      "sha256": "REPLACE_WITH_ACTUAL_ORIGINAL_NATIVE_GENERATION_SHA256"
+    },
+    "gas_state_policy": "preserve_original_native_thermochemical_state",
+    "retained_dataset_units": {
+      "PartType0/InternalEnergy": "(km / s)^2"
+    },
+    "memory_gib": 4,
+    "disk_gib": 8,
+    "chunk_rows": 65536,
+    "window_comparison": {
+      "schema": "twofluid-window-comparison-request-v1",
+      "memory_gib": 4,
+      "maximum_particles": 1000000,
+      "maximum_modes": 64,
+      "maximum_windows": 8,
+      "chunk_rows": 4096,
+      "maximum_phase_evaluations": 100000000,
+      "maximum_k_cell_width": 0.5,
+      "integer_wavevectors": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "quadrature_orders": [
+        2,
+        4,
+        8
+      ],
+      "density_absolute_tolerance": 0.001,
+      "momentum_absolute_tolerance_km_s": 0.01,
+      "quadrature_density_tolerance": 1e-06,
+      "quadrature_momentum_tolerance_km_s": 1e-05,
+      "windows": [
+        {
+          "name": "fine_gas",
+          "native_types": [
+            0
+          ],
+          "minimum_level": 1,
+          "maximum_level": 20
+        },
+        {
+          "name": "fine_cdm",
+          "native_types": [
+            1
+          ],
+          "minimum_level": 1,
+          "maximum_level": 20
+        },
+        {
+          "name": "coarse_material",
+          "native_types": [
+            2
+          ],
+          "minimum_level": 1,
+          "maximum_level": 20
+        }
+      ]
+    }
+  },
+  "request_base": "."
+}

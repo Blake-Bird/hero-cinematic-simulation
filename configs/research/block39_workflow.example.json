@@ -1,0 +1,35 @@
+{
+  "schema": "research-workflow-v1",
+  "resources": {
+    "mpi_ranks": 1,
+    "omp_threads": 1,
+    "memory_gib": 8.0,
+    "disk_gib": 64.0,
+    "maximum_stage_count": 32
+  },
+  "followup_limits": {
+    "maximum_children": 4,
+    "maximum_depth": 2
+  },
+  "physics_spec": {
+    "physics": "dm"
+  },
+  "capabilities": [],
+  "requested_products": [
+    "resources"
+  ],
+  "stages": [
+    {
+      "stage_id": "resources",
+      "kind": "resources",
+      "parameters": {
+        "spec": {
+          "json_input": "block35_resource_plan.example.json"
+        }
+      },
+      "outputs": {
+        "resources": "resources.json"
+      }
+    }
+  ]
+}

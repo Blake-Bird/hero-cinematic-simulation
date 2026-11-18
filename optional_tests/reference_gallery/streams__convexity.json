@@ -1,0 +1,270 @@
+{
+  "schema": "darkmattersim-figure-v1",
+  "created_utc": "2026-11-04T17:33:31.773746+00:00",
+  "title": "Selected population geometry \u2014 PENDING CONVERGENCE",
+  "axes": [
+    {
+      "title": "Selected population geometry \u2014 PENDING CONVERGENCE",
+      "x_label": "view_000_projected_arclength_kpc [proper kpc]",
+      "y_label": "view_000_convex_probability [dimensionless]",
+      "role": "plot",
+      "has_data": true
+    }
+  ],
+  "font_family": "STIXGeneral",
+  "style": "journal",
+  "layout": "double_column",
+  "formats": [
+    "png",
+    "pdf",
+    "svg"
+  ],
+  "png_dpi": 160,
+  "figure_size_inches": [
+    7.2,
+    2.88
+  ],
+  "figure_facecolor_rgba": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "layout_diagnostics": {
+    "canvas_inches": [
+      7.2,
+      2.88
+    ],
+    "export_bbox_inches": [
+      0.006669999999999926,
+      0.006669999999999995,
+      7.19333,
+      2.8733299999999997
+    ],
+    "export_padding_inches": 0.035,
+    "tolerance_inches": 0.015,
+    "visible_text_outside_canvas_count": 0,
+    "visible_text_outside_canvas": []
+  },
+  "scientific_metadata": {
+    "family": "streams",
+    "variant": "convexity",
+    "recipe": {
+      "figure_id": "convexity-0",
+      "family": "streams",
+      "variant": "convexity",
+      "title": "convexity",
+      "science_status": "NOT_ACCEPTED",
+      "epoch": null,
+      "panels": [
+        {
+          "panel_id": "measured",
+          "title": "Selected population geometry",
+          "quality_status": "PENDING_CONVERGENCE",
+          "selection": "source-selected population and recorded viewing basis; support retained",
+          "xlabel": "view_000_projected_arclength_kpc [proper kpc]",
+          "ylabel": "view_000_convex_probability [dimensionless]",
+          "x_units": "proper kpc",
+          "y_units": "dimensionless",
+          "series": [
+            {
+              "source": "measured",
+              "kind": "line",
+              "label": "measured selected population",
+              "x": "view_000_projected_arclength_kpc",
+              "y": "view_000_convex_probability",
+              "support": "view_000_convex_probability_supported"
+            }
+          ]
+        }
+      ]
+    },
+    "selections": [
+      {
+        "panel": "measured",
+        "counts": [
+          {
+            "label": "measured selected population",
+            "supported": 26,
+            "masked": 70
+          }
+        ],
+        "selection": "source-selected population and recorded viewing basis; support retained",
+        "quality_status": "PENDING_CONVERGENCE"
+      }
+    ],
+    "unit_source": "explicit physical source-array recipe",
+    "source_hashes": {
+      "/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json": "6a56122261f58567a65507a4079c18c60a795d2adbbd523959a45f0439ec1e92",
+      "/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json.data/arrays.npz": "bb6912f8de519fdf72d0036d2ff5bacd50fcb29e92f66a9eac34ef6203f67bc0"
+    },
+    "physical_array_contract": {
+      "schema": "darkmattersim-data-contract-v1",
+      "container": "pickle-free NPZ",
+      "path": "convexity-0.physical_arrays.npz",
+      "sha256": "b6e396a40f47aab4ce9a085e798e6b48ef9ce3253d4813e5f74185d425b2c1ec",
+      "datasets": {
+        "measured__series_000_source_supported": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "dimensionless",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[96]",
+          "dtype": "bool",
+          "payload_sha256": "55393343d45142f14e783e10c20b2facaf75c46693f50ed63b7613b800706705",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "measured__series_000_source_supported",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "UNDECLARED",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": null, \"family\": \"streams\", \"figure_id\": \"convexity-0\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"source-selected population and recorded viewing basis; support retained\", \"series\": [{\"kind\": \"line\", \"label\": \"measured selected population\", \"source\": \"measured\", \"support\": \"view_000_convex_probability_supported\", \"x\": \"view_000_projected_arclength_kpc\", \"y\": \"view_000_convex_probability\"}], \"title\": \"Selected population geometry\", \"x_units\": \"proper kpc\", \"xlabel\": \"view_000_projected_arclength_kpc [proper kpc]\", \"y_units\": \"dimensionless\", \"ylabel\": \"view_000_convex_probability [dimensionless]\"}], \"science_status\": \"NOT_ACCEPTED\", \"title\": \"convexity\", \"variant\": \"convexity\"}, \"sources\": {\"measured\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json\": \"6a56122261f58567a65507a4079c18c60a795d2adbbd523959a45f0439ec1e92\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json.data/arrays.npz\": \"bb6912f8de519fdf72d0036d2ff5bacd50fcb29e92f66a9eac34ef6203f67bc0\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        },
+        "measured__series_000_x": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "proper kpc",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[96]",
+          "dtype": "float64",
+          "payload_sha256": "e39f0bcdb95b1f9861974b278e17934f7926b4be7ddd20d13298111dc8f72d09",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "measured__series_000_x",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "UNDECLARED",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": null, \"family\": \"streams\", \"figure_id\": \"convexity-0\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"source-selected population and recorded viewing basis; support retained\", \"series\": [{\"kind\": \"line\", \"label\": \"measured selected population\", \"source\": \"measured\", \"support\": \"view_000_convex_probability_supported\", \"x\": \"view_000_projected_arclength_kpc\", \"y\": \"view_000_convex_probability\"}], \"title\": \"Selected population geometry\", \"x_units\": \"proper kpc\", \"xlabel\": \"view_000_projected_arclength_kpc [proper kpc]\", \"y_units\": \"dimensionless\", \"ylabel\": \"view_000_convex_probability [dimensionless]\"}], \"science_status\": \"NOT_ACCEPTED\", \"title\": \"convexity\", \"variant\": \"convexity\"}, \"sources\": {\"measured\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json\": \"6a56122261f58567a65507a4079c18c60a795d2adbbd523959a45f0439ec1e92\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json.data/arrays.npz\": \"bb6912f8de519fdf72d0036d2ff5bacd50fcb29e92f66a9eac34ef6203f67bc0\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        },
+        "measured__series_000_y": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "dimensionless",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[96]",
+          "dtype": "float64",
+          "payload_sha256": "01bb7b74fe8d4d93ff1d0857f0bf8863c0f1a1056cde54f8089e487771746fed",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "measured__series_000_y",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "UNDECLARED",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": null, \"family\": \"streams\", \"figure_id\": \"convexity-0\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"source-selected population and recorded viewing basis; support retained\", \"series\": [{\"kind\": \"line\", \"label\": \"measured selected population\", \"source\": \"measured\", \"support\": \"view_000_convex_probability_supported\", \"x\": \"view_000_projected_arclength_kpc\", \"y\": \"view_000_convex_probability\"}], \"title\": \"Selected population geometry\", \"x_units\": \"proper kpc\", \"xlabel\": \"view_000_projected_arclength_kpc [proper kpc]\", \"y_units\": \"dimensionless\", \"ylabel\": \"view_000_convex_probability [dimensionless]\"}], \"science_status\": \"NOT_ACCEPTED\", \"title\": \"convexity\", \"variant\": \"convexity\"}, \"sources\": {\"measured\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json\": \"6a56122261f58567a65507a4079c18c60a795d2adbbd523959a45f0439ec1e92\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json.data/arrays.npz\": \"bb6912f8de519fdf72d0036d2ff5bacd50fcb29e92f66a9eac34ef6203f67bc0\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        },
+        "measured__series_000_supported": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "dimensionless",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[96]",
+          "dtype": "bool",
+          "payload_sha256": "55393343d45142f14e783e10c20b2facaf75c46693f50ed63b7613b800706705",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "measured__series_000_supported",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "UNDECLARED",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": null, \"family\": \"streams\", \"figure_id\": \"convexity-0\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"source-selected population and recorded viewing basis; support retained\", \"series\": [{\"kind\": \"line\", \"label\": \"measured selected population\", \"source\": \"measured\", \"support\": \"view_000_convex_probability_supported\", \"x\": \"view_000_projected_arclength_kpc\", \"y\": \"view_000_convex_probability\"}], \"title\": \"Selected population geometry\", \"x_units\": \"proper kpc\", \"xlabel\": \"view_000_projected_arclength_kpc [proper kpc]\", \"y_units\": \"dimensionless\", \"ylabel\": \"view_000_convex_probability [dimensionless]\"}], \"science_status\": \"NOT_ACCEPTED\", \"title\": \"convexity\", \"variant\": \"convexity\"}, \"sources\": {\"measured\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json\": \"6a56122261f58567a65507a4079c18c60a795d2adbbd523959a45f0439ec1e92\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json.data/arrays.npz\": \"bb6912f8de519fdf72d0036d2ff5bacd50fcb29e92f66a9eac34ef6203f67bc0\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        }
+      }
+    },
+    "science_status": "NOT_ACCEPTED",
+    "epoch": null
+  },
+  "plot_data": "convexity-0.plotdata.npz",
+  "plot_data_contract": {
+    "schema": "darkmattersim-data-contract-v1",
+    "container": "pickle-free NPZ",
+    "path": "convexity-0.plotdata.npz",
+    "sha256": "ce78e9713cea0969f282443b73b2b70e35ea33c4fc3fb9d97470f6c151b63a98",
+    "datasets": {
+      "axis_0_line_0_x": {
+        "data_contract_schema": "darkmattersim-data-contract-v1",
+        "units": "proper kpc",
+        "missing_policy": "Masked or nonfinite artist values are preserved without interpolation",
+        "shape_json": "[96]",
+        "dtype": "float64",
+        "payload_sha256": "2c812a2874ab8130b06b2b0b052db67ffe1e3fb348c6753f03cd1bd853bddeb6",
+        "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+        "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+        "quantity_definition_status": "PRODUCER_DECLARED",
+        "quantity_definition": "drawn artist axis_0_line_0_x",
+        "quality_status": "NOT_ACCEPTED",
+        "epoch_status": "UNDECLARED",
+        "provenance_status": "PRODUCER_DECLARED",
+        "provenance_json": "{\"algorithm_sha256\": \"d9009f2f2b943ebabcd056fcd15364a2827010afd4a9a39cdf280d8197663485\", \"scientific_metadata\": {\"epoch\": null, \"family\": \"streams\", \"physical_array_contract\": {\"container\": \"pickle-free NPZ\", \"datasets\": {\"measured__series_000_source_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"55393343d45142f14e783e10c20b2facaf75c46693f50ed63b7613b800706705\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"convexity-0\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"source-selected population and recorded viewing basis; support retained\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured selected population\\\", \\\"source\\\": \\\"measured\\\", \\\"support\\\": \\\"view_000_convex_probability_supported\\\", \\\"x\\\": \\\"view_000_projected_arclength_kpc\\\", \\\"y\\\": \\\"view_000_convex_probability\\\"}], \\\"title\\\": \\\"Selected population geometry\\\", \\\"x_units\\\": \\\"proper kpc\\\", \\\"xlabel\\\": \\\"view_000_projected_arclength_kpc [proper kpc]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"view_000_convex_probability [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"convexity\\\", \\\"variant\\\": \\\"convexity\\\"}, \\\"sources\\\": {\\\"measured\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json\\\": \\\"6a56122261f58567a65507a4079c18c60a795d2adbbd523959a45f0439ec1e92\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json.data/arrays.npz\\\": \\\"bb6912f8de519fdf72d0036d2ff5bacd50fcb29e92f66a9eac34ef6203f67bc0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_source_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[96]\", \"units\": \"dimensionless\"}, \"measured__series_000_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"55393343d45142f14e783e10c20b2facaf75c46693f50ed63b7613b800706705\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"convexity-0\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"source-selected population and recorded viewing basis; support retained\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured selected population\\\", \\\"source\\\": \\\"measured\\\", \\\"support\\\": \\\"view_000_convex_probability_supported\\\", \\\"x\\\": \\\"view_000_projected_arclength_kpc\\\", \\\"y\\\": \\\"view_000_convex_probability\\\"}], \\\"title\\\": \\\"Selected population geometry\\\", \\\"x_units\\\": \\\"proper kpc\\\", \\\"xlabel\\\": \\\"view_000_projected_arclength_kpc [proper kpc]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"view_000_convex_probability [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"convexity\\\", \\\"variant\\\": \\\"convexity\\\"}, \\\"sources\\\": {\\\"measured\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json\\\": \\\"6a56122261f58567a65507a4079c18c60a795d2adbbd523959a45f0439ec1e92\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json.data/arrays.npz\\\": \\\"bb6912f8de519fdf72d0036d2ff5bacd50fcb29e92f66a9eac34ef6203f67bc0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[96]\", \"units\": \"dimensionless\"}, \"measured__series_000_x\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"e39f0bcdb95b1f9861974b278e17934f7926b4be7ddd20d13298111dc8f72d09\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"convexity-0\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"source-selected population and recorded viewing basis; support retained\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured selected population\\\", \\\"source\\\": \\\"measured\\\", \\\"support\\\": \\\"view_000_convex_probability_supported\\\", \\\"x\\\": \\\"view_000_projected_arclength_kpc\\\", \\\"y\\\": \\\"view_000_convex_probability\\\"}], \\\"title\\\": \\\"Selected population geometry\\\", \\\"x_units\\\": \\\"proper kpc\\\", \\\"xlabel\\\": \\\"view_000_projected_arclength_kpc [proper kpc]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"view_000_convex_probability [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"convexity\\\", \\\"variant\\\": \\\"convexity\\\"}, \\\"sources\\\": {\\\"measured\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json\\\": \\\"6a56122261f58567a65507a4079c18c60a795d2adbbd523959a45f0439ec1e92\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json.data/arrays.npz\\\": \\\"bb6912f8de519fdf72d0036d2ff5bacd50fcb29e92f66a9eac34ef6203f67bc0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_x\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[96]\", \"units\": \"proper kpc\"}, \"measured__series_000_y\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"01bb7b74fe8d4d93ff1d0857f0bf8863c0f1a1056cde54f8089e487771746fed\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"convexity-0\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"source-selected population and recorded viewing basis; support retained\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured selected population\\\", \\\"source\\\": \\\"measured\\\", \\\"support\\\": \\\"view_000_convex_probability_supported\\\", \\\"x\\\": \\\"view_000_projected_arclength_kpc\\\", \\\"y\\\": \\\"view_000_convex_probability\\\"}], \\\"title\\\": \\\"Selected population geometry\\\", \\\"x_units\\\": \\\"proper kpc\\\", \\\"xlabel\\\": \\\"view_000_projected_arclength_kpc [proper kpc]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"view_000_convex_probability [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"convexity\\\", \\\"variant\\\": \\\"convexity\\\"}, \\\"sources\\\": {\\\"measured\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json\\\": \\\"6a56122261f58567a65507a4079c18c60a795d2adbbd523959a45f0439ec1e92\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json.data/arrays.npz\\\": \\\"bb6912f8de519fdf72d0036d2ff5bacd50fcb29e92f66a9eac34ef6203f67bc0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_y\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[96]\", \"units\": \"dimensionless\"}}, \"path\": \"convexity-0.physical_arrays.npz\", \"schema\": \"darkmattersim-data-contract-v1\", \"sha256\": \"b6e396a40f47aab4ce9a085e798e6b48ef9ce3253d4813e5f74185d425b2c1ec\"}, \"recipe\": {\"epoch\": null, \"family\": \"streams\", \"figure_id\": \"convexity-0\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"source-selected population and recorded viewing basis; support retained\", \"series\": [{\"kind\": \"line\", \"label\": \"measured selected population\", \"source\": \"measured\", \"support\": \"view_000_convex_probability_supported\", \"x\": \"view_000_projected_arclength_kpc\", \"y\": \"view_000_convex_probability\"}], \"title\": \"Selected population geometry\", \"x_units\": \"proper kpc\", \"xlabel\": \"view_000_projected_arclength_kpc [proper kpc]\", \"y_units\": \"dimensionless\", \"ylabel\": \"view_000_convex_probability [dimensionless]\"}], \"science_status\": \"NOT_ACCEPTED\", \"title\": \"convexity\", \"variant\": \"convexity\"}, \"science_status\": \"NOT_ACCEPTED\", \"selections\": [{\"counts\": [{\"label\": \"measured selected population\", \"masked\": 70, \"supported\": 26}], \"panel\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"source-selected population and recorded viewing basis; support retained\"}], \"source_hashes\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json\": \"6a56122261f58567a65507a4079c18c60a795d2adbbd523959a45f0439ec1e92\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json.data/arrays.npz\": \"bb6912f8de519fdf72d0036d2ff5bacd50fcb29e92f66a9eac34ef6203f67bc0\"}, \"unit_source\": \"explicit physical source-array recipe\", \"variant\": \"convexity\"}}",
+        "ancestry_status": "UNDECLARED",
+        "coordinates_status": "UNDECLARED",
+        "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+        "annotations": {
+          "scope": "Display geometry; source measurement definitions remain in scientific_metadata"
+        }
+      },
+      "axis_0_line_0_y": {
+        "data_contract_schema": "darkmattersim-data-contract-v1",
+        "units": "dimensionless",
+        "missing_policy": "Masked or nonfinite artist values are preserved without interpolation",
+        "shape_json": "[96]",
+        "dtype": "float64",
+        "payload_sha256": "68de4fa05ebb3e8d4ea87390ecb45f71d067f7bbce178ae3a60e2e78f4671186",
+        "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+        "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+        "quantity_definition_status": "PRODUCER_DECLARED",
+        "quantity_definition": "drawn artist axis_0_line_0_y",
+        "quality_status": "NOT_ACCEPTED",
+        "epoch_status": "UNDECLARED",
+        "provenance_status": "PRODUCER_DECLARED",
+        "provenance_json": "{\"algorithm_sha256\": \"d9009f2f2b943ebabcd056fcd15364a2827010afd4a9a39cdf280d8197663485\", \"scientific_metadata\": {\"epoch\": null, \"family\": \"streams\", \"physical_array_contract\": {\"container\": \"pickle-free NPZ\", \"datasets\": {\"measured__series_000_source_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"55393343d45142f14e783e10c20b2facaf75c46693f50ed63b7613b800706705\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"convexity-0\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"source-selected population and recorded viewing basis; support retained\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured selected population\\\", \\\"source\\\": \\\"measured\\\", \\\"support\\\": \\\"view_000_convex_probability_supported\\\", \\\"x\\\": \\\"view_000_projected_arclength_kpc\\\", \\\"y\\\": \\\"view_000_convex_probability\\\"}], \\\"title\\\": \\\"Selected population geometry\\\", \\\"x_units\\\": \\\"proper kpc\\\", \\\"xlabel\\\": \\\"view_000_projected_arclength_kpc [proper kpc]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"view_000_convex_probability [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"convexity\\\", \\\"variant\\\": \\\"convexity\\\"}, \\\"sources\\\": {\\\"measured\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json\\\": \\\"6a56122261f58567a65507a4079c18c60a795d2adbbd523959a45f0439ec1e92\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json.data/arrays.npz\\\": \\\"bb6912f8de519fdf72d0036d2ff5bacd50fcb29e92f66a9eac34ef6203f67bc0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_source_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[96]\", \"units\": \"dimensionless\"}, \"measured__series_000_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"55393343d45142f14e783e10c20b2facaf75c46693f50ed63b7613b800706705\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"convexity-0\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"source-selected population and recorded viewing basis; support retained\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured selected population\\\", \\\"source\\\": \\\"measured\\\", \\\"support\\\": \\\"view_000_convex_probability_supported\\\", \\\"x\\\": \\\"view_000_projected_arclength_kpc\\\", \\\"y\\\": \\\"view_000_convex_probability\\\"}], \\\"title\\\": \\\"Selected population geometry\\\", \\\"x_units\\\": \\\"proper kpc\\\", \\\"xlabel\\\": \\\"view_000_projected_arclength_kpc [proper kpc]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"view_000_convex_probability [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"convexity\\\", \\\"variant\\\": \\\"convexity\\\"}, \\\"sources\\\": {\\\"measured\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json\\\": \\\"6a56122261f58567a65507a4079c18c60a795d2adbbd523959a45f0439ec1e92\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json.data/arrays.npz\\\": \\\"bb6912f8de519fdf72d0036d2ff5bacd50fcb29e92f66a9eac34ef6203f67bc0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[96]\", \"units\": \"dimensionless\"}, \"measured__series_000_x\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"e39f0bcdb95b1f9861974b278e17934f7926b4be7ddd20d13298111dc8f72d09\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"convexity-0\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"source-selected population and recorded viewing basis; support retained\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured selected population\\\", \\\"source\\\": \\\"measured\\\", \\\"support\\\": \\\"view_000_convex_probability_supported\\\", \\\"x\\\": \\\"view_000_projected_arclength_kpc\\\", \\\"y\\\": \\\"view_000_convex_probability\\\"}], \\\"title\\\": \\\"Selected population geometry\\\", \\\"x_units\\\": \\\"proper kpc\\\", \\\"xlabel\\\": \\\"view_000_projected_arclength_kpc [proper kpc]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"view_000_convex_probability [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"convexity\\\", \\\"variant\\\": \\\"convexity\\\"}, \\\"sources\\\": {\\\"measured\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json\\\": \\\"6a56122261f58567a65507a4079c18c60a795d2adbbd523959a45f0439ec1e92\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json.data/arrays.npz\\\": \\\"bb6912f8de519fdf72d0036d2ff5bacd50fcb29e92f66a9eac34ef6203f67bc0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_x\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[96]\", \"units\": \"proper kpc\"}, \"measured__series_000_y\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"01bb7b74fe8d4d93ff1d0857f0bf8863c0f1a1056cde54f8089e487771746fed\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"convexity-0\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"source-selected population and recorded viewing basis; support retained\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured selected population\\\", \\\"source\\\": \\\"measured\\\", \\\"support\\\": \\\"view_000_convex_probability_supported\\\", \\\"x\\\": \\\"view_000_projected_arclength_kpc\\\", \\\"y\\\": \\\"view_000_convex_probability\\\"}], \\\"title\\\": \\\"Selected population geometry\\\", \\\"x_units\\\": \\\"proper kpc\\\", \\\"xlabel\\\": \\\"view_000_projected_arclength_kpc [proper kpc]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"view_000_convex_probability [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"convexity\\\", \\\"variant\\\": \\\"convexity\\\"}, \\\"sources\\\": {\\\"measured\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json\\\": \\\"6a56122261f58567a65507a4079c18c60a795d2adbbd523959a45f0439ec1e92\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json.data/arrays.npz\\\": \\\"bb6912f8de519fdf72d0036d2ff5bacd50fcb29e92f66a9eac34ef6203f67bc0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_y\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[96]\", \"units\": \"dimensionless\"}}, \"path\": \"convexity-0.physical_arrays.npz\", \"schema\": \"darkmattersim-data-contract-v1\", \"sha256\": \"b6e396a40f47aab4ce9a085e798e6b48ef9ce3253d4813e5f74185d425b2c1ec\"}, \"recipe\": {\"epoch\": null, \"family\": \"streams\", \"figure_id\": \"convexity-0\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"source-selected population and recorded viewing basis; support retained\", \"series\": [{\"kind\": \"line\", \"label\": \"measured selected population\", \"source\": \"measured\", \"support\": \"view_000_convex_probability_supported\", \"x\": \"view_000_projected_arclength_kpc\", \"y\": \"view_000_convex_probability\"}], \"title\": \"Selected population geometry\", \"x_units\": \"proper kpc\", \"xlabel\": \"view_000_projected_arclength_kpc [proper kpc]\", \"y_units\": \"dimensionless\", \"ylabel\": \"view_000_convex_probability [dimensionless]\"}], \"science_status\": \"NOT_ACCEPTED\", \"title\": \"convexity\", \"variant\": \"convexity\"}, \"science_status\": \"NOT_ACCEPTED\", \"selections\": [{\"counts\": [{\"label\": \"measured selected population\", \"masked\": 70, \"supported\": 26}], \"panel\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"source-selected population and recorded viewing basis; support retained\"}], \"source_hashes\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json\": \"6a56122261f58567a65507a4079c18c60a795d2adbbd523959a45f0439ec1e92\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/gala-stream-longer-input/geometry.json.data/arrays.npz\": \"bb6912f8de519fdf72d0036d2ff5bacd50fcb29e92f66a9eac34ef6203f67bc0\"}, \"unit_source\": \"explicit physical source-array recipe\", \"variant\": \"convexity\"}}",
+        "ancestry_status": "UNDECLARED",
+        "coordinates_status": "UNDECLARED",
+        "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+        "annotations": {
+          "scope": "Display geometry; source measurement definitions remain in scientific_metadata"
+        }
+      }
+    }
+  },
+  "plot_data_scope": "Arrays actually drawn, including artist geometry and masks; physical measurement definitions remain in the source product",
+  "units_status": "Caller metadata only; axis labels are preserved, never interpreted as a verified unit contract",
+  "science_acceptance": "NOT_ACCEPTED",
+  "artifacts": [
+    {
+      "path": "convexity-0.pdf",
+      "sha256": "af9c4aefe4be4622bab018272d045ec5a1a6c9fa92b735c99eb61c7cace5eb5e",
+      "size_bytes": 26163
+    },
+    {
+      "path": "convexity-0.plotdata.npz",
+      "sha256": "ce78e9713cea0969f282443b73b2b70e35ea33c4fc3fb9d97470f6c151b63a98",
+      "size_bytes": 846
+    },
+    {
+      "path": "convexity-0.png",
+      "sha256": "5e95344fbc0174deade55ecef4222a3ea53eed8c9b69ab639a5a2067c9657855",
+      "size_bytes": 72087
+    },
+    {
+      "path": "convexity-0.svg",
+      "sha256": "50c8a3e17ba074198a01a250a2c80cf61190bbce67a544de4fc270bfb2410aee",
+      "size_bytes": 22547
+    }
+  ]
+}

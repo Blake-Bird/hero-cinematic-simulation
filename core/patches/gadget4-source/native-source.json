@@ -1,0 +1,200 @@
+{
+  "schema": "research2-native-source-overlay-v1",
+  "created_utc": "2026-10-13T21:10:39.981063+00:00",
+  "declared_upstream_commit": "6fb393b5e25907f2ff06211f67d341c5e40e90d1",
+  "upstream_repository": "https://gitlab.mpcdf.mpg.de/vrs/gadget4",
+  "archive": {
+    "name": "native-source.zip",
+    "sha256": "72cf455e3353661a1bbac267434cb1c7d1757278ecf2a0adaf0b560d602ac06e"
+  },
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "8b1ba204bb69a0ade2bfcf65ef294a920f6bb361b317dba43c7ef29d96332b9b",
+      "bytes": 35148
+    },
+    {
+      "path": "Makefile",
+      "sha256": "994b618f5c2c21a1a99bba7565a9609453ee29dadeceeef3c4bc9fecad82200e",
+      "bytes": 19885
+    },
+    {
+      "path": "Template-Config.sh",
+      "sha256": "51a5c7a3bfc705a7eace40a1f4dc2ca55df5bf951c41bc577a80800b8dd73d95",
+      "bytes": 19764
+    },
+    {
+      "path": "buildsystem/Makefile.config",
+      "sha256": "5cba8a40fac31b1841d4f6ed062332374fceb781f000212409274bf14847f70f",
+      "bytes": 698
+    },
+    {
+      "path": "buildsystem/config.py",
+      "sha256": "b977de056a00bdcfe00f71d54b9de45779d27e380f514bd6fad93e5aa9624b8b",
+      "bytes": 4987
+    },
+    {
+      "path": "defines_extra",
+      "sha256": "97e0452aaa0933d22bf4d5670ac771a71cdc7d438ba9702cf886bca6ab29be29",
+      "bytes": 3241
+    },
+    {
+      "path": "src/black_holes/black_holes.cc",
+      "sha256": "e3dbf9a2f624d75a1b7e77406da43206bf7f3292df8c4b4ca8a3d38d51716cb4",
+      "bytes": 35754
+    },
+    {
+      "path": "src/black_holes/research_bh_dynamics.cc",
+      "sha256": "cdff9d161ed13854b20b1cb7c5916b6a683f93b28540f3e111f669a05b7ebc8e",
+      "bytes": 64193
+    },
+    {
+      "path": "src/black_holes/research_bh_dynamics.h",
+      "sha256": "6611519d4024cfe6a95dba303e9bd31e8a059e1b85f515fbaeaf46b8a572aef9",
+      "bytes": 10838
+    },
+    {
+      "path": "src/cooling_sfr/cooling.cc",
+      "sha256": "4ee6d140f1162ce59ec23447c102239e3757386a8212b27ea6ceead382499f7a",
+      "bytes": 25749
+    },
+    {
+      "path": "src/cooling_sfr/cooling.h",
+      "sha256": "777d8986b12257000f3df0917fc9d8ec08b6b3befe9e52ad0a21e4f5c66b1aec",
+      "bytes": 4750
+    },
+    {
+      "path": "src/cooling_sfr/research_grackle.cc",
+      "sha256": "b9c6782e98da911d04ab5d085b2c492ac5ad0a9c83230d4f45f09d9b38e8fbd4",
+      "bytes": 15024
+    },
+    {
+      "path": "src/cooling_sfr/research_stellar_returns.cc",
+      "sha256": "2651f436ae977a2ccb1851b19f36a99acde58802c07509ce15de11fe10c34c38",
+      "bytes": 24318
+    },
+    {
+      "path": "src/cooling_sfr/research_stellar_returns.h",
+      "sha256": "b242985bbba6f889c3f195ac423282bb80da3d154fb8c368db0f3175417c9e18",
+      "bytes": 1024
+    },
+    {
+      "path": "src/cooling_sfr/sfr_eos.cc",
+      "sha256": "031565a7f4f22c2f32c7771413bdd2006e2607c5c67af07110cbc88993f33dbd",
+      "bytes": 17375
+    },
+    {
+      "path": "src/cooling_sfr/starformation.cc",
+      "sha256": "0f11b50f5176ee823309b2db7574c88b8ee5d061cc098de1a2a48a9592a0549f",
+      "bytes": 17229
+    },
+    {
+      "path": "src/data/allvars.cc",
+      "sha256": "d25776a5cc0e6f82ad8f05e233ef4165a419004986bad731a79126bb15c073d6",
+      "bytes": 22526
+    },
+    {
+      "path": "src/data/allvars.h",
+      "sha256": "69c97de0b43b3fbd1e5dc4f711a23c96912b69a1495e279fd9f2708a497eefa9",
+      "bytes": 19924
+    },
+    {
+      "path": "src/data/particle_data.h",
+      "sha256": "87222659a5e37dd3acf1ad6aea4ef7149982f6de74f2f63755544f695b7a0910",
+      "bytes": 7547
+    },
+    {
+      "path": "src/data/research_source_state.h",
+      "sha256": "a502aec009597dc2ee3ebfc0d4865b213bc06b43c77ad7e98c0e104a03d9b4b8",
+      "bytes": 4541
+    },
+    {
+      "path": "src/data/research_stellar_birth.h",
+      "sha256": "f0d09811f7566d0906dca155c93b37b0ff54784333b68fcec4e6a055ed063693",
+      "bytes": 13611
+    },
+    {
+      "path": "src/data/sph_particle_data.h",
+      "sha256": "4ff23304c0bbf1d3d0c86e4fcb8c4569ed7b080d44a97732f40a0450ee1cb354",
+      "bytes": 5895
+    },
+    {
+      "path": "src/io/checkpoint_epoch.h",
+      "sha256": "5829eaedad8f9394824f22d349b2d1bf1423722d7408f33bde7a65516de59f5a",
+      "bytes": 3819
+    },
+    {
+      "path": "src/io/checkpoint_layout.h",
+      "sha256": "bd0dac2f74f8ae2dea54c8fa72cba6efeab4a97742e584709853facf80e5f356",
+      "bytes": 1524
+    },
+    {
+      "path": "src/io/checkpoint_receipt.h",
+      "sha256": "0d19bfc826e094785735a8c010476474324d61b4cab7a1f4c26cf9ac454cb6ed",
+      "bytes": 2933
+    },
+    {
+      "path": "src/io/hdf5_util.cc",
+      "sha256": "f06c832a1a8486ab38df2719ffbeb5d3600f8de685a91ae5f645da89776c13d0",
+      "bytes": 26124
+    },
+    {
+      "path": "src/io/hdf5_util.h",
+      "sha256": "c62fda7f393cbf492f893ce81cb765eb95a7a01955ecbecdfd5ea111ce79d1d9",
+      "bytes": 3775
+    },
+    {
+      "path": "src/io/io.cc",
+      "sha256": "de1b205f76f234e40b22fd83e0e3a31474d93956261e411fd0752dfcd50b809a",
+      "bytes": 97834
+    },
+    {
+      "path": "src/io/io.h",
+      "sha256": "7ff2f15789afd08f950383be48a72eaeda8d1fb853644ddd26847decf53adea7",
+      "bytes": 8152
+    },
+    {
+      "path": "src/io/restart.cc",
+      "sha256": "9763a97f7f55bb3f684f69094757c435260be49a30dddb17509d1b055b14179f",
+      "bytes": 31375
+    },
+    {
+      "path": "src/io/restart.h",
+      "sha256": "910dd3b1da26ed6a493d7057d081391a16558ab70f2eeec7e26ab9bbb923dcf0",
+      "bytes": 1979
+    },
+    {
+      "path": "src/io/snap_io.cc",
+      "sha256": "8a6f6f107d03253318101108698d90cf878f0c8cfc51012f14a2e95d43c7960b",
+      "bytes": 74320
+    },
+    {
+      "path": "src/io/snap_io.h",
+      "sha256": "78e594446256e1637a8db3920676c96c571c2b66aacee832973b9a4c3ae1b6c1",
+      "bytes": 17976
+    },
+    {
+      "path": "src/main/run.cc",
+      "sha256": "0d951d1c77e373b13d1af30f201fa596fc03d1706823314824f547d2deeba111",
+      "bytes": 28187
+    },
+    {
+      "path": "src/main/simulation.h",
+      "sha256": "b4b25ffabe37e98c9aac24280e004d33b3076f36526b74abb8d4d744609d66cf",
+      "bytes": 8954
+    }
+  ],
+  "application_order": "Existing retained native patch series, then this authoritative full-file overlay. The vendored native checkout already contains these source bytes.",
+  "caller": "commands.py native-source-overlay MANIFEST [--source-root EXISTING_NATIVE_ROOT --expected-hashes PRIOR_HASH_MAPPING]",
+  "build_status": "NOT_RUN",
+  "test_status": "NOT_RUN_CURRENT_OVERLAY",
+  "simulation_status": "NOT_RUN",
+  "patch_application_verification": "NOT_RUN",
+  "source_revision_scope": "Declared upstream pin; the vendored source has no Git metadata. Current exact source bytes are bound independently.",
+  "physics_acceptance": "NOT_ACCEPTED",
+  "licenses": [
+    "Upstream GADGET-4 GPL license included as LICENSE",
+    "PRECESSION MIT copyright and license retained in the native BH header"
+  ],
+  "source_scope": "Current contents of the listed native source files; the complete engine tree is distributed separately. No build or physics validation performed."
+}

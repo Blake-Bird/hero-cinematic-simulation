@@ -1,0 +1,253 @@
+diff --git a/src/main.cc b/src/main.cc
+--- a/src/main.cc
++++ b/src/main.cc
+@@ -650,7 +650,82 @@
+ 	bool bfatal = false;
+ 	try
+ 	{
+-		if (!do_2LPT)
++        if (do_2LPT && cf.get_value_safe<bool>("cosmology","mixed_2lpt",false))
++        {
++            // Hahn et al. (2021): common growing matter flow; compensated
++            // relative density lives in particle masses, not independent
++            // species quadratic displacement kernels. Relative velocities
++            // retain the published first-order correction only.
++            const double fb = cf.get_value<double>("cosmology","Omega_b") /
++                              cf.get_value<double>("cosmology","Omega_m");
++            const double c2 = cf.get_value<double>("cosmology","lpt2_displacement");
++            const double cv2 = cf.get_value<double>("cosmology","lpt2_velocity") *
++                cf.get_value<double>("cosmology","lpt2_aH_km_s_Mpc") /
++                (cf.get_value<double>("cosmology","H0")/100.0);
++            const auto prepare = [&](tf_type type, bool gas, grid_hierarchy &field) {
++                GenerateDensityHierarchy(cf,the_cosmo_calc.get(),type,rh_TF,rand,field,false,gas);
++                coarsen_density(rh_Poisson,field,use_fourier_coarsening);
++                field.add_refinement_mask(rh_Poisson.get_coord_shift());
++                normalize_density(field);
++            };
++            const auto gradient = [&](const grid_hierarchy &source, grid_hierarchy &potential,
++                                      int coord, grid_hierarchy &result, bool gas) {
++                result = potential;
++                if (bdefd)
++                {
++                    result.zero();
++                    *result.get_grid(result.levelmax()) = *source.get_grid(source.levelmax());
++                    poisson_hybrid(*result.get_grid(result.levelmax()),coord,grad_order,
++                        result.levelmin()==result.levelmax(),gas?decic_baryons:decic_DM);
++                    *result.get_grid(result.levelmax()) /= (1 << result.levelmax());
++                    the_poisson_solver->gradient_add(coord,potential,result);
++                }
++                else the_poisson_solver->gradient(coord,potential,result);
++                coarsen_density(rh_Poisson,result,false);
++            };
++            for (bool gas : {false,true})
++            {
++                grid_hierarchy density(nbnd),potential(nbnd),source2(nbnd),potential2(nbnd);
++                prepare(delta_matter,gas,density);
++                potential = density; potential.zero();
++                the_poisson_solver->solve(density,potential);
++                if (kspace) compute_2LPT_source_FFT(cf,potential,source2);
++                else compute_2LPT_source(potential,source2,grad_order);
++                potential2 = source2; potential2.zero();
++                the_poisson_solver->solve(source2,potential2);
++                grid_hierarchy compensation(nbnd);
++                prepare(delta_bc,gas,compensation);
++                compensation *= gas ? (1-fb) : -fb;
++                if (gas) the_output_plugin->write_gas_density(compensation);
++                else
++                {
++                    the_output_plugin->write_dm_mass(compensation);
++                    the_output_plugin->write_dm_density(compensation);
++                }
++                compensation.deallocate();
++                grid_hierarchy velocitySource(nbnd),velocityPotential(nbnd);
++                prepare(gas?theta_baryon:theta_cdm,gas,velocitySource);
++                velocityPotential = velocitySource; velocityPotential.zero();
++                the_poisson_solver->solve(velocitySource,velocityPotential);
++                for (int coord=0;coord<3;++coord)
++                {
++                    grid_hierarchy first(potential),second(potential),vel(potential);
++                    gradient(density,potential,coord,first,gas);
++                    gradient(source2,potential2,coord,second,gas);
++                    the_output_plugin->write_lpt_component("FirstOrderDisplacements",coord,first,gas,false);
++                    grid_hierarchy combined(first);
++                    grid_hierarchy correction(second); correction *= c2; combined += correction;
++                    if (gas) the_output_plugin->write_gas_position(coord,combined);
++                    else the_output_plugin->write_dm_position(coord,combined);
++                    gradient(velocitySource,velocityPotential,coord,vel,gas);
++                    the_output_plugin->write_lpt_component("FirstOrderVelocities",coord,vel,gas,true);
++                    second *= cv2; vel += second;
++                    if (gas) the_output_plugin->write_gas_velocity(coord,vel);
++                    else the_output_plugin->write_dm_velocity(coord,vel);
++                }
++            }
++        }
++        else if (!do_2LPT)
+ 		{
+ 			music::ulog.Print("Entering 1LPT branch");
+ 
+diff --git a/src/output.hh b/src/output.hh
+--- a/src/output.hh
++++ b/src/output.hh
+@@ -124,6 +124,10 @@
+ 	//! purely virtual prototype to write the baryon gravitational potential (from which displacements are computed in 1LPT)
+ 	virtual void write_gas_potential( const grid_hierarchy& gh )  = 0;
+ 	
++    // Optional retained first-order fields for independent higher-order audits.
++    virtual void write_lpt_component(const std::string &, int, const grid_hierarchy &, bool, bool)
++    { throw std::runtime_error("Output plugin does not support retained mixed-fluid LPT components"); }
++
+ 	//! purely virtual prototype for all things to be done at the very end
+ 	virtual void finalize( void ) = 0;
+ };
+diff --git a/src/plugins/output_arepo.cc b/src/plugins/output_arepo.cc
+--- a/src/plugins/output_arepo.cc
++++ b/src/plugins/output_arepo.cc
+@@ -44,6 +44,8 @@
+   bool shiftBack;
+   std::vector<double> coordinateShift;
+   std::vector<double> maximumDisplacement;
++  std::vector<double> compensationMean = std::vector<double>(6,0.0);
++  std::vector<double> meanSpeciesMass = std::vector<double>(6,0.0);
+   std::vector<double> removedBulkVelocity = std::vector<double>(3, 0.0);
+ 
+   size_t npfine, npart, npcoarse;
+@@ -785,6 +787,71 @@
+     }
+   }
+ 
++  void writeCompensatedMass(const grid_hierarchy &gh, int type)
++  {
++    countLeafCells(gh);
++    const int level = gh.levelmax();
++    std::vector<double> contrast;
++    contrast.reserve(npfine);
++    long double sum = 0.0L;
++    for (unsigned i = 0; i < gh.get_grid(level)->size(0); ++i)
++      for (unsigned j = 0; j < gh.get_grid(level)->size(1); ++j)
++        for (unsigned k = 0; k < gh.get_grid(level)->size(2); ++k)
++          if (gh.is_in_mask(level,i,j,k) && !gh.is_refined(level,i,j,k))
++          {
++            const double value = (*gh.get_grid(level))(i,j,k);
++            if (!std::isfinite(value)) throw std::runtime_error("Nonfinite compensated species density");
++            contrast.push_back(value); sum += value;
++          }
++    if (contrast.size() != npfine || !npfine)
++      throw std::runtime_error("Incomplete compensated species density");
++    // Explicit finite-window zero mode: keep each represented species mass
++    // equal to its cosmological mean. Never normalize a Fourier amplitude.
++    const double mean = (double)(sum / npfine);
++    const double fraction = type == GAS_PARTTYPE ? omega_b : omega0-omega_b;
++    const double meanMass = fraction*rhoCrit*pow(boxSize*posFac,3.0)/pow(2,3*level);
++    for (double &value : contrast)
++    {
++      value = meanMass*(1.0+value-mean);
++      if (!(std::isfinite(value) && value > 0.0))
++        throw std::runtime_error("Compensated species mode produces nonpositive particle mass");
++    }
++    compensationMean[type] = mean;
++    meanSpeciesMass[type] = meanMass;
++    massTable[type] = 0.0;
++    writeHDF5_a("Masses",type,contrast);
++  }
++
++  void write_lpt_component(const std::string &name, int coord, const grid_hierarchy &gh,
++                           bool gas, bool velocity) override
++  {
++    countLeafCells(gh);
++    std::vector<double> values(npart);
++    size_t count = 0;
++    const double scale = velocity ? velFac : boxSize*posFac;
++    for (int level=gh.levelmax(); level >= (int)gh.levelmin(); --level)
++      for (unsigned i=0;i<gh.get_grid(level)->size(0);++i)
++        for (unsigned j=0;j<gh.get_grid(level)->size(1);++j)
++          for (unsigned k=0;k<gh.get_grid(level)->size(2);++k)
++            if (gh.is_in_mask(level,i,j,k) && !gh.is_refined(level,i,j,k))
++              values[count++] = (*gh.get_grid(level))(i,j,k)*scale;
++    if (count != npart) throw std::runtime_error("Incomplete retained first-order LPT field");
++    std::vector<double> fine(values.begin(),values.begin()+npfine);
++    writeHDF5_b(name,coord,gas?GAS_PARTTYPE:HIGHRES_DM_PARTTYPE,fine);
++    if (npcoarse)
++    {
++      std::vector<double> coarse(values.begin()+npfine,values.end());
++      if (gas)
++      {
++        std::vector<double> previous(npcoarse);
++        writeHDF5_b(name,coord,coarsePartType,previous,true);
++        for (size_t index=0;index<npcoarse;++index)
++          coarse[index] = (1-omega_b/omega0)*previous[index]+(omega_b/omega0)*coarse[index];
++      }
++      writeHDF5_b(name,coord,coarsePartType,coarse);
++    }
++  }
++
+   /* ------------------------------------------------------------------------------- */
+   void write_dm_mass(const grid_hierarchy &gh)
+   {
+@@ -811,7 +878,9 @@
+   }
+ 
+   void write_dm_density(const grid_hierarchy &gh)
+-  { /* skip */
++  {
++    if (cf_.get_value_safe<bool>("cosmology","mixed_2lpt",false))
++      writeCompensatedMass(gh,HIGHRES_DM_PARTTYPE);
+   }
+ 
+   void write_dm_potential(const grid_hierarchy &gh)
+@@ -837,6 +906,11 @@
+ 
+   void write_gas_density(const grid_hierarchy &gh)
+   {
++    if (cf_.get_value_safe<bool>("cosmology","mixed_2lpt",false))
++    {
++      writeCompensatedMass(gh,GAS_PARTTYPE);
++      return;
++    }
+     // if only saving highres gas, then all gas cells have the same initial mass
+     // do not write out densities as we write out displacements
+     if (doBaryons)
+@@ -914,6 +988,16 @@
+       HDFWriteGroupAttribute(filename, "Header", "Music_output_coordinate_shift_box_fraction", coordinateShift);
+       HDFWriteGroupAttribute(filename, "Header", "Music_removed_bulk_velocity_gadget", removedBulkVelocity);
+       HDFWriteGroupAttribute(filename, "Header", "Music_momentum_schema", 1);
++      if (cf_.get_value_safe<bool>("cosmology","mixed_2lpt",false))
++      {
++        HDFWriteGroupAttribute(filename,"Header","Music_mixed_fluid_schema",1);
++        HDFWriteGroupAttribute(filename,"Header","Music_compensation_window_zero_modes",compensationMean);
++        HDFWriteGroupAttribute(filename,"Header","Music_mean_species_masses_native",meanSpeciesMass);
++        HDFWriteGroupAttribute(filename,"Header","Music_2lpt_displacement_coefficient",
++            cf_.get_value<double>("cosmology","lpt2_displacement"));
++        HDFWriteGroupAttribute(filename,"Header","Music_2lpt_velocity_coefficient",
++            cf_.get_value<double>("cosmology","lpt2_velocity"));
++      }
+       HDFWriteGroupAttribute(filename, "Header", "Music_levelmax", levelmax_);
+       HDFWriteGroupAttribute(filename, "Header", "Music_levelcounts", levelcounts);
+       HDFWriteGroupAttribute(filename, "Header", "haveBaryons", (int)doBaryons);
+diff --git a/src/plugins/transfer_DMS_file.cc b/src/plugins/transfer_DMS_file.cc
+--- a/src/plugins/transfer_DMS_file.cc
++++ b/src/plugins/transfer_DMS_file.cc
+@@ -152,9 +152,23 @@
+       : transfer_function_plugin(cf, cosmo_params)
+   {
+     if (!cf.get_value<bool>("setup", "baryons")
+-        || cf.get_value_safe<bool>("setup", "use_2LPT", false)
++        || (cf.get_value_safe<bool>("setup", "use_2LPT", false)
++            && !cf.get_value_safe<bool>("cosmology","mixed_2lpt",false))
+         || cf.get_value_safe<bool>("setup", "use_LLA", false))
+       throw std::runtime_error("MUSIC DMS_file currently requires two-fluid 1LPT; higher-order growth remains unvalidated");
++    if (cf.get_value_safe<bool>("cosmology","mixed_2lpt",false))
++    {
++      if (!cf.get_value_safe<bool>("setup","use_2LPT",false)
++          || !cf.get_value_safe<bool>("setup","do_SPH",false)
++          || cf.get_value<std::string>("output","format") != "arepo")
++        throw std::runtime_error("Mixed-fluid 2LPT requires retained arepo fields and the staggered SPH lattice");
++      for (const auto key : {"lpt2_displacement","lpt2_velocity","lpt2_aH_km_s_Mpc"})
++      {
++        const double coefficient = cf.get_value<double>("cosmology",key);
++        if (!(std::isfinite(coefficient) && coefficient > 0.0))
++          throw std::runtime_error("Mixed-fluid 2LPT requires positive background-integrated growth coefficients");
++      }
++    }
+     const double zstart = cf.get_value<double>("setup", "zstart");
+     const double ztarget = cf.get_value<double>("cosmology", "ztarget");
+     if (std::abs(zstart - ztarget) > 1.e-10 * (1.0 + zstart))

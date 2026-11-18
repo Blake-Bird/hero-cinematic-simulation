@@ -1,0 +1,29 @@
+PES Soundwave:
+  stage: PES_tests
+  extends: .job_settings
+  script:
+    - ./tests/Soundwave/run_soundwave_pes.sh
+
+PES Sodshock:
+  stage: PES_tests
+  extends: .job_settings
+  script:
+    - ./tests/SodShock/run_sodshock_pes.sh
+
+PES Sedov:
+  stage: PES_tests
+  extends: .job_settings
+  script:
+    - ./tests/SedovBlastwave/run_sedov_pes.sh
+
+PES Gravity:
+  stage: PES_tests
+  extends: .job_settings
+  script:
+    - ./tests/FreefallCollapse/run_freefall_pes.sh
+
+PES Kepler Disc:
+  stage: PES_tests
+  extends: .job_settings
+  script:
+    - ./tests/KeplerDisk/run_kepler_pes.sh

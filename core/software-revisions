@@ -1,0 +1,11 @@
+# Project, repository URL, pinned commit
+class https://github.com/lesgourg/class_public.git 64bbab707faf4de4779a9e04edd180fef18d98fa
+axiclass https://github.com/PoulinV/AxiCLASS.git ae9609e1f96ddebbb6cc8a46de94512514c68781
+gadget4 https://gitlab.mpcdf.mpg.de/vrs/gadget4.git 6fb393b5e25907f2ff06211f67d341c5e40e90d1
+monofonic https://github.com/cosmo-sims/monofonIC.git a48a4f2456ec7afd0cc3f3359fc009cf6dee1739
+music2 https://github.com/cosmo-sims/MUSIC2.git 967651b21d9bf52f9017982d4b8a5edb5c59ecb0
+rockstar https://github.com/eelregit/rockstar.git 99d56672092e88dbed446f87f6eed87c48ff0e77
+consistent-trees https://github.com/jwise77/consistent-trees.git 8de04ad679d7d08b58f1fc1195c477b565da84ef
+velociraptor https://github.com/pelahi/VELOCIraptor-STF.git 04e6f6686f0613ca1442636ec12f49be37105cda
+velociraptor/NBodylib https://github.com/pelahi/NBodylib.git d4f3ec1a554ff34670bb2d5b83ae9f79ad6617bc
+disperse https://github.com/thierry-sousbie/DisPerSE.git cb8cb78412777a19fb82a4c7f3f8d4eb1eea55e7

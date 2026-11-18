@@ -1,0 +1,21 @@
+{
+  "schema": "native-sidm-mapped-event-export-request-v1",
+  "mapped_run": {
+    "path": "REPLACE_WITH_COMPLETED_NATIVE_STAGE/native-canonical-control/native-control.json",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "event_files": [
+    "REPLACE_WITH_COMPLETED_NATIVE_STAGE/native-canonical-control/data/sidm_events_1.hdf5"
+  ],
+  "angular_model_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+  "relative_speed_kms": 100.0,
+  "speed_absolute_tolerance_kms": 10.0,
+  "cosine_convention": "directed_cosine",
+  "minimum_scattering_angle_radians": 0.0,
+  "maximum_events": 100000,
+  "maximum_logged_events": 1000000,
+  "chunk_rows": 4096,
+  "memory_gib": 8.0,
+  "energy_absolute_floor": 1e-12,
+  "momentum_absolute_floor": 1e-12
+}

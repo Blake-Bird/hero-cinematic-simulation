@@ -1,0 +1,14 @@
+{
+  "run_directory": "USER_SELECTED_NATIVE_RUN",
+  "snapshots": [
+    0,
+    1
+  ],
+  "memory_gib": 1.0,
+  "tolerances": {
+    "mass_relative": 1e-10,
+    "mass_absolute_msun": 0.0001,
+    "momentum_relative": 1e-10,
+    "momentum_absolute_msun_km_s": 0.001
+  }
+}

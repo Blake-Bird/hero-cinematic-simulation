@@ -1,0 +1,27 @@
+--- a/src/io/hdf5_util.cc
++++ b/src/io/hdf5_util.cc
+@@ -17,6 +17,8 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include <sys/stat.h>
++#include <unistd.h>
+ 
+ #include "../data/allvars.h"
+ #include "../data/dtypes.h"
+@@ -157,6 +159,15 @@
+  */
+ hid_t my_H5Fcreate(const char *fname, unsigned int flags, hid_t fcpl_id, hid_t fapl_id)
+ {
++  /* Postprocessing (restart flag 3) rewrites a group-ordered snapshot. Input
++     snapshots may be links to a read-only intake source. H5F_ACC_TRUNC would
++     follow such a link and destroy the source; replace the link itself first.
++     This does not remove directories or change ordinary output files. */
++  struct stat output_info;
++  if((flags & H5F_ACC_TRUNC) && lstat(fname, &output_info) == 0 && S_ISLNK(output_info.st_mode))
++    if(unlink(fname) != 0)
++      Terminate("Unable to replace snapshot output link %s\n", fname);
++
+   hid_t file_id = H5Fcreate(fname, flags, fcpl_id, fapl_id);
+ 
+   if(file_id < 0)

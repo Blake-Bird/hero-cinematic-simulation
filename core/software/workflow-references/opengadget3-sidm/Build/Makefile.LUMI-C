@@ -1,0 +1,9 @@
+# note use: srun --ntasks X instead of mpiexec/mpirun -np X
+
+CC = CC
+CXX = CC
+OPTIMIZE = -std=c++17 -O2 -fopenmp
+
+ifeq (TIMER_OMNITRACE,$(filter TIMER_OMNITRACE,$(CONFIGVARS)))
+    OPTIMIZE += -lomnitrace-user
+endif

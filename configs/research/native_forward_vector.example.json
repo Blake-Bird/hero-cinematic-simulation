@@ -1,0 +1,32 @@
+{
+  "schema": "native-forward-observable-vector-request-v1",
+  "memory_gib": 8,
+  "maximum_observables": 256,
+  "realization_id": "REPLACE_COMMON_PAIRED_REALIZATION_ID",
+  "parameters": {
+    "cross_section": 1.0
+  },
+  "parameter_bindings": {
+    "cross_section": {
+      "native_config_path": [
+        "sidm",
+        "cross_section_normalization_cm2_per_g"
+      ]
+    }
+  },
+  "observables": [
+    {
+      "name": "central_dm_density",
+      "product": {
+        "path": "REPLACE_NATIVE_HISTORY.json",
+        "sha256": "REPLACE_SHA256"
+      },
+      "array": "central_density_msun_kpc3",
+      "support_array": "central_supported",
+      "indices": [
+        0
+      ],
+      "units": "Msun / proper kpc^3"
+    }
+  ]
+}

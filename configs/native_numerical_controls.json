@@ -1,0 +1,835 @@
+{
+  "schema_version": 1,
+  "resources": {
+    "cpu_slots": 4,
+    "build_jobs": 4,
+    "memory_gib": 3.0,
+    "wall_seconds": 180.0,
+    "disk_margin_gib": 0.1
+  },
+  "cases": [
+    {
+      "id": "plummer",
+      "mode": "analytic",
+      "potential": {
+        "kind": "plummer",
+        "gm": 1.0,
+        "scale": 1.0,
+        "axis_y": 1.3,
+        "axis_z": 0.7
+      },
+      "mpi_ranks": 1,
+      "profile": {
+        "mode": "analytic",
+        "pm_grid": 32,
+        "multipole_order": 3,
+        "diagnostic_variant": false
+      },
+      "times": [
+        0.0,
+        0.05,
+        0.1,
+        0.2,
+        0.4
+      ],
+      "timestep": 0.002,
+      "softening": 0.01,
+      "opening_angle": 0.3,
+      "force_accuracy": 0.001,
+      "integration_accuracy": 0.01,
+      "stencil_step": 0.001,
+      "particles": 28,
+      "seed": 123,
+      "restart": false,
+      "tolerances": {
+        "force_relative": 2e-08,
+        "tide_relative": 2e-05,
+        "orbit_relative": 0.0005,
+        "energy_relative": 5e-05,
+        "angular_relative": 5e-05,
+        "cosmological_balance_relative": 0.01,
+        "reference_floor": 1e-07
+      }
+    },
+    {
+      "id": "hernquist",
+      "mode": "analytic",
+      "potential": {
+        "kind": "hernquist",
+        "gm": 1.0,
+        "scale": 1.0,
+        "axis_y": 1.3,
+        "axis_z": 0.7
+      },
+      "mpi_ranks": 1,
+      "profile": {
+        "mode": "analytic",
+        "pm_grid": 32,
+        "multipole_order": 3,
+        "diagnostic_variant": false
+      },
+      "times": [
+        0.0,
+        0.05,
+        0.1,
+        0.2,
+        0.4
+      ],
+      "timestep": 0.002,
+      "softening": 0.01,
+      "opening_angle": 0.3,
+      "force_accuracy": 0.001,
+      "integration_accuracy": 0.01,
+      "stencil_step": 0.001,
+      "particles": 28,
+      "seed": 123,
+      "restart": false,
+      "tolerances": {
+        "force_relative": 2e-08,
+        "tide_relative": 2e-05,
+        "orbit_relative": 0.0005,
+        "energy_relative": 5e-05,
+        "angular_relative": 5e-05,
+        "cosmological_balance_relative": 0.01,
+        "reference_floor": 1e-07
+      }
+    },
+    {
+      "id": "nfw",
+      "mode": "analytic",
+      "potential": {
+        "kind": "nfw",
+        "gm": 1.0,
+        "scale": 1.0,
+        "axis_y": 1.3,
+        "axis_z": 0.7
+      },
+      "mpi_ranks": 1,
+      "profile": {
+        "mode": "analytic",
+        "pm_grid": 32,
+        "multipole_order": 3,
+        "diagnostic_variant": false
+      },
+      "times": [
+        0.0,
+        0.05,
+        0.1,
+        0.2,
+        0.4
+      ],
+      "timestep": 0.002,
+      "softening": 0.01,
+      "opening_angle": 0.3,
+      "force_accuracy": 0.001,
+      "integration_accuracy": 0.01,
+      "stencil_step": 0.001,
+      "particles": 28,
+      "seed": 123,
+      "restart": false,
+      "tolerances": {
+        "force_relative": 2e-08,
+        "tide_relative": 2e-05,
+        "orbit_relative": 0.0005,
+        "energy_relative": 5e-05,
+        "angular_relative": 5e-05,
+        "cosmological_balance_relative": 0.01,
+        "reference_floor": 1e-07
+      }
+    },
+    {
+      "id": "harmonic",
+      "mode": "analytic",
+      "potential": {
+        "kind": "harmonic",
+        "gm": 1.0,
+        "scale": 1.0,
+        "axis_y": 1.3,
+        "axis_z": 0.7
+      },
+      "mpi_ranks": 1,
+      "profile": {
+        "mode": "analytic",
+        "pm_grid": 32,
+        "multipole_order": 3,
+        "diagnostic_variant": false
+      },
+      "times": [
+        0.0,
+        0.05,
+        0.1,
+        0.2,
+        0.4
+      ],
+      "timestep": 0.002,
+      "softening": 0.01,
+      "opening_angle": 0.3,
+      "force_accuracy": 0.001,
+      "integration_accuracy": 0.01,
+      "stencil_step": 0.001,
+      "particles": 28,
+      "seed": 123,
+      "restart": false,
+      "tolerances": {
+        "force_relative": 2e-08,
+        "tide_relative": 2e-05,
+        "orbit_relative": 0.0005,
+        "energy_relative": 5e-05,
+        "angular_relative": 5e-05,
+        "cosmological_balance_relative": 0.01,
+        "reference_floor": 1e-07
+      }
+    },
+    {
+      "id": "plummer-rank2",
+      "mode": "analytic",
+      "potential": {
+        "kind": "plummer",
+        "gm": 1.0,
+        "scale": 1.0,
+        "axis_y": 1.3,
+        "axis_z": 0.7
+      },
+      "mpi_ranks": 2,
+      "profile": {
+        "mode": "analytic",
+        "pm_grid": 32,
+        "multipole_order": 3,
+        "diagnostic_variant": false
+      },
+      "times": [
+        0.0,
+        0.05,
+        0.1,
+        0.2,
+        0.4
+      ],
+      "timestep": 0.002,
+      "softening": 0.01,
+      "opening_angle": 0.3,
+      "force_accuracy": 0.001,
+      "integration_accuracy": 0.01,
+      "stencil_step": 0.001,
+      "particles": 28,
+      "seed": 123,
+      "restart": false,
+      "tolerances": {
+        "force_relative": 2e-08,
+        "tide_relative": 2e-05,
+        "orbit_relative": 0.0005,
+        "energy_relative": 5e-05,
+        "angular_relative": 5e-05,
+        "cosmological_balance_relative": 0.01,
+        "reference_floor": 1e-07
+      }
+    },
+    {
+      "id": "plummer-restart",
+      "mode": "analytic",
+      "potential": {
+        "kind": "plummer",
+        "gm": 1.0,
+        "scale": 1.0,
+        "axis_y": 1.3,
+        "axis_z": 0.7
+      },
+      "mpi_ranks": 1,
+      "profile": {
+        "mode": "analytic",
+        "pm_grid": 32,
+        "multipole_order": 3,
+        "diagnostic_variant": false
+      },
+      "times": [
+        0.0,
+        0.05,
+        0.1,
+        0.2,
+        0.4
+      ],
+      "timestep": 0.002,
+      "softening": 0.01,
+      "opening_angle": 0.3,
+      "force_accuracy": 0.001,
+      "integration_accuracy": 0.01,
+      "stencil_step": 0.001,
+      "particles": 28,
+      "seed": 123,
+      "restart": true,
+      "tolerances": {
+        "force_relative": 2e-08,
+        "tide_relative": 2e-05,
+        "orbit_relative": 0.0005,
+        "energy_relative": 5e-05,
+        "angular_relative": 5e-05,
+        "cosmological_balance_relative": 0.01,
+        "reference_floor": 1e-07
+      }
+    },
+    {
+      "id": "plummer-diagnostics",
+      "mode": "analytic",
+      "potential": {
+        "kind": "plummer",
+        "gm": 1.0,
+        "scale": 1.0,
+        "axis_y": 1.3,
+        "axis_z": 0.7
+      },
+      "mpi_ranks": 1,
+      "profile": {
+        "mode": "analytic",
+        "pm_grid": 32,
+        "multipole_order": 3,
+        "diagnostic_variant": true
+      },
+      "times": [
+        0.0,
+        0.05,
+        0.1,
+        0.2,
+        0.4
+      ],
+      "timestep": 0.002,
+      "softening": 0.01,
+      "opening_angle": 0.3,
+      "force_accuracy": 0.001,
+      "integration_accuracy": 0.01,
+      "stencil_step": 0.001,
+      "particles": 28,
+      "seed": 123,
+      "restart": false,
+      "tolerances": {
+        "force_relative": 2e-08,
+        "tide_relative": 2e-05,
+        "orbit_relative": 0.0005,
+        "energy_relative": 5e-05,
+        "angular_relative": 5e-05,
+        "cosmological_balance_relative": 0.01,
+        "reference_floor": 1e-07
+      }
+    },
+    {
+      "id": "plummer-fine",
+      "mode": "analytic",
+      "potential": {
+        "kind": "plummer",
+        "gm": 1.0,
+        "scale": 1.0,
+        "axis_y": 1.3,
+        "axis_z": 0.7
+      },
+      "mpi_ranks": 1,
+      "profile": {
+        "mode": "analytic",
+        "pm_grid": 32,
+        "multipole_order": 3,
+        "diagnostic_variant": false
+      },
+      "times": [
+        0.0,
+        0.05,
+        0.1,
+        0.2,
+        0.4
+      ],
+      "timestep": 0.001,
+      "softening": 0.01,
+      "opening_angle": 0.3,
+      "force_accuracy": 0.001,
+      "integration_accuracy": 0.01,
+      "stencil_step": 0.001,
+      "particles": 28,
+      "seed": 123,
+      "restart": false,
+      "tolerances": {
+        "force_relative": 2e-08,
+        "tide_relative": 2e-05,
+        "orbit_relative": 0.0005,
+        "energy_relative": 5e-05,
+        "angular_relative": 5e-05,
+        "cosmological_balance_relative": 0.01,
+        "reference_floor": 1e-07
+      }
+    },
+    {
+      "id": "plummer-small-stencil",
+      "mode": "analytic",
+      "potential": {
+        "kind": "plummer",
+        "gm": 1.0,
+        "scale": 1.0,
+        "axis_y": 1.3,
+        "axis_z": 0.7
+      },
+      "mpi_ranks": 1,
+      "profile": {
+        "mode": "analytic",
+        "pm_grid": 32,
+        "multipole_order": 3,
+        "diagnostic_variant": false
+      },
+      "times": [
+        0.0,
+        0.05,
+        0.1,
+        0.2,
+        0.4
+      ],
+      "timestep": 0.002,
+      "softening": 0.01,
+      "opening_angle": 0.3,
+      "force_accuracy": 0.001,
+      "integration_accuracy": 0.01,
+      "stencil_step": 0.0005,
+      "particles": 28,
+      "seed": 123,
+      "restart": false,
+      "tolerances": {
+        "force_relative": 2e-08,
+        "tide_relative": 2e-05,
+        "orbit_relative": 0.0005,
+        "energy_relative": 5e-05,
+        "angular_relative": 5e-05,
+        "cosmological_balance_relative": 0.01,
+        "reference_floor": 1e-07
+      }
+    },
+    {
+      "id": "plummer-tree",
+      "mode": "isolated_tree",
+      "potential": {
+        "kind": "plummer",
+        "gm": 1.0,
+        "scale": 1.0,
+        "axis_y": 1.3,
+        "axis_z": 0.7
+      },
+      "mpi_ranks": 1,
+      "profile": {
+        "mode": "isolated_tree",
+        "pm_grid": 32,
+        "multipole_order": 3,
+        "diagnostic_variant": false
+      },
+      "times": [
+        0.0,
+        0.002,
+        0.004,
+        0.008
+      ],
+      "timestep": 0.0001,
+      "softening": 0.01,
+      "opening_angle": 0.1,
+      "force_accuracy": 0.001,
+      "integration_accuracy": 0.01,
+      "stencil_step": 0.001,
+      "particles": 128,
+      "seed": 123,
+      "restart": false,
+      "tolerances": {
+        "force_relative": 0.005,
+        "tide_relative": 2e-05,
+        "orbit_relative": 0.0005,
+        "energy_relative": 0.001,
+        "angular_relative": 0.001,
+        "cosmological_balance_relative": 0.01,
+        "reference_floor": 1e-05
+      }
+    },
+    {
+      "id": "hernquist-tree",
+      "mode": "isolated_tree",
+      "potential": {
+        "kind": "hernquist",
+        "gm": 1.0,
+        "scale": 1.0,
+        "axis_y": 1.3,
+        "axis_z": 0.7
+      },
+      "mpi_ranks": 1,
+      "profile": {
+        "mode": "isolated_tree",
+        "pm_grid": 32,
+        "multipole_order": 3,
+        "diagnostic_variant": false
+      },
+      "times": [
+        0.0,
+        0.002,
+        0.004,
+        0.008
+      ],
+      "timestep": 0.0001,
+      "softening": 0.01,
+      "opening_angle": 0.3,
+      "force_accuracy": 0.001,
+      "integration_accuracy": 0.01,
+      "stencil_step": 0.001,
+      "particles": 128,
+      "seed": 123,
+      "restart": false,
+      "tolerances": {
+        "force_relative": 0.005,
+        "tide_relative": 2e-05,
+        "orbit_relative": 0.0005,
+        "energy_relative": 0.001,
+        "angular_relative": 0.001,
+        "cosmological_balance_relative": 0.01,
+        "reference_floor": 1e-05
+      }
+    },
+    {
+      "id": "nfw-tree",
+      "mode": "isolated_tree",
+      "potential": {
+        "kind": "nfw",
+        "gm": 1.0,
+        "scale": 1.0,
+        "axis_y": 1.3,
+        "axis_z": 0.7
+      },
+      "mpi_ranks": 1,
+      "profile": {
+        "mode": "isolated_tree",
+        "pm_grid": 32,
+        "multipole_order": 3,
+        "diagnostic_variant": false
+      },
+      "times": [
+        0.0,
+        0.002,
+        0.004,
+        0.008
+      ],
+      "timestep": 0.0001,
+      "softening": 0.01,
+      "opening_angle": 0.3,
+      "force_accuracy": 0.001,
+      "integration_accuracy": 0.01,
+      "stencil_step": 0.001,
+      "particles": 128,
+      "seed": 123,
+      "restart": false,
+      "tolerances": {
+        "force_relative": 0.005,
+        "tide_relative": 2e-05,
+        "orbit_relative": 0.0005,
+        "energy_relative": 0.001,
+        "angular_relative": 0.001,
+        "cosmological_balance_relative": 0.01,
+        "reference_floor": 1e-05
+      }
+    },
+    {
+      "id": "plummer-tree-rank2",
+      "mode": "isolated_tree",
+      "potential": {
+        "kind": "plummer",
+        "gm": 1.0,
+        "scale": 1.0,
+        "axis_y": 1.3,
+        "axis_z": 0.7
+      },
+      "mpi_ranks": 2,
+      "profile": {
+        "mode": "isolated_tree",
+        "pm_grid": 32,
+        "multipole_order": 3,
+        "diagnostic_variant": false
+      },
+      "times": [
+        0.0,
+        0.002,
+        0.004,
+        0.008
+      ],
+      "timestep": 0.0001,
+      "softening": 0.01,
+      "opening_angle": 0.1,
+      "force_accuracy": 0.001,
+      "integration_accuracy": 0.01,
+      "stencil_step": 0.001,
+      "particles": 128,
+      "seed": 123,
+      "restart": false,
+      "tolerances": {
+        "force_relative": 0.005,
+        "tide_relative": 2e-05,
+        "orbit_relative": 0.0005,
+        "energy_relative": 0.001,
+        "angular_relative": 0.001,
+        "cosmological_balance_relative": 0.01,
+        "reference_floor": 1e-05
+      }
+    },
+    {
+      "id": "plummer-treepm",
+      "mode": "isolated_treepm",
+      "potential": {
+        "kind": "plummer",
+        "gm": 1.0,
+        "scale": 1.0,
+        "axis_y": 1.3,
+        "axis_z": 0.7
+      },
+      "mpi_ranks": 1,
+      "profile": {
+        "mode": "isolated_treepm",
+        "pm_grid": 32,
+        "multipole_order": 3,
+        "diagnostic_variant": false
+      },
+      "times": [
+        0.0,
+        0.002,
+        0.004,
+        0.008
+      ],
+      "timestep": 0.0001,
+      "softening": 0.01,
+      "opening_angle": 0.3,
+      "force_accuracy": 0.001,
+      "integration_accuracy": 0.01,
+      "stencil_step": 0.001,
+      "particles": 128,
+      "seed": 123,
+      "restart": false,
+      "tolerances": {
+        "force_relative": 0.03,
+        "tide_relative": 2e-05,
+        "orbit_relative": 0.0005,
+        "energy_relative": 0.001,
+        "angular_relative": 0.001,
+        "cosmological_balance_relative": 0.01,
+        "reference_floor": 1e-05
+      }
+    },
+    {
+      "id": "periodic",
+      "mode": "periodic_treepm",
+      "potential": {
+        "kind": "plummer",
+        "gm": 1.0,
+        "scale": 1.0,
+        "axis_y": 1.3,
+        "axis_z": 0.7
+      },
+      "mpi_ranks": 1,
+      "profile": {
+        "mode": "periodic_treepm",
+        "pm_grid": 64,
+        "multipole_order": 3,
+        "diagnostic_variant": false
+      },
+      "times": [
+        0.5,
+        0.5001,
+        0.5002,
+        0.5004
+      ],
+      "timestep": 5e-05,
+      "softening": 0.01,
+      "opening_angle": 0.3,
+      "force_accuracy": 0.001,
+      "integration_accuracy": 0.01,
+      "stencil_step": 0.001,
+      "particles": 4096,
+      "seed": 123,
+      "restart": false,
+      "tolerances": {
+        "force_relative": 0.05,
+        "tide_relative": 2e-05,
+        "orbit_relative": 0.0005,
+        "energy_relative": 5e-05,
+        "angular_relative": 5e-05,
+        "cosmological_balance_relative": 0.01,
+        "reference_floor": 1e-05
+      }
+    },
+    {
+      "id": "periodic-rank2",
+      "mode": "periodic_treepm",
+      "potential": {
+        "kind": "plummer",
+        "gm": 1.0,
+        "scale": 1.0,
+        "axis_y": 1.3,
+        "axis_z": 0.7
+      },
+      "mpi_ranks": 2,
+      "profile": {
+        "mode": "periodic_treepm",
+        "pm_grid": 64,
+        "multipole_order": 3,
+        "diagnostic_variant": false
+      },
+      "times": [
+        0.5,
+        0.5001,
+        0.5002,
+        0.5004
+      ],
+      "timestep": 5e-05,
+      "softening": 0.01,
+      "opening_angle": 0.3,
+      "force_accuracy": 0.001,
+      "integration_accuracy": 0.01,
+      "stencil_step": 0.001,
+      "particles": 4096,
+      "seed": 123,
+      "restart": false,
+      "tolerances": {
+        "force_relative": 0.05,
+        "tide_relative": 2e-05,
+        "orbit_relative": 0.0005,
+        "energy_relative": 5e-05,
+        "angular_relative": 5e-05,
+        "cosmological_balance_relative": 0.01,
+        "reference_floor": 1e-05
+      }
+    },
+    {
+      "id": "periodic-restart",
+      "mode": "periodic_treepm",
+      "potential": {
+        "kind": "plummer",
+        "gm": 1.0,
+        "scale": 1.0,
+        "axis_y": 1.3,
+        "axis_z": 0.7
+      },
+      "mpi_ranks": 1,
+      "profile": {
+        "mode": "periodic_treepm",
+        "pm_grid": 64,
+        "multipole_order": 3,
+        "diagnostic_variant": false
+      },
+      "times": [
+        0.5,
+        0.5001,
+        0.5002,
+        0.5004
+      ],
+      "timestep": 5e-05,
+      "softening": 0.01,
+      "opening_angle": 0.3,
+      "force_accuracy": 0.001,
+      "integration_accuracy": 0.01,
+      "stencil_step": 0.001,
+      "particles": 4096,
+      "seed": 123,
+      "restart": true,
+      "tolerances": {
+        "force_relative": 0.05,
+        "tide_relative": 2e-05,
+        "orbit_relative": 0.0005,
+        "energy_relative": 5e-05,
+        "angular_relative": 5e-05,
+        "cosmological_balance_relative": 0.01,
+        "reference_floor": 1e-05
+      }
+    },
+    {
+      "id": "periodic-diagnostics",
+      "mode": "periodic_treepm",
+      "potential": {
+        "kind": "plummer",
+        "gm": 1.0,
+        "scale": 1.0,
+        "axis_y": 1.3,
+        "axis_z": 0.7
+      },
+      "mpi_ranks": 1,
+      "profile": {
+        "mode": "periodic_treepm",
+        "pm_grid": 64,
+        "multipole_order": 3,
+        "diagnostic_variant": true
+      },
+      "times": [
+        0.5,
+        0.5001,
+        0.5002,
+        0.5004
+      ],
+      "timestep": 5e-05,
+      "softening": 0.01,
+      "opening_angle": 0.3,
+      "force_accuracy": 0.001,
+      "integration_accuracy": 0.01,
+      "stencil_step": 0.001,
+      "particles": 4096,
+      "seed": 123,
+      "restart": false,
+      "tolerances": {
+        "force_relative": 0.05,
+        "tide_relative": 2e-05,
+        "orbit_relative": 0.0005,
+        "energy_relative": 5e-05,
+        "angular_relative": 5e-05,
+        "cosmological_balance_relative": 0.01,
+        "reference_floor": 1e-05
+      }
+    }
+  ],
+  "comparisons": [
+    {
+      "left": "plummer",
+      "right": "plummer-rank2",
+      "kind": "rank",
+      "relative_tolerance": 2e-07,
+      "absolute_floor": 1e-05
+    },
+    {
+      "left": "plummer",
+      "right": "plummer-restart",
+      "kind": "restart",
+      "relative_tolerance": 2e-07,
+      "absolute_floor": 1e-05
+    },
+    {
+      "left": "plummer",
+      "right": "plummer-diagnostics",
+      "kind": "sidm_disabled",
+      "relative_tolerance": 2e-07,
+      "absolute_floor": 1e-05
+    },
+    {
+      "left": "plummer",
+      "right": "plummer-fine",
+      "kind": "settings",
+      "relative_tolerance": 2e-06,
+      "absolute_floor": 1e-05
+    },
+    {
+      "left": "plummer-tree",
+      "right": "plummer-tree-rank2",
+      "kind": "rank",
+      "relative_tolerance": 1e-05,
+      "absolute_floor": 1e-05
+    },
+    {
+      "left": "periodic",
+      "right": "periodic-rank2",
+      "kind": "rank",
+      "relative_tolerance": 0.001,
+      "absolute_floor": 1e-05
+    },
+    {
+      "left": "periodic",
+      "right": "periodic-restart",
+      "kind": "restart",
+      "relative_tolerance": 1e-05,
+      "absolute_floor": 1e-05
+    },
+    {
+      "left": "periodic",
+      "right": "periodic-diagnostics",
+      "kind": "sidm_disabled",
+      "relative_tolerance": 1e-07,
+      "absolute_floor": 1e-05
+    }
+  ]
+}

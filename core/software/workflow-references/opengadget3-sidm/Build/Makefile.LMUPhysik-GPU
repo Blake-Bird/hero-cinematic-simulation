@@ -1,0 +1,28 @@
+OPTIMIZE = -std=c++23 -O3
+CC=nvc++
+CXX=nvc++
+
+# for OpenACC -mp=multicore 
+ifeq (ACC_OPENACC,$(filter ACC_OPENACC,$(CONFIGVARS)))
+    OPTIMIZE += -mp=multicore -acc
+endif
+
+# for OpenMP: -mp -mp=gpu -target=gpu
+ifeq (ACC_OPENMP,$(filter ACC_OPENMP,$(CONFIGVARS)))
+    OPTIMIZE += -mp=gpu -target=gpu
+endif
+
+# if you want to use nsys then add -lnvToolsExt to compiler options
+ifeq (TIMER_NVTX,$(filter TIMER_NVTX,$(CONFIGVARS)))
+    OPTIMIZE += -lnvToolsExt
+endif
+
+CC_ACC_FLAGS = -gpu=ccnative
+CXX += $(CC_ACC_FLAGS)
+CC += $(CC_ACC_FLAGS)
+
+MPICH_INCL = -I/software/opt/el_9/x86_64/spack/2024.07/spack/opt/spack/linux-almalinux9-x86_64_v3/nvhpc-24.3/openmpi-5.0.0-b776sruptm5xzudweridffylb2a7qz6x/include
+MPICHLIB = -L/software/opt/el_9/x86_64/spack/2024.07/spack/opt/spack/linux-almalinux9-x86_64_v3/nvhpc-24.3/openmpi-5.0.0-b776sruptm5xzudweridffylb2a7qz6x/lib -lmpi
+
+FFTW_INCL = -I/software/opt/el_9/x86_64/spack/2024.07/spack/opt/spack/linux-almalinux9-x86_64_v3/nvhpc-24.3/fftw-3.3.10-vntwizzyzsb355l7rufrufacmaxibpst/include
+FFTW_LIBS = -L/software/opt/el_9/x86_64/spack/2024.07/spack/opt/spack/linux-almalinux9-x86_64_v3/nvhpc-24.3/fftw-3.3.10-vntwizzyzsb355l7rufrufacmaxibpst/lib -lfftw3 -lfftw3_threads -lfftw3_mpi -lm

@@ -1,0 +1,122 @@
+{
+  "schema": "native-halo-structure-v1",
+  "run_directory": "USER_SELECTED_NATIVE_RUN",
+  "snapshot": 0,
+  "host_row": 0,
+  "components": {
+    "dm": {
+      "species": [
+        1
+      ],
+      "kind": "spheroidal",
+      "disk_rotation": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    }
+  },
+  "support_radius_proper_kpc": 4.0,
+  "radial_edges_proper_kpc": [
+    0,
+    0.5,
+    1.5,
+    4.0
+  ],
+  "bulk_velocity_peculiar_km_s": [
+    0,
+    0,
+    0
+  ],
+  "shape_controls": {
+    "window": "spherical_shell",
+    "estimator": "mass_quadrupole",
+    "minimum_particles": 8,
+    "tolerance": 1e-05,
+    "maximum_iterations": 50,
+    "minimum_axis_ratio": 0.1,
+    "bootstrap_realizations": 32,
+    "seed": 883,
+    "minimum_bootstrap_success_fraction": 0.5,
+    "minimum_eigenvalue_gap": 0.03,
+    "maximum_orientation_error_deg": 20.0
+  },
+  "expansion_sequence": [
+    {
+      "lmax": 4,
+      "mmax": 4,
+      "grid_size_r": 20,
+      "grid_size_z": 20,
+      "rmin_kpc": 0.05,
+      "rmax_kpc": 10.0,
+      "zmin_kpc": 0.05,
+      "zmax_kpc": 10.0
+    }
+  ],
+  "calibration_positions_proper_kpc": [
+    [
+      30,
+      0,
+      0
+    ],
+    [
+      0,
+      30,
+      0
+    ],
+    [
+      0,
+      0,
+      30
+    ]
+  ],
+  "validation_positions_proper_kpc": [
+    [
+      25,
+      2,
+      0
+    ],
+    [
+      0,
+      25,
+      2
+    ],
+    [
+      2,
+      0,
+      25
+    ]
+  ],
+  "field_error_budget": {
+    "force_relative_tolerance": 0.04,
+    "force_floor_km2_s2_kpc": 0.001,
+    "tidal_relative_tolerance": 0.05,
+    "tidal_floor_km2_s2_kpc2": 0.001
+  },
+  "equipotential_controls": {
+    "reference_radii_kpc": [
+      2.0
+    ],
+    "radial_bracket_kpc": [
+      0.1,
+      5.0
+    ],
+    "directions": 24,
+    "maximum_shape_residual": 0.15,
+    "minimum_eigenvalue_gap": 0.03
+  },
+  "concentration": null,
+  "memory_gib": 1.0
+}

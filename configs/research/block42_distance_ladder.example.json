@@ -1,0 +1,173 @@
+{
+  "schema": "cosmography-campaign-v1",
+  "experiment_id": "block42_distance_ladder.example",
+  "resources": {
+    "memory_gib": 8,
+    "maximum_stage_count": 100,
+    "maximum_objects": 1000000,
+    "maximum_spectral_pixels": 4096
+  },
+  "stages": [
+    {
+      "stage_id": "ladder",
+      "kind": "distance_ladder",
+      "realization_id": "independent-realization-001",
+      "inputs": {
+        "hosts": "../inputs/indicator_hosts.json",
+        "indicator_model": "../inputs/indicator_prescription.json",
+        "anchors": "../inputs/anchor_measurements.json"
+      },
+      "parameters": {
+        "population_seed": 2001,
+        "measurement_seed": 2002,
+        "populations": {
+          "counts": {
+            "cepheid": [
+              30,
+              30,
+              0
+            ],
+            "trgb": [
+              20,
+              20,
+              0
+            ],
+            "sn_calibrator": [
+              0,
+              1,
+              0
+            ],
+            "sn_hubble": [
+              0,
+              0,
+              100
+            ]
+          },
+          "log_period_range": [
+            0.5,
+            1.8
+          ],
+          "metallicity_scatter": 0.08,
+          "trgb_color_normal": [
+            1.6,
+            0.15
+          ],
+          "sn_stretch_normal": [
+            0.0,
+            1.0
+          ],
+          "sn_color_normal": [
+            0.0,
+            0.07
+          ],
+          "mass_step_threshold_msun": 10000000000.0
+        },
+        "measurement": {
+          "instrument_ids": [
+            "instrument_A"
+          ],
+          "zeropoint_covariance": [
+            [
+              0.0004
+            ]
+          ],
+          "photometric_sigma_mag": {
+            "cepheid": 0.05,
+            "trgb": 0.04,
+            "sn_calibrator": 0.03,
+            "sn_hubble": 0.03
+          },
+          "magnitude_limits": {
+            "cepheid": 29.0,
+            "trgb": 29.0,
+            "sn_calibrator": 25.0,
+            "sn_hubble": 25.0
+          },
+          "extinction_sigma_mag": 0.02,
+          "crowding_sigma_mag": 0.02,
+          "metallicity_sigma": 0.05
+        },
+        "fit": {
+          "q0": -0.55,
+          "j0": 1.0,
+          "hubble_redshift_range": [
+            0.023,
+            0.15
+          ],
+          "flow_dispersion_kms": 250.0,
+          "selection_likelihood": "magnitude_truncated",
+          "parameter_priors": [
+            {
+              "names": [
+                "b_period",
+                "gamma_metallicity",
+                "b_trgb_color",
+                "alpha_stretch",
+                "beta_color",
+                "mass_step"
+              ],
+              "means": [
+                -3.3,
+                -0.2,
+                0.2,
+                0.14,
+                3.1,
+                -0.04
+              ],
+              "covariance": [
+                [
+                  0.04,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0.04,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0.04,
+                  0,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0.04,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0.04,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0.04
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

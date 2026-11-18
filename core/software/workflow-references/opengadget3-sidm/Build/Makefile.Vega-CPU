@@ -1,0 +1,6 @@
+OPTIMIZE = -std=c++17 -O2 -fopenmp
+
+MPICHLIB = 
+
+HDF5_INCL  = -I/ceph/hpc/software/hdf5-openmpi412/build/include
+HDF5_LIBS   = -L/ceph/hpc/software/hdf5-openmpi412/build/lib

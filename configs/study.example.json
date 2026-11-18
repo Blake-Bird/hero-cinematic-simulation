@@ -1,0 +1,35 @@
+{
+  "schema": "research2-study-v1",
+  "notes": "Bounded 32^3 cosmological smoke study with decoupled analysis, FOF selection, and Blender export",
+  "linear": {
+    "config": "configs/linear_lcdm.json"
+  },
+  "answers": "configs/run_32.json",
+  "run_dir": "/tmp/study_smoke/run",
+  "state_dir": "/tmp/study_smoke/state",
+  "analysis": {
+    "graphs": [
+      "hmf",
+      "pk",
+      "subhalos",
+      "maps"
+    ],
+    "find_halos": true
+  },
+  "target_selection": {
+    "snapshot": 6,
+    "memory_gib": 2.0,
+    "minimum_dm_particles": 32,
+    "maximum_targets": 2,
+    "ranking": "dm_count_descending"
+  },
+  "visualization": {
+    "max_points": 50000,
+    "quality": "preview",
+    "frames_per_snapshot": 4
+  },
+  "requested_integrations": [
+    "target_selection"
+  ]
+}
+

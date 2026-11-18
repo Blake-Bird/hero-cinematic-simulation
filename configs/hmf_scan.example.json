@@ -1,0 +1,31 @@
+{
+  "config": {
+    "cosmology": {
+      "model": "lcdm", "H0": 67.4, "omega_b": 0.0224,
+      "omega_cdm": 0.12, "A_s": 2.1e-9, "n_s": 0.965,
+      "tau_reio": 0.054, "T_cmb": 2.7255, "N_ur": 3.046, "N_ncdm": 0
+    }
+  },
+  "redshifts": [0, 1, 3, 6],
+  "mass_edges_msun_h": [1e10, 3.162277660168379e10, 1e11, 3.162277660168379e11, 1e12, 3.162277660168379e12, 1e13, 3.162277660168379e13, 1e14, 3.162277660168379e14, 1e15],
+  "k_max_h_mpc": 100,
+  "fits": ["sheth_tormen", "reed_2007", "watson_fof", "jenkins", "warren"],
+  "flag_ratio": 2,
+  "selection": {
+    "criterion": "unusual",
+    "minimum_cosmologies": 5,
+    "mad_multiplier": 3,
+    "minimum_excess_dex": 0.05,
+    "gadget_start_redshift": 49
+  },
+  "timeout_seconds": 1800,
+  "sampling": {
+    "method": "latin_hypercube", "count": 16, "seed": 42,
+    "bounds": {
+      "cosmology.H0": [62, 76],
+      "cosmology.omega_cdm": [0.10, 0.14],
+      "cosmology.A_s": [1.7e-9, 2.5e-9],
+      "cosmology.n_s": [0.92, 1.01]
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "request": {
+    "schema": "native-dm-wake-ensemble-request-v2",
+    "contrasts": [
+      {
+        "path": "REPLACE_WITH_REALIZATION_0_WAKE_CONTRAST.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "path": "REPLACE_WITH_REALIZATION_1_WAKE_CONTRAST.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "path": "REPLACE_WITH_REALIZATION_2_WAKE_CONTRAST.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    ],
+    "minimum_realizations": 3,
+    "maximum_realizations": 8,
+    "maximum_observables": 1024,
+    "coarse_resolution_index": 0,
+    "memory_gib": 4.0,
+    "mean_error_multiplier": 2.0,
+    "maximum_reference_residual_cm_s2": 1e-10,
+    "maximum_transverse_fraction": 0.1,
+    "minimum_parallel_deceleration_cm_s2": 1e-10,
+    "maximum_velocity_deviation_km_s": 1.0,
+    "maximum_density_relative_deviation": 0.05,
+    "maximum_covariance_relative_deviation": 0.05,
+    "density_floor_msun_kpc3": 1.0,
+    "covariance_floor_km2_s2": 1.0
+  }
+}

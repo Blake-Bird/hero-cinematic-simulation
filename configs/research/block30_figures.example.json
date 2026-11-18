@@ -1,0 +1,49 @@
+{
+  "sources": {
+    "power": "CHOOSE_SEALED_DENSITY_POWER_PRODUCT.json"
+  },
+  "dpi": 160,
+  "maximum_panels_per_figure": 6,
+  "required_convergence_observables": [
+    "P(k)",
+    "HMF",
+    "SMF",
+    "Vmax",
+    "stream_width",
+    "stream_heating",
+    "actions",
+    "stellar_luminosity"
+  ],
+  "figures": [
+    {
+      "figure_id": "measured_evolved_power",
+      "family": "cosmology",
+      "variant": "evolved_power",
+      "title": "Measured evolved matter power",
+      "science_status": "NOT_ACCEPTED",
+      "epoch": "CHOOSE_NATIVE_EPOCH",
+      "panels": [
+        {
+          "panel_id": "power",
+          "title": "Native density mesh",
+          "quality_status": "PENDING_NUMERICAL_CONVERGENCE",
+          "xlabel": "k [1 / comoving Mpc, no h]",
+          "ylabel": "P(k) [comoving Mpc^3, no h]",
+          "x_units": "1 / comoving Mpc no h",
+          "y_units": "comoving Mpc^3 no h",
+          "selection": "Actual source power_supported bins only",
+          "series": [
+            {
+              "source": "power",
+              "kind": "line",
+              "label": "Native matter",
+              "x": "k_mpc_inverse",
+              "y": "power_mpc3",
+              "support": "power_supported"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

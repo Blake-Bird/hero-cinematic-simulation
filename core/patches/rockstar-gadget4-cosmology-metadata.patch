@@ -1,0 +1,23 @@
+--- a/io/io_arepo.c
++++ b/io/io_arepo.c
+@@ -116,9 +116,17 @@
+   hid_t HDF_FileID = check_H5Fopen(filename, H5F_ACC_RDONLY);
+   hid_t HDF_Header = check_H5Gopen(HDF_FileID, "Header", filename);
+   
+-  Ol = arepo_readheader_float(HDF_Header, filename, "OmegaLambda");
+-  Om = arepo_readheader_float(HDF_Header, filename, "Omega0");
+-  h0 = arepo_readheader_float(HDF_Header, filename, "HubbleParam");
++  /* GADGET-4 stores cosmology in Parameters; classic AREPO uses Header.
++   * Read the native location without editing/copying scientific snapshots. */
++  hid_t HDF_Cosmology = HDF_Header;
++  if (H5Aexists(HDF_Header, "OmegaLambda") <= 0 ||
++      H5Aexists(HDF_Header, "Omega0") <= 0 ||
++      H5Aexists(HDF_Header, "HubbleParam") <= 0)
++    HDF_Cosmology = check_H5Gopen(HDF_FileID, "Parameters", filename);
++  Ol = arepo_readheader_float(HDF_Cosmology, filename, "OmegaLambda");
++  Om = arepo_readheader_float(HDF_Cosmology, filename, "Omega0");
++  h0 = arepo_readheader_float(HDF_Cosmology, filename, "HubbleParam");
++  if (HDF_Cosmology != HDF_Header) H5Gclose(HDF_Cosmology);
+   SCALE_NOW = arepo_readheader_float(HDF_Header, filename, "Time");
+   BOX_SIZE = arepo_readheader_float(HDF_Header, filename, "BoxSize");
+   BOX_SIZE *= AREPO_LENGTH_CONVERSION;  

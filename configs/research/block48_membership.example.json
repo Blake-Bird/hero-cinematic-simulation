@@ -1,0 +1,22 @@
+{
+  "schema": "sidm-native-membership-request-v1",
+  "snapshot": 0,
+  "host_row": 0,
+  "maximum_particles": 4000000,
+  "memory_gib": 8,
+  "support_radius_proper_kpc": 64,
+  "species": [
+    1,
+    2
+  ],
+  "particle_namespace": "REPLACE_NATIVE_PARTICLE_NAMESPACE",
+  "matching": {
+    "phase_seed": 0,
+    "linear_bundle_sha256": "REPLACE_EXACT_LINEAR_BUNDLE_SHA256",
+    "background_sha256": "REPLACE_EXACT_BACKGROUND_SHA256",
+    "halo_match_namespace": "REPLACE_MEASURED_MATCH_NAMESPACE",
+    "halo_match_id": 0,
+    "baryon_control": "REPLACE_PHYSICS_CONTROL_NAME",
+    "baryon_control_sha256": "REPLACE_ACTUAL_SAVED_NATIVE_PHYSICS_SHA256"
+  }
+}

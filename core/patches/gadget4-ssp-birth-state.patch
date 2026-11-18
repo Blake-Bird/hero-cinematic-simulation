@@ -1,0 +1,296 @@
+--- a/src/data/research_source_state.h
++++ b/src/data/research_source_state.h
+@@ -17,6 +17,17 @@
+   double stellar_injected_energy;
+   double stellar_returned_elements[11];
+   uint64_t stellar_event_counter;
++  /* SH03 SSP birth state; version zero denotes missing legacy state. */
++  double stellar_initial_mass;
++  double stellar_initial_locked_mass;
++  double stellar_prompt_returned_mass;
++  double stellar_birth_time;
++  double stellar_birth_scale_factor;
++  double stellar_birth_metallicity;
++  uint64_t stellar_parent_gas_id;
++  uint64_t stellar_random_counter;
++  uint64_t stellar_birth_state_version;
++  uint64_t stellar_birth_mode;
+   double bh_last_source_time;
+   double bh_feedback_reservoir;
+   uint64_t bh_event_counter;
+--- a/src/data/allvars.h
++++ b/src/data/allvars.h
+@@ -336,6 +336,7 @@
+   double TempClouds;
+   double MaxSfrTimescale;
+   double FactorSN;
++  char StellarRandomSeed[MAXLEN_PATH]; /* exact decimal uint64, fixed across restarts */
+   MyIDType MaxID;
+ #endif
+ 
+--- a/src/data/allvars.cc
++++ b/src/data/allvars.cc
+@@ -196,6 +196,7 @@
+   add_param("CritOverDensity", &CritOverDensity, PARAM_DOUBLE, PARAM_FIXED);
+   add_param("CritPhysDensity", &CritPhysDensity, PARAM_DOUBLE, PARAM_FIXED);
+   add_param("FactorSN", &FactorSN, PARAM_DOUBLE, PARAM_FIXED);
++  add_param("StellarRandomSeed", StellarRandomSeed, PARAM_STRING, PARAM_FIXED);
+   add_param("FactorEVP", &FactorEVP, PARAM_DOUBLE, PARAM_FIXED);
+   add_param("TempSupernova", &TempSupernova, PARAM_DOUBLE, PARAM_FIXED);
+   add_param("TempClouds", &TempClouds, PARAM_DOUBLE, PARAM_FIXED);
+--- a/src/cooling_sfr/starformation.cc
++++ b/src/cooling_sfr/starformation.cc
+@@ -28,6 +28,7 @@
+ #include "../logs/timer.h"
+ #include "../system/system.h"
+ #include "../time_integration/timestep.h"
++#include "../data/research_stellar_birth.h"
+ 
+ /** \brief This routine creates star/wind particles according to their respective rates.
+  *
+@@ -50,6 +51,9 @@
+   double w = 0;
+ 
+   All.set_cosmo_factors_for_current_time();
++  uint64_t stellar_seed;
++  if(!research_stellar_seed(All.StellarRandomSeed, stellar_seed))
++    Terminate("StellarRandomSeed must be an exact decimal uint64");
+ 
+   stars_spawned = stars_converted = 0;
+ 
+@@ -72,22 +76,31 @@
+           prob         = 0;
+           p            = 0;
+ 
++          if(!isfinite(Sp->SphP[target].Sfr) || Sp->SphP[target].Sfr < 0)
++            Terminate("Invalid native gas star formation rate");
+           if(Sp->SphP[target].Sfr > 0)
+             {
++              if(!isfinite(Sp->SphP[target].Sfr) || !isfinite(dtime) || dtime < 0 ||
++                 !isfinite(Sp->P[target].getMass()) || Sp->P[target].getMass() <= 0)
++                Terminate("Nonfinite or nonpositive star-forming gas state");
++              if(Sp->P[target].ResearchSourceState.stellar_random_counter == UINT64_MAX)
++                Terminate("Stellar random opportunity counter exhausted");
++              const uint64_t opportunity = Sp->P[target].ResearchSourceState.stellar_random_counter++;
+               p = Sp->SphP[target].Sfr / ((All.UnitMass_in_g / SOLAR_MASS) / (All.UnitTime_in_s / SEC_PER_YEAR)) * dtime /
+                   Sp->P[target].getMass();
+               pall = p;
+-              sum_sm += Sp->P[target].getMass() * (1 - exp(-p));
+-
+-              w = get_random_number();
+-
+-              Sp->SphP[target].Metallicity += w * METAL_YIELD * (1 - exp(-p));
++              if(!isfinite(p) || p < 0) Terminate("Nonfinite stellar formation hazard");
++              sum_sm += Sp->P[target].getMass() * (-expm1(-p));
++
++              w = research_stellar_uniform(stellar_seed, Sp->P[target].ID.get(), opportunity, 0);
++
++              Sp->SphP[target].Metallicity += w * METAL_YIELD * (-expm1(-p));
+               Sp->SphP[target].MassMetallicity = Sp->SphP[target].Metallicity * Sp->P[target].getMass();
+               Sp->P[target].Metallicity        = Sp->SphP[target].Metallicity;
+ 
+               mass_of_star = Sp->P[target].getMass();
+ 
+-              prob = Sp->P[target].getMass() / mass_of_star * (1 - exp(-pall));
++              prob = Sp->P[target].getMass() / mass_of_star * (-expm1(-pall));
+             }
+ 
+           if(prob == 0)
+@@ -97,7 +110,8 @@
+             Terminate("prob < 0");
+ 
+           /* decide what process to consider (currently available: make a star or kick to wind) */
+-          p_decide = get_random_number();
++          p_decide = research_stellar_uniform(stellar_seed, Sp->P[target].ID.get(),
++                     Sp->P[target].ResearchSourceState.stellar_random_counter - 1, 1);
+ 
+           if(p_decide < p / pall) /* ok, a star formation is considered */
+             make_star(Sp, target, prob, mass_of_star, &sum_mass_stars);
+@@ -106,7 +120,7 @@
+             {
+               if(Sp->P[target].getType() == 0) /* to protect using a particle that has been turned into a star */
+                 {
+-                  Sp->SphP[target].Metallicity += (1 - w) * METAL_YIELD * (1 - exp(-p));
++                  Sp->SphP[target].Metallicity += (1 - w) * METAL_YIELD * (-expm1(-p));
+                   Sp->SphP[target].MassMetallicity = Sp->SphP[target].Metallicity * Sp->P[target].getMass();
+                 }
+             }
+@@ -155,6 +169,8 @@
+ 
+       MPI_Allgather(&altogether_spawned, 1, MPI_INT, list, 1, MPI_INT, Communicator);
+ 
++      if(All.MaxID > ID_MAX || uint64_t(tot_altogether_spawned) > uint64_t(ID_MAX - All.MaxID))
++        Terminate("Stellar spawn would exhaust the native particle ID domain");
+       MyIDType newid = All.MaxID + 1;
+ 
+       for(int i = 0; i < ThisTask; i++)
+@@ -218,6 +234,10 @@
+  */
+ void coolsfr::convert_sph_particle_into_star(simparticles *Sp, int i, double birthtime)
+ {
++  if(!research_stellar_record_birth(Sp->P[i].ResearchSourceState, Sp->P[i].ID.get(),
++       Sp->P[i].getMass(), birthtime, All.ComovingIntegrationOn ? birthtime : 0,
++       Sp->P[i].Metallicity, All.FactorSN, 1))
++    Terminate("Invalid or repeated SSP conversion birth state");
+   Sp->P[i].setType(STAR_TYPE);
+ #if NSOFTCLASSES > 1
+   Sp->P[i].setSofteningClass(All.SofteningClassOfPartType[Sp->P[i].getType()]);
+@@ -265,6 +285,10 @@
+   Sp->TimeBinsGravity.timebin_add_particle(istar, igas, Sp->P[istar].TimeBinGrav, Sp->TimeBinSynchronized[Sp->P[istar].TimeBinGrav]);
+ 
+   Sp->P[istar].setMass(mass_of_star);
++  if(!research_stellar_record_birth(Sp->P[istar].ResearchSourceState, Sp->P[igas].ID.get(),
++       mass_of_star, birthtime, All.ComovingIntegrationOn ? birthtime : 0,
++       Sp->P[igas].Metallicity, All.FactorSN, 2))
++    Terminate("Invalid or repeated SSP spawned birth state");
+ 
+   Sp->P[istar].StellarAge = birthtime;
+ 
+@@ -293,7 +317,13 @@
+   if(mass_of_star > Sp->P[i].getMass())
+     Terminate("mass_of_star > P[i].Mass");
+ 
+-  if(get_random_number() < prob)
++  uint64_t stellar_seed;
++  if(!research_stellar_seed(All.StellarRandomSeed, stellar_seed) ||
++      Sp->P[i].ResearchSourceState.stellar_random_counter == 0 ||
++      !isfinite(prob) || prob < 0 || prob > 1 || mass_of_star <= 0)
++    Terminate("Invalid SSP draw/formation probability");
++  if(research_stellar_uniform(stellar_seed, Sp->P[i].ID.get(),
++       Sp->P[i].ResearchSourceState.stellar_random_counter - 1, 2) < prob)
+     {
+       if(mass_of_star == Sp->P[i].getMass())
+         {
+--- a/src/io/snap_io.cc
++++ b/src/io/snap_io.cc
+@@ -134,16 +134,47 @@
+ 
+ #ifdef STARFORMATION
+ 
++#if defined(IDS_32BIT) || defined(IDS_48BIT)
++#error "Research SSP birth/parent/counter snapshots require IDS_64BIT"
++#endif
++  init_field("SIBM", "SSPInitialMass", MEM_DOUBLE, FILE_DOUBLE, READ_IF_PRESENT, 1, A_P,
++             &Sp->P[0].ResearchSourceState.stellar_initial_mass, NULL, STARS_ONLY,
++             1, 0., -1., 0., 1., 0., All.UnitMass_in_g);
++  init_field("SILM", "SSPInitialLockedMass", MEM_DOUBLE, FILE_DOUBLE, READ_IF_PRESENT, 1, A_P,
++             &Sp->P[0].ResearchSourceState.stellar_initial_locked_mass, NULL, STARS_ONLY,
++             1, 0., -1., 0., 1., 0., All.UnitMass_in_g);
++  init_field("SPRM", "SSPPromptReturnedMass", MEM_DOUBLE, FILE_DOUBLE, READ_IF_PRESENT, 1, A_P,
++             &Sp->P[0].ResearchSourceState.stellar_prompt_returned_mass, NULL, STARS_ONLY,
++             1, 0., -1., 0., 1., 0., All.UnitMass_in_g);
++  init_field("SCUM", "SSPCurrentMass", MEM_MY_DOUBLE, FILE_DOUBLE, SKIP_ON_READ, 1, A_P,
++             NULL, io_func_mass, STARS_ONLY, 1, 0., -1., 0., 1., 0., All.UnitMass_in_g);
++  init_field("SBTA", "SSPBirthScaleFactor", MEM_DOUBLE, FILE_DOUBLE, READ_IF_PRESENT, 1, A_P,
++             &Sp->P[0].ResearchSourceState.stellar_birth_scale_factor, NULL, STARS_ONLY, 1, 0, 0, 0, 0, 0, 1.);
++  init_field("SBTN", "SSPBirthNativeTime", MEM_DOUBLE, FILE_DOUBLE, READ_IF_PRESENT, 1, A_P,
++             &Sp->P[0].ResearchSourceState.stellar_birth_time, NULL, STARS_ONLY, 1, 0, 0,
++             All.ComovingIntegrationOn ? 0. : 1., 0., All.ComovingIntegrationOn ? 0. : -1.,
++             All.ComovingIntegrationOn ? 1. : All.UnitTime_in_s);
++  init_field("SBZM", "SSPBirthMetallicity", MEM_DOUBLE, FILE_DOUBLE, READ_IF_PRESENT, 1, A_P,
++             &Sp->P[0].ResearchSourceState.stellar_birth_metallicity, NULL, STARS_ONLY, 1, 0, 0, 0, 0, 0, 1.);
++  init_field("SPID", "SSPParentGasID", MEM_MY_ID_TYPE, FILE_MY_ID_TYPE, READ_IF_PRESENT, 1, A_P,
++             &Sp->P[0].ResearchSourceState.stellar_parent_gas_id, NULL, STARS_ONLY, 1, 0, 0, 0, 0, 0, 1.);
++  init_field("SSRV", "SSPBirthStateVersion", MEM_MY_ID_TYPE, FILE_MY_ID_TYPE, READ_IF_PRESENT, 1, A_P,
++             &Sp->P[0].ResearchSourceState.stellar_birth_state_version, NULL, STARS_ONLY, 1, 0, 0, 0, 0, 0, 1.);
++  init_field("SBMD", "SSPBirthMode", MEM_MY_ID_TYPE, FILE_MY_ID_TYPE, READ_IF_PRESENT, 1, A_P,
++             &Sp->P[0].ResearchSourceState.stellar_birth_mode, NULL, STARS_ONLY, 1, 0, 0, 0, 0, 0, 1.);
++  init_field("SRNG", "StellarRandomCounter", MEM_MY_ID_TYPE, FILE_MY_ID_TYPE, READ_IF_PRESENT, 1, A_P,
++             &Sp->P[0].ResearchSourceState.stellar_random_counter, NULL, GAS_AND_STARS, 1, 0, 0, 0, 0, 0, 1.);
+   init_field("SFR ", "StarFormationRate", MEM_MY_FLOAT, FILE_MY_IO_FLOAT, All.RestartFlag == RST_FOF ? READ_IF_PRESENT : SKIP_ON_READ,
+              1, A_NONE, 0, io_func_sfr, GAS_ONLY, 1, 0., 0., -1., 1., 1., SOLAR_MASS / SEC_PER_YEAR);
+ 
+   init_field("AGE ", "StellarFormationTime", MEM_MY_FLOAT, FILE_MY_IO_FLOAT, READ_IF_PRESENT, 1, A_P, &Sp->P[0].StellarAge, NULL,
+-             AGE_BLOCK, /* stellar formation time */
+-             0, 0, 0, 0, 0, 0, 0);
++             AGE_BLOCK, /* scale factor in comoving runs; native L/V time in isolated runs */
++             1, 0, 0, All.ComovingIntegrationOn ? 0. : 1., 0., All.ComovingIntegrationOn ? 0. : -1.,
++             All.ComovingIntegrationOn ? 1. : All.UnitTime_in_s);
+ 
+   init_field("Z   ", "Metallicity", MEM_MY_FLOAT, FILE_MY_IO_FLOAT, READ_IF_PRESENT, 1, A_NONE, 0, io_func_metallicity,
+-             Z_BLOCK, /* gas and star metallicity */
+-             0, 0, 0, 0, 0, 0, 0);
++             Z_BLOCK, /* gas and star metal mass fraction */
++             1, 0, 0, 0, 0, 0, 1.);
+ #endif
+ 
+ #if defined(PRESSURE_ENTROPY_SPH) && defined(OUTPUT_PRESSURE_SPH_DENSITY)
+--- /dev/null
++++ b/src/data/research_stellar_birth.h
+@@ -0,0 +1,76 @@
++/* Research2 native SH03 birth bookkeeping and keyed draws.
++ * Philox4x32-10: Salmon et al. SC11; round convention checked against
++ * DEShawResearch/Random123 published known-answer vectors. This independently
++ * written scalar implementation is not a linked Random123 installation.
++ * Model reference: Springel & Hernquist 2003, astro-ph/0206393.
++ */
++#ifndef RESEARCH_STELLAR_BIRTH_H
++#define RESEARCH_STELLAR_BIRTH_H
++#include <stdint.h>
++#include <math.h>
++#include "research_source_state.h"
++
++inline bool research_stellar_seed(const char *text, uint64_t &seed)
++{
++  seed = 0;
++  if(!text || !*text) return false;
++  for(const char *p = text; *p; ++p)
++    {
++      if(*p < '0' || *p > '9') return false;
++      const uint64_t digit = *p - '0';
++      if(seed > (UINT64_MAX - digit) / 10) return false;
++      seed = seed * 10 + digit;
++    }
++  return true;
++}
++
++inline void research_stellar_philox(uint32_t c[4], uint32_t k[2])
++{
++  for(int round = 0; round < 10; ++round)
++    {
++      const uint64_t p0 = UINT64_C(0xd2511f53) * c[0];
++      const uint64_t p1 = UINT64_C(0xcd9e8d57) * c[2];
++      const uint32_t next[4] = {uint32_t(p1 >> 32) ^ c[1] ^ k[0], uint32_t(p1),
++                               uint32_t(p0 >> 32) ^ c[3] ^ k[1], uint32_t(p0)};
++      for(int j = 0; j < 4; ++j) c[j] = next[j];
++      k[0] += UINT32_C(0x9e3779b9);
++      k[1] += UINT32_C(0xbb67ae85);
++    }
++}
++
++/* Lanes 0,1,2: metal partition, channel choice, conversion acceptance.
++ * Each positive-SFR opportunity consumes one persisted counter value.
++ * Exact uint64 IDs and counters occupy distinct halves of the input. */
++inline double research_stellar_uniform(uint64_t seed, uint64_t id, uint64_t opportunity, unsigned lane)
++{
++  if(lane > 2) return NAN;
++  uint32_t c[4] = {uint32_t(id), uint32_t(id >> 32), uint32_t(opportunity), uint32_t(opportunity >> 32)};
++  uint32_t k[2] = {uint32_t(seed), uint32_t(seed >> 32)};
++  research_stellar_philox(c, k);
++  return (double(c[lane]) + 0.5) / 4294967296.0;
++}
++
++inline bool research_stellar_record_birth(research_source_state &s, uint64_t parent,
++                                         double locked_mass, double time, double scale_factor,
++                                         double metallicity, double beta, uint64_t mode)
++{
++  if(!isfinite(locked_mass) || locked_mass <= 0 || !isfinite(time) || time < 0 ||
++     !isfinite(scale_factor) || scale_factor < 0 || !isfinite(metallicity) ||
++     metallicity < 0 || metallicity > 1 || !isfinite(beta) || beta <= 0 || beta >= 1 ||
++     (mode != 1 && mode != 2) || s.stellar_birth_state_version != 0) return false;
++  const double initial = locked_mass / (1 - beta);
++  if(!isfinite(initial)) return false;
++  s.stellar_initial_mass = initial;
++  s.stellar_initial_locked_mass = locked_mass;
++  s.stellar_prompt_returned_mass = initial - locked_mass;
++  s.stellar_birth_time = time;
++  s.stellar_birth_scale_factor = scale_factor; /* zero denotes isolated evolution */
++  s.stellar_birth_metallicity = metallicity;
++  s.stellar_parent_gas_id = parent;
++  s.stellar_birth_state_version = 1;
++  s.stellar_birth_mode = mode; /* 1 whole-gas conversion, 2 partial spawn */
++  s.stellar_last_source_time = time;
++  s.stellar_event_counter = 1;
++  return true;
++}
++#endif

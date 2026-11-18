@@ -1,0 +1,282 @@
+{
+  "schema": "darkmattersim-figure-v1",
+  "created_utc": "2026-11-05T22:49:36.264867+00:00",
+  "title": "Parameter 0 independent randomized rank CDF \u2014 ORIGINAL INFERENCE SCOPE",
+  "axes": [
+    {
+      "title": "Parameter 0 independent randomized rank CDF \u2014 ORIGINAL INFERENCE SCOPE",
+      "x_label": "x_0 [dimensionless]",
+      "y_label": "y_0 [dimensionless]",
+      "role": "plot",
+      "has_data": true
+    }
+  ],
+  "font_family": "STIXGeneral",
+  "style": "journal",
+  "layout": "double_column",
+  "formats": [
+    "png",
+    "pdf",
+    "svg"
+  ],
+  "png_dpi": 160,
+  "figure_size_inches": [
+    7.2,
+    2.88
+  ],
+  "figure_facecolor_rgba": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "layout_diagnostics": {
+    "canvas_inches": [
+      7.2,
+      2.88
+    ],
+    "export_bbox_inches": [
+      0.006669999999999961,
+      0.006669999999999995,
+      7.19333,
+      2.8733299999999997
+    ],
+    "export_padding_inches": 0.035,
+    "tolerance_inches": 0.015,
+    "visible_text_outside_canvas_count": 0,
+    "visible_text_outside_canvas": []
+  },
+  "scientific_metadata": {
+    "family": "inference",
+    "variant": "sbc_ranks",
+    "recipe": {
+      "figure_id": "native-sbc_ranks",
+      "family": "inference",
+      "variant": "sbc_ranks",
+      "title": "sbc ranks",
+      "science_status": "NOT_ACCEPTED",
+      "epoch": {
+        "meaning": "Original source observation/training/heldout epochs and lineage"
+      },
+      "panels": [
+        {
+          "panel_id": "0",
+          "title": "Parameter 0 independent randomized rank CDF",
+          "quality_status": "ORIGINAL_INFERENCE_SCOPE",
+          "selection": "Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.",
+          "xlabel": "x_0 [dimensionless]",
+          "ylabel": "y_0 [dimensionless]",
+          "x_units": "dimensionless",
+          "y_units": "dimensionless",
+          "series": [
+            {
+              "source": "measurement",
+              "kind": "scatter",
+              "x": "x_0",
+              "y": "y_0",
+              "label": "Parameter 0 independent randomized rank CDF",
+              "marker_size": 8
+            }
+          ]
+        }
+      ]
+    },
+    "selections": [
+      {
+        "panel": "0",
+        "counts": [
+          {
+            "label": "Parameter 0 independent randomized rank CDF",
+            "supported": 899,
+            "masked": 0
+          }
+        ],
+        "selection": "Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.",
+        "quality_status": "ORIGINAL_INFERENCE_SCOPE"
+      }
+    ],
+    "unit_source": "explicit physical source-array recipe",
+    "source_hashes": {
+      "/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json": "4ab9441b29d8acdf3493fab3d65dd6d81f0881496d4ae944130a9c56476d2aa3",
+      "/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json.data/arrays.npz": "aa13a2f76319848727bfa7d8848bd6a7f0a4a45bad7f2dffa40ad935f6b4296e"
+    },
+    "physical_array_contract": {
+      "schema": "darkmattersim-data-contract-v1",
+      "container": "pickle-free NPZ",
+      "path": "native-sbc_ranks.physical_arrays.npz",
+      "sha256": "90772a7be4ebf4da16c255162e68c3e9658bd95ca941bc00c2278b89b534bb38",
+      "datasets": {
+        "0__series_000_x": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "dimensionless",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[899]",
+          "dtype": "float64",
+          "payload_sha256": "734890e41b4b19cab89c803b4e551f6785826ca9fc928a27896e934d003c8961",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "0__series_000_x",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "PRODUCER_DECLARED",
+          "epoch_json": "{\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": {\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}, \"family\": \"inference\", \"figure_id\": \"native-sbc_ranks\", \"panels\": [{\"panel_id\": \"0\", \"quality_status\": \"ORIGINAL_INFERENCE_SCOPE\", \"selection\": \"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.\", \"series\": [{\"kind\": \"scatter\", \"label\": \"Parameter 0 independent randomized rank CDF\", \"marker_size\": 8, \"source\": \"measurement\", \"x\": \"x_0\", \"y\": \"y_0\"}], \"title\": \"Parameter 0 independent randomized rank CDF\", \"x_units\": \"dimensionless\", \"xlabel\": \"x_0 [dimensionless]\", \"y_units\": \"dimensionless\", \"ylabel\": \"y_0 [dimensionless]\"}], \"science_status\": \"NOT_ACCEPTED\", \"title\": \"sbc ranks\", \"variant\": \"sbc_ranks\"}, \"sources\": {\"measurement\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json\": \"4ab9441b29d8acdf3493fab3d65dd6d81f0881496d4ae944130a9c56476d2aa3\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json.data/arrays.npz\": \"aa13a2f76319848727bfa7d8848bd6a7f0a4a45bad7f2dffa40ad935f6b4296e\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        },
+        "0__series_000_y": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "dimensionless",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[899]",
+          "dtype": "float64",
+          "payload_sha256": "435895565a24be7a672e336909615cf9f725b5ffb56563345736b13baf0e4349",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "0__series_000_y",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "PRODUCER_DECLARED",
+          "epoch_json": "{\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": {\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}, \"family\": \"inference\", \"figure_id\": \"native-sbc_ranks\", \"panels\": [{\"panel_id\": \"0\", \"quality_status\": \"ORIGINAL_INFERENCE_SCOPE\", \"selection\": \"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.\", \"series\": [{\"kind\": \"scatter\", \"label\": \"Parameter 0 independent randomized rank CDF\", \"marker_size\": 8, \"source\": \"measurement\", \"x\": \"x_0\", \"y\": \"y_0\"}], \"title\": \"Parameter 0 independent randomized rank CDF\", \"x_units\": \"dimensionless\", \"xlabel\": \"x_0 [dimensionless]\", \"y_units\": \"dimensionless\", \"ylabel\": \"y_0 [dimensionless]\"}], \"science_status\": \"NOT_ACCEPTED\", \"title\": \"sbc ranks\", \"variant\": \"sbc_ranks\"}, \"sources\": {\"measurement\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json\": \"4ab9441b29d8acdf3493fab3d65dd6d81f0881496d4ae944130a9c56476d2aa3\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json.data/arrays.npz\": \"aa13a2f76319848727bfa7d8848bd6a7f0a4a45bad7f2dffa40ad935f6b4296e\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        },
+        "0__series_000_supported": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "dimensionless",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[899]",
+          "dtype": "bool",
+          "payload_sha256": "66eae8a1b3857a6952677111adde30b42434628f4c567f6ab6715d1cc1d388d5",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "0__series_000_supported",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "PRODUCER_DECLARED",
+          "epoch_json": "{\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": {\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}, \"family\": \"inference\", \"figure_id\": \"native-sbc_ranks\", \"panels\": [{\"panel_id\": \"0\", \"quality_status\": \"ORIGINAL_INFERENCE_SCOPE\", \"selection\": \"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.\", \"series\": [{\"kind\": \"scatter\", \"label\": \"Parameter 0 independent randomized rank CDF\", \"marker_size\": 8, \"source\": \"measurement\", \"x\": \"x_0\", \"y\": \"y_0\"}], \"title\": \"Parameter 0 independent randomized rank CDF\", \"x_units\": \"dimensionless\", \"xlabel\": \"x_0 [dimensionless]\", \"y_units\": \"dimensionless\", \"ylabel\": \"y_0 [dimensionless]\"}], \"science_status\": \"NOT_ACCEPTED\", \"title\": \"sbc ranks\", \"variant\": \"sbc_ranks\"}, \"sources\": {\"measurement\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json\": \"4ab9441b29d8acdf3493fab3d65dd6d81f0881496d4ae944130a9c56476d2aa3\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json.data/arrays.npz\": \"aa13a2f76319848727bfa7d8848bd6a7f0a4a45bad7f2dffa40ad935f6b4296e\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        }
+      }
+    },
+    "science_status": "NOT_ACCEPTED",
+    "epoch": {
+      "meaning": "Original source observation/training/heldout epochs and lineage"
+    }
+  },
+  "plot_data": "native-sbc_ranks.plotdata.npz",
+  "plot_data_contract": {
+    "schema": "darkmattersim-data-contract-v1",
+    "container": "pickle-free NPZ",
+    "path": "native-sbc_ranks.plotdata.npz",
+    "sha256": "08b3493815e4ad0419af8be3ad8e9d5822edd6ed2f79c9a42e81a0eb5c2d7556",
+    "datasets": {
+      "axis_0_collection_0_offsets": {
+        "data_contract_schema": "darkmattersim-data-contract-v1",
+        "units": "mixed axis geometry; {'x': 'dimensionless', 'y': 'dimensionless', 'z': 'dimensionless', 'color': 'dimensionless'}",
+        "missing_policy": "Masked or nonfinite artist values are preserved without interpolation",
+        "shape_json": "[899, 2]",
+        "dtype": "float64",
+        "payload_sha256": "76db021ae2750283fac0265b7c42928e0629080ae877e54fd4e637a3959b3a38",
+        "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+        "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+        "quantity_definition_status": "PRODUCER_DECLARED",
+        "quantity_definition": "drawn artist axis_0_collection_0_offsets",
+        "quality_status": "NOT_ACCEPTED",
+        "epoch_status": "PRODUCER_DECLARED",
+        "epoch_json": "{\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}",
+        "provenance_status": "PRODUCER_DECLARED",
+        "provenance_json": "{\"algorithm_sha256\": \"d9009f2f2b943ebabcd056fcd15364a2827010afd4a9a39cdf280d8197663485\", \"scientific_metadata\": {\"epoch\": {\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}, \"family\": \"inference\", \"physical_array_contract\": {\"container\": \"pickle-free NPZ\", \"datasets\": {\"0__series_000_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_json\": \"{\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"66eae8a1b3857a6952677111adde30b42434628f4c567f6ab6715d1cc1d388d5\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}, \\\"family\\\": \\\"inference\\\", \\\"figure_id\\\": \\\"native-sbc_ranks\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"0\\\", \\\"quality_status\\\": \\\"ORIGINAL_INFERENCE_SCOPE\\\", \\\"selection\\\": \\\"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Parameter 0 independent randomized rank CDF\\\", \\\"marker_size\\\": 8, \\\"source\\\": \\\"measurement\\\", \\\"x\\\": \\\"x_0\\\", \\\"y\\\": \\\"y_0\\\"}], \\\"title\\\": \\\"Parameter 0 independent randomized rank CDF\\\", \\\"x_units\\\": \\\"dimensionless\\\", \\\"xlabel\\\": \\\"x_0 [dimensionless]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"y_0 [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"sbc ranks\\\", \\\"variant\\\": \\\"sbc_ranks\\\"}, \\\"sources\\\": {\\\"measurement\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json\\\": \\\"4ab9441b29d8acdf3493fab3d65dd6d81f0881496d4ae944130a9c56476d2aa3\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json.data/arrays.npz\\\": \\\"aa13a2f76319848727bfa7d8848bd6a7f0a4a45bad7f2dffa40ad935f6b4296e\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"0__series_000_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[899]\", \"units\": \"dimensionless\"}, \"0__series_000_x\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_json\": \"{\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"734890e41b4b19cab89c803b4e551f6785826ca9fc928a27896e934d003c8961\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}, \\\"family\\\": \\\"inference\\\", \\\"figure_id\\\": \\\"native-sbc_ranks\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"0\\\", \\\"quality_status\\\": \\\"ORIGINAL_INFERENCE_SCOPE\\\", \\\"selection\\\": \\\"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Parameter 0 independent randomized rank CDF\\\", \\\"marker_size\\\": 8, \\\"source\\\": \\\"measurement\\\", \\\"x\\\": \\\"x_0\\\", \\\"y\\\": \\\"y_0\\\"}], \\\"title\\\": \\\"Parameter 0 independent randomized rank CDF\\\", \\\"x_units\\\": \\\"dimensionless\\\", \\\"xlabel\\\": \\\"x_0 [dimensionless]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"y_0 [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"sbc ranks\\\", \\\"variant\\\": \\\"sbc_ranks\\\"}, \\\"sources\\\": {\\\"measurement\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json\\\": \\\"4ab9441b29d8acdf3493fab3d65dd6d81f0881496d4ae944130a9c56476d2aa3\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json.data/arrays.npz\\\": \\\"aa13a2f76319848727bfa7d8848bd6a7f0a4a45bad7f2dffa40ad935f6b4296e\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"0__series_000_x\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[899]\", \"units\": \"dimensionless\"}, \"0__series_000_y\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_json\": \"{\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"435895565a24be7a672e336909615cf9f725b5ffb56563345736b13baf0e4349\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}, \\\"family\\\": \\\"inference\\\", \\\"figure_id\\\": \\\"native-sbc_ranks\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"0\\\", \\\"quality_status\\\": \\\"ORIGINAL_INFERENCE_SCOPE\\\", \\\"selection\\\": \\\"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Parameter 0 independent randomized rank CDF\\\", \\\"marker_size\\\": 8, \\\"source\\\": \\\"measurement\\\", \\\"x\\\": \\\"x_0\\\", \\\"y\\\": \\\"y_0\\\"}], \\\"title\\\": \\\"Parameter 0 independent randomized rank CDF\\\", \\\"x_units\\\": \\\"dimensionless\\\", \\\"xlabel\\\": \\\"x_0 [dimensionless]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"y_0 [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"sbc ranks\\\", \\\"variant\\\": \\\"sbc_ranks\\\"}, \\\"sources\\\": {\\\"measurement\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json\\\": \\\"4ab9441b29d8acdf3493fab3d65dd6d81f0881496d4ae944130a9c56476d2aa3\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json.data/arrays.npz\\\": \\\"aa13a2f76319848727bfa7d8848bd6a7f0a4a45bad7f2dffa40ad935f6b4296e\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"0__series_000_y\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[899]\", \"units\": \"dimensionless\"}}, \"path\": \"native-sbc_ranks.physical_arrays.npz\", \"schema\": \"darkmattersim-data-contract-v1\", \"sha256\": \"90772a7be4ebf4da16c255162e68c3e9658bd95ca941bc00c2278b89b534bb38\"}, \"recipe\": {\"epoch\": {\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}, \"family\": \"inference\", \"figure_id\": \"native-sbc_ranks\", \"panels\": [{\"panel_id\": \"0\", \"quality_status\": \"ORIGINAL_INFERENCE_SCOPE\", \"selection\": \"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.\", \"series\": [{\"kind\": \"scatter\", \"label\": \"Parameter 0 independent randomized rank CDF\", \"marker_size\": 8, \"source\": \"measurement\", \"x\": \"x_0\", \"y\": \"y_0\"}], \"title\": \"Parameter 0 independent randomized rank CDF\", \"x_units\": \"dimensionless\", \"xlabel\": \"x_0 [dimensionless]\", \"y_units\": \"dimensionless\", \"ylabel\": \"y_0 [dimensionless]\"}], \"science_status\": \"NOT_ACCEPTED\", \"title\": \"sbc ranks\", \"variant\": \"sbc_ranks\"}, \"science_status\": \"NOT_ACCEPTED\", \"selections\": [{\"counts\": [{\"label\": \"Parameter 0 independent randomized rank CDF\", \"masked\": 0, \"supported\": 899}], \"panel\": \"0\", \"quality_status\": \"ORIGINAL_INFERENCE_SCOPE\", \"selection\": \"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.\"}], \"source_hashes\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json\": \"4ab9441b29d8acdf3493fab3d65dd6d81f0881496d4ae944130a9c56476d2aa3\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json.data/arrays.npz\": \"aa13a2f76319848727bfa7d8848bd6a7f0a4a45bad7f2dffa40ad935f6b4296e\"}, \"unit_source\": \"explicit physical source-array recipe\", \"variant\": \"sbc_ranks\"}}",
+        "ancestry_status": "UNDECLARED",
+        "coordinates_status": "UNDECLARED",
+        "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+        "annotations": {
+          "scope": "Display geometry; source measurement definitions remain in scientific_metadata"
+        }
+      },
+      "axis_0_collection_0_offsets_mask": {
+        "data_contract_schema": "darkmattersim-data-contract-v1",
+        "units": "dimensionless",
+        "missing_policy": "Masked or nonfinite artist values are preserved without interpolation",
+        "shape_json": "[899, 2]",
+        "dtype": "bool",
+        "payload_sha256": "98fd56eb3d7cb46dbbbfee6af565f177b5cf05bbeb7f38362016c0d28bd0c592",
+        "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+        "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+        "quantity_definition_status": "PRODUCER_DECLARED",
+        "quantity_definition": "artist availability mask",
+        "quality_status": "NOT_ACCEPTED",
+        "epoch_status": "PRODUCER_DECLARED",
+        "epoch_json": "{\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}",
+        "provenance_status": "PRODUCER_DECLARED",
+        "provenance_json": "{\"algorithm_sha256\": \"d9009f2f2b943ebabcd056fcd15364a2827010afd4a9a39cdf280d8197663485\", \"scientific_metadata\": {\"epoch\": {\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}, \"family\": \"inference\", \"physical_array_contract\": {\"container\": \"pickle-free NPZ\", \"datasets\": {\"0__series_000_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_json\": \"{\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"66eae8a1b3857a6952677111adde30b42434628f4c567f6ab6715d1cc1d388d5\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}, \\\"family\\\": \\\"inference\\\", \\\"figure_id\\\": \\\"native-sbc_ranks\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"0\\\", \\\"quality_status\\\": \\\"ORIGINAL_INFERENCE_SCOPE\\\", \\\"selection\\\": \\\"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Parameter 0 independent randomized rank CDF\\\", \\\"marker_size\\\": 8, \\\"source\\\": \\\"measurement\\\", \\\"x\\\": \\\"x_0\\\", \\\"y\\\": \\\"y_0\\\"}], \\\"title\\\": \\\"Parameter 0 independent randomized rank CDF\\\", \\\"x_units\\\": \\\"dimensionless\\\", \\\"xlabel\\\": \\\"x_0 [dimensionless]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"y_0 [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"sbc ranks\\\", \\\"variant\\\": \\\"sbc_ranks\\\"}, \\\"sources\\\": {\\\"measurement\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json\\\": \\\"4ab9441b29d8acdf3493fab3d65dd6d81f0881496d4ae944130a9c56476d2aa3\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json.data/arrays.npz\\\": \\\"aa13a2f76319848727bfa7d8848bd6a7f0a4a45bad7f2dffa40ad935f6b4296e\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"0__series_000_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[899]\", \"units\": \"dimensionless\"}, \"0__series_000_x\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_json\": \"{\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"734890e41b4b19cab89c803b4e551f6785826ca9fc928a27896e934d003c8961\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}, \\\"family\\\": \\\"inference\\\", \\\"figure_id\\\": \\\"native-sbc_ranks\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"0\\\", \\\"quality_status\\\": \\\"ORIGINAL_INFERENCE_SCOPE\\\", \\\"selection\\\": \\\"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Parameter 0 independent randomized rank CDF\\\", \\\"marker_size\\\": 8, \\\"source\\\": \\\"measurement\\\", \\\"x\\\": \\\"x_0\\\", \\\"y\\\": \\\"y_0\\\"}], \\\"title\\\": \\\"Parameter 0 independent randomized rank CDF\\\", \\\"x_units\\\": \\\"dimensionless\\\", \\\"xlabel\\\": \\\"x_0 [dimensionless]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"y_0 [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"sbc ranks\\\", \\\"variant\\\": \\\"sbc_ranks\\\"}, \\\"sources\\\": {\\\"measurement\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json\\\": \\\"4ab9441b29d8acdf3493fab3d65dd6d81f0881496d4ae944130a9c56476d2aa3\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json.data/arrays.npz\\\": \\\"aa13a2f76319848727bfa7d8848bd6a7f0a4a45bad7f2dffa40ad935f6b4296e\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"0__series_000_x\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[899]\", \"units\": \"dimensionless\"}, \"0__series_000_y\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_json\": \"{\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"435895565a24be7a672e336909615cf9f725b5ffb56563345736b13baf0e4349\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}, \\\"family\\\": \\\"inference\\\", \\\"figure_id\\\": \\\"native-sbc_ranks\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"0\\\", \\\"quality_status\\\": \\\"ORIGINAL_INFERENCE_SCOPE\\\", \\\"selection\\\": \\\"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Parameter 0 independent randomized rank CDF\\\", \\\"marker_size\\\": 8, \\\"source\\\": \\\"measurement\\\", \\\"x\\\": \\\"x_0\\\", \\\"y\\\": \\\"y_0\\\"}], \\\"title\\\": \\\"Parameter 0 independent randomized rank CDF\\\", \\\"x_units\\\": \\\"dimensionless\\\", \\\"xlabel\\\": \\\"x_0 [dimensionless]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"y_0 [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"sbc ranks\\\", \\\"variant\\\": \\\"sbc_ranks\\\"}, \\\"sources\\\": {\\\"measurement\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json\\\": \\\"4ab9441b29d8acdf3493fab3d65dd6d81f0881496d4ae944130a9c56476d2aa3\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json.data/arrays.npz\\\": \\\"aa13a2f76319848727bfa7d8848bd6a7f0a4a45bad7f2dffa40ad935f6b4296e\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"0__series_000_y\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[899]\", \"units\": \"dimensionless\"}}, \"path\": \"native-sbc_ranks.physical_arrays.npz\", \"schema\": \"darkmattersim-data-contract-v1\", \"sha256\": \"90772a7be4ebf4da16c255162e68c3e9658bd95ca941bc00c2278b89b534bb38\"}, \"recipe\": {\"epoch\": {\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}, \"family\": \"inference\", \"figure_id\": \"native-sbc_ranks\", \"panels\": [{\"panel_id\": \"0\", \"quality_status\": \"ORIGINAL_INFERENCE_SCOPE\", \"selection\": \"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.\", \"series\": [{\"kind\": \"scatter\", \"label\": \"Parameter 0 independent randomized rank CDF\", \"marker_size\": 8, \"source\": \"measurement\", \"x\": \"x_0\", \"y\": \"y_0\"}], \"title\": \"Parameter 0 independent randomized rank CDF\", \"x_units\": \"dimensionless\", \"xlabel\": \"x_0 [dimensionless]\", \"y_units\": \"dimensionless\", \"ylabel\": \"y_0 [dimensionless]\"}], \"science_status\": \"NOT_ACCEPTED\", \"title\": \"sbc ranks\", \"variant\": \"sbc_ranks\"}, \"science_status\": \"NOT_ACCEPTED\", \"selections\": [{\"counts\": [{\"label\": \"Parameter 0 independent randomized rank CDF\", \"masked\": 0, \"supported\": 899}], \"panel\": \"0\", \"quality_status\": \"ORIGINAL_INFERENCE_SCOPE\", \"selection\": \"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.\"}], \"source_hashes\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json\": \"4ab9441b29d8acdf3493fab3d65dd6d81f0881496d4ae944130a9c56476d2aa3\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json.data/arrays.npz\": \"aa13a2f76319848727bfa7d8848bd6a7f0a4a45bad7f2dffa40ad935f6b4296e\"}, \"unit_source\": \"explicit physical source-array recipe\", \"variant\": \"sbc_ranks\"}}",
+        "ancestry_status": "UNDECLARED",
+        "coordinates_status": "UNDECLARED",
+        "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+        "annotations": {
+          "scope": "Display geometry; source measurement definitions remain in scientific_metadata"
+        }
+      },
+      "axis_0_collection_0_path_0": {
+        "data_contract_schema": "darkmattersim-data-contract-v1",
+        "units": "display marker geometry; no physical units",
+        "missing_policy": "Masked or nonfinite artist values are preserved without interpolation",
+        "shape_json": "[26, 2]",
+        "dtype": "float64",
+        "payload_sha256": "1e959cc0556523bad1d124d60e04132547cf20cb2b7082914e4671313d5e6cba",
+        "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+        "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+        "quantity_definition_status": "PRODUCER_DECLARED",
+        "quantity_definition": "drawn artist axis_0_collection_0_path_0",
+        "quality_status": "NOT_ACCEPTED",
+        "epoch_status": "PRODUCER_DECLARED",
+        "epoch_json": "{\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}",
+        "provenance_status": "PRODUCER_DECLARED",
+        "provenance_json": "{\"algorithm_sha256\": \"d9009f2f2b943ebabcd056fcd15364a2827010afd4a9a39cdf280d8197663485\", \"scientific_metadata\": {\"epoch\": {\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}, \"family\": \"inference\", \"physical_array_contract\": {\"container\": \"pickle-free NPZ\", \"datasets\": {\"0__series_000_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_json\": \"{\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"66eae8a1b3857a6952677111adde30b42434628f4c567f6ab6715d1cc1d388d5\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}, \\\"family\\\": \\\"inference\\\", \\\"figure_id\\\": \\\"native-sbc_ranks\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"0\\\", \\\"quality_status\\\": \\\"ORIGINAL_INFERENCE_SCOPE\\\", \\\"selection\\\": \\\"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Parameter 0 independent randomized rank CDF\\\", \\\"marker_size\\\": 8, \\\"source\\\": \\\"measurement\\\", \\\"x\\\": \\\"x_0\\\", \\\"y\\\": \\\"y_0\\\"}], \\\"title\\\": \\\"Parameter 0 independent randomized rank CDF\\\", \\\"x_units\\\": \\\"dimensionless\\\", \\\"xlabel\\\": \\\"x_0 [dimensionless]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"y_0 [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"sbc ranks\\\", \\\"variant\\\": \\\"sbc_ranks\\\"}, \\\"sources\\\": {\\\"measurement\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json\\\": \\\"4ab9441b29d8acdf3493fab3d65dd6d81f0881496d4ae944130a9c56476d2aa3\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json.data/arrays.npz\\\": \\\"aa13a2f76319848727bfa7d8848bd6a7f0a4a45bad7f2dffa40ad935f6b4296e\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"0__series_000_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[899]\", \"units\": \"dimensionless\"}, \"0__series_000_x\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_json\": \"{\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"734890e41b4b19cab89c803b4e551f6785826ca9fc928a27896e934d003c8961\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}, \\\"family\\\": \\\"inference\\\", \\\"figure_id\\\": \\\"native-sbc_ranks\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"0\\\", \\\"quality_status\\\": \\\"ORIGINAL_INFERENCE_SCOPE\\\", \\\"selection\\\": \\\"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Parameter 0 independent randomized rank CDF\\\", \\\"marker_size\\\": 8, \\\"source\\\": \\\"measurement\\\", \\\"x\\\": \\\"x_0\\\", \\\"y\\\": \\\"y_0\\\"}], \\\"title\\\": \\\"Parameter 0 independent randomized rank CDF\\\", \\\"x_units\\\": \\\"dimensionless\\\", \\\"xlabel\\\": \\\"x_0 [dimensionless]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"y_0 [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"sbc ranks\\\", \\\"variant\\\": \\\"sbc_ranks\\\"}, \\\"sources\\\": {\\\"measurement\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json\\\": \\\"4ab9441b29d8acdf3493fab3d65dd6d81f0881496d4ae944130a9c56476d2aa3\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json.data/arrays.npz\\\": \\\"aa13a2f76319848727bfa7d8848bd6a7f0a4a45bad7f2dffa40ad935f6b4296e\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"0__series_000_x\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[899]\", \"units\": \"dimensionless\"}, \"0__series_000_y\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_json\": \"{\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}\", \"epoch_status\": \"PRODUCER_DECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"435895565a24be7a672e336909615cf9f725b5ffb56563345736b13baf0e4349\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": {\\\"meaning\\\": \\\"Original source observation/training/heldout epochs and lineage\\\"}, \\\"family\\\": \\\"inference\\\", \\\"figure_id\\\": \\\"native-sbc_ranks\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"0\\\", \\\"quality_status\\\": \\\"ORIGINAL_INFERENCE_SCOPE\\\", \\\"selection\\\": \\\"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.\\\", \\\"series\\\": [{\\\"kind\\\": \\\"scatter\\\", \\\"label\\\": \\\"Parameter 0 independent randomized rank CDF\\\", \\\"marker_size\\\": 8, \\\"source\\\": \\\"measurement\\\", \\\"x\\\": \\\"x_0\\\", \\\"y\\\": \\\"y_0\\\"}], \\\"title\\\": \\\"Parameter 0 independent randomized rank CDF\\\", \\\"x_units\\\": \\\"dimensionless\\\", \\\"xlabel\\\": \\\"x_0 [dimensionless]\\\", \\\"y_units\\\": \\\"dimensionless\\\", \\\"ylabel\\\": \\\"y_0 [dimensionless]\\\"}], \\\"science_status\\\": \\\"NOT_ACCEPTED\\\", \\\"title\\\": \\\"sbc ranks\\\", \\\"variant\\\": \\\"sbc_ranks\\\"}, \\\"sources\\\": {\\\"measurement\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json\\\": \\\"4ab9441b29d8acdf3493fab3d65dd6d81f0881496d4ae944130a9c56476d2aa3\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json.data/arrays.npz\\\": \\\"aa13a2f76319848727bfa7d8848bd6a7f0a4a45bad7f2dffa40ad935f6b4296e\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"0__series_000_y\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[899]\", \"units\": \"dimensionless\"}}, \"path\": \"native-sbc_ranks.physical_arrays.npz\", \"schema\": \"darkmattersim-data-contract-v1\", \"sha256\": \"90772a7be4ebf4da16c255162e68c3e9658bd95ca941bc00c2278b89b534bb38\"}, \"recipe\": {\"epoch\": {\"meaning\": \"Original source observation/training/heldout epochs and lineage\"}, \"family\": \"inference\", \"figure_id\": \"native-sbc_ranks\", \"panels\": [{\"panel_id\": \"0\", \"quality_status\": \"ORIGINAL_INFERENCE_SCOPE\", \"selection\": \"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.\", \"series\": [{\"kind\": \"scatter\", \"label\": \"Parameter 0 independent randomized rank CDF\", \"marker_size\": 8, \"source\": \"measurement\", \"x\": \"x_0\", \"y\": \"y_0\"}], \"title\": \"Parameter 0 independent randomized rank CDF\", \"x_units\": \"dimensionless\", \"xlabel\": \"x_0 [dimensionless]\", \"y_units\": \"dimensionless\", \"ylabel\": \"y_0 [dimensionless]\"}], \"science_status\": \"NOT_ACCEPTED\", \"title\": \"sbc ranks\", \"variant\": \"sbc_ranks\"}, \"science_status\": \"NOT_ACCEPTED\", \"selections\": [{\"counts\": [{\"label\": \"Parameter 0 independent randomized rank CDF\", \"masked\": 0, \"supported\": 899}], \"panel\": \"0\", \"quality_status\": \"ORIGINAL_INFERENCE_SCOPE\", \"selection\": \"Original completed inference output; sampling diagnostics, calibration decisions, independent lineage and OOD support retained; export grants no scientific acceptance. Failed calibration remains visible and cannot become deployment acceptance.\"}], \"source_hashes\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json\": \"4ab9441b29d8acdf3493fab3d65dd6d81f0881496d4ae944130a9c56476d2aa3\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-expanded-harmonic-graph-sbc_ranks/inference-measurements.json.data/arrays.npz\": \"aa13a2f76319848727bfa7d8848bd6a7f0a4a45bad7f2dffa40ad935f6b4296e\"}, \"unit_source\": \"explicit physical source-array recipe\", \"variant\": \"sbc_ranks\"}}",
+        "ancestry_status": "UNDECLARED",
+        "coordinates_status": "UNDECLARED",
+        "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+        "annotations": {
+          "scope": "Display geometry; source measurement definitions remain in scientific_metadata"
+        }
+      }
+    }
+  },
+  "plot_data_scope": "Arrays actually drawn, including artist geometry and masks; physical measurement definitions remain in the source product",
+  "units_status": "Caller metadata only; axis labels are preserved, never interpreted as a verified unit contract",
+  "science_acceptance": "NOT_ACCEPTED",
+  "artifacts": [
+    {
+      "path": "native-sbc_ranks.pdf",
+      "sha256": "32d28fb497aed5b57f1815394d309af269f45e1d6c51f38223e561057c082e17",
+      "size_bytes": 31256
+    },
+    {
+      "path": "native-sbc_ranks.plotdata.npz",
+      "sha256": "08b3493815e4ad0419af8be3ad8e9d5822edd6ed2f79c9a42e81a0eb5c2d7556",
+      "size_bytes": 11988
+    },
+    {
+      "path": "native-sbc_ranks.png",
+      "sha256": "934c9f70a0b476d73017e3e91159b7f041f997f5ab7688bf0801f18a9120d0de",
+      "size_bytes": 54336
+    },
+    {
+      "path": "native-sbc_ranks.svg",
+      "sha256": "d368115dcf036ccf7eca18910fb919bea7cb7c3c4b7524fc40468252f27699ef",
+      "size_bytes": 117133
+    }
+  ]
+}

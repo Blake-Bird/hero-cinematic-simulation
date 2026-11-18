@@ -1,0 +1,72 @@
+{
+  "schema": "twofluid-hierarchy-campaign-request-v1",
+  "maximum_levels": 8,
+  "relative_fields": {
+    "path": "REPLACE_WITH_EXACT_SAME_NONLINEAR_MATERIAL_FLOW.json",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "native_loads": [
+    {
+      "native_particle_load": {
+        "path": "REPLACE_WITH_ORIGINAL_NONNESTED_HIERARCHY_0.hdf5",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "particle_namespace": "REPLACE_WITH_ACTUAL_HIERARCHY_0_NAMESPACE"
+    },
+    {
+      "native_particle_load": {
+        "path": "REPLACE_WITH_ORIGINAL_NONNESTED_HIERARCHY_1.hdf5",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "particle_namespace": "REPLACE_WITH_ACTUAL_HIERARCHY_1_NAMESPACE"
+    },
+    {
+      "native_particle_load": {
+        "path": "REPLACE_WITH_ORIGINAL_NONNESTED_HIERARCHY_2.hdf5",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "particle_namespace": "REPLACE_WITH_ACTUAL_HIERARCHY_2_NAMESPACE"
+    }
+  ],
+  "projection_request": {
+    "schema": "twofluid-native-particle-projection-request-v2",
+    "projection_mode": "finite_volume_material_cells",
+    "memory_gib": 16,
+    "maximum_particles": 1000000,
+    "chunk_rows": 65536,
+    "maximum_quadrature_evaluations": 100000000,
+    "displacement_absolute_tolerance_mpc_h": 1e-05,
+    "velocity_absolute_tolerance_km_s": 0.01,
+    "material_weight_absolute_tolerance": 0.0001,
+    "maximum_mass_rescaling_fraction": 1e-06
+  },
+  "refinement_request": {
+    "schema": "twofluid-projection-refinement-request-v3",
+    "refinement_axis": "hierarchy",
+    "maximum_levels": 8,
+    "maximum_particles": 1000000,
+    "chunk_rows": 4096,
+    "memory_gib": 16.0,
+    "mass_floor_msun": 1e-12,
+    "velocity_floor_km_s": 1e-06,
+    "maximum_mass_relative_error": 0.01,
+    "maximum_species_mass_relative_error": 0.01,
+    "maximum_position_error_mpc_h": 0.001,
+    "maximum_velocity_error_km_s": 0.1,
+    "maximum_momentum_relative_error": 0.01,
+    "maximum_adjacent_error_ratio": 1.0,
+    "maximum_cell_matching_work": 100000000,
+    "maximum_overlap_quadrature_evaluations": 100000000
+  },
+  "resources": {
+    "mpi_ranks": 1,
+    "omp_threads": 1,
+    "memory_gib": 16,
+    "disk_gib": 32,
+    "maximum_stage_count": 8
+  },
+  "followup_limits": {
+    "maximum_children": 0,
+    "maximum_depth": 0
+  }
+}

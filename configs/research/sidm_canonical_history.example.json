@@ -1,0 +1,60 @@
+{
+  "request": {
+    "schema": "sidm-canonical-control-history-request-v1",
+    "population": {
+      "path": "completed/sidm-canonical-population.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "engine": "gadget4",
+    "snapshots": [
+      {
+        "files": [
+          "completed/native-canonical-control/data/snapshot_000.hdf5"
+        ],
+        "native_time": 0.0
+      },
+      {
+        "files": [
+          "completed/native-canonical-control/data/snapshot_001.hdf5"
+        ],
+        "native_time": 0.001
+      }
+    ],
+    "maximum_particles": 8000,
+    "maximum_snapshots": 16,
+    "maximum_bins": 128,
+    "chunk_rows": 2048,
+    "memory_gib": 2.0,
+    "speed_bin_edges_kms": [
+      0.0,
+      25.0,
+      50.0,
+      75.0,
+      100.0,
+      150.0,
+      250.0
+    ],
+    "velocity_bin_edges_kms": [
+      -250.0,
+      -100.0,
+      -50.0,
+      0.0,
+      50.0,
+      100.0,
+      250.0
+    ],
+    "epoch_tolerance": 1e-12,
+    "relative_mass_tolerance": 1e-10,
+    "clock_absolute_tolerance_seconds": 1.0,
+    "clock_relative_tolerance": 1e-08,
+    "maximum_clock_evaluations": 100000,
+    "mapped_run": {
+      "path": "completed/native-canonical-control/native-control.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  },
+  "native_stage_receipt": "completed/native-stage/stage-receipt.json",
+  "parameter_file": "completed/native-canonical-control/input/param.txt",
+  "build_configuration": "completed/native-canonical-control/input/Config.sh",
+  "invocation_receipt": "completed/native-canonical-control/native-invocation.json"
+}

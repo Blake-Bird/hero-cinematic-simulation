@@ -1,0 +1,406 @@
+// # -*- mode: c -*-
+#pragma once
+
+#include "defs.h"
+#include "weight_defs_DOUBLE.h"
+
+#ifdef __AVX512F__
+#include "avx512_calls.h"
+#endif
+
+#ifdef __AVX__
+#include "avx_calls.h"
+#endif
+
+#ifdef __SSE4_2__
+#include "sse_calls.h"
+#endif
+
+#include <stdint.h>
+
+typedef union {
+#ifdef __AVX512F__
+  union {
+    AVX512_FLOATS a512;/* add the bit width for vector register*/
+    DOUBLE da512[AVX512_NVEC];
+  };
+#endif
+#ifdef __AVX__
+  union {
+    AVX_FLOATS a;
+    AVX_FLOATS a256;
+    DOUBLE da[AVX_NVEC];
+  };
+#endif
+#ifdef __SSE4_2__
+    union {
+      SSE_FLOATS s;
+      SSE_FLOATS s128;
+      DOUBLE ds[SSE_NVEC];
+    };
+#endif
+    DOUBLE d;
+} weight_union_DOUBLE;
+
+// Info about a particle pair that we will pass to the weight function
+typedef struct
+{
+    weight_union_DOUBLE weights0[MAX_NUM_WEIGHTS];
+    weight_union_DOUBLE weights1[MAX_NUM_WEIGHTS];
+    weight_union_DOUBLE dx, dy, dz;
+
+    // These will only be present for mock catalogs
+    weight_union_DOUBLE parx, pary, parz;
+
+    // Add for angular weights
+    weight_union_DOUBLE costheta;
+    pair_weight_struct_DOUBLE pair_weight;
+
+    uint8_t num_weights;
+    uint8_t num_integer_weights;
+    int8_t noffset;
+    DOUBLE default_value;
+    DOUBLE *correction_bits;
+    uint8_t num_bits;
+} pair_struct_DOUBLE;
+
+
+// set pair_struct_DOUBLE from two weight_struct_DOUBLE
+static inline int set_pair_struct_DOUBLE(pair_struct_DOUBLE *pair, const weight_struct_DOUBLE *weights0, const weight_struct_DOUBLE *weights1, const pair_weight_struct *pair_w) {
+    pair->num_weights = weights0->num_weights;
+    pair->num_integer_weights = weights1->num_integer_weights;
+    //printf("NUMW %d %d NUMWI %d %d\n", weights0->num_weights, weights1->num_weights, weights0->num_integer_weights, weights1->num_integer_weights);
+    pair->pair_weight.weight = pair_w->weight;
+    pair->pair_weight.sep = pair_w->sep;
+    pair->pair_weight.num = pair_w->num;
+    pair->noffset = pair_w->noffset;
+    pair->default_value = (DOUBLE) pair_w->default_value;
+    pair->correction_bits = (DOUBLE *) pair_w->correction_bits;
+    pair->num_bits = pair_w->num_bits;
+    pair->dx.d = 0.; pair->dy.d = 0.; pair->dz.d = 0.;
+    pair->parx.d = 0.; pair->pary.d = 0.; pair->parz.d = 0.;
+    pair->costheta.d = 1.;
+    return EXIT_SUCCESS;
+}
+
+#ifdef __AVX512F__
+typedef AVX512_FLOATS (*avx512_weight_func_t_DOUBLE)(pair_struct_DOUBLE*);
+#endif
+#ifdef __AVX__
+typedef AVX_FLOATS (*avx_weight_func_t_DOUBLE)(pair_struct_DOUBLE*);
+#endif
+#ifdef __SSE4_2__
+typedef SSE_FLOATS (*sse_weight_func_t_DOUBLE)(pair_struct_DOUBLE*);
+#endif
+typedef DOUBLE (*weight_func_t_DOUBLE)(pair_struct_DOUBLE*);
+
+//////////////////////////////////
+// Weighting functions
+//////////////////////////////////
+
+/*
+ * The pair weight is the product of the particle weights
+ */
+#ifdef __AVX512F__
+static inline AVX512_FLOATS avx512_pair_product_DOUBLE(pair_struct_DOUBLE *pair){
+    return AVX512_MULTIPLY_FLOATS(pair->weights0[0].a512, pair->weights1[0].a512);
+}
+#endif
+
+#ifdef __AVX__
+static inline AVX_FLOATS avx_pair_product_DOUBLE(pair_struct_DOUBLE *pair){
+    return AVX_MULTIPLY_FLOATS(pair->weights0[0].a, pair->weights1[0].a);
+}
+#endif
+
+#ifdef __SSE4_2__
+static inline SSE_FLOATS sse_pair_product_DOUBLE(pair_struct_DOUBLE *pair){
+    return SSE_MULTIPLY_FLOATS(pair->weights0[0].s, pair->weights1[0].s);
+}
+#endif
+
+static inline DOUBLE pair_product_DOUBLE(pair_struct_DOUBLE *pair){
+    return pair->weights0[0].d*pair->weights1[0].d;
+}
+
+
+
+#ifdef __AVX512F__
+static inline AVX512_FLOATS avx512_inverse_bitwise_DOUBLE(pair_struct_DOUBLE *pair){
+
+    weight_union_DOUBLE m_weight;
+
+#if  __INTEL_COMPILER
+#pragma unroll(AVX512_NVEC)
+#endif
+    for(int jj=0;jj<AVX512_NVEC;jj++) {
+        int nbits = pair->noffset;
+        //printf("%d ", nbits);
+        for (int w=0;w<pair->num_integer_weights;w++) {
+            //printf("w%d %ld %ld\n", w, *((LONG *) &(pair->weights0[w].d)), *((LONG *) &(pair->weights1[w].d)));
+            nbits += POPCOUNT(*((LONG *) &(pair->weights0[w].da512[jj])) & *((LONG *) &(pair->weights1[w].da512[jj])));
+        }
+        DOUBLE weight = pair->default_value;
+        if (nbits != 0) {
+            weight = 1. / nbits;
+            if (pair->num_bits > 0) {
+                int nbits1 = 0, nbits2 = 0;
+                for (int w=0;w<pair->num_integer_weights;w++) {
+                    nbits1 += POPCOUNT(*((LONG *) &(pair->weights0[w].da512[jj])));
+                    nbits2 += POPCOUNT(*((LONG *) &(pair->weights1[w].da512[jj])));
+                }
+                weight /= pair->correction_bits[nbits1 * pair->num_bits + nbits2];
+            }
+        }
+        int num = pair->pair_weight.num;
+        if (num) {
+            DOUBLE costheta = pair->costheta.da512[jj];
+            DOUBLE *pair_sep = pair->pair_weight.sep;
+            if (costheta > pair_sep[num-1] || (costheta <= pair_sep[0])) {
+                ;
+            }
+            else {
+                DOUBLE *pair_weight = pair->pair_weight.weight;
+                for (int kbin=0;kbin<num-1;kbin++) {
+                    if(costheta <= pair_sep[kbin+1]) { // ]min, max], as costheta instead of theta
+                        DOUBLE frac = (costheta - pair_sep[kbin])/(pair_sep[kbin+1] - pair_sep[kbin]);
+                        weight *= (1 - frac) * pair_weight[kbin] + frac * pair_weight[kbin+1];
+                        break;
+                    }
+                }
+            }
+        }
+        num = pair->num_weights;
+        int numi = pair->num_integer_weights;
+        if (num > numi) weight *= pair->weights0[numi].da512[jj]*pair->weights1[numi].da512[jj]; // multiply by the first float weight
+        numi++;
+        if (num > numi) weight -= pair->weights0[numi].da512[jj]*pair->weights1[numi].da512[jj]; // subtract the second float weight
+        m_weight.da512[jj] = weight;
+    }
+    return m_weight.a512;
+}
+#endif
+
+
+#ifdef __AVX__
+static inline AVX_FLOATS avx_inverse_bitwise_DOUBLE(pair_struct_DOUBLE *pair){
+
+    weight_union_DOUBLE m_weight;
+
+#if  __INTEL_COMPILER
+#pragma unroll(AVX_NVEC)
+#endif
+    for(int jj=0;jj<AVX_NVEC;jj++) {
+        int nbits = pair->noffset;
+        for (int w=0;w<pair->num_integer_weights;w++) {
+            nbits += POPCOUNT(*((LONG *) &(pair->weights0[w].da[jj])) & *((LONG *) &(pair->weights1[w].da[jj])));
+        }
+        DOUBLE weight = pair->default_value;
+        if (nbits != 0) {
+            weight = 1. / nbits;
+            if (pair->num_bits > 0) {
+                int nbits1 = 0, nbits2 = 0;
+                for (int w=0;w<pair->num_integer_weights;w++) {
+                    nbits1 += POPCOUNT(*((LONG *) &(pair->weights0[w].da[jj])));
+                    nbits2 += POPCOUNT(*((LONG *) &(pair->weights1[w].da[jj])));
+                }
+                weight /= pair->correction_bits[nbits1 * pair->num_bits + nbits2];
+            }
+        }
+        int num = pair->pair_weight.num;
+        if (num) {
+            DOUBLE costheta = pair->costheta.da[jj];
+            DOUBLE *pair_sep = pair->pair_weight.sep;
+            if (costheta > pair_sep[num-1] || (costheta <= pair_sep[0])) {
+                ;
+            }
+            else {
+                DOUBLE *pair_weight = pair->pair_weight.weight;
+                for (int kbin=0;kbin<num-1;kbin++) {
+                    if(costheta <= pair_sep[kbin+1]) { // ]min, max], as costheta instead of theta
+                        DOUBLE frac = (costheta - pair_sep[kbin])/(pair_sep[kbin+1] - pair_sep[kbin]);
+                        weight *= (1 - frac) * pair_weight[kbin] + frac * pair_weight[kbin+1];
+                        break;
+                    }
+                }
+            }
+        }
+        num = pair->num_weights;
+        int numi = pair->num_integer_weights;
+        if (num > numi) weight *= pair->weights0[numi].da[jj]*pair->weights1[numi].da[jj]; // multiply by the first float weight
+        numi++;
+        if (num > numi) weight -= pair->weights0[numi].da[jj]*pair->weights1[numi].da[jj]; // subtract the second float weight
+        m_weight.da[jj] = weight;
+    }
+    return m_weight.a;
+}
+#endif
+
+
+#ifdef __SSE4_2__
+static inline SSE_FLOATS sse_inverse_bitwise_DOUBLE(pair_struct_DOUBLE *pair){
+
+    weight_union_DOUBLE m_weight;
+
+#if  __INTEL_COMPILER
+#pragma unroll(SSE_NVEC)
+#endif
+    for(int jj=0;jj<SSE_NVEC;jj++) {
+        int nbits = pair->noffset;
+        //printf("%d ", nbits);
+        for (int w=0;w<pair->num_integer_weights;w++) {
+            //printf("w%d %ld %ld\n", w, *((LONG *) &(pair->weights0[w].d)), *((LONG *) &(pair->weights1[w].d)));
+            nbits += POPCOUNT(*((LONG *) &(pair->weights0[w].ds[jj])) & *((LONG *) &(pair->weights1[w].ds[jj])));
+        }
+        DOUBLE weight = pair->default_value;
+        if (nbits != 0) {
+            weight = 1. / nbits;
+            if (pair->num_bits > 0) {
+                int nbits1 = 0, nbits2 = 0;
+                for (int w=0;w<pair->num_integer_weights;w++) {
+                    nbits1 += POPCOUNT(*((LONG *) &(pair->weights0[w].ds[jj])));
+                    nbits2 += POPCOUNT(*((LONG *) &(pair->weights1[w].ds[jj])));
+                }
+                weight /= pair->correction_bits[nbits1 * pair->num_bits + nbits2];
+            }
+        }
+        int num = pair->pair_weight.num;
+        if (num) {
+            DOUBLE costheta = pair->costheta.ds[jj];
+            DOUBLE *pair_sep = pair->pair_weight.sep;
+            if (costheta > pair_sep[num-1] || (costheta <= pair_sep[0])) {
+                ;
+            }
+            else {
+                DOUBLE *pair_weight = pair->pair_weight.weight;
+                for (int kbin=0;kbin<num-1;kbin++) {
+                    if(costheta <= pair_sep[kbin+1]) { // ]min, max], as costheta instead of theta
+                        DOUBLE frac = (costheta - pair_sep[kbin])/(pair_sep[kbin+1] - pair_sep[kbin]);
+                        weight *= (1 - frac) * pair_weight[kbin] + frac * pair_weight[kbin+1];
+                        break;
+                    }
+                }
+            }
+        }
+        num = pair->num_weights;
+        int numi = pair->num_integer_weights;
+        if (num > numi) weight *= pair->weights0[numi].ds[jj]*pair->weights1[numi].ds[jj]; // multiply by the first float weight
+        numi++;
+        if (num > numi) weight -= pair->weights0[numi].ds[jj]*pair->weights1[numi].ds[jj]; // subtract the second float weight
+        m_weight.ds[jj] = weight;
+    }
+    return m_weight.s;
+}
+#endif
+
+
+/*
+ * The bitwise weight is a bit product of the particle weights
+ */
+static inline DOUBLE inverse_bitwise_DOUBLE(pair_struct_DOUBLE *pair){
+    int nbits = pair->noffset;
+    //printf("%d ", nbits);
+    for (int w=0;w<pair->num_integer_weights;w++) {
+        nbits += POPCOUNT(*((LONG *) &(pair->weights0[w].d)) & *((LONG *) &(pair->weights1[w].d)));
+    }
+    DOUBLE weight = pair->default_value;
+    if (nbits != 0) {
+        weight = 1. / nbits;
+        if (pair->num_bits > 0) {
+            int nbits1 = 0, nbits2 = 0;
+            for (int w=0;w<pair->num_integer_weights;w++) {
+                nbits1 += POPCOUNT(*((LONG *) &(pair->weights0[w].d)));
+                nbits2 += POPCOUNT(*((LONG *) &(pair->weights1[w].d)));
+            }
+            weight /= pair->correction_bits[nbits1 * pair->num_bits + nbits2];
+        }
+    }
+    int num = pair->pair_weight.num;
+    if (num) {
+        DOUBLE costheta = pair->costheta.d;
+        DOUBLE *pair_sep = pair->pair_weight.sep;
+        if (costheta > pair_sep[num-1] || (costheta <= pair_sep[0])) {
+            ;
+        }
+        else {
+            DOUBLE *pair_weight = pair->pair_weight.weight;
+            for (int kbin=0;kbin<num-1;kbin++) {
+                if(costheta <= pair_sep[kbin+1]) { // ]min, max], as costheta instead of theta
+                    DOUBLE frac = (costheta - pair_sep[kbin])/(pair_sep[kbin+1] - pair_sep[kbin]);
+                    weight *= (1 - frac) * pair_weight[kbin] + frac * pair_weight[kbin+1];
+                    break;
+                }
+            }
+        }
+    }
+    num = pair->num_weights;
+    int numi = pair->num_integer_weights;
+    if (num > numi) weight *= pair->weights0[numi].d*pair->weights1[numi].d; // multiply by the first float weight
+    numi++;
+    if (num > numi) weight -= pair->weights0[numi].d*pair->weights1[numi].d; // subtract the second float weight
+    return weight;
+}
+
+//////////////////////////////////
+// Utility functions
+//////////////////////////////////
+
+
+/* Gives a pointer to the weight function for the given weighting method
+ * and instruction set.
+ */
+
+#ifdef __AVX512F__
+static inline avx512_weight_func_t_DOUBLE get_avx512_weight_func_by_method_DOUBLE(const weight_method_t method){
+    switch(method){
+        case PAIR_PRODUCT:
+            return &avx512_pair_product_DOUBLE;
+        case INVERSE_BITWISE:
+            return &avx512_inverse_bitwise_DOUBLE;
+        default:
+        case NONE:
+            return NULL;
+    }
+}
+#endif
+
+
+#ifdef __AVX__
+static inline avx_weight_func_t_DOUBLE get_avx_weight_func_by_method_DOUBLE(const weight_method_t method){
+    switch(method){
+        case PAIR_PRODUCT:
+            return &avx_pair_product_DOUBLE;
+        case INVERSE_BITWISE:
+            return &avx_inverse_bitwise_DOUBLE;
+        default:
+        case NONE:
+            return NULL;
+    }
+}
+#endif
+
+#ifdef __SSE4_2__
+static inline sse_weight_func_t_DOUBLE get_sse_weight_func_by_method_DOUBLE(const weight_method_t method){
+    switch(method){
+        case PAIR_PRODUCT:
+            return &sse_pair_product_DOUBLE;
+        case INVERSE_BITWISE:
+            return &sse_inverse_bitwise_DOUBLE;
+        default:
+        case NONE:
+            return NULL;
+    }
+}
+#endif
+
+static inline weight_func_t_DOUBLE get_weight_func_by_method_DOUBLE(const weight_method_t method){
+    switch(method){
+        case PAIR_PRODUCT:
+            return &pair_product_DOUBLE;
+        case INVERSE_BITWISE:
+            return &inverse_bitwise_DOUBLE;
+        default:
+        case NONE:
+            return NULL;
+    }
+}

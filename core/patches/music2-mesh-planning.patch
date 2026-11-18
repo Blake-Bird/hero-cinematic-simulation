@@ -1,0 +1,77 @@
+--- a/src/main.cc
++++ b/src/main.cc
+@@ -18,6 +18,7 @@
+ #include <stdio.h>
+ #include <iostream>
+ #include <iomanip>
++#include <fstream>
+ #include <math.h>
+ 
+ #include <thread>
+@@ -391,7 +392,8 @@
+ 	//------------------------------------------------------------------------------
+ 
+ 	
+-	if (argc != 2)
++	const bool mesh_plan = argc == 4 && std::string(argv[2]) == "--plan-mesh";
++	if (argc != 2 && !mesh_plan)
+ 	{
+ 		splash();
+ 		std::cout << " This version is compiled with the following plug-ins:\n";
+@@ -444,6 +446,8 @@
+ 	lbase = cf.get_value<unsigned>("setup", "levelmin");
+ 	lmax = cf.get_value<unsigned>("setup", "levelmax");
+ 	lbaseTF = cf.get_value_safe<unsigned>("setup", "levelmin_TF", lbase);
++	if (lbase < 1 || lbase > lmax || lmax > 20)
++		throw std::runtime_error("MUSIC mesh levels require 1 <= levelmin <= levelmax <= 20");
+ 
+ 	if (lbase == lmax && !force_shift)
+ 		cf.insert_value("setup", "no_shift", "yes");
+@@ -457,6 +461,47 @@
+ 
+ 		lbaseTF = lbase;
+ 		cf.insert_value("setup", "levelmin_TF", cf.get_value<std::string>("setup", "levelmin"));
++	}
++	if (lbaseTF > lmax)
++		throw std::runtime_error("levelmin_TF must not exceed levelmax");
++
++	// Geometry-only planning uses the same region/RNG constraints and hierarchy
++	// constructors as generation, before cosmology, output, noise or field grids.
++	if (mesh_plan)
++	{
++		if (std::ifstream(argv[3]).good())
++			throw std::runtime_error("Refusing to overwrite native mesh plan");
++		the_region_generator = select_region_generator_plugin(cf);
++		noise_generator constraints(cf);
++		refinement_hierarchy poisson(cf), convolution(poisson);
++		modify_grid_for_TF(poisson, convolution, cf);
++		std::ofstream plan(argv[3]);
++		if (!plan.good()) throw std::runtime_error("Cannot write native mesh plan");
++		plan << "{\"schema\":\"darkmattersim-music-mesh-v1\",\"scalar_bytes\":"
++		     << sizeof(real_t) << ",\"boundary_cells\":" << nbnd
++		     << ",\"convolution_margin\":" << convolution.get_margin()
++		     << ",\"hierarchies\":{";
++		const refinement_hierarchy* grids[] = {&poisson, &convolution};
++		const char* names[] = {"poisson", "convolution"};
++		for (unsigned family = 0; family < 2; ++family)
++		{
++			if (family) plan << ",";
++			plan << "\"" << names[family] << "\":[";
++			const auto& grid = *grids[family];
++			for (unsigned level = grid.levelmin(); level <= grid.levelmax(); ++level)
++			{
++				if (level > grid.levelmin()) plan << ",";
++				plan << "{\"level\":" << level << ",\"shape\":["
++				     << grid.size(level,0) << "," << grid.size(level,1) << "," << grid.size(level,2)
++				     << "],\"offset\":[" << grid.offset_abs(level,0) << ","
++				     << grid.offset_abs(level,1) << "," << grid.offset_abs(level,2) << "]}";
++			}
++			plan << "]";
++		}
++		plan << "}}\n";
++		plan.close();
++		if (!plan.good()) throw std::runtime_error("Cannot finish native mesh plan");
++		return 0;
+ 	}
+ 
+ 

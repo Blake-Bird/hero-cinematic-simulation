@@ -1,0 +1,60 @@
+{
+  "schema": "stellar-return-model-v1",
+  "yield_asset": {
+    "path": "configs/nupycee_wiersma_yields.txt",
+    "sha256": "6112494fa032e4e3de3486798e585860ce2ad15489ef37eb93808113ba71793b"
+  },
+  "snia_asset": {
+    "path": "configs/nupycee_snia_w7_yields.txt",
+    "sha256": "470038d16d3bb86f4bc852f97a473d34278635c425e626126f4ea78cdaa054f8"
+  },
+  "imf": {
+    "kind": "chabrier2003_single",
+    "minimum_mass_msun": 0.1,
+    "maximum_mass_msun": 40.0
+  },
+  "age_grid_years": [
+    0,
+    1000000.0,
+    3000000.0,
+    5000000.0,
+    10000000.0,
+    20000000.0,
+    40000000.0,
+    80000000.0,
+    200000000.0,
+    500000000.0,
+    1000000000.0,
+    2000000000.0,
+    4000000000.0,
+    8000000000.0
+  ],
+  "mass_quadrature_points": 4096,
+  "core_collapse_minimum_mass_msun": 8.0,
+  "prompt_return_fraction": 0.1,
+  "prompt_subtraction": "composition_proportional_ccsn_mass_only",
+  "metallicity_boundary_policy": "reject",
+  "yield_mass_closure_relative_tolerance": 0.02,
+  "snia_delay": {
+    "kind": "power_law_minus_one",
+    "minimum_years": 40000000.0,
+    "maximum_years": 13800000000.0
+  },
+  "snia_events_per_formed_msun": 0.002,
+  "snia_energy_erg": 1e+51,
+  "agb_specific_energy_erg_per_msun": 0.0,
+  "initial_abundance_pattern": {
+    "primordial_hydrogen_fraction": 0.76,
+    "metal_element_fractions": [
+      0.18,
+      0.05,
+      0.44,
+      0.09,
+      0.04,
+      0.05,
+      0.03,
+      0.01,
+      0.11
+    ]
+  }
+}

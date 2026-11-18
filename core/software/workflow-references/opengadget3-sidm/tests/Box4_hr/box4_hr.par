@@ -1,0 +1,223 @@
+InitCondFile		ICs/box4_bao_hr.ic
+
+OutputDir               ./
+
+SnapshotFileBase        snap
+
+% CPU-time limit
+
+TimeLimitCPU      176800
+
+% Code options
+
+ICFormat              2
+ComovingIntegrationOn 1
+
+NumFilesPerSnapshot       1
+NumFilesWrittenInParallel 1
+
+SnapFormat                2
+
+%MaxMemSize  22500
+MaxMemSize  100000
+%MaxMemSize  10750
+%MaxMemSize  10250
+
+CoolingOn 1
+
+%  Caracteristics of run
+
+TimeBegin             0.016393443
+TimeMax               1.0
+
+Omega0                0.272
+OmegaLambda           0.728
+OmegaBaryon           0.0456    
+HubbleParam           0.704
+BoxSize               48000.0
+
+PeriodicBoundariesOn   1
+
+% Output frequency
+
+OutputListFilename  tests/Box4_hr/outputs
+OutputListOn        1
+
+TimeBetSnapshot        1.04912649189365
+TimeOfFirstSnapshot    0.090909091
+
+CpuTimeBetRestartFile  1800  % every 30 minutes
+
+TimeBetStatistics      0.02
+
+
+% Accuracy of time integration
+
+TypeOfTimestepCriterion 0
+ErrTolIntAccuracy       0.05
+MaxSizeTimestep        0.05
+MinSizeTimestep        0
+MaxRMSDisplacementFac  0.25
+
+% Tree algorithm and force accuracy
+
+ErrTolTheta            0.45
+ErrTolForceAcc         0.005
+
+%  Parameters of SPH
+
+DesNumNgb           195
+
+ArtBulkViscConst    3.0
+
+InitGasTemp         193.83 % = 2.726*(1+z) => Tgas(z_in) = Tcmb(z_in)
+MinGasTemp          20.
+CourantFac          0.15
+
+
+% Further code parameters
+
+PartAllocFactor       4.0
+
+BufferSize             50
+
+
+% System of units
+
+UnitLength_in_cm         3.085678e21        ;  1.0 kpc /h
+UnitMass_in_g            1.989e43           ;  solar masses
+UnitVelocity_in_cm_per_s 1e5                ;  1 km/sec
+GravityConstantInternal  0
+
+
+% Softening lengths
+
+MinGasHsmlFractional     0.001  % minimum csf smoothing in terms of the gravitational softening length
+
+SofteningGas       2.0
+SofteningHalo      6.0
+SofteningDisk      600.0
+SofteningBulge     6000.0        
+SofteningStars     1.0
+SofteningBndry     1.0
+
+SofteningGasMaxPhys       2.0
+SofteningHaloMaxPhys      2.0
+SofteningDiskMaxPhys      200.0
+SofteningBulgeMaxPhys     2000.0         
+SofteningStarsMaxPhys     1.0
+SofteningBndryMaxPhys     1.0
+
+% Quantities for star formation and feedback
+
+StarformationOn  1
+MaxSfrTimescale     1.5     % in internal time units
+CritOverDensity      57.7    %  overdensity threshold value
+TempSupernova        1.0e8   %  in Kelvin
+TempClouds           1000.0   %  in Kelvin
+
+WindEfficiency    2.0
+WindFreeTravelMaxTimeFactor 0.025
+WindEnergyFraction  0.5
+WindFreeTravelDensFac 0.5
+
+%additional things for Gadget XXL:
+
+% LT Stellar evolution option
+
+%%
+InfNeighNum       1
+DesNumNgbSN       60
+
+SFfactor          0.05
+IMFsFileName      Chabrier_pow_new.IMF
+SFsFileName       SFs
+
+MinBinSystemMass  3.0
+MaxBinSystemMass  16.0
+BinarySystemFrac  0.1
+MinStarMass_inBinSystem 0.8
+%
+%
+SnII_InfMass      8.0
+%
+SnIaEnergy        1e51
+SnIIEnergy        1e51
+%
+SnIaDataFileName  Ia_thielemann.yields
+SnIaDataSetNum    1
+SnIIdataFileName  Massive_Kobayashi.yields
+SnIIDataSetNum    1
+AGBdataFileName   AGB_Karakas.yields
+AGBDataSetNum     1
+%
+%EgySpecEjecta     1500.0
+%
+MinSpreadLength   0.05
+MaxSpreadLength   150.0
+MinChemTimeStep   3.1536e12    ; 10^5 yrs
+LongLiving_Step_Prec    0.02
+SnII_Step_Prec    0.1
+
+ConductionEfficiency 0.05
+MaxSizeConductionStep 0.01
+
+%Black hole Settings
+BlackHolesOn                          1   # Switches black hole module on, see Springel&DiMatheo 2005
+BlackHoleThermalFeedbackOn            1   # Switches thermal feedback on
+BlackHoleKineticFeedbackOn            0   # Switches kinetic feedback on
+
+massDMpart                  0.082846192   # DM particle mass to use, unless a fixed mass is given in the header
+TimeBetOnTheFlyFoF                 1.03   # Frequency of Black Hole seeding
+BlackHoleFoFMinMassForNewSeed        80   # Minmum FoF mass for seeding Black Holes (internal units)
+BlackHoleSeedMass                 32e-5   # Mass of seeded Black Hole
+BlackHoleSeedStarMassFraction      0.02   # If > 0, seeding is on stellar body with reduced mass
+% Further parameters for > 0
+BlackHoleSeedDMFraction            0.05   # Seed galaxy has to have stars with at least M_star / M_dm
+BlackHoleSeedGasFraction           0.1    # Seed galaxy has to have gas with at least M_gas / M_star
+
+BlackHoleFormationFactor           0.01   # Maximum number of black holes per gas particle to form between restarts
+BlackHoleNgbFactor                    1   # Boost of Black Hole neighbour number
+BlackHoleMaxAccretionRadius         100   # Maximum Black Hole accreation radius (internal units)
+BlackHoleSwallowGasOn                 1   # Switches On/Off the removal of gas particles thrugh black hole accreation
+BlackHoleIgnoreMomentum               1   # Switches On/Off the transfer of momentum while swallowing particles
+BlackHoleAccretionSlicesOn            1   # Quantization for swallowing gas particles with GENERATIONS
+BlackHoleDetails                      2   # Switches On/Off writing of black hole details by each MPI rank
+BlackHoleRepositioningOn              0   # Switches On/Off black hole repositioning, see Springel&DiMatheo 2005
+BlackHoleEddingtonFactor              1   # Maximum allowd accreation in terms of Eddington accreation
+
+BlackHoleHotColdAccretionOn           1   # Switches On/Off hot/cold accreation, see Steinborn+ 2015
+BlackHoleAccretionFactor             10   # Used as alpha Factor in Bondi for total (or hot gas) accreation
+BlackHoleColdAccretionFactor        100   # Used for alpha for the cold gas accreation, values see Gaspari+ 2013
+BlackHoleVelocityInBondiOn            1   # Use the relative velocity in Bondi Formulae
+BlackHoleVariableAccretionFactorOn    0   # Switches on the scaled accreation factor, see Booth&Schaye 2013
+BlackHoleVariableAccretionSlope       1   # Slope for variable accreation factor
+
+BlackHoleRadiativeEfficiency        0.2   # Radiative efficiency for standard model
+BlackHolePhysMdotUpperLimit             50.0          # Maximum limit for the accretion rate in Msun/yr
+
+BlackHoleFeedbackFactor             0.2   # Fixed feedback factor for standard model
+BlackHoleRadioModeFeedbackBoost       4   # Boosts for FeedbackFactor in radi mode, see Fabjan+ 2010
+BlackHoleRadioModeTreshold         0.01   # Treshhold for switching to radio mode
+BlackHoleLimitFeedbackOn              0   # Limits feedback (0=Off, 1=to hot particles only, 2=maximum pressure given by halo, see Vogelsberger+ 2014, 3=1+2)
+BlackHoleLimitMaxTemp               5e8   # Limits feedback to heat individual particle to maximum temperature
+BlackHoleColdGasTemperatureTresh    5e4   # Temperature Limit to seperate cold gas from hot particles (e.g. 5e4)
+
+BlackHoleFrictionForceOn              0   # Switches On/Off friction force for black holes, see Hirschmann+ 2014
+
+BlackHoleMergeCsndFrac             0.75   # Fraction of relative velocity compared to sound velocity for merging
+BlackHoleMergeDistFrac               10   # Distance compared to softening length for merging, see Hirschmann+ 2014
+BlackHoleMergeBindingFrac            -1   # Fraction of binding energy for merging, see Hirschmann+ 2014
+
+ErrTolThetaSubfind    0.45
+DesLinkNgb            20
+
+ViscositySourceScaling 0.0
+ViscosityDecayLength   4.0
+ViscosityAlphaMin      0.02
+
+BC_SED_Path    CB07_new/
+WalCoolTables_Path CoolingTablesWSS08/
+
+SpectralCRsOn          0
+StopAfterNSteps        3

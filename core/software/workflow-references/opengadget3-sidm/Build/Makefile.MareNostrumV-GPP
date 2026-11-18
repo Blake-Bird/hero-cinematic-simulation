@@ -1,0 +1,8 @@
+GSL_INCLUDE_PATH = /apps/GPP/GSL/2.7.1/GCC/include
+GSL_LIB_PATH = /apps/GPP/GSL/2.7.1/GCC/lib
+
+GSL_INCL = -I$(GSL_INCLUDE_PATH)
+GSL_LIBS = -L$(GSL_LIB_PATH)
+
+OPTIMIZE  = -std=c++23 -g -O2 -fopenmp
+MPICHLIB  =

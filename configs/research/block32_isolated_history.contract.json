@@ -1,0 +1,23 @@
+{
+  "schema": "isolated-halo-control-history-request-v1",
+  "snapshots": [0, 1, 2, 3],
+  "requested_native_times": [0.0, 0.1, 0.2, 0.3],
+  "epoch_tolerance": 1e-10,
+  "maximum_snapshots": 128,
+  "maximum_particles": 1000000,
+  "chunk_rows": 32768,
+  "memory_gib": 2.0,
+  "boundary_condition": "isolated_nonperiodic",
+  "potential_gauge": "isolated_zero_at_infinity",
+  "center_frame": {"mode": "center_of_mass"},
+  "core_radius_proper_kpc": 1.0,
+  "minimum_core_particles": 128,
+  "collapse_density_ratio": 100.0,
+  "minimum_consecutive_crossings": 2,
+  "energy_absolute_floor": 1.0,
+  "angular_absolute_floor": 1.0,
+  "mass_relative_tolerance": 1e-12,
+  "energy_relative_tolerance": 0.001,
+  "angular_relative_tolerance": 0.001,
+  "angular_policy": "diagnostic_only"
+}

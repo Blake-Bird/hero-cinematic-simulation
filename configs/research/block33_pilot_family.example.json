@@ -1,0 +1,57 @@
+{
+  "schema": "representative-pilot-family-v1",
+  "pilots": [
+    {
+      "family": "collisionless_parent_zoom_stream",
+      "workflow": "block33_collisionless_parent_zoom_stream.example.json",
+      "workflow_sha256": "FILL_EXACT_SHA256_AFTER_CONFIGURATION",
+      "coverage_receipt": {
+        "path": "evidence/collisionless_parent_zoom_stream/coverage.json",
+        "sha256": "FILL_EXECUTED_RECEIPT_SHA256"
+      },
+      "visual_inspection_receipt": {
+        "path": "evidence/collisionless_parent_zoom_stream/inspection.json",
+        "sha256": "FILL_EXECUTED_RECEIPT_SHA256"
+      }
+    },
+    {
+      "family": "hydro_stellar_bh",
+      "workflow": "block33_hydro_stellar_bh.example.json",
+      "workflow_sha256": "FILL_EXACT_SHA256_AFTER_CONFIGURATION",
+      "coverage_receipt": {
+        "path": "evidence/hydro_stellar_bh/coverage.json",
+        "sha256": "FILL_EXECUTED_RECEIPT_SHA256"
+      },
+      "visual_inspection_receipt": {
+        "path": "evidence/hydro_stellar_bh/inspection.json",
+        "sha256": "FILL_EXECUTED_RECEIPT_SHA256"
+      }
+    },
+    {
+      "family": "sidm_parent_zoom",
+      "workflow": "block33_sidm_parent_zoom.example.json",
+      "workflow_sha256": "FILL_EXACT_SHA256_AFTER_CONFIGURATION",
+      "coverage_receipt": {
+        "path": "evidence/sidm_parent_zoom/coverage.json",
+        "sha256": "FILL_EXECUTED_RECEIPT_SHA256"
+      },
+      "visual_inspection_receipt": {
+        "path": "evidence/sidm_parent_zoom/inspection.json",
+        "sha256": "FILL_EXECUTED_RECEIPT_SHA256"
+      }
+    },
+    {
+      "family": "observer_recovery",
+      "workflow": "block33_observer_recovery.example.json",
+      "workflow_sha256": "FILL_EXACT_SHA256_AFTER_CONFIGURATION",
+      "coverage_receipt": {
+        "path": "evidence/observer_recovery/coverage.json",
+        "sha256": "FILL_EXECUTED_RECEIPT_SHA256"
+      },
+      "visual_inspection_receipt": {
+        "path": "evidence/observer_recovery/inspection.json",
+        "sha256": "FILL_EXECUTED_RECEIPT_SHA256"
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "request": {
+    "schema": "native-wake-state-table-request-v1",
+    "response": {
+      "path": "REPLACE_WITH_SUPPORTED_STATE_RESPONSE.json",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "memory_gib": 4.0,
+    "maximum_states": 128,
+    "maximum_table_bytes": 1048576,
+    "maximum_domain_iterations": 20000
+  }
+}

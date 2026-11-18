@@ -1,0 +1,283 @@
+{
+  "schema": "stream-campaign-v1",
+  "experiment_id": "choose-native-sources-and-science-controls",
+  "notice": "Authoring template; paths and numerical controls are illustrative, not verified native sources or accepted physics.",
+  "resources": {
+    "memory_gib": 4.0,
+    "maximum_particles": 4096,
+    "maximum_stages": 32
+  },
+  "stages": [
+    {
+      "stage_id": "signature",
+      "kind": "sbi_forward_signature",
+      "depends_on": [],
+      "inputs": {
+        "designs": "CHOOSE_LINEAGE_DISJOINT_DESIGNS.json"
+      },
+      "parameters": {
+        "domain": {
+          "domain_id": "CHOOSE_ACCEPTED_FORWARD_DOMAIN",
+          "observable_contract": "CHOOSE_OBSERVABLE_DEFINITION"
+        },
+        "priors": [
+          {
+            "name": "mass_scale",
+            "kind": "loguniform",
+            "bounds": [
+              0.1,
+              10.0
+            ],
+            "units": "dimensionless",
+            "role": "physical"
+          }
+        ],
+        "bindings": [
+          {
+            "name": "mass_scale",
+            "path": [
+              "field",
+              "components",
+              "candidate",
+              "mass_scale"
+            ]
+          }
+        ],
+        "encoder": {
+          "columns": [
+            "longitude_rad",
+            "latitude_rad",
+            "distance_kpc",
+            "radial_velocity_kms",
+            "mu_longitude_star_masyr",
+            "mu_latitude_masyr"
+          ],
+          "maximum_nodes": 64,
+          "coordinate_scale": [
+            1.0,
+            1.0,
+            10.0,
+            100.0,
+            1.0,
+            1.0
+          ],
+          "coordinate_center": [
+            0.0,
+            0.0,
+            10.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "graph_coordinate_columns": [
+            0,
+            1
+          ],
+          "periodic_columns": {
+            "0": 6.283185307179586
+          }
+        },
+        "generation": {
+          "experiments": 3000,
+          "seed": 413,
+          "split_seed": 414,
+          "split_fractions": [
+            0.6,
+            0.2,
+            0.2
+          ],
+          "minimum_groups_per_split": 32,
+          "maximum_selection_attempts": 10000
+        }
+      }
+    },
+    {
+      "stage_id": "dataset",
+      "kind": "sbi_dataset",
+      "depends_on": [],
+      "inputs": {
+        "designs": "CHOOSE_LINEAGE_DISJOINT_DESIGNS.json",
+        "accepted_forward_domain": "CHOOSE_EXECUTED_FORWARD_ACCEPTANCE.json"
+      },
+      "parameters": {
+        "domain": {
+          "domain_id": "CHOOSE_ACCEPTED_FORWARD_DOMAIN",
+          "observable_contract": "CHOOSE_OBSERVABLE_DEFINITION"
+        },
+        "priors": [
+          {
+            "name": "mass_scale",
+            "kind": "loguniform",
+            "bounds": [
+              0.1,
+              10.0
+            ],
+            "units": "dimensionless",
+            "role": "physical"
+          }
+        ],
+        "bindings": [
+          {
+            "name": "mass_scale",
+            "path": [
+              "field",
+              "components",
+              "candidate",
+              "mass_scale"
+            ]
+          }
+        ],
+        "encoder": {
+          "columns": [
+            "longitude_rad",
+            "latitude_rad",
+            "distance_kpc",
+            "radial_velocity_kms",
+            "mu_longitude_star_masyr",
+            "mu_latitude_masyr"
+          ],
+          "maximum_nodes": 64,
+          "coordinate_scale": [
+            1.0,
+            1.0,
+            10.0,
+            100.0,
+            1.0,
+            1.0
+          ],
+          "coordinate_center": [
+            0.0,
+            0.0,
+            10.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "graph_coordinate_columns": [
+            0,
+            1
+          ],
+          "periodic_columns": {
+            "0": 6.283185307179586
+          }
+        },
+        "generation": {
+          "experiments": 3000,
+          "seed": 413,
+          "split_seed": 414,
+          "split_fractions": [
+            0.6,
+            0.2,
+            0.2
+          ],
+          "minimum_groups_per_split": 32,
+          "maximum_selection_attempts": 10000
+        }
+      }
+    },
+    {
+      "stage_id": "summary",
+      "kind": "sbi_train",
+      "depends_on": [
+        "dataset"
+      ],
+      "inputs": {
+        "dataset": {
+          "stage": "dataset"
+        },
+        "accepted_forward_domain": "CHOOSE_EXECUTED_FORWARD_ACCEPTANCE.json"
+      },
+      "parameters": {
+        "domain": {
+          "domain_id": "CHOOSE_ACCEPTED_FORWARD_DOMAIN",
+          "observable_contract": "CHOOSE_OBSERVABLE_DEFINITION"
+        },
+        "model_directory": "CHOOSE_FRESH_SUMMARY_DIRECTORY",
+        "training": {
+          "architecture": "summary",
+          "experimental_graph_training": false,
+          "seed": 415,
+          "density_estimator": "nsf",
+          "flow_hidden_features": 64,
+          "flow_transforms": 5,
+          "batch_size": 64,
+          "maximum_epochs": 200,
+          "early_stopping_patience": 20,
+          "maximum_optimizer_steps": 50000,
+          "learning_rate": 0.0003,
+          "gradient_clip_norm": 5.0,
+          "minimum_validation_improvement": 0.0001,
+          "graph": {
+            "hidden_features": 64,
+            "layers": 3,
+            "output_features": 32,
+            "neighbors": 8
+          }
+        },
+        "ood_reference": {
+          "covariance_floor": 1e-06,
+          "range_padding": 0.05
+        }
+      }
+    },
+    {
+      "stage_id": "calibration",
+      "kind": "sbi_calibration",
+      "depends_on": [
+        "dataset",
+        "summary"
+      ],
+      "inputs": {
+        "dataset": {
+          "stage": "dataset"
+        },
+        "frozen_model": {
+          "stage": "summary"
+        },
+        "privileged_truth": {
+          "stage": "dataset",
+          "artifact": "heldout_truth.json"
+        }
+      },
+      "parameters": {
+        "calibration": {
+          "seed": 416,
+          "posterior_draws": 2048,
+          "credible_mass": 0.9,
+          "coverage_confidence": 0.95,
+          "minimum_independent_test_groups": 100,
+          "minimum_coverage_pvalue": 0.05,
+          "minimum_sbc_pvalue": 0.05,
+          "maximum_coverage_absolute_error": 0.05
+        }
+      }
+    },
+    {
+      "stage_id": "posterior",
+      "kind": "sbi_posterior",
+      "depends_on": [
+        "summary",
+        "calibration"
+      ],
+      "inputs": {
+        "frozen_model": {
+          "stage": "summary"
+        },
+        "calibration": {
+          "stage": "calibration"
+        },
+        "observation": "CHOOSE_BLINDED_OBSERVATION.json"
+      },
+      "parameters": {
+        "inference": {
+          "seed": 417,
+          "draws": 4096,
+          "ood": {
+            "maximum_mahalanobis2": 100.0,
+            "maximum_outside_fraction": 0.1
+          }
+        }
+      }
+    }
+  ]
+}

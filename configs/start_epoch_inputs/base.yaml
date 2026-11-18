@@ -1,0 +1,30 @@
+cosmology:
+  A_s: 2.1e-09
+  H0: 70.0
+  N_ur: 3.046
+  T_cmb: 2.7255
+  model: lcdm
+  n_s: 0.96
+  omega_b: 0.024499999999999997
+  omega_cdm: 0.12249999999999998
+hydro:
+  cooling: false
+  star_formation: false
+simulation:
+  box_mpc_h: 10.0
+  end_redshift: 0.0
+  err_tol_int_accuracy: 0.025
+  lpt_order_hydro: 2
+  particles_per_dimension: 32
+  physics: hydro
+  random_seed: 7
+  snapshot_redshift_list:
+  - 9.0
+  - 1.0
+  - 0.0
+  softening_kpc_h: 1.0
+  start_redshift: 99.0
+spectrum:
+  file: configs/start_epoch_inputs/z99/spectrum.json
+  redshift: 99.0
+  source: modular

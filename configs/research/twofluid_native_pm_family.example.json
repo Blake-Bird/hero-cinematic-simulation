@@ -1,0 +1,30 @@
+{
+  "request": {
+    "schema": "twofluid-native-comparison-family-request-v3",
+    "refinement_axis": "native_force",
+    "comparisons": [
+      {
+        "path": "REPLACE_NATIVE_PM_LEVEL_0_COMPARISON.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "path": "REPLACE_NATIVE_PM_LEVEL_1_COMPARISON.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "path": "REPLACE_NATIVE_PM_LEVEL_2_COMPARISON.json",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    ],
+    "maximum_levels": 3,
+    "maximum_grid_cells": 262144,
+    "memory_gib": 8.0,
+    "maximum_adjacent_error_ratio": 1.0,
+    "density_trend_floor": 1e-06,
+    "velocity_trend_floor_km_s": 0.0001,
+    "maximum_timebin_log_bytes": 67108864,
+    "maximum_timebin_records": 100000,
+    "maximum_ic_shards": 4096,
+    "force_parameter": "PMGRID"
+  }
+}

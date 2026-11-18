@@ -1,0 +1,46 @@
+# modules for Marconi100
+# module load pgi/19.10--binary spectrum_mpi/10.3.1--binary fftw/3.3.8--spectrum_mpi--10.3.1--binary hdf5/1.12.0--spectrum_mpi--10.3.1--binary
+
+#PGI comiler
+
+
+ifeq ($(ACC_MINUS_D),)
+   CONFIGVARS+=AR_INCLUDE_OPENACC_FOLDER ACC_NGB
+   ACC_MINUS_D+=-DACC_OPENACC -DOPENACC  -DAR_INCLUDE_OPENACC_FOLDER -DACC 
+endif
+
+
+ifeq ($(CC_ACC_FLAGS),)
+     CC_ACC_FLAGS = -acc -Minfo=all,intensity -ta=tesla:cc70,cuda11.0  -L/cineca/prod/opt/compilers/hpc-sdk/2020/binary/Linux_ppc64le/20.11/cuda/11.0/targets/ppc64le-linux/lib -lcudart
+endif
+
+ifeq ($(CC_OPTIMIZE),)
+     CC_OPTIMIZE = -O2 -g -fast -mp
+endif
+
+ifeq ($(CC_EXEC),)
+     CC=mpipgic++
+else
+     CC=$(CC_EXEC)
+endif
+
+CC+= $(CC_FLAGS) $(CC_ACC_FLAGS) $(CC_OPTIMIZE)  $(ACC_MINUS_D)
+
+
+ifeq ($(GSL_INC),)
+    GSL_INCL = -I/m100_work/uTS20_Borgani/aragagni/opt/gnu-8.4.0/gsl-2.6/include
+    GSL_LIBS = -L/m100_work/uTS20_Borgani/aragagni/opt/gnu-8.4.0/gsl-2.6/lib
+else
+    GSL_INCL = -I$(GSL_INC)
+    GSL_LIBS = -L$(GSL_LIB)
+endif
+
+FFTW_INCL= -I$(FFTW_INC)
+FFTW_LIBS= -L$(FFTW_LIB) -lfftw3f_omp
+FFTW_OPENMP_LIBDIR = $(FFTW_LIB)
+HDF5_INCL = -I$(HDF5_INCLUDE)
+HDF5_LIBS  = -L$(HDF5_LIB) -lhdf5
+
+MPICHLIB =
+
+NVCC_EXEC=/cineca/prod/opt/compilers/hpc-sdk/2020/binary/Linux_ppc64le/20.11/cuda/11.0/bin/nvcc

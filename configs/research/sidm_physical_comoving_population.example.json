@@ -1,0 +1,62 @@
+{
+  "request": {
+    "schema": "sidm-control-population-request-v1",
+    "kind": "physical_comoving",
+    "identity_namespace": "sidm-control:physical_comoving:example-v1",
+    "seed": 214731,
+    "position_sampling": "periodic_lattice",
+    "components": [
+      {
+        "name": "cool",
+        "particle_count": 4000,
+        "bulk_velocity_kms": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "dispersion_1d_kms": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "remove_sample_bulk": false
+      },
+      {
+        "name": "warm",
+        "particle_count": 4000,
+        "bulk_velocity_kms": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "dispersion_1d_kms": [
+          4.0,
+          4.0,
+          4.0
+        ],
+        "remove_sample_bulk": false
+      }
+    ],
+    "box_proper_kpc": 10.0,
+    "macro_mass_msun": 1250000.0,
+    "clock": {
+      "mode": "physical",
+      "scale_factor": 1.0,
+      "proper_time_seconds": 0.0
+    },
+    "native_units": {
+      "length_cm": 3.0856775814913673e+21,
+      "mass_g": 1.98847e+43,
+      "velocity_cm_s": 100000.0,
+      "hubble_parameter": 0.7,
+      "omega_m0": 0.3,
+      "omega_lambda0": 0.7,
+      "hubble0_km_s_mpc": 70.0
+    },
+    "maximum_particles": 1000000,
+    "memory_gib": 1.0,
+    "disk_gib": 1.0,
+    "chunk_rows": 65536
+  },
+  "request_base": "."
+}

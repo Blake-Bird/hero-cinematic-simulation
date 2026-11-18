@@ -1,0 +1,38 @@
+{
+  "stage_id": "publish_current_repair",
+  "kind": "finding_repair_receipt",
+  "parameters": {
+    "finding_store": "{finding_store}",
+    "finding_id": "{finding_id}",
+    "product_id": "{product_id}",
+    "finding_event_hash": "{finding_event_hash}",
+    "dependency_graph_hash": "{dependency_graph_hash}",
+    "requirement": {
+      "schema": "finding-revalidation-requirement-v1",
+      "maximum_measurements": 4,
+      "measurements": [
+        {
+          "stage_id": "rerun_measured_native_galaxies",
+          "product": "native_galaxy_measurement",
+          "product_schema": "native-pilot-galaxy-measurement-v1",
+          "measurement_origin": "native_evolved_population",
+          "conditions": [
+            {"path": ["resolved_galaxy_count"], "operator": "minimum", "value": 1},
+            {"path": ["synthetic_fixture"], "operator": "exact", "value": false}
+          ]
+        }
+      ]
+    },
+    "measurements": [
+      {
+        "receipt": {"stage": "rerun_measured_native_galaxies", "artifact": "stage-receipt.json"},
+        "product": "native_galaxy_measurement"
+      }
+    ],
+    "request_base": "{request_base}",
+    "memory_bytes": 67108864,
+    "destination": "{generation}/repair"
+  },
+  "depends_on": ["rerun_measured_native_galaxies"],
+  "outputs": {"repair_receipt": "repair/repair-receipt.json"}
+}

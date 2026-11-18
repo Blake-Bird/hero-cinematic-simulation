@@ -1,0 +1,6 @@
+
+gadgetconfig.hpp:  $(CONFIG)
+	$(PERL) prepare-config.perl $(CONFIG)
+
+compile_time_info.cpp: $(CONFIG)
+	$(PERL) prepare-config.perl $(CONFIG)

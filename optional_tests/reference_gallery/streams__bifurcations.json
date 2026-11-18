@@ -1,0 +1,270 @@
+{
+  "schema": "darkmattersim-figure-v1",
+  "created_utc": "2026-11-04T17:35:03.981877+00:00",
+  "title": "Local proposals; physical fork/encounter acceptance unresolved \u2014 PENDING\nCONVERGENCE",
+  "axes": [
+    {
+      "title": "Local proposals; physical fork/encounter acceptance unresolved \u2014 PENDING\nCONVERGENCE",
+      "x_label": "bin_center_kpc [proper kpc]",
+      "y_label": "bifurcation_separation_kpc [proper kpc]",
+      "role": "plot",
+      "has_data": true
+    }
+  ],
+  "font_family": "STIXGeneral",
+  "style": "journal",
+  "layout": "double_column",
+  "formats": [
+    "png",
+    "pdf",
+    "svg"
+  ],
+  "png_dpi": 160,
+  "figure_size_inches": [
+    7.2,
+    2.88
+  ],
+  "figure_facecolor_rgba": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "layout_diagnostics": {
+    "canvas_inches": [
+      7.2,
+      2.88
+    ],
+    "export_bbox_inches": [
+      0.006669999999999995,
+      0.006669999999999995,
+      7.19333,
+      2.8733299999999997
+    ],
+    "export_padding_inches": 0.035,
+    "tolerance_inches": 0.015,
+    "visible_text_outside_canvas_count": 0,
+    "visible_text_outside_canvas": []
+  },
+  "scientific_metadata": {
+    "family": "streams",
+    "variant": "bifurcations",
+    "recipe": {
+      "figure_id": "wrap-0000-bifurcations",
+      "family": "streams",
+      "variant": "bifurcations",
+      "title": "Transverse two-mode bifurcation candidates",
+      "science_status": "SYNTHETIC_CONTROL_NOT_ACCEPTED",
+      "epoch": null,
+      "panels": [
+        {
+          "panel_id": "measured",
+          "title": "Local proposals; physical fork/encounter acceptance unresolved",
+          "quality_status": "PENDING_CONVERGENCE",
+          "selection": "explicit selected wrap; exported support mask",
+          "xlabel": "bin_center_kpc [proper kpc]",
+          "ylabel": "bifurcation_separation_kpc [proper kpc]",
+          "x_units": "proper kpc",
+          "y_units": "proper kpc",
+          "series": [
+            {
+              "source": "wrap-0000",
+              "kind": "line",
+              "label": "measured",
+              "x": "bin_center_kpc",
+              "y": "bifurcation_separation_kpc",
+              "support": "bifurcation_candidate_supported"
+            }
+          ]
+        }
+      ]
+    },
+    "selections": [
+      {
+        "panel": "measured",
+        "counts": [
+          {
+            "label": "measured",
+            "supported": 2,
+            "masked": 14
+          }
+        ],
+        "selection": "explicit selected wrap; exported support mask",
+        "quality_status": "PENDING_CONVERGENCE"
+      }
+    ],
+    "unit_source": "explicit physical source-array recipe",
+    "source_hashes": {
+      "/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json": "3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e",
+      "/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz": "a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0"
+    },
+    "physical_array_contract": {
+      "schema": "darkmattersim-data-contract-v1",
+      "container": "pickle-free NPZ",
+      "path": "wrap-0000-bifurcations.physical_arrays.npz",
+      "sha256": "3ab7d6352f0219f2cb308287fc8ec88e853683e88303052e08c01a358e54fff2",
+      "datasets": {
+        "measured__series_000_source_supported": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "dimensionless",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[16]",
+          "dtype": "bool",
+          "payload_sha256": "4697b528772439a7e6c70a350bf3ba5649f4c4121d922b5f1c9da85516088150",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "measured__series_000_source_supported",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "UNDECLARED",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": null, \"family\": \"streams\", \"figure_id\": \"wrap-0000-bifurcations\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"explicit selected wrap; exported support mask\", \"series\": [{\"kind\": \"line\", \"label\": \"measured\", \"source\": \"wrap-0000\", \"support\": \"bifurcation_candidate_supported\", \"x\": \"bin_center_kpc\", \"y\": \"bifurcation_separation_kpc\"}], \"title\": \"Local proposals; physical fork/encounter acceptance unresolved\", \"x_units\": \"proper kpc\", \"xlabel\": \"bin_center_kpc [proper kpc]\", \"y_units\": \"proper kpc\", \"ylabel\": \"bifurcation_separation_kpc [proper kpc]\"}], \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"title\": \"Transverse two-mode bifurcation candidates\", \"variant\": \"bifurcations\"}, \"sources\": {\"wrap-0000\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\": \"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\": \"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        },
+        "measured__series_000_x": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "proper kpc",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[16]",
+          "dtype": "float64",
+          "payload_sha256": "c5c9e8df7b459230e81735a19eab0bf42f6c9efb09dd98f12ee82db6b68ea21b",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "measured__series_000_x",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "UNDECLARED",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": null, \"family\": \"streams\", \"figure_id\": \"wrap-0000-bifurcations\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"explicit selected wrap; exported support mask\", \"series\": [{\"kind\": \"line\", \"label\": \"measured\", \"source\": \"wrap-0000\", \"support\": \"bifurcation_candidate_supported\", \"x\": \"bin_center_kpc\", \"y\": \"bifurcation_separation_kpc\"}], \"title\": \"Local proposals; physical fork/encounter acceptance unresolved\", \"x_units\": \"proper kpc\", \"xlabel\": \"bin_center_kpc [proper kpc]\", \"y_units\": \"proper kpc\", \"ylabel\": \"bifurcation_separation_kpc [proper kpc]\"}], \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"title\": \"Transverse two-mode bifurcation candidates\", \"variant\": \"bifurcations\"}, \"sources\": {\"wrap-0000\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\": \"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\": \"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        },
+        "measured__series_000_y": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "proper kpc",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[16]",
+          "dtype": "float64",
+          "payload_sha256": "918103cd0cb4f220a7331be67f8b05b23f5d42bc86533d26f29fca1b8154793f",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "measured__series_000_y",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "UNDECLARED",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": null, \"family\": \"streams\", \"figure_id\": \"wrap-0000-bifurcations\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"explicit selected wrap; exported support mask\", \"series\": [{\"kind\": \"line\", \"label\": \"measured\", \"source\": \"wrap-0000\", \"support\": \"bifurcation_candidate_supported\", \"x\": \"bin_center_kpc\", \"y\": \"bifurcation_separation_kpc\"}], \"title\": \"Local proposals; physical fork/encounter acceptance unresolved\", \"x_units\": \"proper kpc\", \"xlabel\": \"bin_center_kpc [proper kpc]\", \"y_units\": \"proper kpc\", \"ylabel\": \"bifurcation_separation_kpc [proper kpc]\"}], \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"title\": \"Transverse two-mode bifurcation candidates\", \"variant\": \"bifurcations\"}, \"sources\": {\"wrap-0000\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\": \"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\": \"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        },
+        "measured__series_000_supported": {
+          "data_contract_schema": "darkmattersim-data-contract-v1",
+          "units": "dimensionless",
+          "missing_policy": "unsupported/nonfinite measurements remain explicitly masked",
+          "shape_json": "[16]",
+          "dtype": "bool",
+          "payload_sha256": "4697b528772439a7e6c70a350bf3ba5649f4c4121d922b5f1c9da85516088150",
+          "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+          "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+          "quantity_definition_status": "PRODUCER_DECLARED",
+          "quantity_definition": "measured__series_000_supported",
+          "quality_status": "NOT_ACCEPTED",
+          "epoch_status": "UNDECLARED",
+          "provenance_status": "PRODUCER_DECLARED",
+          "provenance_json": "{\"recipe\": {\"epoch\": null, \"family\": \"streams\", \"figure_id\": \"wrap-0000-bifurcations\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"explicit selected wrap; exported support mask\", \"series\": [{\"kind\": \"line\", \"label\": \"measured\", \"source\": \"wrap-0000\", \"support\": \"bifurcation_candidate_supported\", \"x\": \"bin_center_kpc\", \"y\": \"bifurcation_separation_kpc\"}], \"title\": \"Local proposals; physical fork/encounter acceptance unresolved\", \"x_units\": \"proper kpc\", \"xlabel\": \"bin_center_kpc [proper kpc]\", \"y_units\": \"proper kpc\", \"ylabel\": \"bifurcation_separation_kpc [proper kpc]\"}], \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"title\": \"Transverse two-mode bifurcation candidates\", \"variant\": \"bifurcations\"}, \"sources\": {\"wrap-0000\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\": \"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\": \"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\"}}}",
+          "ancestry_status": "UNDECLARED",
+          "coordinates_status": "UNDECLARED",
+          "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+          "annotations": {}
+        }
+      }
+    },
+    "science_status": "SYNTHETIC_CONTROL_NOT_ACCEPTED",
+    "epoch": null
+  },
+  "plot_data": "wrap-0000-bifurcations.plotdata.npz",
+  "plot_data_contract": {
+    "schema": "darkmattersim-data-contract-v1",
+    "container": "pickle-free NPZ",
+    "path": "wrap-0000-bifurcations.plotdata.npz",
+    "sha256": "3ffbc4f245031ef26377f6a7b68b63d3a0bb55c6486f63d666a6e07e5eaf3abb",
+    "datasets": {
+      "axis_0_line_0_x": {
+        "data_contract_schema": "darkmattersim-data-contract-v1",
+        "units": "proper kpc",
+        "missing_policy": "Masked or nonfinite artist values are preserved without interpolation",
+        "shape_json": "[16]",
+        "dtype": "float64",
+        "payload_sha256": "26df6d0d5923296a6d3ba6cc3e0552bd2faf63e36fd8ad6be44730237c94e9ef",
+        "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+        "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+        "quantity_definition_status": "PRODUCER_DECLARED",
+        "quantity_definition": "drawn artist axis_0_line_0_x",
+        "quality_status": "NOT_ACCEPTED",
+        "epoch_status": "UNDECLARED",
+        "provenance_status": "PRODUCER_DECLARED",
+        "provenance_json": "{\"algorithm_sha256\": \"d9009f2f2b943ebabcd056fcd15364a2827010afd4a9a39cdf280d8197663485\", \"scientific_metadata\": {\"epoch\": null, \"family\": \"streams\", \"physical_array_contract\": {\"container\": \"pickle-free NPZ\", \"datasets\": {\"measured__series_000_source_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"4697b528772439a7e6c70a350bf3ba5649f4c4121d922b5f1c9da85516088150\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"wrap-0000-bifurcations\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"explicit selected wrap; exported support mask\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured\\\", \\\"source\\\": \\\"wrap-0000\\\", \\\"support\\\": \\\"bifurcation_candidate_supported\\\", \\\"x\\\": \\\"bin_center_kpc\\\", \\\"y\\\": \\\"bifurcation_separation_kpc\\\"}], \\\"title\\\": \\\"Local proposals; physical fork/encounter acceptance unresolved\\\", \\\"x_units\\\": \\\"proper kpc\\\", \\\"xlabel\\\": \\\"bin_center_kpc [proper kpc]\\\", \\\"y_units\\\": \\\"proper kpc\\\", \\\"ylabel\\\": \\\"bifurcation_separation_kpc [proper kpc]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Transverse two-mode bifurcation candidates\\\", \\\"variant\\\": \\\"bifurcations\\\"}, \\\"sources\\\": {\\\"wrap-0000\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\\\": \\\"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\\\": \\\"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_source_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[16]\", \"units\": \"dimensionless\"}, \"measured__series_000_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"4697b528772439a7e6c70a350bf3ba5649f4c4121d922b5f1c9da85516088150\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"wrap-0000-bifurcations\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"explicit selected wrap; exported support mask\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured\\\", \\\"source\\\": \\\"wrap-0000\\\", \\\"support\\\": \\\"bifurcation_candidate_supported\\\", \\\"x\\\": \\\"bin_center_kpc\\\", \\\"y\\\": \\\"bifurcation_separation_kpc\\\"}], \\\"title\\\": \\\"Local proposals; physical fork/encounter acceptance unresolved\\\", \\\"x_units\\\": \\\"proper kpc\\\", \\\"xlabel\\\": \\\"bin_center_kpc [proper kpc]\\\", \\\"y_units\\\": \\\"proper kpc\\\", \\\"ylabel\\\": \\\"bifurcation_separation_kpc [proper kpc]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Transverse two-mode bifurcation candidates\\\", \\\"variant\\\": \\\"bifurcations\\\"}, \\\"sources\\\": {\\\"wrap-0000\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\\\": \\\"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\\\": \\\"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[16]\", \"units\": \"dimensionless\"}, \"measured__series_000_x\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"c5c9e8df7b459230e81735a19eab0bf42f6c9efb09dd98f12ee82db6b68ea21b\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"wrap-0000-bifurcations\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"explicit selected wrap; exported support mask\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured\\\", \\\"source\\\": \\\"wrap-0000\\\", \\\"support\\\": \\\"bifurcation_candidate_supported\\\", \\\"x\\\": \\\"bin_center_kpc\\\", \\\"y\\\": \\\"bifurcation_separation_kpc\\\"}], \\\"title\\\": \\\"Local proposals; physical fork/encounter acceptance unresolved\\\", \\\"x_units\\\": \\\"proper kpc\\\", \\\"xlabel\\\": \\\"bin_center_kpc [proper kpc]\\\", \\\"y_units\\\": \\\"proper kpc\\\", \\\"ylabel\\\": \\\"bifurcation_separation_kpc [proper kpc]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Transverse two-mode bifurcation candidates\\\", \\\"variant\\\": \\\"bifurcations\\\"}, \\\"sources\\\": {\\\"wrap-0000\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\\\": \\\"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\\\": \\\"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_x\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[16]\", \"units\": \"proper kpc\"}, \"measured__series_000_y\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"918103cd0cb4f220a7331be67f8b05b23f5d42bc86533d26f29fca1b8154793f\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"wrap-0000-bifurcations\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"explicit selected wrap; exported support mask\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured\\\", \\\"source\\\": \\\"wrap-0000\\\", \\\"support\\\": \\\"bifurcation_candidate_supported\\\", \\\"x\\\": \\\"bin_center_kpc\\\", \\\"y\\\": \\\"bifurcation_separation_kpc\\\"}], \\\"title\\\": \\\"Local proposals; physical fork/encounter acceptance unresolved\\\", \\\"x_units\\\": \\\"proper kpc\\\", \\\"xlabel\\\": \\\"bin_center_kpc [proper kpc]\\\", \\\"y_units\\\": \\\"proper kpc\\\", \\\"ylabel\\\": \\\"bifurcation_separation_kpc [proper kpc]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Transverse two-mode bifurcation candidates\\\", \\\"variant\\\": \\\"bifurcations\\\"}, \\\"sources\\\": {\\\"wrap-0000\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\\\": \\\"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\\\": \\\"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_y\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[16]\", \"units\": \"proper kpc\"}}, \"path\": \"wrap-0000-bifurcations.physical_arrays.npz\", \"schema\": \"darkmattersim-data-contract-v1\", \"sha256\": \"3ab7d6352f0219f2cb308287fc8ec88e853683e88303052e08c01a358e54fff2\"}, \"recipe\": {\"epoch\": null, \"family\": \"streams\", \"figure_id\": \"wrap-0000-bifurcations\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"explicit selected wrap; exported support mask\", \"series\": [{\"kind\": \"line\", \"label\": \"measured\", \"source\": \"wrap-0000\", \"support\": \"bifurcation_candidate_supported\", \"x\": \"bin_center_kpc\", \"y\": \"bifurcation_separation_kpc\"}], \"title\": \"Local proposals; physical fork/encounter acceptance unresolved\", \"x_units\": \"proper kpc\", \"xlabel\": \"bin_center_kpc [proper kpc]\", \"y_units\": \"proper kpc\", \"ylabel\": \"bifurcation_separation_kpc [proper kpc]\"}], \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"title\": \"Transverse two-mode bifurcation candidates\", \"variant\": \"bifurcations\"}, \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"selections\": [{\"counts\": [{\"label\": \"measured\", \"masked\": 14, \"supported\": 2}], \"panel\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"explicit selected wrap; exported support mask\"}], \"source_hashes\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\": \"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\": \"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\"}, \"unit_source\": \"explicit physical source-array recipe\", \"variant\": \"bifurcations\"}}",
+        "ancestry_status": "UNDECLARED",
+        "coordinates_status": "UNDECLARED",
+        "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+        "annotations": {
+          "scope": "Display geometry; source measurement definitions remain in scientific_metadata"
+        }
+      },
+      "axis_0_line_0_y": {
+        "data_contract_schema": "darkmattersim-data-contract-v1",
+        "units": "proper kpc",
+        "missing_policy": "Masked or nonfinite artist values are preserved without interpolation",
+        "shape_json": "[16]",
+        "dtype": "float64",
+        "payload_sha256": "918103cd0cb4f220a7331be67f8b05b23f5d42bc86533d26f29fca1b8154793f",
+        "payload_checksum_schema": "dtype-shape-c-order-bytes-sha256-v1",
+        "chunk_integrity": "numeric payload SHA256; ZIP member CRC",
+        "quantity_definition_status": "PRODUCER_DECLARED",
+        "quantity_definition": "drawn artist axis_0_line_0_y",
+        "quality_status": "NOT_ACCEPTED",
+        "epoch_status": "UNDECLARED",
+        "provenance_status": "PRODUCER_DECLARED",
+        "provenance_json": "{\"algorithm_sha256\": \"d9009f2f2b943ebabcd056fcd15364a2827010afd4a9a39cdf280d8197663485\", \"scientific_metadata\": {\"epoch\": null, \"family\": \"streams\", \"physical_array_contract\": {\"container\": \"pickle-free NPZ\", \"datasets\": {\"measured__series_000_source_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"4697b528772439a7e6c70a350bf3ba5649f4c4121d922b5f1c9da85516088150\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"wrap-0000-bifurcations\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"explicit selected wrap; exported support mask\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured\\\", \\\"source\\\": \\\"wrap-0000\\\", \\\"support\\\": \\\"bifurcation_candidate_supported\\\", \\\"x\\\": \\\"bin_center_kpc\\\", \\\"y\\\": \\\"bifurcation_separation_kpc\\\"}], \\\"title\\\": \\\"Local proposals; physical fork/encounter acceptance unresolved\\\", \\\"x_units\\\": \\\"proper kpc\\\", \\\"xlabel\\\": \\\"bin_center_kpc [proper kpc]\\\", \\\"y_units\\\": \\\"proper kpc\\\", \\\"ylabel\\\": \\\"bifurcation_separation_kpc [proper kpc]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Transverse two-mode bifurcation candidates\\\", \\\"variant\\\": \\\"bifurcations\\\"}, \\\"sources\\\": {\\\"wrap-0000\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\\\": \\\"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\\\": \\\"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_source_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[16]\", \"units\": \"dimensionless\"}, \"measured__series_000_supported\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"bool\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"4697b528772439a7e6c70a350bf3ba5649f4c4121d922b5f1c9da85516088150\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"wrap-0000-bifurcations\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"explicit selected wrap; exported support mask\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured\\\", \\\"source\\\": \\\"wrap-0000\\\", \\\"support\\\": \\\"bifurcation_candidate_supported\\\", \\\"x\\\": \\\"bin_center_kpc\\\", \\\"y\\\": \\\"bifurcation_separation_kpc\\\"}], \\\"title\\\": \\\"Local proposals; physical fork/encounter acceptance unresolved\\\", \\\"x_units\\\": \\\"proper kpc\\\", \\\"xlabel\\\": \\\"bin_center_kpc [proper kpc]\\\", \\\"y_units\\\": \\\"proper kpc\\\", \\\"ylabel\\\": \\\"bifurcation_separation_kpc [proper kpc]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Transverse two-mode bifurcation candidates\\\", \\\"variant\\\": \\\"bifurcations\\\"}, \\\"sources\\\": {\\\"wrap-0000\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\\\": \\\"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\\\": \\\"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_supported\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[16]\", \"units\": \"dimensionless\"}, \"measured__series_000_x\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"c5c9e8df7b459230e81735a19eab0bf42f6c9efb09dd98f12ee82db6b68ea21b\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"wrap-0000-bifurcations\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"explicit selected wrap; exported support mask\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured\\\", \\\"source\\\": \\\"wrap-0000\\\", \\\"support\\\": \\\"bifurcation_candidate_supported\\\", \\\"x\\\": \\\"bin_center_kpc\\\", \\\"y\\\": \\\"bifurcation_separation_kpc\\\"}], \\\"title\\\": \\\"Local proposals; physical fork/encounter acceptance unresolved\\\", \\\"x_units\\\": \\\"proper kpc\\\", \\\"xlabel\\\": \\\"bin_center_kpc [proper kpc]\\\", \\\"y_units\\\": \\\"proper kpc\\\", \\\"ylabel\\\": \\\"bifurcation_separation_kpc [proper kpc]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Transverse two-mode bifurcation candidates\\\", \\\"variant\\\": \\\"bifurcations\\\"}, \\\"sources\\\": {\\\"wrap-0000\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\\\": \\\"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\\\": \\\"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_x\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[16]\", \"units\": \"proper kpc\"}, \"measured__series_000_y\": {\"ancestry_status\": \"UNDECLARED\", \"annotations\": {}, \"chunk_integrity\": \"numeric payload SHA256; ZIP member CRC\", \"container_integrity\": \"NPZ ZIP member CRC and archive SHA256\", \"coordinates_status\": \"UNDECLARED\", \"data_contract_schema\": \"darkmattersim-data-contract-v1\", \"dtype\": \"float64\", \"epoch_status\": \"UNDECLARED\", \"missing_policy\": \"unsupported/nonfinite measurements remain explicitly masked\", \"payload_checksum_schema\": \"dtype-shape-c-order-bytes-sha256-v1\", \"payload_sha256\": \"918103cd0cb4f220a7331be67f8b05b23f5d42bc86533d26f29fca1b8154793f\", \"provenance_json\": \"{\\\"recipe\\\": {\\\"epoch\\\": null, \\\"family\\\": \\\"streams\\\", \\\"figure_id\\\": \\\"wrap-0000-bifurcations\\\", \\\"panels\\\": [{\\\"panel_id\\\": \\\"measured\\\", \\\"quality_status\\\": \\\"PENDING_CONVERGENCE\\\", \\\"selection\\\": \\\"explicit selected wrap; exported support mask\\\", \\\"series\\\": [{\\\"kind\\\": \\\"line\\\", \\\"label\\\": \\\"measured\\\", \\\"source\\\": \\\"wrap-0000\\\", \\\"support\\\": \\\"bifurcation_candidate_supported\\\", \\\"x\\\": \\\"bin_center_kpc\\\", \\\"y\\\": \\\"bifurcation_separation_kpc\\\"}], \\\"title\\\": \\\"Local proposals; physical fork/encounter acceptance unresolved\\\", \\\"x_units\\\": \\\"proper kpc\\\", \\\"xlabel\\\": \\\"bin_center_kpc [proper kpc]\\\", \\\"y_units\\\": \\\"proper kpc\\\", \\\"ylabel\\\": \\\"bifurcation_separation_kpc [proper kpc]\\\"}], \\\"science_status\\\": \\\"SYNTHETIC_CONTROL_NOT_ACCEPTED\\\", \\\"title\\\": \\\"Transverse two-mode bifurcation candidates\\\", \\\"variant\\\": \\\"bifurcations\\\"}, \\\"sources\\\": {\\\"wrap-0000\\\": {\\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\\\": \\\"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\\\", \\\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\\\": \\\"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\\\"}}}\", \"provenance_status\": \"PRODUCER_DECLARED\", \"quality_status\": \"NOT_ACCEPTED\", \"quantity_definition\": \"measured__series_000_y\", \"quantity_definition_status\": \"PRODUCER_DECLARED\", \"shape_json\": \"[16]\", \"units\": \"proper kpc\"}}, \"path\": \"wrap-0000-bifurcations.physical_arrays.npz\", \"schema\": \"darkmattersim-data-contract-v1\", \"sha256\": \"3ab7d6352f0219f2cb308287fc8ec88e853683e88303052e08c01a358e54fff2\"}, \"recipe\": {\"epoch\": null, \"family\": \"streams\", \"figure_id\": \"wrap-0000-bifurcations\", \"panels\": [{\"panel_id\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"explicit selected wrap; exported support mask\", \"series\": [{\"kind\": \"line\", \"label\": \"measured\", \"source\": \"wrap-0000\", \"support\": \"bifurcation_candidate_supported\", \"x\": \"bin_center_kpc\", \"y\": \"bifurcation_separation_kpc\"}], \"title\": \"Local proposals; physical fork/encounter acceptance unresolved\", \"x_units\": \"proper kpc\", \"xlabel\": \"bin_center_kpc [proper kpc]\", \"y_units\": \"proper kpc\", \"ylabel\": \"bifurcation_separation_kpc [proper kpc]\"}], \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"title\": \"Transverse two-mode bifurcation candidates\", \"variant\": \"bifurcations\"}, \"science_status\": \"SYNTHETIC_CONTROL_NOT_ACCEPTED\", \"selections\": [{\"counts\": [{\"label\": \"measured\", \"masked\": 14, \"supported\": 2}], \"panel\": \"measured\", \"quality_status\": \"PENDING_CONVERGENCE\", \"selection\": \"explicit selected wrap; exported support mask\"}], \"source_hashes\": {\"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json\": \"3d0cbed4e6ab3160f756f3890923914723f7537055818c9e4a2ce42f2562de0e\", \"/Users/bbird/research2-runtime/runs/readme-smoke-20261104/registered-gala-stream-power/wrap-0000.json.data/arrays.npz\": \"a8e473645b85711730da6920ff8075b7ed4b91bfada9fb558850068b774e0ad0\"}, \"unit_source\": \"explicit physical source-array recipe\", \"variant\": \"bifurcations\"}}",
+        "ancestry_status": "UNDECLARED",
+        "coordinates_status": "UNDECLARED",
+        "container_integrity": "NPZ ZIP member CRC and archive SHA256",
+        "annotations": {
+          "scope": "Display geometry; source measurement definitions remain in scientific_metadata"
+        }
+      }
+    }
+  },
+  "plot_data_scope": "Arrays actually drawn, including artist geometry and masks; physical measurement definitions remain in the source product",
+  "units_status": "Caller metadata only; axis labels are preserved, never interpreted as a verified unit contract",
+  "science_acceptance": "NOT_ACCEPTED",
+  "artifacts": [
+    {
+      "path": "wrap-0000-bifurcations.pdf",
+      "sha256": "e1b3f5e0f83cbc197591b6e1b11b030a32c466c1e010d11f8a7f1583d3157f01",
+      "size_bytes": 27418
+    },
+    {
+      "path": "wrap-0000-bifurcations.plotdata.npz",
+      "sha256": "3ffbc4f245031ef26377f6a7b68b63d3a0bb55c6486f63d666a6e07e5eaf3abb",
+      "size_bytes": 486
+    },
+    {
+      "path": "wrap-0000-bifurcations.png",
+      "sha256": "ac2428894077b613c49747d0c637dbb036ac8b4b03bcd9d7e87805f75c15199a",
+      "size_bytes": 59714
+    },
+    {
+      "path": "wrap-0000-bifurcations.svg",
+      "sha256": "ea39f6b94c038abd82bec434d7b3c4ce0cbebd51175188628c2ebbbceb11b576",
+      "size_bytes": 22290
+    }
+  ]
+}

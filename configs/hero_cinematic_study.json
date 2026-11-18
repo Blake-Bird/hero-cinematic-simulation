@@ -1,0 +1,117 @@
+{
+  "schema": "research2-study-v1",
+  "notes": "Flagship Hero Cinematic Study: AxiCLASS Early Dark Energy -> Monofonic 3LPT ICs -> GADGET-4 Cosmic Web -> DisPerSE 3D Skeleton -> Virial Shocks -> Galaxy Genesis -> VELOCIraptor 6D Kinematics -> Lenstronomy Strong Lensing -> Gala Stellar Streams -> SBI Neural Posterior -> Blacklight Kerr Relativistic Black Hole",
+  "linear": {
+    "config": "configs/linear_ede.json",
+    "solver": "axiclass"
+  },
+  "answers": "configs/hero_simulation.json",
+  "run_dir": "/scratch/hero_cinematic/run",
+  "state_dir": "/scratch/hero_cinematic/state",
+  "analysis": {
+    "graphs": [
+      "hmf",
+      "pk",
+      "correlation",
+      "bias",
+      "kinematics",
+      "spatial",
+      "subhmf",
+      "subhalos",
+      "spin",
+      "profiles",
+      "shape",
+      "hydro",
+      "galaxies",
+      "histories",
+      "stellar_components",
+      "black_holes",
+      "maps",
+      "blender"
+    ],
+    "find_halos": true,
+    "filament_method": "disperse_grid",
+    "phase_space_finder": "velociraptor"
+  },
+  "target_selection": {
+    "snapshot": 120,
+    "memory_gib": 32.0,
+    "minimum_dm_particles": 1000,
+    "maximum_targets": 1,
+    "ranking": "dm_count_descending"
+  },
+  "streams": {
+    "campaign": "configs/research/streams.example.json",
+    "resources": {
+      "memory_gib": 16.0
+    }
+  },
+  "velociraptor": {
+    "Minimum_size": 32,
+    "Nsearch_physical": 32,
+    "Nsearch_velocity": 32,
+    "Cell_fraction": 0.01,
+    "Halo_3D_linking_length": 0.2,
+    "Substructure_physical_linking_length": 0.16,
+    "Search_for_substructure": 1,
+    "Unbind_flag": 1,
+    "memory_gib": 32.0,
+    "wall_hours": 4.0
+  },
+  "cosmography": {
+    "schema": "cosmography-campaign-v1",
+    "experiment_id": "hero_lens_galaxy",
+    "kind": "time_delay",
+    "lens_model": "EPL",
+    "source_light": "SERSIC_ELLIPSE",
+    "point_source": "LENSED_POSITION",
+    "resources": {
+      "memory_gib": 16.0,
+      "maximum_stage_count": 8,
+      "maximum_objects": 100,
+      "maximum_spectral_pixels": 1000000
+    }
+  },
+  "inference": {
+    "backend": "sbi",
+    "method": "SNPE",
+    "summary_statistics": [
+      "pk",
+      "hmf"
+    ],
+    "parameters": [
+      "H0",
+      "omega_cdm",
+      "f_ede"
+    ],
+    "resources": {
+      "memory_gib": 16.0
+    }
+  },
+  "visualization": {
+    "max_points": 1000000,
+    "quality": "production_4k",
+    "resolution": [
+      3840,
+      2160
+    ],
+    "frames_per_snapshot": 24,
+    "disperse_persistence_cut": 2.0,
+    "disperse_smoothing_cells": 3,
+    "disperse_density_smoothing_cells": 1.0,
+    "disperse_output_coordinate_representation": "comoving_mpc_h",
+    "fps": 24
+  },
+  "requested_integrations": [
+    "axiclass",
+    "monofonic",
+    "gadget4",
+    "disperse",
+    "velociraptor",
+    "lenstronomy",
+    "streams",
+    "sbi",
+    "blacklight",
+    "blender_cycles_4k"
+  ]
+}

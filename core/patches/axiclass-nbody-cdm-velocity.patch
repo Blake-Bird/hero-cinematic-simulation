@@ -1,0 +1,22 @@
+--- a/source/perturbations.c
++++ b/source/perturbations.c
+@@ -592,1 +592,3 @@
+-      class_store_columntitle(titles,"t_cdm",((pba->has_cdm == _TRUE_) && (ppt->gauge != synchronous)));
++      class_store_columntitle(titles,"t_cdm",((pba->has_cdm == _TRUE_) &&
++                                               ((ppt->gauge != synchronous) ||
++                                                (ppt->has_Nbody_gauge_transfers == _TRUE_))));
+@@ -1382,1 +1384,2 @@
+-        if ((pba->has_cdm == _TRUE_) && (ppt->gauge != synchronous))
++        if ((pba->has_cdm == _TRUE_) &&
++            ((ppt->gauge != synchronous) || (ppt->has_Nbody_gauge_transfers == _TRUE_)))
+           ppt->has_source_theta_cdm = _TRUE_;
+@@ -8673,2 +8676,7 @@
+-      _set_source_(ppt->index_tp_theta_cdm) = y[ppw->pv->index_pt_theta_cdm]
+-        + theta_shift; // N-body gauge correction
++      /* In synchronous gauge CDM defines the rest frame, so theta_cdm=0.
++         The N-body-gauge transfer is then supplied by theta_shift. */
++      double theta_cdm_sync = (ppt->gauge == synchronous)
++        ? 0.
++        : y[ppw->pv->index_pt_theta_cdm];
++      _set_source_(ppt->index_tp_theta_cdm) = theta_cdm_sync
++        + theta_shift; // N-body gauge correction
