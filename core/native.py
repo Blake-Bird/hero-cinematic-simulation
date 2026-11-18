@@ -452,10 +452,20 @@ def build_engine(name: str, jobs: int) -> None:
                         command.append('-DCFITSIO_DIR=' + cfitsio_prefix)
                     else:
                         command.append('-DNO_CFITSIO=true')
+                hdf5_root = os.environ.get("HDF5_ROOT")
+                if not hdf5_root:
+                    for cand in [Path.home() / ".local", Path("/opt/anaconda3"), Path("/usr"), Path("/usr/local")]:
+                        if (cand / "include/hdf5.h").is_file():
+                            hdf5_root = str(cand)
+                            break
                 if name == "monofonic":
                     command += ["-DENABLE_CLASS=OFF", "-DENABLE_GENERICIO=OFF", "-DENABLE_MPI=ON", "-DENABLE_PANPHASIA=OFF"]
+                    if hdf5_root:
+                        command.append("-DHDF5_ROOT=" + hdf5_root)
                 elif name == "music2":
                     command += ["-DENABLE_CLASS=OFF", "-DENABLE_PANPHASIA=OFF", "-DMUSIC_ENABLE_WIDE_MIXED_POTENTIAL=ON"]
+                    if hdf5_root:
+                        command.append("-DHDF5_ROOT=" + hdf5_root)
                 elif name == "velociraptor":
                     # Single measured host; exact-neighbor density over every star.
                     # Optional STARON population fields are excluded, not fabricated.
@@ -465,9 +475,13 @@ def build_engine(name: str, jobs: int) -> None:
                                 "-DVR_GADGET_LONGID=ON", "-DVR_LONG_INT=ON",
                                 "-DVR_STRUCTURE_DEN=OFF", "-DVR_HALO_DEN=OFF",
                                 "-DNBODY_SINGLE_PRECISION=OFF", "-DNBODY_SINGLE_PARTICLE_PRECISION=OFF"]
+                    if hdf5_root:
+                        command.append("-DHDF5_ROOT=" + hdf5_root)
                     serial_hdf5 = Path("/usr/bin/h5cc.serial")
                     if not serial_hdf5.is_file():
                         serial_hdf5 = Path("/usr/bin/h5cc")
+                    if not serial_hdf5.is_file() and hdf5_root and (Path(hdf5_root) / "bin/h5cc").is_file():
+                        serial_hdf5 = Path(hdf5_root) / "bin/h5cc"
                     if sys.platform.startswith("linux") and serial_hdf5.is_file():
                         command += ["-DHDF5_C_COMPILER_EXECUTABLE=" + str(serial_hdf5)]
                 # Apple Clang lacks a bundled OpenMP runtime. Respect explicit CC/CXX;

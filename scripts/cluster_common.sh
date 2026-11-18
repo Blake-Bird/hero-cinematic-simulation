@@ -8,6 +8,25 @@ for p in /opt/homebrew/bin /usr/local/bin "$HOME/.local/bin"; do
     fi
 done
 
+# Auto-detect HDF5 headers and libraries on cluster nodes
+for cand in "$HOME/.local" /opt/anaconda3 /usr/local /usr; do
+    if [[ -f "$cand/include/hdf5.h" ]]; then
+        export HDF5_ROOT="$cand"
+        export CPATH="${cand}/include${CPATH:+:$CPATH}"
+        export C_INCLUDE_PATH="${cand}/include${C_INCLUDE_PATH:+:$C_INCLUDE_PATH}"
+        export CPLUS_INCLUDE_PATH="${cand}/include${CPLUS_INCLUDE_PATH:+:$CPLUS_INCLUDE_PATH}"
+        if [[ -d "$cand/lib" ]]; then
+            export LIBRARY_PATH="${cand}/lib${LIBRARY_PATH:+:$LIBRARY_PATH}"
+            export LD_LIBRARY_PATH="${cand}/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+        fi
+        if [[ -d "$cand/lib64" ]]; then
+            export LIBRARY_PATH="${cand}/lib64${LIBRARY_PATH:+:$LIBRARY_PATH}"
+            export LD_LIBRARY_PATH="${cand}/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+        fi
+        break
+    fi
+done
+
 PROJECT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-$0}")/.." && pwd)"
 cd "$PROJECT_DIR"
 export RESEARCH2_STATE_ROOT="${RESEARCH2_STATE_ROOT:-$HOME/ede-runtime}"
