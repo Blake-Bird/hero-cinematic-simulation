@@ -20,6 +20,8 @@
   "restart_every_seconds": 3600,
   "time_limit_cpu_seconds": 172800,
   "physics": "hydro",
+  "hydro_model": "star_formation",
+  "desired_neighbors": 64,
   "ic_engine_hydro": "monofonic",
   "lpt_order_hydro": 3,
   "lpt_order_dm": 3,

@@ -1497,7 +1497,7 @@ def build_config(answers: dict) -> tuple[dict, Path]:
         "deferred_outputs", "highlight_redshifts", "physics", "accuracy", "halo_finder", "graphs", "stellar_search", "stellar_history", "zoom_regions", "native_flow_window_comparison",
         "force_equal_timesteps", "native_mergertree", "consistent_trees", "rockstar_wall_seconds", "fof_linking_length", "allow_incomplete_analysis", "restart_source_capsule", "restart_exercise_pause_step", "black_holes", "sidm", "stellar_evolution", "chemistry", "min_size_timestep_ln_a", "research_spec", "inference_diagnostics", "radial_shapes",
         "cpu_threads", "omp_threads", "build_jobs", "memory_limit_gb", "courant_factor", "output_acceleration_diagnostics",
-        "hydro_model", "treecool_file", "galaxy_min_star_particles", "galaxy_min_dm_particles",
+        "hydro", "hydro_model", "treecool_file", "galaxy_min_star_particles", "galaxy_min_dm_particles",
         "filament_density_percentile", "filament_curvature_threshold_factor",
         "disperse_persistence_cut", "disperse_smoothing_cells",
         "disperse_density_smoothing_cells", "disperse_output_coordinate_representation",
@@ -1746,6 +1746,12 @@ def build_config(answers: dict) -> tuple[dict, Path]:
         for key in (*HYDRO_STAR_FORMATION_PARAMETERS, *HYDRO_SPH_PARAMETERS, "treecool_file"):
             if key in answers:
                 cfg["hydro"][key] = answers[key]
+        if "hydro" in answers and isinstance(answers["hydro"], dict):
+            for hk, hv in answers["hydro"].items():
+                if hk in cfg["hydro"]:
+                    cfg["hydro"][hk] = hv
+                elif hk in (*HYDRO_STAR_FORMATION_PARAMETERS, *HYDRO_SPH_PARAMETERS, "treecool_file"):
+                    cfg["hydro"][hk] = hv
         if cfg["hydro"].get("treecool_file") is not None:
             raw_path = cfg["hydro"]["treecool_file"]
             if not isinstance(raw_path, str) or not raw_path.strip():
