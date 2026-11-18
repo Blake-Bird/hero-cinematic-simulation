@@ -255,7 +255,7 @@ def render_dashboard():
     # Pipeline Stages Progress
     stages = [
         (1, "AxiCLASS EDE & Monofonic 3LPT Initial Conditions"),
-        (2, "GADGET-4 Cosmological Evolution (512³ Particles)"),
+        (2, "GADGET-4 Cosmological Hydro Evolution (128³ Hydro)"),
         (3, "Halo Finders (FOF, SUBFIND, Rockstar) & HMF Curves"),
         (4, "Advanced Category-B Suite (VELOCIraptor, DisPerSE, Lensing)"),
         (5, "Gala / StreaMAX Tidal Stellar Disruption Ribbons"),
@@ -300,7 +300,7 @@ def render_dashboard():
     frac_snaps = n_snaps / total_snaps
     storage_gib = total_bytes / (1024**3)
     out.append(f"│  {C_BWHITE}Snapshots Saved:{C_RESET}       {bar(frac_snaps, 34, C_BGREEN)} {n_snaps:>3}/{total_snaps} snaps │")
-    out.append(f"│  {C_BWHITE}Disk Output:{C_RESET}           {C_BCYAN}{storage_gib:6.1f} GiB{C_RESET} (Estimated: ~488 GiB total)               │")
+    out.append(f"│  {C_BWHITE}Disk Output:{C_RESET}           {C_BCYAN}{storage_gib:6.1f} GiB{C_RESET} (Estimated: ~38.3 GiB total)              │")
     out.append(f"{C_BMAG}└─────────────────────────────────────────────────────────────────────────────┘{C_RESET}")
 
     # Recent Snapshot Files
@@ -311,7 +311,7 @@ def render_dashboard():
             t_str = time.strftime("%H:%M:%S", time.localtime(mtime))
             out.append(f"│  {C_BGREEN}●{C_RESET} {C_WHITE}{name:<25}{C_RESET}  {C_CYAN}{size_mb:6.1f} MB{C_RESET}  {C_DIM}Time: {t_str}{C_RESET}                        │")
     else:
-        out.append(f"│  {C_DIM}Initial conditions staged (134,217,728 particles in 8 shards); evolution ready │{C_RESET}")
+        out.append(f"│  {C_DIM}Initial conditions staged (4,194,304 particles: 128³ DM + 128³ Gas)       │{C_RESET}")
     out.append(f"{C_BWHITE}└─────────────────────────────────────────────────────────────────────────────┘{C_RESET}")
 
     # Live Log Snippet
