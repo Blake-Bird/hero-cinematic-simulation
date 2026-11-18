@@ -63,7 +63,10 @@ if run_cfg.is_file() and hero_cfg.is_file():
     data = json.loads(run_cfg.read_text())
     hero = json.loads(hero_cfg.read_text())
     for k, v in hero.items():
+        if k == 'cosmology':
+            continue
         data[k] = v
+    data['cosmology'] = 'REPLACED_BY_RUN_COMMAND'
     import math
     sched = [float(z) for z in data['schedule'].split(',')]
     if len(sched) > 1:

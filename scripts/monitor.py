@@ -75,11 +75,25 @@ def find_latest_log():
     candidates = sorted(glob.glob("hero-cinematic-*.log"), key=lambda p: os.path.getmtime(p) if os.path.exists(p) else 0)
     return candidates[-1] if candidates else None
 
+def get_active_run_dir():
+    state_root = Path(os.environ.get("RESEARCH2_STATE_ROOT", os.path.expanduser("~/ede-runtime")))
+    campaign = os.environ.get("CAMPAIGN", "hero_universe")
+    ede_dir = state_root / "campaigns" / campaign / "n128" / "runs" / "ede"
+    if ede_dir.is_dir():
+        return ede_dir
+    candidates = list((state_root / "campaigns" / campaign).glob("**/runs/*"))
+    if candidates:
+        # Pick the most recently modified run dir
+        candidates.sort(key=lambda p: p.stat().st_mtime if p.exists() else 0, reverse=True)
+        return candidates[0]
+    legacy = state_root / "campaigns" / campaign / "run"
+    if legacy.is_dir():
+        return legacy
+    return ede_dir
+
 def parse_log(log_path):
     """Extract current stage, redshift, scale factor, and last log lines."""
-    state_root = os.environ.get("RESEARCH2_STATE_ROOT", os.path.expanduser("~/ede-runtime"))
-    campaign = os.environ.get("CAMPAIGN", "hero_universe")
-    run_dir = Path(state_root) / "campaigns" / campaign / "run"
+    run_dir = get_active_run_dir()
     gadget_log = run_dir / "input/gadget.log"
 
     info = {
@@ -94,6 +108,8 @@ def parse_log(log_path):
         "log_source": "orchestrator",
         "gadget_log_exists": gadget_log.is_file(),
     }
+
+    log_mtime = os.path.getmtime(log_path) if log_path and os.path.isfile(log_path) else 0
 
     if log_path and os.path.isfile(log_path):
         try:
@@ -140,39 +156,39 @@ def parse_log(log_path):
         except Exception as e:
             info["error"] = str(e)
 
-    # If GADGET-4 log exists, parse it for high-resolution simulation telemetry
+    # If GADGET-4 log exists and belongs to the current run, parse it
     if gadget_log.is_file():
         try:
-            with open(gadget_log, "r", encoding="utf-8", errors="replace") as gf:
-                glines = gf.readlines()
-            
-            if glines:
-                # If Stage 2 is active or gadget.log was modified within 60s, tail gadget.log
-                g_mtime = os.path.getmtime(gadget_log)
-                if info["stage"] == 2 or (time.time() - g_mtime < 120):
-                    info["lines"] = [l.rstrip() for l in glines[-7:]]
-                    info["log_source"] = "gadget4"
+            g_mtime = os.path.getmtime(gadget_log)
+            # Only consider gadget.log if it is newer than log start or within current active run
+            is_current = (g_mtime >= log_mtime - 120) if log_mtime else True
+            if is_current:
+                with open(gadget_log, "r", encoding="utf-8", errors="replace") as gf:
+                    glines = gf.readlines()
+                
+                if glines:
+                    if info["stage"] == 2 or (time.time() - g_mtime < 120):
+                        info["lines"] = [l.rstrip() for l in glines[-7:]]
+                        info["log_source"] = "gadget4"
 
-                gcontent = "".join(glines[-200:])
+                    gcontent = "".join(glines[-200:])
 
-                # Extract Redshift / Scale factor / Sync point from live GADGET evolution logs
-                # Format: "Sync-Point 12, Time: 0.02345, Redshift: 41.64, Systemstep: ..."
-                sync_matches = re.findall(r'Sync-Point\s+(\d+),\s*Time:\s*([0-9.eE+-]+),\s*Redshift:\s*([0-9.eE+-]+)', gcontent)
-                if sync_matches:
-                    last_step, last_time, last_z = sync_matches[-1]
-                    info["step"] = int(last_step)
-                    info["a"] = float(last_time)
-                    info["redshift"] = float(last_z)
-                else:
-                    info["step"] = 0
-                    info["a"] = 0.01
-                    info["redshift"] = 99.0
+                    sync_matches = re.findall(r'Sync-Point\s+(\d+),\s*Time:\s*([0-9.eE+-]+),\s*Redshift:\s*([0-9.eE+-]+)', gcontent)
+                    if sync_matches:
+                        last_step, last_time, last_z = sync_matches[-1]
+                        info["step"] = int(last_step)
+                        info["a"] = float(last_time)
+                        info["redshift"] = float(last_z)
+                    else:
+                        info["step"] = 0
+                        info["a"] = 0.01
+                        info["redshift"] = 99.0
 
-                # Check for GADGET Terminate or Abort
-                for gl in glines[-30:]:
-                    if any(kw in gl for kw in ("Terminate", "terminate", "Abort", "abort", "fatal", "Fatal", "We stop because", "errorFlag")):
-                        info["error"] = f"[GADGET-4 ABORT] {gl.strip()}"
-                        break
+                    if info["stage"] == 2:
+                        for gl in glines[-30:]:
+                            if any(kw in gl for kw in ("Terminate", "terminate", "Abort", "abort", "fatal", "Fatal", "We stop because", "errorFlag")):
+                                info["error"] = f"[GADGET-4 ABORT] {gl.strip()}"
+                                break
         except Exception:
             pass
 
@@ -180,9 +196,7 @@ def parse_log(log_path):
 
 def get_snapshots():
     """Scan the runtime directory for written snapshots."""
-    state_root = os.environ.get("RESEARCH2_STATE_ROOT", os.path.expanduser("~/ede-runtime"))
-    campaign = os.environ.get("CAMPAIGN", "hero_universe")
-    run_dir = Path(state_root) / "campaigns" / campaign / "run"
+    run_dir = get_active_run_dir()
     
     snaps = []
     total_bytes = 0
@@ -232,9 +246,10 @@ def render_dashboard():
     # Error Alert Box (if active error)
     if log_info["error"] and not job:
         err_msg = log_info["error"].splitlines()[-1][:70]
+        hint = f"tail -n 50 {log_file}" if log_file else "check latest slurm log"
         out.append(f"{C_BRED}┌─ ATTENTION: JOB EXECUTION HALTED ──────────────────────────────────────────┐{C_RESET}")
         out.append(f"│  {C_RED}Error: {err_msg:<66}{C_RESET} │")
-        out.append(f"│  {C_DIM}Check: tail -n 50 ~/ede-runtime/campaigns/hero_universe/run/input/gadget.log  {C_RESET}│")
+        out.append(f"│  {C_DIM}Check: {hint:<66}{C_RESET}│")
         out.append(f"{C_BRED}└─────────────────────────────────────────────────────────────────────────────┘{C_RESET}")
 
     # Pipeline Stages Progress

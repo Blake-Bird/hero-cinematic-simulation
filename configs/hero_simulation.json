@@ -1,5 +1,5 @@
 {
-  "cosmology": "configs/linear_ede.json",
+  "cosmology": "REPLACED_BY_RUN_COMMAND",
   "name": "hero_ede_hydro_20",
   "box_mpc_h": 20.0,
   "particles_per_dimension": 128,
