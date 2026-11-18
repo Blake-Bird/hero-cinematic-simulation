@@ -1,0 +1,11 @@
+{
+  "schema": "orbit-interpolation-settings-v2",
+  "radius_method": "cubic_hermite_endpoint_radius_and_derivative",
+  "radial_velocity_method": "derivative_of_radius_interpolant",
+  "host_boundary_method": "piecewise_linear_proper_radius",
+  "root_solver": "numpy_polynomial_normalized_interval",
+  "coefficient_trim_epsilon_multiplier": 64,
+  "root_imaginary_relative_tolerance": 1e-8,
+  "extrapolation": "forbidden",
+  "uncertainty_policy": "saved_brackets_are_not_interpolation_error_certificates"
+}

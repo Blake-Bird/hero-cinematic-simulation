@@ -21,9 +21,9 @@ venv/
 .idea/
 
 # Simulation runtime, logs, and temporary test directories
-test_hero_run/
-optional_tests/output/
-runtime/
+/test_hero_run/
+/optional_tests/output/
+/runtime/
 *.log
 *.tmp
 
@@ -38,3 +38,4 @@ core/software/sps/python-fsps/src/fsps/libfsps/SPECTRA/
 *.pack
 *.idx
 *.bin
+

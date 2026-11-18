@@ -1,0 +1,1767 @@
+{
+  "schema": "native-restart-layouts-v1",
+  "layouts": {
+    "native-restart-global-state-layout-v1": {
+      "schema": "native-restart-global-state-layout-v1",
+      "fields": [
+        {
+          "name": "Time",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "TimeBegin",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "TimeStep",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "TimeMax",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "Timebase_interval",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "G",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "Hubble",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "HubbleParam",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "Omega0",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "OmegaLambda",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "OmegaRadiation",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "OmegaBaryon",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "OmegaCurvature",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "BoxSize",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "cf_atime",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "cf_atime2",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "cf_ainv",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "cf_a2inv",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "cf_a3inv",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "cf_afac1",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "cf_afac2",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "cf_afac3",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "cf_hubble_a",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "cf_atime_hubble_a",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "cf_atime2_hubble_a",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "cf_redshift",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "cf_H",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "ErrTolTheta",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "ErrTolThetaMax",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "ErrTolForceAcc",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "ErrTolIntAccuracy",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "MinSizeTimestep",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "MaxSizeTimestep",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "CourantFac",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "MaxNumNgbDeviation",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "ArtBulkViscConst",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "InitGasU",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "MinEgySpec",
+          "type": "float",
+          "condition": "1"
+        },
+        {
+          "name": "Ti_Current",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "Ti_nextoutput",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "Ti_lastoutput",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "NumCurrentTiStep",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "LowestActiveTimeBin",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "HighestActiveTimeBin",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "LowestOccupiedTimeBin",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "HighestOccupiedTimeBin",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "LowestOccupiedGravTimeBin",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "HighestOccupiedGravTimeBin",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "HighestSynchronizedTimeBin",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "SmallestTimeBinWithDomainDecomposition",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "GlobalNSynchronizedHydro",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "GlobalNSynchronizedGravity",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "ComovingIntegrationOn",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "TypeOfOpeningCriterion",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "RelOpeningCriterionInUse",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "DumpFlag_nextoutput",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "SnapshotFileCount",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "OutputListOn",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "OutputListLength",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "DesNumNgb",
+          "type": "integer",
+          "condition": "1"
+        },
+        {
+          "name": "PM_Ti_endstep",
+          "type": "integer",
+          "condition": "defined(PMGRID) && !defined(TREEPM_NOTIMESPLIT)"
+        },
+        {
+          "name": "PM_Ti_begstep",
+          "type": "integer",
+          "condition": "defined(PMGRID) && !defined(TREEPM_NOTIMESPLIT)"
+        },
+        {
+          "name": "GlobalTimeStep",
+          "type": "integer",
+          "condition": "defined(FORCE_EQUAL_TIMESTEPS)"
+        },
+        {
+          "name": "DtDisplacement",
+          "type": "float",
+          "condition": "defined(PMGRID) && !defined(TREEPM_NOTIMESPLIT)"
+        },
+        {
+          "name": "TotalMass",
+          "type": "float",
+          "condition": "defined(EVALPOTENTIAL) && defined(PMGRID) && defined(PERIODIC)"
+        },
+        {
+          "name": "PartMass",
+          "type": "float",
+          "condition": "defined(LEAN)"
+        },
+        {
+          "name": "AlphaMin",
+          "type": "float",
+          "condition": "defined(TIMEDEP_ART_VISC)"
+        },
+        {
+          "name": "SIDMOperatorSeed",
+          "type": "text",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMAngularModelHash",
+          "type": "text",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMEventIdentityNamespace",
+          "type": "text",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceMaximumPairVisits",
+          "type": "text",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceKernelRadiusProperKpc",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceCrossSectionNormalizationCm2PerG",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceScreeningVelocityKmPerS",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceMaximumEventProbability",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceMacroMassTolerance",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceConservationTolerance",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceEnergyFloor",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceMomentumFloor",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceCDFTolerance",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceMaximumParticles",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceMaximumEventsPerStep",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceAngularKind",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceAttemptCount",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceEventCount",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceOpticalDepthSum",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceKernelKind",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceKernelOriginRelativeBound",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceMaximumParticleProbability",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceMaximumSubsteps",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceSubstepCount",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferencePairVisitCount",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceSmallestSourceStepSeconds",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceSchemeKind",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceParticleConvention",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceMaximumTransferDepth",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceMaximumNeglectedMomentRatio",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceFrequentUpdateCount",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceSplitAngleRadians",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceClockAbsoluteToleranceSeconds",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceClockRelativeTolerance",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceMaximumScaleFactorFractionalChange",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceMaximumClockPanels",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceMaximumLocalPairs",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceMaximumMatchingRounds",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceBackendKind",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceMaximumExchangeRecords",
+          "type": "text",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceExchangeMemoryMiB",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceMatchingRoundCount",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceRemoteEndpointUpdateCount",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceExchangeSentBytes",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceExchangeReceivedBytes",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceCoarseKernelRadiusProperKpc",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceMaximumKernelCoarseSupportFraction",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMReferenceMaximumOmittedScatteringUpperBound",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "StellarEvolutionTableCRC32",
+          "type": "text",
+          "condition": "defined(STELLAR_EVOLUTION)"
+        },
+        {
+          "name": "StellarSourceRadiusProperKpc",
+          "type": "float",
+          "condition": "defined(STELLAR_EVOLUTION)"
+        },
+        {
+          "name": "StellarSourceFraction",
+          "type": "float",
+          "condition": "defined(STELLAR_EVOLUTION)"
+        },
+        {
+          "name": "StellarMaximumCount",
+          "type": "integer",
+          "condition": "defined(STELLAR_EVOLUTION)"
+        },
+        {
+          "name": "StellarMaximumSubcycles",
+          "type": "integer",
+          "condition": "defined(STELLAR_EVOLUTION)"
+        },
+        {
+          "name": "StellarReturnCommitCount",
+          "type": "integer",
+          "condition": "defined(STELLAR_EVOLUTION)"
+        },
+        {
+          "name": "StellarReturnEventCount",
+          "type": "integer",
+          "condition": "defined(STELLAR_EVOLUTION)"
+        },
+        {
+          "name": "GrackleDataCRC32",
+          "type": "text",
+          "condition": "defined(STELLAR_EVOLUTION) && defined(RESEARCH_GRACKLE)"
+        },
+        {
+          "name": "GracklePrimordialChemistry",
+          "type": "integer",
+          "condition": "defined(STELLAR_EVOLUTION) && defined(RESEARCH_GRACKLE)"
+        },
+        {
+          "name": "GrackleMetalCooling",
+          "type": "integer",
+          "condition": "defined(STELLAR_EVOLUTION) && defined(RESEARCH_GRACKLE)"
+        },
+        {
+          "name": "GrackleUVBackground",
+          "type": "integer",
+          "condition": "defined(STELLAR_EVOLUTION) && defined(RESEARCH_GRACKLE)"
+        },
+        {
+          "name": "BHRadiativeEfficiency",
+          "type": "float",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHFeedbackCoupling",
+          "type": "float",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHBondiBoost",
+          "type": "float",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHEddingtonFactor",
+          "type": "float",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHKernelRadiusProperKpc",
+          "type": "float",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHSeedMassMsun",
+          "type": "float",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHSourceFraction",
+          "type": "float",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHAngularMomentumModel",
+          "type": "integer",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHFeedbackMode",
+          "type": "integer",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHViscosityParameter",
+          "type": "float",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHMaximumCount",
+          "type": "integer",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHDynamicsEnabled",
+          "type": "integer",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHDynamicsMaximumSubcycles",
+          "type": "integer",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHBackgroundRadiusProperKpc",
+          "type": "float",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHMinimumImpactProperKpc",
+          "type": "float",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHStellarHardeningCoefficient",
+          "type": "float",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHBinaryMaximumEccentricity",
+          "type": "float",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHDynamicsFraction",
+          "type": "float",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHSeedSpinX",
+          "type": "float",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHSeedSpinY",
+          "type": "float",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHSeedSpinZ",
+          "type": "float",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHRecoilSeed",
+          "type": "text",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHEventCommitCount",
+          "type": "integer",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHEventCount",
+          "type": "integer",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHSeedingMode",
+          "type": "integer",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHSeedDensityHydrogenCm3",
+          "type": "float",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "BHSeedExclusionProperKpc",
+          "type": "float",
+          "condition": "defined(BLACK_HOLES)"
+        },
+        {
+          "name": "StellarRandomSeed",
+          "type": "text",
+          "condition": "defined(STARFORMATION)"
+        },
+        {
+          "name": "StellarBirthEventCount",
+          "type": "integer",
+          "condition": "defined(STARFORMATION)"
+        },
+        {
+          "name": "StellarBirthCommitCount",
+          "type": "integer",
+          "condition": "defined(STARFORMATION)"
+        },
+        {
+          "name": "SIDMNativeTablePath",
+          "type": "text",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMNativeTableSHA256",
+          "type": "text",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMEventAuditModulus",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "SIDMEventAuditResidue",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE)"
+        },
+        {
+          "name": "GrackleDeuteriumToHydrogenRatio",
+          "type": "float",
+          "condition": "RESEARCH_GRACKLE"
+        },
+        {
+          "name": "GrackleSeedHI",
+          "type": "float",
+          "condition": "RESEARCH_GRACKLE"
+        },
+        {
+          "name": "GrackleSeedHII",
+          "type": "float",
+          "condition": "RESEARCH_GRACKLE"
+        },
+        {
+          "name": "GrackleSeedHeI",
+          "type": "float",
+          "condition": "RESEARCH_GRACKLE"
+        },
+        {
+          "name": "GrackleSeedHeII",
+          "type": "float",
+          "condition": "RESEARCH_GRACKLE"
+        },
+        {
+          "name": "GrackleSeedHeIII",
+          "type": "float",
+          "condition": "RESEARCH_GRACKLE"
+        },
+        {
+          "name": "GrackleSeedElectron",
+          "type": "float",
+          "condition": "RESEARCH_GRACKLE"
+        },
+        {
+          "name": "GrackleSeedHM",
+          "type": "float",
+          "condition": "RESEARCH_GRACKLE"
+        },
+        {
+          "name": "GrackleSeedH2I",
+          "type": "float",
+          "condition": "RESEARCH_GRACKLE"
+        },
+        {
+          "name": "GrackleSeedH2II",
+          "type": "float",
+          "condition": "RESEARCH_GRACKLE"
+        },
+        {
+          "name": "GrackleSeedDI",
+          "type": "float",
+          "condition": "RESEARCH_GRACKLE"
+        },
+        {
+          "name": "GrackleSeedDII",
+          "type": "float",
+          "condition": "RESEARCH_GRACKLE"
+        },
+        {
+          "name": "GrackleSeedHDI",
+          "type": "float",
+          "condition": "RESEARCH_GRACKLE"
+        },
+        {
+          "name": "SIDMCanonicalClockSHA256",
+          "type": "text",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE) && defined(RESEARCH_SIDM_CANONICAL_CONTROL)"
+        },
+        {
+          "name": "SIDMCanonicalPhysicalStateSHA256",
+          "type": "text",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE) && defined(RESEARCH_SIDM_CANONICAL_CONTROL)"
+        },
+        {
+          "name": "SIDMCanonicalInitialScaleFactor",
+          "type": "float",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE) && defined(RESEARCH_SIDM_CANONICAL_CONTROL)"
+        },
+        {
+          "name": "SIDMCanonicalMaximumAssetBytes",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE) && defined(RESEARCH_SIDM_CANONICAL_CONTROL)"
+        },
+        {
+          "name": "SIDMCanonicalMaximumRows",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE) && defined(RESEARCH_SIDM_CANONICAL_CONTROL)"
+        },
+        {
+          "name": "SIDMCanonicalMaximumClockWork",
+          "type": "integer",
+          "condition": "defined(RESEARCH_SIDM_REFERENCE) && defined(RESEARCH_SIDM_CANONICAL_CONTROL)"
+        }
+      ],
+      "arrays": [
+        {
+          "name": "Ti_begstep",
+          "type": "integer",
+          "length": "TIMEBINS"
+        },
+        {
+          "name": "SofteningClassOfPartType",
+          "type": "integer",
+          "length": "NTYPES"
+        },
+        {
+          "name": "SofteningComoving",
+          "type": "float",
+          "length": "NSOFTCLASSES"
+        },
+        {
+          "name": "SofteningMaxPhys",
+          "type": "float",
+          "length": "NSOFTCLASSES"
+        },
+        {
+          "name": "SofteningTable",
+          "type": "float",
+          "length": "NSOFTCLASSES+NSOFTCLASSES_HYDRO"
+        },
+        {
+          "name": "ForceSoftening",
+          "type": "float",
+          "length": "NSOFTCLASSES+NSOFTCLASSES_HYDRO+2"
+        },
+        {
+          "name": "MassTable",
+          "type": "float",
+          "length": "NTYPES"
+        },
+        {
+          "name": "OutputListTimes",
+          "type": "float",
+          "length": "OutputListLength"
+        },
+        {
+          "name": "OutputListFlag",
+          "type": "integer",
+          "length": "OutputListLength"
+        }
+      ],
+      "encoding": "named Header attributes ResearchGlobal_*, float64 or unsigned64 modulo representation of integers, exact ASCII text; active schedule entries only",
+      "scope": "declared global integration/source/model state and resolved softening/output tables; excludes CPU measurements, allocator/communicator state, paths, caches and unlisted globals",
+      "layout_sha256": "39ec0e05d9581469d53afe39a8038756b955e46abd342a39ee7948fe02dc6d2a"
+    },
+    "native-restart-hydro-particle-layout-v1": {
+      "schema": "native-restart-hydro-particle-layout-v1",
+      "fields": [
+        {
+          "member": "Hsml",
+          "components": 1,
+          "feature": null,
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_Hsml",
+          "units": "raw native member units"
+        },
+        {
+          "member": "DhsmlDensityFactor",
+          "components": 1,
+          "feature": null,
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_DhsmlDensityFactor",
+          "units": "raw native member units"
+        },
+        {
+          "member": "DivVel",
+          "components": 1,
+          "feature": null,
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_DivVel",
+          "units": "raw native member units"
+        },
+        {
+          "member": "CurlVel",
+          "components": 1,
+          "feature": null,
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_CurlVel",
+          "units": "raw native member units"
+        },
+        {
+          "member": "Csnd",
+          "components": 1,
+          "feature": null,
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_Csnd",
+          "units": "raw native member units"
+        },
+        {
+          "member": "Density",
+          "components": 1,
+          "feature": null,
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_Density",
+          "units": "raw native member units"
+        },
+        {
+          "member": "Pressure",
+          "components": 1,
+          "feature": null,
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_Pressure",
+          "units": "raw native member units"
+        },
+        {
+          "member": "Entropy",
+          "components": 1,
+          "feature": null,
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_Entropy",
+          "units": "raw native member units"
+        },
+        {
+          "member": "EntropyPred",
+          "components": 1,
+          "feature": null,
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_EntropyPred",
+          "units": "raw native member units"
+        },
+        {
+          "member": "DtEntropy",
+          "components": 1,
+          "feature": null,
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_DtEntropy",
+          "units": "raw native member units"
+        },
+        {
+          "member": "DtDensity",
+          "components": 1,
+          "feature": null,
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_DtDensity",
+          "units": "raw native member units"
+        },
+        {
+          "member": "DtHsml",
+          "components": 1,
+          "feature": null,
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_DtHsml",
+          "units": "raw native member units"
+        },
+        {
+          "member": "NumNgb",
+          "components": 1,
+          "feature": null,
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_NumNgb",
+          "units": "raw native member units"
+        },
+        {
+          "member": "MaxSignalVel",
+          "components": 1,
+          "feature": null,
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_MaxSignalVel",
+          "units": "raw native member units"
+        },
+        {
+          "member": "CurrentMaxTiStep",
+          "components": 1,
+          "feature": null,
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_CurrentMaxTiStep",
+          "units": "raw native member units"
+        },
+        {
+          "member": "VelPred",
+          "components": 3,
+          "feature": null,
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_VelPred",
+          "units": "raw native member units"
+        },
+        {
+          "member": "HydroAccel",
+          "components": 3,
+          "feature": null,
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_HydroAccel",
+          "units": "raw native member units"
+        },
+        {
+          "member": "ResearchHydroForceNativeTime",
+          "components": 1,
+          "feature": "OUTPUT_ACCELERATION",
+          "species": 0,
+          "memory_type": "MEM_DOUBLE",
+          "dataset": "ResearchGas_HydroForceNativeTime",
+          "units": "raw native integration clock"
+        },
+        {
+          "member": "ResearchHydroForceEpochVersion",
+          "components": 1,
+          "feature": "OUTPUT_ACCELERATION",
+          "species": 0,
+          "memory_type": "MEM_UINT64",
+          "dataset": "ResearchGas_HydroForceEpochVersion",
+          "units": "exact force clock validity version"
+        },
+        {
+          "member": "Rot",
+          "components": 3,
+          "feature": null,
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_Rot",
+          "units": "raw native member units"
+        },
+        {
+          "member": "BHSourceInternalEnergy",
+          "components": 1,
+          "feature": "BLACK_HOLES",
+          "species": 0,
+          "memory_type": "MEM_DOUBLE",
+          "dataset": "ResearchGas_BHSourceInternalEnergy",
+          "units": "raw native member units"
+        },
+        {
+          "member": "FullGravAccel",
+          "components": 3,
+          "feature": "HIERARCHICAL_GRAVITY",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_FullGravAccel",
+          "units": "raw native member units"
+        },
+        {
+          "member": "EntropyToInvGammaPred",
+          "components": 1,
+          "feature": "PRESSURE_ENTROPY_SPH",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_EntropyToInvGammaPred",
+          "units": "raw native member units"
+        },
+        {
+          "member": "DhsmlDerivedDensityFactor",
+          "components": 1,
+          "feature": "PRESSURE_ENTROPY_SPH",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_DhsmlDerivedDensityFactor",
+          "units": "raw native member units"
+        },
+        {
+          "member": "PressureSphDensity",
+          "components": 1,
+          "feature": "PRESSURE_ENTROPY_SPH",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_PressureSphDensity",
+          "units": "raw native member units"
+        },
+        {
+          "member": "DtPressureSphDensity",
+          "components": 1,
+          "feature": "PRESSURE_ENTROPY_SPH",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_DtPressureSphDensity",
+          "units": "raw native member units"
+        },
+        {
+          "member": "Alpha",
+          "components": 1,
+          "feature": "TIMEDEP_ART_VISC",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_Alpha",
+          "units": "raw native member units"
+        },
+        {
+          "member": "DivVelOld",
+          "components": 1,
+          "feature": "TIMEDEP_ART_VISC",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_DivVelOld",
+          "units": "raw native member units"
+        },
+        {
+          "member": "decayVel",
+          "components": 1,
+          "feature": "TIMEDEP_ART_VISC",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_decayVel",
+          "units": "raw native member units"
+        },
+        {
+          "member": "dpos.dx_dx",
+          "components": 1,
+          "feature": "IMPROVED_VELOCITY_GRADIENTS",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_dpos_dx_dx",
+          "units": "raw native member units"
+        },
+        {
+          "member": "dpos.dx_dy",
+          "components": 1,
+          "feature": "IMPROVED_VELOCITY_GRADIENTS",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_dpos_dx_dy",
+          "units": "raw native member units"
+        },
+        {
+          "member": "dpos.dx_dz",
+          "components": 1,
+          "feature": "IMPROVED_VELOCITY_GRADIENTS",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_dpos_dx_dz",
+          "units": "raw native member units"
+        },
+        {
+          "member": "dpos.dy_dy",
+          "components": 1,
+          "feature": "IMPROVED_VELOCITY_GRADIENTS",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_dpos_dy_dy",
+          "units": "raw native member units"
+        },
+        {
+          "member": "dpos.dy_dz",
+          "components": 1,
+          "feature": "IMPROVED_VELOCITY_GRADIENTS",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_dpos_dy_dz",
+          "units": "raw native member units"
+        },
+        {
+          "member": "dpos.dz_dz",
+          "components": 1,
+          "feature": "IMPROVED_VELOCITY_GRADIENTS",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_dpos_dz_dz",
+          "units": "raw native member units"
+        },
+        {
+          "member": "dvel",
+          "components": 9,
+          "feature": "IMPROVED_VELOCITY_GRADIENTS",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_dvel",
+          "units": "raw native member units"
+        },
+        {
+          "member": "Metallicity",
+          "components": 1,
+          "feature": "STARFORMATION",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_Metallicity",
+          "units": "raw native member units"
+        },
+        {
+          "member": "MassMetallicity",
+          "components": 1,
+          "feature": "STARFORMATION",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_MassMetallicity",
+          "units": "raw native member units"
+        },
+        {
+          "member": "Sfr",
+          "components": 1,
+          "feature": "STARFORMATION",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_Sfr",
+          "units": "raw native member units"
+        },
+        {
+          "member": "Ne",
+          "components": 1,
+          "feature": "COOLING",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_Ne",
+          "units": "raw native member units"
+        },
+        {
+          "member": "CoolHeat",
+          "components": 1,
+          "feature": "OUTPUT_COOLHEAT",
+          "species": 0,
+          "memory_type": "MEM_MY_FLOAT",
+          "dataset": "ResearchGas_CoolHeat",
+          "units": "raw native member units"
+        },
+        {
+          "member": "BHMass",
+          "components": 1,
+          "feature": "BLACK_HOLES",
+          "species": 5,
+          "memory_type": "MEM_DOUBLE",
+          "dataset": "ResearchBH_BHMass",
+          "units": "raw native member units"
+        },
+        {
+          "member": "BHInflowRate",
+          "components": 1,
+          "feature": "BLACK_HOLES",
+          "species": 5,
+          "memory_type": "MEM_DOUBLE",
+          "dataset": "ResearchBH_BHInflowRate",
+          "units": "raw native member units"
+        },
+        {
+          "member": "BHCumulativeRadiatedMass",
+          "components": 1,
+          "feature": "BLACK_HOLES",
+          "species": 5,
+          "memory_type": "MEM_DOUBLE",
+          "dataset": "ResearchBH_BHCumulativeRadiatedMass",
+          "units": "raw native member units"
+        },
+        {
+          "member": "BHCumulativeFeedbackEnergy",
+          "components": 1,
+          "feature": "BLACK_HOLES",
+          "species": 5,
+          "memory_type": "MEM_DOUBLE",
+          "dataset": "ResearchBH_BHCumulativeFeedbackEnergy",
+          "units": "raw native member units"
+        },
+        {
+          "member": "ResearchGammaPressure",
+          "components": 1,
+          "feature": "RESEARCH_GRACKLE",
+          "species": 0,
+          "memory_type": "MEM_DOUBLE",
+          "dataset": "ResearchGas_ResearchGammaPressure",
+          "units": "dimensionless EOS coefficient"
+        },
+        {
+          "member": "ResearchGammaSound",
+          "components": 1,
+          "feature": "RESEARCH_GRACKLE",
+          "species": 0,
+          "memory_type": "MEM_DOUBLE",
+          "dataset": "ResearchGas_ResearchGammaSound",
+          "units": "dimensionless EOS coefficient"
+        }
+      ],
+      "scope": "explicit current SPH data members and four BH particle-level source members; no padding, process globals or integrator particle state",
+      "layout_sha256": "5df4032125ecc04e62cd3f9225001f9dcddda9d2cdf58b985793ff8003ace016"
+    },
+    "native-restart-integrator-capsule-layout-v1": {
+      "schema": "native-restart-integrator-capsule-layout-v1",
+      "float_columns": [
+        {
+          "name": "Vel[0]",
+          "expression": "p.Vel[0]",
+          "condition": "1"
+        },
+        {
+          "name": "Vel[1]",
+          "expression": "p.Vel[1]",
+          "condition": "1"
+        },
+        {
+          "name": "Vel[2]",
+          "expression": "p.Vel[2]",
+          "condition": "1"
+        },
+        {
+          "name": "GravAccel.da[0]",
+          "expression": "p.GravAccel.da[0]",
+          "condition": "1"
+        },
+        {
+          "name": "GravAccel.da[1]",
+          "expression": "p.GravAccel.da[1]",
+          "condition": "1"
+        },
+        {
+          "name": "GravAccel.da[2]",
+          "expression": "p.GravAccel.da[2]",
+          "condition": "1"
+        },
+        {
+          "name": "OldAcc",
+          "expression": "p.OldAcc",
+          "condition": "1"
+        },
+        {
+          "name": "Mass",
+          "expression": "p.getMass()",
+          "condition": "1"
+        },
+        {
+          "name": "GravPM[0]",
+          "expression": "p.GravPM[0]",
+          "condition": "defined(PMGRID) && defined(PERIODIC) && !defined(TREEPM_NOTIMESPLIT)"
+        },
+        {
+          "name": "GravPM[1]",
+          "expression": "p.GravPM[1]",
+          "condition": "defined(PMGRID) && defined(PERIODIC) && !defined(TREEPM_NOTIMESPLIT)"
+        },
+        {
+          "name": "GravPM[2]",
+          "expression": "p.GravPM[2]",
+          "condition": "defined(PMGRID) && defined(PERIODIC) && !defined(TREEPM_NOTIMESPLIT)"
+        },
+        {
+          "name": "Potential",
+          "expression": "p.Potential",
+          "condition": "defined(EVALPOTENTIAL) || defined(OUTPUT_POTENTIAL)"
+        },
+        {
+          "name": "PM_Potential",
+          "expression": "p.PM_Potential",
+          "condition": "(defined(EVALPOTENTIAL) || defined(OUTPUT_POTENTIAL)) && defined(PMGRID)"
+        },
+        {
+          "name": "ExtPotential",
+          "expression": "p.ExtPotential",
+          "condition": "(defined(EVALPOTENTIAL) || defined(OUTPUT_POTENTIAL)) && defined(EXTERNALGRAVITY)"
+        },
+        {
+          "name": "StellarAge",
+          "expression": "p.StellarAge",
+          "condition": "defined(STARFORMATION)"
+        },
+        {
+          "name": "Metallicity",
+          "expression": "p.Metallicity",
+          "condition": "defined(STARFORMATION)"
+        },
+        {
+          "name": "GravAccelDirect[0]",
+          "expression": "p.GravAccelDirect[0]",
+          "condition": "defined(FORCETEST)"
+        },
+        {
+          "name": "GravAccelDirect[1]",
+          "expression": "p.GravAccelDirect[1]",
+          "condition": "defined(FORCETEST)"
+        },
+        {
+          "name": "GravAccelDirect[2]",
+          "expression": "p.GravAccelDirect[2]",
+          "condition": "defined(FORCETEST)"
+        },
+        {
+          "name": "PotentialDirect",
+          "expression": "p.PotentialDirect",
+          "condition": "defined(FORCETEST)"
+        },
+        {
+          "name": "DistToID1",
+          "expression": "p.DistToID1",
+          "condition": "defined(FORCETEST)"
+        },
+        {
+          "name": "GravAccelShortRange[0]",
+          "expression": "p.GravAccelShortRange[0]",
+          "condition": "defined(FORCETEST) && defined(PMGRID)"
+        },
+        {
+          "name": "GravAccelShortRange[1]",
+          "expression": "p.GravAccelShortRange[1]",
+          "condition": "defined(FORCETEST) && defined(PMGRID)"
+        },
+        {
+          "name": "GravAccelShortRange[2]",
+          "expression": "p.GravAccelShortRange[2]",
+          "condition": "defined(FORCETEST) && defined(PMGRID)"
+        },
+        {
+          "name": "PotentialShortRange",
+          "expression": "p.PotentialShortRange",
+          "condition": "defined(FORCETEST) && defined(PMGRID)"
+        },
+        {
+          "name": "GravAccelVeryShortRange[0]",
+          "expression": "p.GravAccelVeryShortRange[0]",
+          "condition": "defined(FORCETEST) && defined(PMGRID) && defined(PLACEHIGHRESREGION)"
+        },
+        {
+          "name": "GravAccelVeryShortRange[1]",
+          "expression": "p.GravAccelVeryShortRange[1]",
+          "condition": "defined(FORCETEST) && defined(PMGRID) && defined(PLACEHIGHRESREGION)"
+        },
+        {
+          "name": "GravAccelVeryShortRange[2]",
+          "expression": "p.GravAccelVeryShortRange[2]",
+          "condition": "defined(FORCETEST) && defined(PMGRID) && defined(PLACEHIGHRESREGION)"
+        },
+        {
+          "name": "GravAccelHPM[0]",
+          "expression": "p.GravAccelHPM[0]",
+          "condition": "defined(FORCETEST) && defined(PMGRID) && defined(PLACEHIGHRESREGION)"
+        },
+        {
+          "name": "GravAccelHPM[1]",
+          "expression": "p.GravAccelHPM[1]",
+          "condition": "defined(FORCETEST) && defined(PMGRID) && defined(PLACEHIGHRESREGION)"
+        },
+        {
+          "name": "GravAccelHPM[2]",
+          "expression": "p.GravAccelHPM[2]",
+          "condition": "defined(FORCETEST) && defined(PMGRID) && defined(PLACEHIGHRESREGION)"
+        },
+        {
+          "name": "PotentialVeryShortRange",
+          "expression": "p.PotentialVeryShortRange",
+          "condition": "defined(FORCETEST) && defined(PMGRID) && defined(PLACEHIGHRESREGION)"
+        },
+        {
+          "name": "PotentialHPM",
+          "expression": "p.PotentialHPM",
+          "condition": "defined(FORCETEST) && defined(PMGRID) && defined(PLACEHIGHRESREGION)"
+        }
+      ],
+      "integer_columns": [
+        "Ti_Current",
+        "TimeBinGrav",
+        "TimeBinHydro",
+        "Type",
+        "SofteningClass",
+        "GravCost",
+        "TreeID",
+        "InsideOutsideFlag",
+        "ForceTestSelectedFlag"
+      ],
+      "coordinate_lanes": [
+        "IntPos[0].bits[0:31]",
+        "IntPos[0].bits[32:63]",
+        "IntPos[0].bits[64:95]",
+        "IntPos[0].bits[96:127]",
+        "IntPos[1].bits[0:31]",
+        "IntPos[1].bits[32:63]",
+        "IntPos[1].bits[64:95]",
+        "IntPos[1].bits[96:127]",
+        "IntPos[2].bits[0:31]",
+        "IntPos[2].bits[32:63]",
+        "IntPos[2].bits[64:95]",
+        "IntPos[2].bits[96:127]"
+      ],
+      "encoding": "signed int32 storage lanes contain uint32 raw bits; coordinates four low-first lanes per axis; other integers two low-first lanes per uint64; signed integers use two-complement modulo 2^64",
+      "scope": "native particle positions, velocities, raw native mass, gravity accelerations, opening/step state, species/softening, work cost and compiled force-test/potential/star diagnostics; excludes atomic lock and compressed finder bookkeeping",
+      "layout_sha256": "b85cc6fa256d4cd355caa19b744d8a9520af584c6b3a344a18271c4decb1e191"
+    },
+    "native-restart-source-capsule-layout-v1": {
+      "schema": "native-restart-source-capsule-layout-v1",
+      "float_columns": [
+        "sidm_last_update_time",
+        "sidm_optical_depth",
+        "sidm_kernel_coarse_support_fraction",
+        "sidm_omitted_scattering_upper_bound",
+        "stellar_live_mass",
+        "stellar_remnant_mass",
+        "stellar_last_source_time",
+        "stellar_returned_mass",
+        "stellar_injected_energy",
+        "stellar_returned_elements[0]",
+        "stellar_returned_elements[1]",
+        "stellar_returned_elements[2]",
+        "stellar_returned_elements[3]",
+        "stellar_returned_elements[4]",
+        "stellar_returned_elements[5]",
+        "stellar_returned_elements[6]",
+        "stellar_returned_elements[7]",
+        "stellar_returned_elements[8]",
+        "stellar_returned_elements[9]",
+        "stellar_returned_elements[10]",
+        "element_mass_fraction[0]",
+        "element_mass_fraction[1]",
+        "element_mass_fraction[2]",
+        "element_mass_fraction[3]",
+        "element_mass_fraction[4]",
+        "element_mass_fraction[5]",
+        "element_mass_fraction[6]",
+        "element_mass_fraction[7]",
+        "element_mass_fraction[8]",
+        "element_mass_fraction[9]",
+        "element_mass_fraction[10]",
+        "stellar_birth_element_fraction[0]",
+        "stellar_birth_element_fraction[1]",
+        "stellar_birth_element_fraction[2]",
+        "stellar_birth_element_fraction[3]",
+        "stellar_birth_element_fraction[4]",
+        "stellar_birth_element_fraction[5]",
+        "stellar_birth_element_fraction[6]",
+        "stellar_birth_element_fraction[7]",
+        "stellar_birth_element_fraction[8]",
+        "stellar_birth_element_fraction[9]",
+        "stellar_birth_element_fraction[10]",
+        "source_internal_energy",
+        "grackle_species_mass_fraction[0]",
+        "grackle_species_mass_fraction[1]",
+        "grackle_species_mass_fraction[2]",
+        "grackle_species_mass_fraction[3]",
+        "grackle_species_mass_fraction[4]",
+        "grackle_species_mass_fraction[5]",
+        "chemical_last_update_time",
+        "chemical_radiated_energy",
+        "stellar_initial_mass",
+        "stellar_initial_locked_mass",
+        "stellar_prompt_returned_mass",
+        "stellar_birth_time",
+        "stellar_birth_scale_factor",
+        "stellar_birth_metallicity",
+        "bh_retirement_native_time",
+        "bh_spin[0]",
+        "bh_spin[1]",
+        "bh_spin[2]",
+        "bh_binary_spin2[0]",
+        "bh_binary_spin2[1]",
+        "bh_binary_spin2[2]",
+        "bh_binary_axis[0]",
+        "bh_binary_axis[1]",
+        "bh_binary_axis[2]",
+        "bh_binary_radial[0]",
+        "bh_binary_radial[1]",
+        "bh_binary_radial[2]",
+        "bh_binary_a_cm",
+        "bh_binary_eccentricity",
+        "bh_binary_phase",
+        "bh_binary_previous_physical_mass_g[0]",
+        "bh_binary_previous_physical_mass_g[1]",
+        "bh_binary_constraint_energy_erg",
+        "bh_binary_angular_reservoir[0]",
+        "bh_binary_angular_reservoir[1]",
+        "bh_binary_angular_reservoir[2]",
+        "bh_binary_gw_angular_momentum[0]",
+        "bh_binary_gw_angular_momentum[1]",
+        "bh_binary_gw_angular_momentum[2]",
+        "bh_binary_last_time",
+        "bh_binary_gw_energy_erg",
+        "bh_binary_stellar_energy_erg",
+        "bh_last_dynamics_time",
+        "bh_friction_work_erg",
+        "bh_last_source_time",
+        "bh_feedback_reservoir",
+        "bh_advected_internal_energy",
+        "bh_kinetic_feedback_energy",
+        "bh_density_g_cm3",
+        "bh_sound_speed_cm_s",
+        "bh_relative_speed_cm_s",
+        "bh_specific_angular_momentum_cm2_s",
+        "bh_rotational_suppression",
+        "bh_eddington_ratio",
+        "grackle_molecular_mass_fraction[0]",
+        "grackle_molecular_mass_fraction[1]",
+        "grackle_molecular_mass_fraction[2]",
+        "grackle_molecular_mass_fraction[3]",
+        "grackle_molecular_mass_fraction[4]",
+        "grackle_molecular_mass_fraction[5]",
+        "grackle_gamma_pressure",
+        "grackle_gamma_sound",
+        "grackle_temperature_kelvin",
+        "grackle_mean_molecular_weight",
+        "grackle_inverse_cooling_time_per_s",
+        "bh_sidm_drag_last_native_time",
+        "bh_sidm_drag_last_proper_seconds",
+        "bh_sidm_drag_heat_erg",
+        "bh_sidm_drag_reference_error_cm_s2",
+        "bh_sidm_drag_heldout_error_cm_s2",
+        "bh_sidm_drag_last_acceleration_cm_s2[0]",
+        "bh_sidm_drag_last_acceleration_cm_s2[1]",
+        "bh_sidm_drag_last_acceleration_cm_s2[2]",
+        "bh_seed_assembled_mass_g",
+        "bh_seed_internal_energy_erg",
+        "bh_seed_mixing_energy_erg",
+        "bh_seed_element_mass_g[0]",
+        "bh_seed_element_mass_g[1]",
+        "bh_seed_element_mass_g[2]",
+        "bh_seed_element_mass_g[3]",
+        "bh_seed_element_mass_g[4]",
+        "bh_seed_element_mass_g[5]",
+        "bh_seed_element_mass_g[6]",
+        "bh_seed_element_mass_g[7]",
+        "bh_seed_element_mass_g[8]",
+        "bh_seed_element_mass_g[9]",
+        "bh_seed_element_mass_g[10]",
+        "bh_seed_orbital_angular_momentum_cgs[0]",
+        "bh_seed_orbital_angular_momentum_cgs[1]",
+        "bh_seed_orbital_angular_momentum_cgs[2]",
+        "bh_accretion_pending_mass",
+        "bh_accretion_pending_correction",
+        "bh_gravity_mass_correction",
+        "bh_physical_mass_correction"
+      ],
+      "integer_columns": [
+        "sidm_collision_count",
+        "sidm_random_counter",
+        "sidm_coarse_guard_version",
+        "stellar_population_version",
+        "stellar_birth_composition_version",
+        "chemical_state_version",
+        "stellar_model_crc32",
+        "grackle_state_version",
+        "grackle_data_crc32",
+        "stellar_event_counter",
+        "stellar_parent_gas_id",
+        "stellar_random_counter",
+        "stellar_birth_state_version",
+        "stellar_birth_mode",
+        "bh_retired_particle_id",
+        "bh_retirement_survivor_id",
+        "bh_state_version",
+        "bh_companion_id",
+        "bh_parent_ids[0]",
+        "bh_parent_ids[1]",
+        "bh_generation",
+        "bh_binary_counter",
+        "bh_event_counter",
+        "bh_sidm_drag_version",
+        "bh_sidm_drag_counter",
+        "bh_sidm_drag_model_crc32",
+        "bh_sidm_drag_model_sha256[0]",
+        "bh_sidm_drag_model_sha256[1]",
+        "bh_sidm_drag_model_sha256[2]",
+        "bh_sidm_drag_model_sha256[3]",
+        "bh_sidm_drag_signature_sha256[0]",
+        "bh_sidm_drag_signature_sha256[1]",
+        "bh_sidm_drag_signature_sha256[2]",
+        "bh_sidm_drag_signature_sha256[3]",
+        "bh_seed_reservoir_version",
+        "bh_accretion_roundoff_version"
+      ],
+      "integer_encoding": "two signed-int32 storage lanes per logical uint64, low lane followed by high lane; reinterpret modulo 2^32",
+      "float_encoding": "native stored source float64 values without unit conversion or struct padding",
+      "scope": "all declared research_source_state members; gas hydro and particle-level BH fields remain separate snapshot fields",
+      "layout_sha256": "e618d3d77a0fe0e449605dfc56ade24140e34b597148cc150a07dedd473f0dd1"
+    }
+  }
+}
