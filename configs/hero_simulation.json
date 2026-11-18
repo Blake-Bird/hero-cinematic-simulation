@@ -24,7 +24,7 @@
   "desired_neighbors": 64,
   "ic_engine_hydro": "monofonic",
   "lpt_order_hydro": 3,
-  "lpt_order_dm": 3,
+  "lpt_order_dm": 2,
   "hydro": {
     "cooling": true,
     "star_formation": true,
